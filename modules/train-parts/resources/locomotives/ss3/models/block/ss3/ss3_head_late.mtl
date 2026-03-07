@@ -1,0 +1,10 @@
+# Made in Blockbench 4.12.4
+newmtl m_1139096b-79c7-fb1e-122c-deec2648f86d
+map_Kd kuayue:block/ss3/ss3_head
+newmtl m_c1e9b908-e147-5af5-e929-98002efbff8e
+map_Kd kuayue:block/ss3/ss3_cowcatcher
+newmtl m_214ddeba-8066-0a8e-d73c-81456b6bd895
+map_Kd kuayue:block/ss3/ss3_head_additional
+newmtl m_cc568efa-f579-eebb-99dc-0302b4bbc3d9
+map_Kd kuayue:block/ss3/ss3_wiper
+newmtl none

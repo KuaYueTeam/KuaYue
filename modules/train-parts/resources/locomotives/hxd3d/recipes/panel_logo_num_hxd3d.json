@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "XXX",
+        "XYX"
+    ],
+    "key": {
+        "X": {
+            "item": "kuayue:hxd3d_panel_bottom"
+        },
+        "Y": {
+            "item": "minecraft:white_dye"
+        }
+    },
+    "result": {
+        "item": "kuayue:panel_logo_num_hxd3d"
+    }
+}

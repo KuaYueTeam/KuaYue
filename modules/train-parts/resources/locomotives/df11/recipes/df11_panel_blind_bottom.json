@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "count": 1,
+    "ingredient": {
+        "item": "kuayue:panel_bottom_df11"
+    },
+    "result": "kuayue:df11_panel_blind_bottom"
+}

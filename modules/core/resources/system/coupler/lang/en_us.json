@@ -1,0 +1,7 @@
+{
+    "gui.kuayue.coupler.can_divide": "Can be uncoupled here",
+    "gui.kuayue.coupler.cannot_divide": "Cannot be uncoupled here",
+    "msg.kuayue.coupler.cannot_divide": "Cannot uncouple the train here",
+    "msg.kuayue.coupler.schedule_ejected": "The merged train schedule has been ejected into the world",
+    "msg.kuayue.coupler.schedule_saved": "The merged train schedule has been saved to the train storage"
+}

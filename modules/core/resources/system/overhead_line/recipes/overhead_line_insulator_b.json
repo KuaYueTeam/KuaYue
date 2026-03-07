@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "kuayue:insulator"
+        },
+        {
+            "item": "kuayue:insulator"
+        },
+        {
+            "item": "kuayue:weathering_resistant_steel_pole"
+        }
+    ],
+    "result": {
+        "item": "kuayue:overhead_line_insulator_b",
+        "count": 1
+    }
+}

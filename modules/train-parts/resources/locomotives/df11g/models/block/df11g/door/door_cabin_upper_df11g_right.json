@@ -1,0 +1,194 @@
+{
+    "credit": "Made with Blockbench",
+    "texture_size": [
+        64,
+        64
+    ],
+    "textures": {
+        "48": "kuayue:block/df11g/door/df11g_cabin_door",
+        "particle": "kuayue:block/df11g/door/df11g_cabin_door"
+    },
+    "elements": [
+        {
+            "from": [
+                -13.25,
+                0,
+                -1.225
+            ],
+            "to": [
+                -2.75,
+                16.5,
+                -0.225
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    -3,
+                    -15.125,
+                    -0.6625
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        5.5,
+                        4.25,
+                        2.75,
+                        8.5
+                    ],
+                    "texture": "#48"
+                },
+                "east": {
+                    "uv": [
+                        6.5,
+                        4.25,
+                        6,
+                        8.5
+                    ],
+                    "texture": "#48"
+                },
+                "south": {
+                    "uv": [
+                        2.75,
+                        4.25,
+                        0,
+                        8.5
+                    ],
+                    "texture": "#48"
+                },
+                "west": {
+                    "uv": [
+                        6.5,
+                        0,
+                        6,
+                        4.25
+                    ],
+                    "texture": "#48"
+                },
+                "up": {
+                    "uv": [
+                        7,
+                        1,
+                        6.5,
+                        3.75
+                    ],
+                    "rotation": 90,
+                    "texture": "#48"
+                },
+                "down": {
+                    "uv": [
+                        7,
+                        6.5,
+                        6.5,
+                        3.75
+                    ],
+                    "rotation": 270,
+                    "texture": "#48"
+                }
+            }
+        }
+    ],
+    "gui_light": "front",
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                0,
+                0,
+                3
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                0,
+                0,
+                3
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                5.75,
+                -1.25,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                5.75,
+                -1.25,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "ground": {
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "gui": {
+            "rotation": [
+                23,
+                -125,
+                0
+            ],
+            "translation": [
+                3,
+                -4,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "fixed": {
+            "translation": [
+                0,
+                -8,
+                -7.5
+            ]
+        }
+    }
+}

@@ -1,0 +1,10 @@
+# Made in Blockbench 4.11.1
+newmtl m_7e523628-7935-8589-c737-bcc68649cbff
+map_Kd kuayue:block/bogey/df11g/df11g_shelf
+newmtl m_bb5c7d0a-9448-54ae-b075-6d0aa90cfe9e
+map_Kd kuayue:block/bogey/df11g/df11g_positioning_top
+newmtl m_c29295d1-9f09-d7a2-a2a3-7b1e73635d16
+map_Kd kuayue:block/bogey/df11g/df11g_power
+newmtl m_9a0b3e86-a58c-0607-202d-56ef7c6b0cb9
+map_Kd kuayue:block/bogey/df11g/df11g_hanger_and_brakes
+newmtl none

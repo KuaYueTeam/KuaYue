@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "A": {
+            "item": "kuayue:ss8_floor"
+        },
+        "B": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        }
+    },
+    "pattern": [
+        " A ",
+        "BBB"
+    ],
+    "result": {
+        "item": "kuayue:ss8_sandbox_front",
+        "count": 1
+    },
+    "show_notification": true
+}

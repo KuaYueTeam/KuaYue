@@ -1,0 +1,29 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "kuayue:weathering_resistant_steel_pole"
+        },
+        "B": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        },
+        "C": {
+            "item": "kuayue:carbon_dust"
+        },
+        "D": {
+            "item": "minecraft:slime_ball"
+        },
+        "E": {
+            "item": "kuayue:zinc_dust"
+        }
+    },
+    "pattern": [
+        "ACDEA",
+        "BBBBB"
+    ],
+    "result": {
+        "count": 2,
+        "item": "kuayue:carriage_battery"
+    }
+}

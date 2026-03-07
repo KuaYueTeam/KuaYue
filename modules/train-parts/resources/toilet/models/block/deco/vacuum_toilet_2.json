@@ -1,0 +1,9 @@
+{
+    "loader": "forge:obj",
+    "flip_v": true,
+    "render_type": "translucent",
+    "model": "kuayue:models/block/deco/vacuum_toilet_2.obj",
+    "textures": {
+        "particle": "kuayue:models/block/deco/vacuum_toilet_2"
+    }
+}

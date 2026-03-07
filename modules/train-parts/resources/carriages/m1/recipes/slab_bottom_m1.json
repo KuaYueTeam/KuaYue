@@ -1,0 +1,68 @@
+{
+    "type": "create:sequenced_assembly",
+    "ingredient": {
+        "item": "kuayue:train_moulds"
+    },
+    "loops": 1,
+    "results": [
+        {
+            "item": "kuayue:slab_bottom_m1"
+        }
+    ],
+    "sequence": [
+        {
+            "type": "kuayue:blueprint_deploy",
+            "node": "kuayue:carriage_blueprint_group.node_carriage_m1_blueprint",
+            "paste_node_to_result": false,
+            "ingredients": [
+                {
+                    "item": "kuayue:slab_bottom_m1"
+                },
+                {
+                    "item": "kuayue:carriage_m1_blueprint"
+                }
+            ],
+            "keepHeldItem": true,
+            "results": [
+                {
+                    "item": "kuayue:slab_bottom_m1"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "kuayue:slab_bottom_m1"
+                },
+                {
+                    "item": "kuayue:color_masterbatch"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:slab_bottom_m1"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "kuayue:slab_bottom_m1"
+                },
+                {
+                    "item": "kuayue:train_moulds"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:slab_bottom_m1"
+                }
+            ]
+        }
+    ],
+    "transitionalItem": {
+        "item": "kuayue:train_moulds"
+    }
+}

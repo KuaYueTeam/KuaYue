@@ -1,0 +1,23 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "kuayue:weathering_resistant_steel_pole"
+        },
+        "B": {
+            "item": "kuayue:weathering_resistant_steel_ingot"
+        },
+        "D": {
+            "item": "kuayue:22_floor_center"
+        }
+    },
+    "pattern": [
+        " A ",
+        "BDB"
+    ],
+    "result": {
+        "count": 1,
+        "item": "kuayue:22_coupler"
+    }
+}

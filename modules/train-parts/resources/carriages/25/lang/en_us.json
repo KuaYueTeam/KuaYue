@@ -1,0 +1,21 @@
+{
+    "block.kuayue.carport_25bgzk": "25B/G/Z/K Carriage Carport",
+    "block.kuayue.carport_air_condition_25bgzk": "25B/G/Z/K Air Conditioner",
+    "block.kuayue.carport_air_condition_side_25bgzk": "25B/G/Z/K Air Conditioner(Side)",
+    "block.kuayue.carport_center_25bgzkt": "25B/G/Z/K Carriage Carport Center",
+    "block.kuayue.carport_water_tank_25bgzkt": "25B/G/Z/K Carriage Top Water Tank",
+    "block.kuayue.carriage_brake_cylinder": "carriage brake cylinder",
+    "block.kuayue.floor_marshalled_25": "Marshalled 25 Series Floor",
+    "block.kuayue.panel_bottom_line_marshalled_25": "Marshalled 25Series Carriage Bottom Panel 2",
+    "block.kuayue.panel_bottom_marshalled_25": "Marshalled 25 Series Bottom Panel",
+    "block.kuayue.panel_middle_marshalled_25": "Marshalled 25Series Carriage Middle Panel",
+    "block.kuayue.panel_slab_universal_25": "25Series Universal Slab",
+    "block.kuayue.panel_top_marshalled_25": "Marshalled 25Series Carriage Top Panel",
+    "block.kuayue.panel_top_marshalled_25_2": "Marshalled 25Series Carriage Top Panel 2",
+    "block.kuayue.window_oc_25": "25 Series Carriage Window",
+    "block.kuayue.window_oc_sealed_25": "25 Series Carriage Sealed Window",
+    "container.kuayue.inventory.button.marshalled_25_series": "Marshalled",
+    "tooltip.kuayue.color_template_screen.default_element_25.doc": "Default Color (Yellow).",
+    "tooltip.kuayue.color_template_screen.default_element_25.name": "25 Series Default Color",
+    "tooltip.kuayue.color_template_screen.default_element_25.owner": "Kuayue Group."
+}

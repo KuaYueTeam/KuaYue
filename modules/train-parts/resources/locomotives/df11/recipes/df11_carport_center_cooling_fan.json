@@ -1,0 +1,27 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "kuayue:df11_carport_general"
+        },
+        "B": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        },
+        "C": {
+            "item": "create:propeller"
+        },
+        "D": {
+            "item": "create:andesite_bars"
+        }
+    },
+    "pattern": [
+        "DDD",
+        "BCB",
+        "BAB"
+    ],
+    "result": {
+        "count": 1,
+        "item": "kuayue:df11_carport_center_cooling_fan"
+    }
+}

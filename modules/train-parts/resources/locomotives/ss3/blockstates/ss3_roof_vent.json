@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "facing=east": {
+            "model": "kuayue:block/ss3/ss3_roof_vent",
+            "y": 270
+        },
+        "facing=north": {
+            "model": "kuayue:block/ss3/ss3_roof_vent",
+            "y": 180
+        },
+        "facing=south": {
+            "model": "kuayue:block/ss3/ss3_roof_vent",
+            "y": 0
+        },
+        "facing=west": {
+            "model": "kuayue:block/ss3/ss3_roof_vent",
+            "y": 90
+        }
+    }
+}

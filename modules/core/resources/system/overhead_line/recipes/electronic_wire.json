@@ -1,0 +1,14 @@
+{
+    "type": "create:compacting",
+    "ingredients": [
+        {
+            "item": "create:brass_sheet"
+        }
+    ],
+    "results": [
+        {
+            "item": "kuayue:electronic_wire",
+            "count": 2
+        }
+    ]
+}

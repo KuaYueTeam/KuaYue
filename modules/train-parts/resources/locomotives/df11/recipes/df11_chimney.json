@@ -1,0 +1,27 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "create:andesite_bars"
+        },
+        "B": {
+            "item": "kuayue:df11_carport_general"
+        },
+        "E": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        },
+        "F": {
+            "item": "kuayue:weathering_resistant_steel_pole"
+        }
+    },
+    "pattern": [
+        "AAA",
+        "FFF",
+        "EBE"
+    ],
+    "result": {
+        "count": 1,
+        "item": "kuayue:df11_chimney"
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "facing=north": {
+            "model": "kuayue:block/overhead_line/overhead_truss_single_c",
+            "y": 270
+        },
+        "facing=south": {
+            "model": "kuayue:block/overhead_line/overhead_truss_single_c",
+            "y": 90
+        },
+        "facing=west": {
+            "model": "kuayue:block/overhead_line/overhead_truss_single_c",
+            "y": 180
+        },
+        "facing=east": {
+            "model": "kuayue:block/overhead_line/overhead_truss_single_c",
+            "y": 0
+        }
+    }
+}

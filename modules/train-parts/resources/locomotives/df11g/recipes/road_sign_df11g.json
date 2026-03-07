@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "XXX"
+    ],
+    "key": {
+        "X": {
+            "item": "kuayue:panel_bottom_df11g"
+        }
+    },
+    "result": {
+        "item": "kuayue:road_sign_df11g"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "A": {
+            "item": "kuayue:plastic_board"
+        },
+        "B": {
+            "item": "kuayue:plastic_pole"
+        }
+    },
+    "pattern": [
+        "ABA",
+        "ABA",
+        "ABA"
+    ],
+    "result": {
+        "item": "kuayue:insulator",
+        "count": 1
+    },
+    "show_notification": true
+}

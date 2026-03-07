@@ -1,0 +1,19 @@
+{
+    "type": "kuayue:blueprint_deploy",
+    "node": "kuayue:carriage_blueprint_group.node_head_jy290_blueprint",
+    "paste_node_to_result": false,
+    "ingredients": [
+        {
+            "item": "kuayue:weathering_resistant_steel_board"
+        },
+        {
+            "item": "kuayue:head_jy290_blueprint"
+        }
+    ],
+    "keepHeldItem": true,
+    "results": [
+        {
+            "item": "kuayue:jy290_vent"
+        }
+    ]
+}

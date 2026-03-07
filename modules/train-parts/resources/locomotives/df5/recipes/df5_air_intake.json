@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "create:andesite_bars"
+        },
+        {
+            "item": "kuayue:df5_panel_bottom"
+        }
+    ],
+    "result": {
+        "item": "kuayue:df5_air_intake"
+    }
+}

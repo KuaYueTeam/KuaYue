@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "count": 1,
+    "ingredient": {
+        "item": "kuayue:df5_air_intake"
+    },
+    "result": "kuayue:df5_air_intake_2"
+}

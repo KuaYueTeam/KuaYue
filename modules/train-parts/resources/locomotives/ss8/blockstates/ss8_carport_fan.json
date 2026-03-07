@@ -1,0 +1,36 @@
+{
+    "variants": {
+        "facing=east,hinge=right": {
+            "model": "kuayue:block/ss8/ss8_carport_fan",
+            "y": 270
+        },
+        "facing=north,hinge=right": {
+            "model": "kuayue:block/ss8/ss8_carport_fan",
+            "y": 180
+        },
+        "facing=south,hinge=right": {
+            "model": "kuayue:block/ss8/ss8_carport_fan",
+            "y": 0
+        },
+        "facing=west,hinge=right": {
+            "model": "kuayue:block/ss8/ss8_carport_fan",
+            "y": 90
+        },
+        "facing=east,hinge=left": {
+            "model": "kuayue:block/ss8/ss8_carport_fan_lh",
+            "y": 270
+        },
+        "facing=north,hinge=left": {
+            "model": "kuayue:block/ss8/ss8_carport_fan_lh",
+            "y": 180
+        },
+        "facing=south,hinge=left": {
+            "model": "kuayue:block/ss8/ss8_carport_fan_lh",
+            "y": 0
+        },
+        "facing=west,hinge=left": {
+            "model": "kuayue:block/ss8/ss8_carport_fan_lh",
+            "y": 90
+        }
+    }
+}

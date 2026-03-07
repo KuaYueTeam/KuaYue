@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "kuayue:block/df11/carport/df11_carport_equip_b_item"
+    }
+}

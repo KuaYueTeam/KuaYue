@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "count": 1,
+    "ingredient": {
+        "item": "kuayue:jy290_head_1"
+    },
+    "result": "kuayue:jy290_head_2"
+}

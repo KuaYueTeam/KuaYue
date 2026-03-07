@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "facing=east": {
+            "model": "kuayue:block/carriage/carriage_22/22_coupler",
+            "y": 270
+        },
+        "facing=north": {
+            "model": "kuayue:block/carriage/carriage_22/22_coupler",
+            "y": 180
+        },
+        "facing=south": {
+            "model": "kuayue:block/carriage/carriage_22/22_coupler",
+            "y": 0
+        },
+        "facing=west": {
+            "model": "kuayue:block/carriage/carriage_22/22_coupler",
+            "y": 90
+        }
+    }
+}

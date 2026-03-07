@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "ingredients": [
+        {
+            "item": "22_floor_center"
+        }
+    ],
+    "pattern": [
+        "w",
+        "w"
+    ],
+    "key": {
+        "w": {
+            "item": "kuayue:weathering_resistant_steel_ingot"
+        }
+    },
+    "result": {
+        "item": "kuayue:22_air_vent",
+        "count": 2
+    }
+}

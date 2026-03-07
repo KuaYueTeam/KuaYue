@@ -1,0 +1,206 @@
+{
+    "credit": "Made by WillowKoishi",
+    "texture_size": [
+        256,
+        256
+    ],
+    "textures": {
+        "26": "kuayue:block/carriage/cr200j/color_cr200j",
+        "particle": "kuayue:block/carriage/cr200j/cr200j_particle"
+    },
+    "elements": [
+        {
+            "from": [
+                0,
+                0,
+                15
+            ],
+            "to": [
+                16,
+                16,
+                17
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    -8,
+                    0,
+                    8
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        0,
+                        4,
+                        2,
+                        6
+                    ],
+                    "texture": "#26"
+                },
+                "east": {
+                    "uv": [
+                        2,
+                        7,
+                        2.25,
+                        9
+                    ],
+                    "texture": "#26"
+                },
+                "south": {
+                    "uv": [
+                        0,
+                        2,
+                        2,
+                        4
+                    ],
+                    "texture": "#26"
+                },
+                "west": {
+                    "uv": [
+                        2.25,
+                        7,
+                        2.5,
+                        9
+                    ],
+                    "texture": "#26"
+                },
+                "up": {
+                    "uv": [
+                        9.125,
+                        0.75,
+                        7.125,
+                        0.5
+                    ],
+                    "texture": "#26"
+                },
+                "down": {
+                    "uv": [
+                        9.125,
+                        0.75,
+                        7.125,
+                        1
+                    ],
+                    "texture": "#26"
+                }
+            }
+        }
+    ],
+    "gui_light": "front",
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [
+                75,
+                45,
+                0
+            ],
+            "translation": [
+                0,
+                2.5,
+                0
+            ],
+            "scale": [
+                0.375,
+                0.375,
+                0.375
+            ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [
+                75,
+                45,
+                0
+            ],
+            "translation": [
+                0,
+                2.5,
+                0
+            ],
+            "scale": [
+                0.375,
+                0.375,
+                0.375
+            ]
+        },
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                45,
+                0
+            ],
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [
+                0,
+                225,
+                0
+            ],
+            "translation": [
+                7.75,
+                0,
+                0
+            ],
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "ground": {
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "gui": {
+            "rotation": [
+                30,
+                225,
+                0
+            ],
+            "translation": [
+                3.5,
+                -1.75,
+                0
+            ],
+            "scale": [
+                0.625,
+                0.625,
+                0.625
+            ]
+        },
+        "fixed": {
+            "translation": [
+                0,
+                0,
+                -3
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        }
+    },
+    "groups": [
+        {
+            "name": "side_panels",
+            "origin": [
+                16,
+                8,
+                16
+            ],
+            "color": 0,
+            "children": [
+                0
+            ]
+        }
+    ]
+}

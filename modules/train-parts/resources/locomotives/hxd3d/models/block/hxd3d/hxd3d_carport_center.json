@@ -1,0 +1,167 @@
+{
+    "credit": "Made with Blockbench",
+    "texture_size": [
+        32,
+        32
+    ],
+    "textures": {
+        "6": "kuayue:block/hxd3d/hxd3d_carport_center",
+        "particle": "kuayue:block/hxd3d/hxd3d_carport_center"
+    },
+    "elements": [
+        {
+            "from": [
+                0,
+                0,
+                0
+            ],
+            "to": [
+                16,
+                8,
+                16
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    7.99925,
+                    4,
+                    8
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        8,
+                        12,
+                        16,
+                        16
+                    ],
+                    "texture": "#6"
+                },
+                "east": {
+                    "uv": [
+                        8,
+                        0,
+                        16,
+                        4
+                    ],
+                    "texture": "#6"
+                },
+                "south": {
+                    "uv": [
+                        8,
+                        4,
+                        16,
+                        8
+                    ],
+                    "texture": "#6"
+                },
+                "west": {
+                    "uv": [
+                        8,
+                        8,
+                        16,
+                        12
+                    ],
+                    "texture": "#6"
+                },
+                "up": {
+                    "uv": [
+                        8,
+                        8,
+                        0,
+                        0
+                    ],
+                    "rotation": 90,
+                    "texture": "#6"
+                },
+                "down": {
+                    "uv": [
+                        8,
+                        8,
+                        0,
+                        16
+                    ],
+                    "rotation": 270,
+                    "texture": "#6"
+                }
+            }
+        }
+    ],
+    "gui_light": "front",
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [
+                99,
+                0,
+                0
+            ],
+            "translation": [
+                0,
+                0.25,
+                1.25
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [
+                99,
+                0,
+                0
+            ],
+            "translation": [
+                0,
+                0.25,
+                1.25
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "firstperson_righthand": {
+            "translation": [
+                4.75,
+                0,
+                0
+            ]
+        },
+        "firstperson_lefthand": {
+            "translation": [
+                4.75,
+                0,
+                0
+            ]
+        },
+        "ground": {
+            "translation": [
+                0,
+                5.25,
+                0
+            ]
+        },
+        "gui": {
+            "rotation": [
+                26,
+                139,
+                0
+            ],
+            "translation": [
+                0.25,
+                1,
+                0
+            ],
+            "scale": [
+                0.55,
+                0.55,
+                0.55
+            ]
+        }
+    }
+}

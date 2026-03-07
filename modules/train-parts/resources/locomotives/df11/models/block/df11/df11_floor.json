@@ -1,0 +1,179 @@
+{
+    "credit": "Made with Blockbench",
+    "texture_size": [
+        64,
+        64
+    ],
+    "textures": {
+        "2": "kuayue:block/df11/df11_floor",
+        "particle": "kuayue:block/df11/df11_floor"
+    },
+    "elements": [
+        {
+            "from": [
+                0,
+                8,
+                -1
+            ],
+            "to": [
+                16,
+                16,
+                16
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    12,
+                    7.5
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        4.25,
+                        5.575,
+                        8.25,
+                        7.575
+                    ],
+                    "texture": "#2"
+                },
+                "east": {
+                    "uv": [
+                        4.25,
+                        0.075,
+                        8.5,
+                        1.825
+                    ],
+                    "texture": "#2"
+                },
+                "south": {
+                    "uv": [
+                        4.25,
+                        3.575,
+                        8.25,
+                        5.325
+                    ],
+                    "texture": "#2"
+                },
+                "west": {
+                    "uv": [
+                        4.25,
+                        1.825,
+                        8.5,
+                        3.575
+                    ],
+                    "texture": "#2"
+                },
+                "up": {
+                    "uv": [
+                        4.25,
+                        4,
+                        0,
+                        0
+                    ],
+                    "rotation": 90,
+                    "texture": "#2"
+                },
+                "down": {
+                    "uv": [
+                        4.25,
+                        4,
+                        0,
+                        8
+                    ],
+                    "rotation": 270,
+                    "texture": "#2"
+                }
+            }
+        }
+    ],
+    "gui_light": "front",
+    "display": {
+        "thirdperson_righthand": {
+            "translation": [
+                0,
+                3.25,
+                0
+            ],
+            "scale": [
+                0.3,
+                0.3,
+                0.3
+            ]
+        },
+        "thirdperson_lefthand": {
+            "translation": [
+                0,
+                3.25,
+                0
+            ],
+            "scale": [
+                0.3,
+                0.3,
+                0.3
+            ]
+        },
+        "firstperson_righthand": {
+            "translation": [
+                4,
+                3.25,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "firstperson_lefthand": {
+            "translation": [
+                4,
+                3.25,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "ground": {
+            "translation": [
+                0,
+                5,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "gui": {
+            "rotation": [
+                20.5,
+                25.25,
+                0
+            ],
+            "translation": [
+                0,
+                -2,
+                0
+            ],
+            "scale": [
+                0.625,
+                0.625,
+                0.625
+            ]
+        },
+        "fixed": {
+            "translation": [
+                0,
+                11.25,
+                0
+            ]
+        }
+    }
+}

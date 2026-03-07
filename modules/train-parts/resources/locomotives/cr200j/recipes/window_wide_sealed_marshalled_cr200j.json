@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "count": 1,
+    "ingredient": {
+        "item": "kuayue:window_wide_marshalled_cr200j"
+    },
+    "result": "kuayue:window_wide_sealed_marshalled_cr200j"
+}

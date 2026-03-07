@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "kuayue:salt_block"
+        }
+    ],
+    "result": {
+        "item": "kuayue:salt",
+        "count": 9
+    }
+}

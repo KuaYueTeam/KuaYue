@@ -1,0 +1,95 @@
+{
+    "loader": "forge:obj",
+    "flip_v": true,
+    "model": "kuayue:models/block/carriage/carriage_22/22_coupler.obj",
+    "textures": {
+        "particle": "kuayue:block/carriage/carriage_22/22_coupler"
+    },
+    "gui_light": "front",
+    "display": {
+        "thirdperson_righthand": {
+            "translation": [
+                -2.25,
+                0,
+                1.5
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "thirdperson_lefthand": {
+            "translation": [
+                0.5,
+                0,
+                1.5
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "firstperson_righthand": {
+            "translation": [
+                -3,
+                2.75,
+                6.25
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "firstperson_lefthand": {
+            "translation": [
+                -3,
+                2.75,
+                6.25
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "ground": {
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "gui": {
+            "rotation": [
+                -157.5,
+                -43,
+                -180
+            ],
+            "translation": [
+                -1.75,
+                -1.0,
+                0
+            ],
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "fixed": {
+            "translation": [
+                0.25,
+                0,
+                0.5
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        }
+    }
+}

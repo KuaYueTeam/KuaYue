@@ -1,0 +1,6 @@
+{
+    "parent": "block/block",
+    "loader": "forge:obj",
+    "flip_v": true,
+    "model": "kuayue:models/block/bogey/915mm_carriage_general_wheel.obj"
+}

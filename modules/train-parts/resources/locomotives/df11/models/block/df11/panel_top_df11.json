@@ -1,0 +1,202 @@
+{
+    "credit": "Made with Blockbench",
+    "texture_size": [
+        64,
+        64
+    ],
+    "textures": {
+        "10": "kuayue:block/df11/panel_top_df11",
+        "particle": "kuayue:block/df11/panel_top_df11"
+    },
+    "elements": [
+        {
+            "from": [
+                0,
+                0,
+                14.75
+            ],
+            "to": [
+                16,
+                16,
+                17
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8.0108,
+                    8,
+                    16.125
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        4,
+                        0.075,
+                        0,
+                        4.075
+                    ],
+                    "texture": "#10"
+                },
+                "east": {
+                    "uv": [
+                        4.5,
+                        4.075,
+                        4,
+                        8.075
+                    ],
+                    "texture": "#10"
+                },
+                "south": {
+                    "uv": [
+                        4,
+                        4.075,
+                        0,
+                        8.075
+                    ],
+                    "texture": "#10"
+                },
+                "west": {
+                    "uv": [
+                        4.5,
+                        0.075,
+                        4,
+                        4.075
+                    ],
+                    "texture": "#10"
+                },
+                "up": {
+                    "uv": [
+                        4.5,
+                        0.5,
+                        8.5,
+                        0
+                    ],
+                    "texture": "#10"
+                },
+                "down": {
+                    "uv": [
+                        4.5,
+                        0.5,
+                        8.5,
+                        1
+                    ],
+                    "texture": "#10"
+                }
+            }
+        }
+    ],
+    "gui_light": "front",
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                0,
+                0,
+                3
+            ],
+            "scale": [
+                0.3,
+                0.3,
+                0.3
+            ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                0,
+                0,
+                3
+            ],
+            "scale": [
+                0.3,
+                0.3,
+                0.3
+            ]
+        },
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                110,
+                0
+            ],
+            "translation": [
+                3,
+                0,
+                -2
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [
+                0,
+                110,
+                0
+            ],
+            "translation": [
+                3,
+                0,
+                -2
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "ground": {
+            "translation": [
+                0,
+                1.5,
+                0
+            ],
+            "scale": [
+                0.3,
+                0.3,
+                0.3
+            ]
+        },
+        "gui": {
+            "rotation": [
+                20,
+                -149,
+                0
+            ],
+            "translation": [
+                2.25,
+                -1.25,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "fixed": {
+            "translation": [
+                0,
+                0,
+                -3.5
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "type": "kuayue:blueprint_deploy",
+    "node": "kuayue:test.node",
+    "paste_node_to_result": false,
+    "ingredients": [
+        {
+            "item": "create:andesite_bars"
+        },
+        {
+            "item": "kuayue:head_df5_blueprint"
+        }
+    ],
+    "keepHeldItem": true,
+    "results": [
+        {
+            "item": "kuayue:df5_handrail"
+        }
+    ]
+}

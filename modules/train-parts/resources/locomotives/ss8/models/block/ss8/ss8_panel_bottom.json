@@ -1,0 +1,172 @@
+{
+    "credit": "Made with Blockbench",
+    "texture_size": [
+        64,
+        64
+    ],
+    "textures": {
+        "8": "kuayue:block/ss8/ss8_panel_bottom",
+        "particle": "kuayue:block/ss8/ss8_panel_bottom"
+    },
+    "elements": [
+        {
+            "from": [
+                0,
+                0,
+                -1
+            ],
+            "to": [
+                16,
+                16,
+                1
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    -16,
+                    -16,
+                    -15
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        0,
+                        4,
+                        4,
+                        8
+                    ],
+                    "texture": "#8"
+                },
+                "east": {
+                    "uv": [
+                        4,
+                        4,
+                        4.5,
+                        8
+                    ],
+                    "texture": "#8"
+                },
+                "south": {
+                    "uv": [
+                        0,
+                        0,
+                        4,
+                        4
+                    ],
+                    "texture": "#8"
+                },
+                "west": {
+                    "uv": [
+                        4,
+                        0,
+                        4.5,
+                        4
+                    ],
+                    "texture": "#8"
+                },
+                "up": {
+                    "uv": [
+                        4.5,
+                        0,
+                        8.5,
+                        0.5
+                    ],
+                    "texture": "#8"
+                },
+                "down": {
+                    "uv": [
+                        4.5,
+                        1,
+                        8.5,
+                        0.5
+                    ],
+                    "texture": "#8"
+                }
+            }
+        }
+    ],
+    "gui_light": "front",
+    "display": {
+        "thirdperson_righthand": {
+            "translation": [
+                0,
+                0,
+                3
+            ],
+            "scale": [
+                0.375,
+                0.375,
+                0.375
+            ]
+        },
+        "thirdperson_lefthand": {
+            "translation": [
+                0,
+                0,
+                3
+            ],
+            "scale": [
+                0.375,
+                0.375,
+                0.375
+            ]
+        },
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                45,
+                0
+            ],
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [
+                0,
+                225,
+                0
+            ],
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "gui": {
+            "rotation": [
+                30,
+                45,
+                0
+            ],
+            "translation": [
+                3.0,
+                -1.5,
+                0
+            ],
+            "scale": [
+                0.625,
+                0.625,
+                0.625
+            ]
+        }
+    },
+    "groups": [
+        {
+            "name": "VoxelShapes",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": [
+                0
+            ]
+        }
+    ]
+}

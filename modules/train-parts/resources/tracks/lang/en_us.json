@@ -1,0 +1,12 @@
+{
+    "block.kuayue.ballastless_track": "Ballastless Track",
+    "block.kuayue.guard_track": "Guard rail Track",
+    "block.kuayue.meter_track": "Meter Track",
+    "block.kuayue.standard_track": "Standard Track",
+    "block.kuayue.tieless_track": "Tieless Track",
+    "item.kuayue.incomplete_ballastless_track": "Incomplete Ballastless Track",
+    "item.kuayue.incomplete_guard_track": "Incomplete Guard Track",
+    "item.kuayue.incomplete_meter_track": "Incomplete Meter Track",
+    "item.kuayue.incomplete_standard_track": "Incomplete Standard Track",
+    "item.kuayue.incomplete_tieless_track": "Incomplete Tieless Track"
+}

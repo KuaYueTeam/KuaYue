@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "#": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        },
+        "A": {
+            "item": "kuayue:weathering_resistant_steel_pole"
+        },
+        "B": {
+            "item": "create:propeller"
+        },
+        "C": {
+            "item": "kuayue:circuit_board"
+        }
+    },
+    "pattern": [
+        "###",
+        "ABA",
+        "#C#"
+    ],
+    "result": {
+        "count": 1,
+        "item": "kuayue:ac_outdoor_unit"
+    },
+    "show_notification": true
+}

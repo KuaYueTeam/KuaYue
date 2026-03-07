@@ -1,0 +1,8 @@
+{
+    "loader": "forge:obj",
+    "model": "kuayue:models/block/df11/df11_head.obj",
+    "flip_v": true,
+    "textures": {
+        "particle": "kuayue:block/df11/df11_head"
+    }
+}

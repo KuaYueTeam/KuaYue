@@ -1,0 +1,17 @@
+{
+    "block.kuayue.jy290_ac": "JY290 Air Conditioning",
+    "block.kuayue.jy290_carport": "JY290 Carport",
+    "block.kuayue.jy290_cowcatcher": "JY290 Cowcatcher",
+    "block.kuayue.jy290_door": "JY290 Door",
+    "block.kuayue.jy290_equipment": "JY290 Bottom Equipment",
+    "block.kuayue.jy290_floor": "JY290 Floor",
+    "block.kuayue.jy290_floor_ladder": "JY290 Floor (Ladder)",
+    "block.kuayue.jy290_head_1": "JY290 Head (Side I)",
+    "block.kuayue.jy290_head_2": "JY290 Head (Side II)",
+    "block.kuayue.jy290_panel": "JY290 Panel",
+    "block.kuayue.jy290_panel_logo": "JY290 Panel (Logo)",
+    "block.kuayue.jy290_vent": "JY290 Air Vent",
+    "container.kuayue.inventory.loco.button.jy290": "JY290",
+    "msg.bogey.style.changed.block.kuayue.jy290_backward_bogey": "current bogey: JY290(Backward)",
+    "msg.bogey.style.changed.block.kuayue.jy290_bogey": "current bogey: JY290"
+}

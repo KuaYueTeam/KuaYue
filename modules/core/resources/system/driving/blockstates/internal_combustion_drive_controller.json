@@ -1,0 +1,196 @@
+{
+    "variants": {
+        "effect_offset=0,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=1,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=2,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=3,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=4,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=5,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=6,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=7,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=8,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=9,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=10,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=11,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=12,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=13,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=14,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=15,facing=south": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=0,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=1,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=2,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=3,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=4,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=5,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=6,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=7,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=8,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=9,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=10,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=11,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=12,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=13,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=14,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=15,facing=north": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=0,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=1,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=2,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=3,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=4,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=5,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=6,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=7,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=8,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=9,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=10,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=11,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=12,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=13,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=14,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=15,facing=west": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=0,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=1,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=2,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=3,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=4,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=5,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=6,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=7,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=8,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=9,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=10,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=11,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=12,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=13,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=14,facing=east": {
+            "model": "minecraft:air"
+        },
+        "effect_offset=15,facing=east": {
+            "model": "minecraft:air"
+        }
+    }
+}

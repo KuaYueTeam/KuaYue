@@ -1,0 +1,28 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "kuayue:panel_bottom_25g"
+        },
+        "B": {
+            "item": "kuayue:floor_25g"
+        },
+        "C": {
+            "item": "kuayue:door_25g"
+        },
+        "D": {
+            "item": "create:brass_ladder"
+        }
+    },
+    "pattern": [
+        "D  ",
+        "A A",
+        "ACA",
+        "BBB"
+    ],
+    "result": {
+        "count": 1,
+        "item": "kuayue:end_face_25g_1"
+    }
+}

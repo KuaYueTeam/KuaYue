@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "A": {
+            "tag": "minecraft:wooden_pressure_plates"
+        }
+    },
+    "pattern": [
+        "AA",
+        "AA"
+    ],
+    "result": {
+        "count": 1,
+        "item": "kuayue:freight_nx70_floor_cover_plate"
+    },
+    "show_notification": true
+}

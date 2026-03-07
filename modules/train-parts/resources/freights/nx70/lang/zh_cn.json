@@ -1,0 +1,12 @@
+{
+    "block.kuayue.freight_nx70_end_face": "NX70平车端面",
+    "block.kuayue.freight_nx70_floor_center": "NX70平车中央地板",
+    "block.kuayue.freight_nx70_floor_connection": "NX70平车高低连接地板",
+    "block.kuayue.freight_nx70_floor_cover_plate": "木盖板",
+    "block.kuayue.freight_nx70_floor_high": "NX70平车高地板",
+    "block.kuayue.freight_nx70_floor_low": "NX70平车低地板",
+    "block.kuayue.freight_nx70_floor_low_ladder": "NX70平车低地板(登车梯)",
+    "item.kuayue.freight_nx70_blueprint": "NX70型平车 总体设计图",
+    "tech_tree.kuayue.group.freight_nx70_blueprint.description": "设计并试制NX70型平车以获取NX70型平车总体设计图",
+    "tech_tree.kuayue.group.freight_nx70_blueprint.name": "NX70型平车总体设计图"
+}

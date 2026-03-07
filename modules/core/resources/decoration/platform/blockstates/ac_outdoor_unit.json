@@ -1,0 +1,84 @@
+{
+    "variants": {
+        "facing=north,height=0": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_0",
+            "y": 180
+        },
+        "facing=east,height=0": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_0",
+            "y": 270
+        },
+        "facing=south,height=0": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_0",
+            "y": 0
+        },
+        "facing=west,height=0": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_0",
+            "y": 90
+        },
+        "facing=north,height=1": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_1",
+            "y": 180
+        },
+        "facing=east,height=1": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_1",
+            "y": 270
+        },
+        "facing=south,height=1": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_1",
+            "y": 0
+        },
+        "facing=west,height=1": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_1",
+            "y": 90
+        },
+        "facing=north,height=2": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_2",
+            "y": 180
+        },
+        "facing=east,height=2": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_2",
+            "y": 270
+        },
+        "facing=south,height=2": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_2",
+            "y": 0
+        },
+        "facing=west,height=2": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_2",
+            "y": 90
+        },
+        "facing=north,height=3": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_3",
+            "y": 180
+        },
+        "facing=east,height=3": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_3",
+            "y": 270
+        },
+        "facing=south,height=3": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_3",
+            "y": 0
+        },
+        "facing=west,height=3": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_3",
+            "y": 90
+        },
+        "facing=north,height=4": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_4",
+            "y": 180
+        },
+        "facing=east,height=4": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_4",
+            "y": 270
+        },
+        "facing=south,height=4": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_4",
+            "y": 0
+        },
+        "facing=west,height=4": {
+            "model": "kuayue:block/deco/ac_outdoor_unit_4",
+            "y": 90
+        }
+    }
+}

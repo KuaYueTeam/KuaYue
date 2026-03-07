@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "count": 1,
+    "ingredient": {
+        "item": "kuayue:general_bottom_slab_df21"
+    },
+    "result": "kuayue:equip_middle_early_df21"
+}

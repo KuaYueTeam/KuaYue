@@ -1,0 +1,33 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "kuayue:floor_m1"
+        },
+        "B": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        },
+        "C": {
+            "item": "kuayue:carbon_dust"
+        },
+        "D": {
+            "item": "minecraft:slime_ball"
+        },
+        "E": {
+            "item": "kuayue:zinc_dust"
+        },
+        "F": {
+            "item": "kuayue:weathering_resistant_steel_pole"
+        }
+    },
+    "pattern": [
+        " A ",
+        "CDE",
+        "BFB"
+    ],
+    "result": {
+        "count": 1,
+        "item": "kuayue:floor_battery_m1"
+    }
+}

@@ -1,0 +1,33 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
+
+
+Attribute<String> BUNDLING_ATTRIBUTE = Attribute.of("org.gradle.dependency.bundling", String.class);
+
+includeBuild("../KasugaLibNext") {
+    dependencySubstitution {
+        substitute module("lib.kasuga:kasuga_lib") using project(':modules:library')
+        substitute module("lib.kasuga:inject") using project(':modules:inject')
+        substitute module("lib.kasuga:generator") using project(':modules:generator')
+        substitute module("lib.kasuga:resource-compiler") using project(':modules:resource-compiler')
+    }
+}
+
+includeBuild '../KasugaLibNext/modules/gradle-plugin'
+
+include ':modules:core'
+include ':modules:decoration'
+include ':modules:train-parts'
+include ':modules:scheduling'
+
+include ':temporal:migration'
+include 'temporal:migration'
+findProject(':temporal:migration')?.name = 'migration'
+

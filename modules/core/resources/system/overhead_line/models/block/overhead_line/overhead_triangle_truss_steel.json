@@ -1,0 +1,851 @@
+{
+    "format_version": "1.21.6",
+    "credit": "Made with Blockbench",
+    "texture_size": [
+        32,
+        32
+    ],
+    "textures": {
+        "0": "kuayue:block/overhead_line/overhead_triangle_truss_steel",
+        "particle": "kuayue:block/overhead_line/overhead_triangle_truss_steel"
+    },
+    "elements": [
+        {
+            "name": "straight_pole",
+            "from": [
+                2,
+                2.25,
+                -0.25
+            ],
+            "to": [
+                4,
+                4.25,
+                16
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    13,
+                    0,
+                    6.5
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        11.5,
+                        11.5,
+                        12.5,
+                        12.5
+                    ],
+                    "texture": "#0"
+                },
+                "east": {
+                    "uv": [
+                        4,
+                        4,
+                        12,
+                        5
+                    ],
+                    "texture": "#0"
+                },
+                "south": {
+                    "uv": [
+                        2,
+                        12,
+                        3,
+                        13
+                    ],
+                    "texture": "#0"
+                },
+                "west": {
+                    "uv": [
+                        4,
+                        5,
+                        12,
+                        6
+                    ],
+                    "texture": "#0"
+                },
+                "up": {
+                    "uv": [
+                        5,
+                        14,
+                        4,
+                        6
+                    ],
+                    "texture": "#0"
+                },
+                "down": {
+                    "uv": [
+                        6,
+                        6,
+                        5,
+                        14
+                    ],
+                    "texture": "#0"
+                }
+            }
+        },
+        {
+            "name": "straight_pole",
+            "from": [
+                7,
+                11.5,
+                -0.25
+            ],
+            "to": [
+                9,
+                13.5,
+                16
+            ],
+            "rotation": {
+                "angle": 45,
+                "axis": "z",
+                "origin": [
+                    8,
+                    12.5,
+                    7.875
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        11.5,
+                        11.5,
+                        12.5,
+                        12.5
+                    ],
+                    "texture": "#0"
+                },
+                "east": {
+                    "uv": [
+                        4,
+                        4,
+                        12,
+                        5
+                    ],
+                    "texture": "#0"
+                },
+                "south": {
+                    "uv": [
+                        2,
+                        12,
+                        3,
+                        13
+                    ],
+                    "texture": "#0"
+                },
+                "west": {
+                    "uv": [
+                        4,
+                        5,
+                        12,
+                        6
+                    ],
+                    "texture": "#0"
+                },
+                "up": {
+                    "uv": [
+                        5,
+                        14,
+                        4,
+                        6
+                    ],
+                    "texture": "#0"
+                },
+                "down": {
+                    "uv": [
+                        6,
+                        6,
+                        5,
+                        14
+                    ],
+                    "texture": "#0"
+                }
+            }
+        },
+        {
+            "name": "straight_pole",
+            "from": [
+                12,
+                2.25,
+                -0.25
+            ],
+            "to": [
+                14,
+                4.25,
+                16
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    3,
+                    0,
+                    6.5
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        12.5,
+                        11.5,
+                        11.5,
+                        12.5
+                    ],
+                    "texture": "#0"
+                },
+                "east": {
+                    "uv": [
+                        12,
+                        5,
+                        4,
+                        6
+                    ],
+                    "texture": "#0"
+                },
+                "south": {
+                    "uv": [
+                        3,
+                        12,
+                        2,
+                        13
+                    ],
+                    "texture": "#0"
+                },
+                "west": {
+                    "uv": [
+                        12,
+                        4,
+                        4,
+                        5
+                    ],
+                    "texture": "#0"
+                },
+                "up": {
+                    "uv": [
+                        4,
+                        14,
+                        5,
+                        6
+                    ],
+                    "texture": "#0"
+                },
+                "down": {
+                    "uv": [
+                        5,
+                        6,
+                        6,
+                        14
+                    ],
+                    "texture": "#0"
+                }
+            }
+        },
+        {
+            "name": "pole",
+            "from": [
+                6.75,
+                2.5,
+                -1.25
+            ],
+            "to": [
+                7.75,
+                12.5,
+                0.75
+            ],
+            "rotation": {
+                "angle": -22.5,
+                "axis": "z",
+                "origin": [
+                    8,
+                    13,
+                    6.5
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        7.5,
+                        11,
+                        8,
+                        16
+                    ],
+                    "texture": "#0"
+                },
+                "east": {
+                    "uv": [
+                        8,
+                        6,
+                        9,
+                        11
+                    ],
+                    "texture": "#0"
+                },
+                "south": {
+                    "uv": [
+                        8,
+                        11,
+                        8.5,
+                        16
+                    ],
+                    "texture": "#0"
+                },
+                "west": {
+                    "uv": [
+                        9,
+                        6,
+                        10,
+                        11
+                    ],
+                    "texture": "#0"
+                },
+                "up": {
+                    "uv": [
+                        12.5,
+                        5,
+                        12,
+                        4
+                    ],
+                    "texture": "#0"
+                },
+                "down": {
+                    "uv": [
+                        12.5,
+                        5,
+                        12,
+                        6
+                    ],
+                    "texture": "#0"
+                }
+            }
+        },
+        {
+            "name": "pole",
+            "from": [
+                6.75,
+                2.5,
+                15.25
+            ],
+            "to": [
+                7.75,
+                12.5,
+                17.25
+            ],
+            "rotation": {
+                "angle": -22.5,
+                "axis": "z",
+                "origin": [
+                    8,
+                    13,
+                    9.5
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        8.5,
+                        11,
+                        8,
+                        16
+                    ],
+                    "texture": "#0"
+                },
+                "east": {
+                    "uv": [
+                        9,
+                        6,
+                        8,
+                        11
+                    ],
+                    "texture": "#0"
+                },
+                "south": {
+                    "uv": [
+                        8,
+                        11,
+                        7.5,
+                        16
+                    ],
+                    "texture": "#0"
+                },
+                "west": {
+                    "uv": [
+                        10,
+                        6,
+                        9,
+                        11
+                    ],
+                    "texture": "#0"
+                },
+                "up": {
+                    "uv": [
+                        12.5,
+                        4,
+                        12,
+                        5
+                    ],
+                    "texture": "#0"
+                },
+                "down": {
+                    "uv": [
+                        12.5,
+                        6,
+                        12,
+                        5
+                    ],
+                    "texture": "#0"
+                }
+            }
+        },
+        {
+            "name": "pole",
+            "from": [
+                8.25,
+                2.5,
+                -1.25
+            ],
+            "to": [
+                9.25,
+                12.5,
+                0.75
+            ],
+            "rotation": {
+                "angle": 22.5,
+                "axis": "z",
+                "origin": [
+                    8,
+                    13,
+                    6.5
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        8,
+                        11,
+                        7.5,
+                        16
+                    ],
+                    "texture": "#0"
+                },
+                "east": {
+                    "uv": [
+                        10,
+                        6,
+                        9,
+                        11
+                    ],
+                    "texture": "#0"
+                },
+                "south": {
+                    "uv": [
+                        8.5,
+                        11,
+                        8,
+                        16
+                    ],
+                    "texture": "#0"
+                },
+                "west": {
+                    "uv": [
+                        9,
+                        6,
+                        8,
+                        11
+                    ],
+                    "texture": "#0"
+                },
+                "up": {
+                    "uv": [
+                        12,
+                        5,
+                        12.5,
+                        4
+                    ],
+                    "texture": "#0"
+                },
+                "down": {
+                    "uv": [
+                        12,
+                        5,
+                        12.5,
+                        6
+                    ],
+                    "texture": "#0"
+                }
+            }
+        },
+        {
+            "name": "pole",
+            "from": [
+                8.25,
+                2.5,
+                15.25
+            ],
+            "to": [
+                9.25,
+                12.5,
+                17.25
+            ],
+            "rotation": {
+                "angle": 22.5,
+                "axis": "z",
+                "origin": [
+                    8,
+                    13,
+                    9.5
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        8,
+                        11,
+                        8.5,
+                        16
+                    ],
+                    "texture": "#0"
+                },
+                "east": {
+                    "uv": [
+                        9,
+                        6,
+                        10,
+                        11
+                    ],
+                    "texture": "#0"
+                },
+                "south": {
+                    "uv": [
+                        7.5,
+                        11,
+                        8,
+                        16
+                    ],
+                    "texture": "#0"
+                },
+                "west": {
+                    "uv": [
+                        8,
+                        6,
+                        9,
+                        11
+                    ],
+                    "texture": "#0"
+                },
+                "up": {
+                    "uv": [
+                        12,
+                        4,
+                        12.5,
+                        5
+                    ],
+                    "texture": "#0"
+                },
+                "down": {
+                    "uv": [
+                        12,
+                        6,
+                        12.5,
+                        5
+                    ],
+                    "texture": "#0"
+                }
+            }
+        },
+        {
+            "name": "pole",
+            "from": [
+                3.5,
+                3.25,
+                -1.25
+            ],
+            "to": [
+                12.5,
+                4.25,
+                0.75
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    13,
+                    6.5
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        10.5,
+                        11,
+                        15,
+                        11.5
+                    ],
+                    "texture": "#0"
+                },
+                "east": {
+                    "uv": [
+                        11.5,
+                        10.5,
+                        12.5,
+                        11
+                    ],
+                    "texture": "#0"
+                },
+                "south": {
+                    "uv": [
+                        11.5,
+                        6,
+                        16,
+                        6.5
+                    ],
+                    "texture": "#0"
+                },
+                "west": {
+                    "uv": [
+                        12.5,
+                        0,
+                        13.5,
+                        0.5
+                    ],
+                    "texture": "#0"
+                },
+                "up": {
+                    "uv": [
+                        12.5,
+                        1,
+                        8,
+                        0
+                    ],
+                    "texture": "#0"
+                },
+                "down": {
+                    "uv": [
+                        12.5,
+                        1,
+                        8,
+                        2
+                    ],
+                    "texture": "#0"
+                }
+            }
+        },
+        {
+            "name": "pole",
+            "from": [
+                3.5,
+                3.25,
+                15
+            ],
+            "to": [
+                12.5,
+                4.25,
+                17
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    8,
+                    13,
+                    22.75
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        11.5,
+                        6.5,
+                        16,
+                        7
+                    ],
+                    "texture": "#0"
+                },
+                "east": {
+                    "uv": [
+                        12.5,
+                        1.5,
+                        13.5,
+                        2
+                    ],
+                    "texture": "#0"
+                },
+                "south": {
+                    "uv": [
+                        11.5,
+                        7,
+                        16,
+                        7.5
+                    ],
+                    "texture": "#0"
+                },
+                "west": {
+                    "uv": [
+                        12.5,
+                        8.5,
+                        13.5,
+                        9
+                    ],
+                    "texture": "#0"
+                },
+                "up": {
+                    "uv": [
+                        14.5,
+                        3,
+                        10,
+                        2
+                    ],
+                    "texture": "#0"
+                },
+                "down": {
+                    "uv": [
+                        14.5,
+                        3,
+                        10,
+                        4
+                    ],
+                    "texture": "#0"
+                }
+            }
+        }
+    ],
+    "display": {
+        "thirdperson_righthand": {
+            "scale": [
+                0.2,
+                0.2,
+                0.2
+            ]
+        },
+        "thirdperson_lefthand": {
+            "scale": [
+                0.2,
+                0.2,
+                0.2
+            ]
+        },
+        "firstperson_righthand": {
+            "translation": [
+                2.75,
+                0.5,
+                0
+            ],
+            "scale": [
+                0.2,
+                0.2,
+                0.2
+            ]
+        },
+        "firstperson_lefthand": {
+            "translation": [
+                2.75,
+                0.5,
+                0
+            ],
+            "scale": [
+                0.2,
+                0.2,
+                0.2
+            ]
+        },
+        "ground": {
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "gui": {
+            "rotation": [
+                23,
+                -62,
+                0
+            ],
+            "translation": [
+                0.25,
+                -0.25,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "fixed": {
+            "rotation": [
+                0,
+                90,
+                0
+            ],
+            "translation": [
+                0,
+                0,
+                0.5
+            ],
+            "scale": [
+                0.6,
+                0.6,
+                0.6
+            ]
+        }
+    },
+    "groups": [
+        {
+            "name": "pillar",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": []
+        },
+        {
+            "name": "cast",
+            "origin": [
+                16,
+                8,
+                16
+            ],
+            "color": 0,
+            "children": [
+                0,
+                1,
+                2,
+                {
+                    "name": "triangle",
+                    "origin": [
+                        16,
+                        8,
+                        16
+                    ],
+                    "color": 0,
+                    "children": [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                    ]
+                },
+                {
+                    "name": "triangle2",
+                    "origin": [
+                        16,
+                        8,
+                        16
+                    ],
+                    "color": 0,
+                    "children": [
+                        8
+                    ]
+                }
+            ]
+        }
+    ]
+}

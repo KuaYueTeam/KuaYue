@@ -1,0 +1,28 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "kuayue:panel_bottom_marshalled_cr200j"
+        },
+        "B": {
+            "item": "kuayue:floor_marshalled_cr200j"
+        },
+        "C": {
+            "item": "kuayue:door_marshalled_cr200j"
+        },
+        "D": {
+            "item": "create:brass_ladder"
+        }
+    },
+    "pattern": [
+        "D  ",
+        "A A",
+        "ACA",
+        "BBB"
+    ],
+    "result": {
+        "count": 1,
+        "item": "kuayue:end_face_marshalled_cr200j"
+    }
+}

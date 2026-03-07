@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "count": 1,
+    "ingredient": {
+        "item": "kuayue:ss3_carport"
+    },
+    "result": "kuayue:ss3_carport_center"
+}

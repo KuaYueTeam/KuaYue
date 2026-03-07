@@ -1,0 +1,9 @@
+{
+    "block.kuayue.freight_c70_door": "C70 Side Door",
+    "block.kuayue.freight_c70_end_face": "C70 End Face",
+    "block.kuayue.freight_c70_slab_bottom": "C70 Bottom Slab",
+    "block.kuayue.freight_c70_slab_top": "C70 Top Slab",
+    "item.kuayue.freight_c70_blueprint": "Freight C70 Blueprint",
+    "tech_tree.kuayue.group.freight_c70_blueprint.description": "Design and prototype Freight C70. Be able to obtain the design drawings of Freight C70.",
+    "tech_tree.kuayue.group.freight_c70_blueprint.name": "Freight C70 Blueprint"
+}

@@ -1,0 +1,6 @@
+# Made in Blockbench 4.12.4
+newmtl m_000c3f9a-e89c-e391-92bf-04bcc724ff7f
+map_Kd kuayue:block/ss3/ss3_floor
+newmtl m_ad7c207c-7c7d-fd0e-c962-3b0f033f60d9
+map_Kd kuayue:block/ss3/ss3_transformer
+newmtl none

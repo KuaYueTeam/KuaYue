@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "ISI",
+        "A A",
+        "A A"
+    ],
+    "key": {
+        "S": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        },
+        "A": {
+            "item": "minecraft:iron_ingot"
+        },
+        "I": {
+            "item": "kuayue:insulator"
+        }
+    },
+    "result": {
+        "item": "kuayue:overhead_line_end_weight"
+    }
+}

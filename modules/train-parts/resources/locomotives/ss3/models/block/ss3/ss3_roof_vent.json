@@ -1,0 +1,6 @@
+{
+    "loader": "forge:obj",
+    "render_type": "cutout_mipped",
+    "model": "kuayue:models/block/ss3/ss3_roof_vent.obj",
+    "flip_v": true
+}

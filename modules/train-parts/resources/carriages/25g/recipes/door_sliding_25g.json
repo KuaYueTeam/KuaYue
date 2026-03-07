@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "create:train_door"
+        },
+        {
+            "item": "kuayue:panel_bottom_25g"
+        }
+    ],
+    "result": {
+        "item": "kuayue:door_sliding_25g"
+    }
+}

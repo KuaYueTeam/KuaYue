@@ -1,0 +1,17 @@
+{
+    "type": "create:deploying",
+    "ingredients": [
+        {
+            "item": "kuayue:df5_floor"
+        },
+        {
+            "item": "create:brass_ladder"
+        }
+    ],
+    "keepHeldItem": false,
+    "results": [
+        {
+            "item": "kuayue:df5_cowcatcher_ladder"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:cooked_chicken"
+        },
+        {
+            "tag": "forge:salt"
+        },
+        {
+            "item": "kuayue:monosodium_glutamate"
+        }
+    ],
+    "result": {
+        "item": "kuayue:salt_baked_drumsticks",
+        "count": 2
+    }
+}

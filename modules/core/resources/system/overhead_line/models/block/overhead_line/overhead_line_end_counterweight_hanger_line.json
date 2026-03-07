@@ -1,0 +1,8 @@
+{
+    "render_type": "translucent",
+    "loader": "kasuga_lib:bedrock_animated",
+    "geometry": "geometry.unknown",
+    "identifier": "kuayue:block/overhead_line/overhead_line_end_counterweight_hanger_line",
+    "model": "kuayue:block/overhead_line/overhead_line_end_counterweight_hanger_line",
+    "texture": "kuayue:block/overhead_line/counter_weight_hanger_line"
+}

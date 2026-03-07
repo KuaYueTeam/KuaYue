@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "create:train_door"
+        },
+        {
+            "item": "kuayue:panel_bottom_marshalled_cr200j"
+        }
+    ],
+    "result": {
+        "item": "kuayue:door_marshalled_cr200j"
+    }
+}

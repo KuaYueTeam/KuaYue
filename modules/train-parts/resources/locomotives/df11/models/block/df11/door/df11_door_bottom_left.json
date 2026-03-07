@@ -1,0 +1,83 @@
+{
+    "credit": "Made with Blockbench",
+    "texture_size": [
+        64,
+        64
+    ],
+    "textures": {
+        "0": "kuayue:block/df11/door/df11_door",
+        "particle": "kuayue:block/df11/door/df11_door"
+    },
+    "elements": [
+        {
+            "from": [
+                -10.5,
+                0,
+                -0.75
+            ],
+            "to": [
+                0,
+                16,
+                1.25
+            ],
+            "faces": {
+                "north": {
+                    "uv": [
+                        5.625,
+                        8.325,
+                        2.875,
+                        12.325
+                    ],
+                    "texture": "#0"
+                },
+                "east": {
+                    "uv": [
+                        5,
+                        4,
+                        4.5,
+                        8
+                    ],
+                    "texture": "#0"
+                },
+                "south": {
+                    "uv": [
+                        2.75,
+                        8.5,
+                        0,
+                        12.5
+                    ],
+                    "texture": "#0"
+                },
+                "west": {
+                    "uv": [
+                        5.5,
+                        4,
+                        5,
+                        8
+                    ],
+                    "texture": "#0"
+                },
+                "up": {
+                    "uv": [
+                        5.5,
+                        2.5,
+                        8.25,
+                        2
+                    ],
+                    "rotation": 180,
+                    "texture": "#0"
+                },
+                "down": {
+                    "uv": [
+                        5.5,
+                        2.5,
+                        8.25,
+                        3
+                    ],
+                    "rotation": 180,
+                    "texture": "#0"
+                }
+            }
+        }
+    ]
+}

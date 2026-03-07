@@ -1,0 +1,227 @@
+{
+    "variants": {
+        "facing=north,connected_type=none,connection_direction=none": {
+            "model": "kuayue:block/overhead_line/overhead_hanger_double"
+        },
+        "facing=south,connected_type=none,connection_direction=none": {
+            "model": "kuayue:block/overhead_line/overhead_hanger_double",
+            "y": 180
+        },
+        "facing=east,connected_type=none,connection_direction=none": {
+            "model": "kuayue:block/overhead_line/overhead_hanger_double",
+            "y": 90
+        },
+        "facing=west,connected_type=none,connection_direction=none": {
+            "model": "kuayue:block/overhead_line/overhead_hanger_double",
+            "y": 270
+        },
+        "facing=north,connected_type=single,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_hanger_double"
+        },
+        "facing=south,connected_type=single,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_hanger_double",
+            "y": 180
+        },
+        "facing=east,connected_type=single,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_hanger_double",
+            "y": 90
+        },
+        "facing=west,connected_type=single,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_hanger_double",
+            "y": 270
+        },
+        "facing=north,connected_type=single,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_hanger_double",
+            "x": 180
+        },
+        "facing=south,connected_type=single,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_hanger_double",
+            "x": 180,
+            "y": 180
+        },
+        "facing=east,connected_type=single,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_hanger_double",
+            "x": 180,
+            "y": 90
+        },
+        "facing=west,connected_type=single,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_hanger_double",
+            "x": 180,
+            "y": 270
+        },
+        "facing=north,connected_type=double,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_truss_double_hanger_double_top"
+        },
+        "facing=south,connected_type=double,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_truss_double_hanger_double_top",
+            "y": 180
+        },
+        "facing=east,connected_type=double,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_truss_double_hanger_double_top",
+            "y": 90
+        },
+        "facing=west,connected_type=double,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_truss_double_hanger_double_top",
+            "y": 270
+        },
+        "facing=north,connected_type=double,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_truss_double_hanger_double_top",
+            "x": 180
+        },
+        "facing=south,connected_type=double,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_truss_double_hanger_double_top",
+            "x": 180,
+            "y": 180
+        },
+        "facing=east,connected_type=double,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_truss_double_hanger_double_top",
+            "x": 180,
+            "y": 90
+        },
+        "facing=west,connected_type=double,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_truss_double_hanger_double_top",
+            "x": 180,
+            "y": 270
+        },
+        "facing=north,connected_type=concrete,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_pillar_concrete_truss_hanger_double"
+        },
+        "facing=south,connected_type=concrete,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_pillar_concrete_truss_hanger_double",
+            "y": 180
+        },
+        "facing=east,connected_type=concrete,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_pillar_concrete_truss_hanger_double",
+            "y": 90
+        },
+        "facing=west,connected_type=concrete,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_pillar_concrete_truss_hanger_double",
+            "y": 270
+        },
+        "facing=north,connected_type=concrete,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_pillar_concrete_truss_hanger_double",
+            "x": 180
+        },
+        "facing=south,connected_type=concrete,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_pillar_concrete_truss_hanger_double",
+            "x": 180,
+            "y": 180
+        },
+        "facing=east,connected_type=concrete,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_pillar_concrete_truss_hanger_double",
+            "x": 180,
+            "y": 90
+        },
+        "facing=west,connected_type=concrete,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_pillar_concrete_truss_hanger_double",
+            "x": 180,
+            "y": 270
+        },
+        "facing=north,connected_type=triangle,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_triangle_truss_hanger_double"
+        },
+        "facing=south,connected_type=triangle,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_triangle_truss_hanger_double",
+            "y": 180
+        },
+        "facing=east,connected_type=triangle,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_triangle_truss_hanger_double",
+            "y": 90
+        },
+        "facing=west,connected_type=triangle,connection_direction=above": {
+            "model": "kuayue:block/overhead_line/overhead_triangle_truss_hanger_double",
+            "y": 270
+        },
+        "facing=north,connected_type=triangle,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_triangle_truss_hanger_double",
+            "x": 180
+        },
+        "facing=south,connected_type=triangle,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_triangle_truss_hanger_double",
+            "x": 180,
+            "y": 180
+        },
+        "facing=east,connected_type=triangle,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_triangle_truss_hanger_double",
+            "x": 180,
+            "y": 90
+        },
+        "facing=west,connected_type=triangle,connection_direction=below": {
+            "model": "kuayue:block/overhead_line/overhead_triangle_truss_hanger_double",
+            "x": 180,
+            "y": 270
+        },
+        "connected_type=none,connection_direction=below,facing=west": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=none,connection_direction=below,facing=north": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=none,connection_direction=above,facing=south": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=triangle,connection_direction=none,facing=west": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=none,connection_direction=above,facing=north": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=single,connection_direction=none,facing=west": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=concrete,connection_direction=none,facing=west": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=triangle,connection_direction=none,facing=north": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=triangle,connection_direction=none,facing=south": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=double,connection_direction=none,facing=south": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=none,connection_direction=above,facing=west": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=double,connection_direction=none,facing=north": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=none,connection_direction=below,facing=south": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=double,connection_direction=none,facing=east": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=single,connection_direction=none,facing=east": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=triangle,connection_direction=none,facing=east": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=concrete,connection_direction=none,facing=north": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=none,connection_direction=above,facing=east": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=none,connection_direction=below,facing=east": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=concrete,connection_direction=none,facing=south": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=single,connection_direction=none,facing=south": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=double,connection_direction=none,facing=west": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=single,connection_direction=none,facing=north": {
+            "model": "minecraft:block/air"
+        },
+        "connected_type=concrete,connection_direction=none,facing=east": {
+            "model": "minecraft:block/air"
+        }
+    }
+}

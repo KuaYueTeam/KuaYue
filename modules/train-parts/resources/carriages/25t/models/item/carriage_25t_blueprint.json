@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "kuayue:item/crafting/blueprint/carriage_blueprint/carriage_25t_blueprint"
+    }
+}

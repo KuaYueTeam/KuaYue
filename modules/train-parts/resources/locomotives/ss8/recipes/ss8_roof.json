@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "XXX",
+        "ZYZ",
+        " W "
+    ],
+    "key": {
+        "X": {
+            "item": "minecraft:copper_ingot"
+        },
+        "Y": {
+            "item": "kuayue:circuit_board"
+        },
+        "Z": {
+            "item": "kuayue:weathering_resistant_steel_pole"
+        },
+        "W": {
+            "item": "kuayue:ss8_carport"
+        }
+    },
+    "result": {
+        "item": "kuayue:ss8_roof"
+    }
+}

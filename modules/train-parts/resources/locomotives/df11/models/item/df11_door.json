@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "kuayue:block/df11/door/df11_door_item"
+    }
+}

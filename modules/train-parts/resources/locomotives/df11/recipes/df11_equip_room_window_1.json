@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "count": 1,
+    "ingredient": {
+        "item": "kuayue:df11_window_equip_small"
+    },
+    "result": "kuayue:df11_equip_room_window_1"
+}

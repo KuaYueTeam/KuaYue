@@ -1,0 +1,220 @@
+{
+    "variants": {
+        "left_state=sit_down,right_state=sit_down,seat_offset=false,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=sit_down,seat_offset=false,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=sit_down,seat_offset=false,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=stand,seat_offset=false,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=stand,seat_offset=false,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=stand,seat_offset=false,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=watching_door,seat_offset=false,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=watching_door,seat_offset=false,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=watching_door,seat_offset=false,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=sit_down,seat_offset=true,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=sit_down,seat_offset=true,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=sit_down,seat_offset=true,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=stand,seat_offset=true,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=stand,seat_offset=true,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=stand,seat_offset=true,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=watching_door,seat_offset=true,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=watching_door,seat_offset=true,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=watching_door,seat_offset=true,facing=south": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=sit_down,seat_offset=false,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=sit_down,seat_offset=false,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=sit_down,seat_offset=false,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=stand,seat_offset=false,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=stand,seat_offset=false,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=stand,seat_offset=false,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=watching_door,seat_offset=false,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=watching_door,seat_offset=false,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=watching_door,seat_offset=false,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=sit_down,seat_offset=true,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=sit_down,seat_offset=true,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=sit_down,seat_offset=true,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=stand,seat_offset=true,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=stand,seat_offset=true,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=stand,seat_offset=true,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=watching_door,seat_offset=true,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=watching_door,seat_offset=true,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=watching_door,seat_offset=true,facing=north": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=sit_down,seat_offset=false,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=sit_down,seat_offset=false,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=sit_down,seat_offset=false,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=stand,seat_offset=false,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=stand,seat_offset=false,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=stand,seat_offset=false,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=watching_door,seat_offset=false,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=watching_door,seat_offset=false,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=watching_door,seat_offset=false,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=sit_down,seat_offset=true,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=sit_down,seat_offset=true,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=sit_down,seat_offset=true,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=stand,seat_offset=true,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=stand,seat_offset=true,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=stand,seat_offset=true,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=watching_door,seat_offset=true,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=watching_door,seat_offset=true,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=watching_door,seat_offset=true,facing=west": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=sit_down,seat_offset=false,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=sit_down,seat_offset=false,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=sit_down,seat_offset=false,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=stand,seat_offset=false,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=stand,seat_offset=false,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=stand,seat_offset=false,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=watching_door,seat_offset=false,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=watching_door,seat_offset=false,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=watching_door,seat_offset=false,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=sit_down,seat_offset=true,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=sit_down,seat_offset=true,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=sit_down,seat_offset=true,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=stand,seat_offset=true,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=stand,seat_offset=true,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=stand,seat_offset=true,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=sit_down,right_state=watching_door,seat_offset=true,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=stand,right_state=watching_door,seat_offset=true,facing=east": {
+            "model": "minecraft:air"
+        },
+        "left_state=watching_door,right_state=watching_door,seat_offset=true,facing=east": {
+            "model": "minecraft:air"
+        }
+    }
+}

@@ -1,0 +1,215 @@
+{
+    "format_version": "1.21.6",
+    "credit": "Made with Blockbench",
+    "texture_size": [
+        64,
+        64
+    ],
+    "textures": {
+        "48": "kuayue:block/carriage/carriage_22/22_door",
+        "particle": "kuayue:block/carriage/carriage_22/22_door"
+    },
+    "elements": [
+        {
+            "name": "门",
+            "from": [
+                0,
+                0,
+                -1
+            ],
+            "to": [
+                2,
+                32,
+                1
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    1,
+                    16,
+                    0
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        8,
+                        0,
+                        8.5,
+                        8
+                    ],
+                    "texture": "#48"
+                },
+                "east": {
+                    "uv": [
+                        1,
+                        8,
+                        0.5,
+                        16
+                    ],
+                    "texture": "#48"
+                },
+                "south": {
+                    "uv": [
+                        1,
+                        8,
+                        1.5,
+                        16
+                    ],
+                    "texture": "#48"
+                },
+                "west": {
+                    "uv": [
+                        0.5,
+                        8,
+                        0,
+                        16
+                    ],
+                    "texture": "#48"
+                },
+                "up": {
+                    "uv": [
+                        3,
+                        8,
+                        2.5,
+                        8.5
+                    ],
+                    "rotation": 270,
+                    "texture": "#48"
+                },
+                "down": {
+                    "uv": [
+                        3.5,
+                        8.5,
+                        3,
+                        8
+                    ],
+                    "rotation": 90,
+                    "texture": "#48"
+                }
+            }
+        }
+    ],
+    "display": {
+        "thirdperson_righthand": {
+            "translation": [
+                -2.25,
+                0,
+                1.5
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "thirdperson_lefthand": {
+            "translation": [
+                -2.25,
+                0,
+                1.5
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                -3.75,
+                5,
+                6.25
+            ],
+            "scale": [
+                0.1,
+                0.1,
+                0.1
+            ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                -3.75,
+                5,
+                6.25
+            ],
+            "scale": [
+                0.1,
+                0.1,
+                0.1
+            ]
+        },
+        "ground": {
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "gui": {
+            "rotation": [
+                -157.5,
+                -43,
+                -180
+            ],
+            "translation": [
+                -1.75,
+                -1.75,
+                0
+            ],
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "fixed": {
+            "translation": [
+                0.25,
+                -3.25,
+                4.5
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        }
+    },
+    "groups": [
+        {
+            "name": "group",
+            "origin": [
+                8,
+                8,
+                8
+            ],
+            "color": 0,
+            "children": [
+                {
+                    "name": "group",
+                    "origin": [
+                        8,
+                        8,
+                        8
+                    ],
+                    "color": 0,
+                    "children": [
+                        0
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "count": 1,
+    "ingredient": {
+        "item": "kuayue:overhead_pillar_concrete"
+    },
+    "result": "kuayue:overhead_truss_concrete"
+}

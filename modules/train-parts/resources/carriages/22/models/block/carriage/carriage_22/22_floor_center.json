@@ -1,0 +1,188 @@
+{
+    "format_version": "1.21.6",
+    "credit": "Made with Blockbench",
+    "texture_size": [
+        32,
+        32
+    ],
+    "textures": {
+        "31": "kuayue:block/carriage/carriage_22/22_floor_center",
+        "particle": "kuayue:block/carriage/carriage_22/22_floor_center"
+    },
+    "elements": [
+        {
+            "from": [
+                0,
+                6,
+                0
+            ],
+            "to": [
+                16,
+                16,
+                16
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    15,
+                    14,
+                    295
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        8,
+                        0,
+                        16,
+                        4
+                    ],
+                    "texture": "#31"
+                },
+                "east": {
+                    "uv": [
+                        8,
+                        4,
+                        16,
+                        8
+                    ],
+                    "texture": "#31"
+                },
+                "south": {
+                    "uv": [
+                        8,
+                        8,
+                        16,
+                        12
+                    ],
+                    "texture": "#31"
+                },
+                "west": {
+                    "uv": [
+                        8,
+                        12,
+                        16,
+                        16
+                    ],
+                    "texture": "#31"
+                },
+                "up": {
+                    "uv": [
+                        8,
+                        8,
+                        0,
+                        0
+                    ],
+                    "texture": "#31"
+                },
+                "down": {
+                    "uv": [
+                        8,
+                        8,
+                        0,
+                        16
+                    ],
+                    "texture": "#31"
+                }
+            }
+        }
+    ],
+    "gui_light": "front",
+    "display": {
+        "thirdperson_righthand": {
+            "translation": [
+                -2.25,
+                0,
+                1.5
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "thirdperson_lefthand": {
+            "translation": [
+                0.5,
+                0,
+                1.5
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                -3,
+                2.75,
+                6.25
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [
+                0,
+                -180,
+                0
+            ],
+            "translation": [
+                -3,
+                2.75,
+                6.25
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "ground": {
+            "scale": [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "gui": {
+            "rotation": [
+                -157.5,
+                -43,
+                -180
+            ],
+            "translation": [
+                0.25,
+                -2.25,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "fixed": {
+            "translation": [
+                0.25,
+                0,
+                0.5
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        }
+    }
+}

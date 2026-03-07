@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:iron_door"
+        },
+        {
+            "item": "kuayue:panel_bottom_df11g"
+        }
+    ],
+    "result": {
+        "item": "kuayue:door_cabin_df11g"
+    }
+}

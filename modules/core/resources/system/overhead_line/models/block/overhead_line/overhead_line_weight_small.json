@@ -1,0 +1,8 @@
+{
+    "render_type": "translucent",
+    "loader": "kasuga_lib:bedrock_animated",
+    "geometry": "geometry.unknown",
+    "identifier": "kuayue:block/overhead_line/overhead_line_weight_small",
+    "model": "kuayue:block/overhead_line/overhead_line_weight_small",
+    "texture": "kuayue:block/overhead_line/end_weight"
+}

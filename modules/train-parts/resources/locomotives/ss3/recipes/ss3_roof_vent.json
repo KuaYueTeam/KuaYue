@@ -1,0 +1,26 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "create:andesite_bars"
+        },
+        "B": {
+            "item": "kuayue:ss3_carport"
+        },
+        "C": {
+            "item": "create:propeller"
+        },
+        "E": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        }
+    },
+    "pattern": [
+        "ECE",
+        "ABA"
+    ],
+    "result": {
+        "count": 1,
+        "item": "kuayue:ss3_roof_vent"
+    }
+}

@@ -1,0 +1,91 @@
+{
+    "credit": "Made with Blockbench",
+    "texture_size": [
+        128,
+        128
+    ],
+    "textures": {
+        "1": "kuayue:block/ss3/ss3_door"
+    },
+    "elements": [
+        {
+            "from": [
+                0,
+                0,
+                0.25
+            ],
+            "to": [
+                10,
+                16,
+                2.25
+            ],
+            "rotation": {
+                "angle": 0,
+                "axis": "y",
+                "origin": [
+                    -3,
+                    24,
+                    4.25
+                ]
+            },
+            "faces": {
+                "north": {
+                    "uv": [
+                        2.625,
+                        0,
+                        1.375,
+                        2
+                    ],
+                    "texture": "#1"
+                },
+                "east": {
+                    "uv": [
+                        1.625,
+                        4.125,
+                        1.375,
+                        6.125
+                    ],
+                    "texture": "#1"
+                },
+                "south": {
+                    "uv": [
+                        1.25,
+                        0,
+                        0,
+                        2
+                    ],
+                    "texture": "#1"
+                },
+                "west": {
+                    "uv": [
+                        4.375,
+                        0,
+                        4.125,
+                        2
+                    ],
+                    "texture": "#1"
+                },
+                "up": {
+                    "uv": [
+                        3.25,
+                        5.375,
+                        3.5,
+                        4.125
+                    ],
+                    "rotation": 90,
+                    "texture": "#1"
+                },
+                "down": {
+                    "uv": [
+                        2.875,
+                        5.375,
+                        3.125,
+                        4.125
+                    ],
+                    "rotation": 270,
+                    "texture": "#1"
+                }
+            }
+        }
+    ]
+}

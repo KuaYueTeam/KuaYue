@@ -1,0 +1,6 @@
+# Made in Blockbench 4.12.4
+newmtl m_40b8fe47-3250-61d9-7ed9-b5b0bc64a138
+map_Kd kuayue:block/df11/df11_reservoir_tank
+newmtl m_f7a08159-3690-8aa7-50e5-f79a6260fe0b
+map_Kd kuayue:block/df11/df11_floor
+newmtl none

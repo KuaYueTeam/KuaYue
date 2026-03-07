@@ -1,0 +1,30 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "kuayue:floor_m1"
+        },
+        "B": {
+            "item": "kuayue:weathering_resistant_steel_pole"
+        },
+        "C": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        },
+        "D": {
+            "item": "minecraft:redstone"
+        },
+        "E": {
+            "item": "kuayue:circuit_board"
+        }
+    },
+    "pattern": [
+        " A ",
+        "DED",
+        "CBC"
+    ],
+    "result": {
+        "count": 1,
+        "item": "kuayue:floor_reservoir_box_m1"
+    }
+}

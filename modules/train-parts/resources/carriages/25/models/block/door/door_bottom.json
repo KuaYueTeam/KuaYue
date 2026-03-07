@@ -1,0 +1,74 @@
+{
+    "credit": "Made by WillowKoishi",
+    "ambientocclusion": false,
+    "render_type": "translucent",
+    "textures": {
+        "1": "kuayue:block/original_25b_door_bottom"
+    },
+    "elements": [
+        {
+            "from": [
+                0,
+                0,
+                0
+            ],
+            "to": [
+                16,
+                16,
+                2
+            ],
+            "faces": {
+                "north": {
+                    "uv": [
+                        0,
+                        0,
+                        16,
+                        16
+                    ],
+                    "texture": "#1"
+                },
+                "east": {
+                    "uv": [
+                        0,
+                        0,
+                        3,
+                        16
+                    ],
+                    "texture": "#1",
+                    "cullface": "south"
+                },
+                "south": {
+                    "uv": [
+                        16,
+                        0,
+                        0,
+                        16
+                    ],
+                    "texture": "#1",
+                    "cullface": "west"
+                },
+                "west": {
+                    "uv": [
+                        3,
+                        0,
+                        0,
+                        16
+                    ],
+                    "texture": "#1",
+                    "cullface": "north"
+                },
+                "down": {
+                    "uv": [
+                        0,
+                        13,
+                        16,
+                        16
+                    ],
+                    "rotation": 180,
+                    "texture": "#1",
+                    "cullface": "down"
+                }
+            }
+        }
+    ]
+}

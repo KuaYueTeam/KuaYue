@@ -1,0 +1,81 @@
+{
+    "loader": "forge:obj",
+    "model": "kuayue:models/block/jy290/carport/jy290_carport.obj",
+    "render_type": "cutout_mipped",
+    "flip_v": true,
+    "textures": {
+        "particle": "kuayue:block/jy290/jy290_carport"
+    },
+    "gui_light": "front",
+    "display": {
+        "thirdperson_righthand": {
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "thirdperson_lefthand": {
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "firstperson_righthand": {
+            "translation": [
+                1.5,
+                0,
+                2.5
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "firstperson_lefthand": {
+            "translation": [
+                1.5,
+                0,
+                2.5
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "ground": {
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "gui": {
+            "rotation": [
+                30,
+                -35,
+                0
+            ],
+            "translation": [
+                0,
+                2.5,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "fixed": {
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        }
+    }
+}

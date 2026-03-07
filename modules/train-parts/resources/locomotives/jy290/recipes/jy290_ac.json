@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "kuayue:ac_outdoor_unit"
+        },
+        {
+            "item": "kuayue:jy290_carport"
+        }
+    ],
+    "result": {
+        "item": "kuayue:jy290_ac"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "block.kuayue.carport_25bgzk": "25B/G/Z/K车厢车棚",
+    "block.kuayue.carport_air_condition_25bgzk": "25系列车厢空调",
+    "block.kuayue.carport_air_condition_side_25bgzk": "25系列车厢空调(侧边)",
+    "block.kuayue.carport_center_25bgzkt": "25B/G/Z/K车厢中央车棚",
+    "block.kuayue.carport_water_tank_25bgzkt": "25B/G/Z/K车厢上水箱",
+    "block.kuayue.carriage_brake_cylinder": "客车制动风缸",
+    "block.kuayue.floor_marshalled_25": "刷绿25系列车厢地板",
+    "block.kuayue.panel_bottom_line_marshalled_25": "刷绿25系列厢下厢板b",
+    "block.kuayue.panel_bottom_marshalled_25": "刷绿25系列厢下厢板",
+    "block.kuayue.panel_middle_marshalled_25": "刷绿25系列车厢中厢板",
+    "block.kuayue.panel_slab_universal_25": "25型客车通用中置地板",
+    "block.kuayue.panel_top_marshalled_25": "刷绿25系列厢上厢板",
+    "block.kuayue.panel_top_marshalled_25_2": "刷绿25系列厢上厢板b",
+    "block.kuayue.window_oc_25": "25系列车厢窗户",
+    "block.kuayue.window_oc_sealed_25": "25系列车厢密封窗户",
+    "container.kuayue.inventory.button.marshalled_25_series": "统型",
+    "tooltip.kuayue.color_template_screen.default_element_25.doc": "默认颜色(黄色)",
+    "tooltip.kuayue.color_template_screen.default_element_25.name": "25 系列默认色",
+    "tooltip.kuayue.color_template_screen.default_element_25.owner": "跨越开发组"
+}

@@ -1,0 +1,7 @@
+{
+    "loader": "forge:obj",
+    "render_type": "cutout_mipped",
+    "model": "kuayue:models/block/overhead_line/overhead_triangle_truss_steel_ad.obj",
+    "flip_v": true,
+    "ambientocclusion": true
+}

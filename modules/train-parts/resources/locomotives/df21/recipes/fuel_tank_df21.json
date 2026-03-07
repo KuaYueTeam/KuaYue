@@ -1,0 +1,20 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "X": {
+            "item": "kuayue:general_slab_df21"
+        },
+        "Y": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        }
+    },
+    "pattern": [
+        "YXY",
+        "Y Y",
+        "YYY"
+    ],
+    "result": {
+        "item": "kuayue:fuel_tank_df21"
+    }
+}

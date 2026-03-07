@@ -1,0 +1,25 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "kuayue:slab_bottom_m1"
+        },
+        "B": {
+            "item": "kuayue:floor_m1"
+        },
+        "D": {
+            "item": "create:brass_ladder"
+        }
+    },
+    "pattern": [
+        "D  ",
+        "A A",
+        "A A",
+        "BBB"
+    ],
+    "result": {
+        "count": 1,
+        "item": "kuayue:end_face_m1"
+    }
+}

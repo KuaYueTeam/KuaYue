@@ -1,0 +1,27 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "kuayue:df5_panel_bottom"
+        },
+        "B": {
+            "item": "kuayue:df5_floor"
+        },
+        "C": {
+            "item": "kuayue:df5_cabin_door"
+        },
+        "E": {
+            "item": "kuayue:circuit_board"
+        }
+    },
+    "pattern": [
+        "E  ",
+        "A A",
+        "ACA",
+        "BBB"
+    ],
+    "result": {
+        "item": "kuayue:df5_end_face_1"
+    }
+}

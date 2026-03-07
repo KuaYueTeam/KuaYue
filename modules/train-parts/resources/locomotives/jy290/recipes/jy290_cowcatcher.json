@@ -1,0 +1,27 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "B": {
+            "item": "kuayue:jy290_floor"
+        },
+        "E": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        },
+        "F": {
+            "item": "kuayue:weathering_resistant_steel_pole"
+        },
+        "G": {
+            "item": "kuayue:weathering_resistant_steel_ingot"
+        }
+    },
+    "pattern": [
+        "GGG",
+        "BBB",
+        "EFE"
+    ],
+    "result": {
+        "count": 1,
+        "item": "kuayue:jy290_cowcatcher"
+    }
+}

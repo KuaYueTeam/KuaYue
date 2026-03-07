@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "YZY",
+        "YWY"
+    ],
+    "key": {
+        "Y": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        },
+        "Z": {
+            "item": "create:framed_glass"
+        },
+        "W": {
+            "item": "kuayue:ss3_carport"
+        }
+    },
+    "result": {
+        "item": "kuayue:ss3_carport_skylight"
+    }
+}

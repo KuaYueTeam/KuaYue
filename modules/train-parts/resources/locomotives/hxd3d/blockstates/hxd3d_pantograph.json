@@ -1,0 +1,28 @@
+{
+    "variants": {
+        "open=true,facing=east": {
+            "model": "kuayue:block/hxd3d/hxd3d_carport_center"
+        },
+        "open=true,facing=north": {
+            "model": "kuayue:block/hxd3d/hxd3d_carport_center"
+        },
+        "open=true,facing=south": {
+            "model": "kuayue:block/hxd3d/hxd3d_carport_center"
+        },
+        "open=true,facing=west": {
+            "model": "kuayue:block/hxd3d/hxd3d_carport_center"
+        },
+        "open=false,facing=east": {
+            "model": "kuayue:block/hxd3d/hxd3d_carport_center"
+        },
+        "open=false,facing=north": {
+            "model": "kuayue:block/hxd3d/hxd3d_carport_center"
+        },
+        "open=false,facing=south": {
+            "model": "kuayue:block/hxd3d/hxd3d_carport_center"
+        },
+        "open=false,facing=west": {
+            "model": "kuayue:block/hxd3d/hxd3d_carport_center"
+        }
+    }
+}

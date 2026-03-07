@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "count": 4,
+    "ingredient": {
+        "item": "kuayue:panel_bottom_25t"
+    },
+    "result": "kuayue:skirt_marshalled_25t"
+}

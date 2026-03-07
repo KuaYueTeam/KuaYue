@@ -1,0 +1,68 @@
+{
+    "type": "create:sequenced_assembly",
+    "ingredient": {
+        "item": "kuayue:weathering_resistant_steel_pole"
+    },
+    "loops": 1,
+    "results": [
+        {
+            "item": "kuayue:freight_nx70_floor_center"
+        }
+    ],
+    "sequence": [
+        {
+            "type": "kuayue:blueprint_deploy",
+            "node": "kuayue:carriage_blueprint_group.node_freight_nx70_blueprint",
+            "paste_node_to_result": false,
+            "ingredients": [
+                {
+                    "item": "kuayue:freight_nx70_floor_center"
+                },
+                {
+                    "item": "kuayue:freight_nx70_blueprint"
+                }
+            ],
+            "keepHeldItem": true,
+            "results": [
+                {
+                    "item": "kuayue:freight_nx70_floor_center"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "kuayue:freight_nx70_floor_center"
+                },
+                {
+                    "item": "kuayue:color_masterbatch"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:freight_nx70_floor_center"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "kuayue:freight_nx70_floor_center"
+                },
+                {
+                    "item": "kuayue:train_moulds"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:freight_nx70_floor_center"
+                }
+            ]
+        }
+    ],
+    "transitionalItem": {
+        "item": "kuayue:weathering_resistant_steel_pole"
+    }
+}

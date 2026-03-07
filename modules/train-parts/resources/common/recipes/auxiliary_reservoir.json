@@ -1,0 +1,21 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "kuayue:weathering_resistant_steel_pole"
+        },
+        "B": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        }
+    },
+    "pattern": [
+        " BBB ",
+        "BBAAB",
+        " BBB "
+    ],
+    "result": {
+        "count": 2,
+        "item": "kuayue:auxiliary_reservoir"
+    }
+}

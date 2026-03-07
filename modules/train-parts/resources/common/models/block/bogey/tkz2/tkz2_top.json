@@ -1,0 +1,9 @@
+{
+    "parent": "block/block",
+    "loader": "forge:obj",
+    "flip_v": true,
+    "model": "kuayue:models/block/bogey/tkz2/tkz2_top.obj",
+    "textures": {
+        "particle": "kuayue:block/bogey/tkz2/tkz2_top"
+    }
+}

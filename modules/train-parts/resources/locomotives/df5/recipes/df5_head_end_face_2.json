@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "count": 1,
+    "ingredient": {
+        "item": "kuayue:df5_end_face_1"
+    },
+    "result": "kuayue:df5_head_end_face_2"
+}

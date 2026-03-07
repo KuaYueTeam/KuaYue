@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "facing=east": {
+            "model": "kuayue:block/carriage/carriage_22/22_panel_middle",
+            "y": 90
+        },
+        "facing=north": {
+            "model": "kuayue:block/carriage/carriage_22/22_panel_middle",
+            "y": 0
+        },
+        "facing=south": {
+            "model": "kuayue:block/carriage/carriage_22/22_panel_middle",
+            "y": 180
+        },
+        "facing=west": {
+            "model": "kuayue:block/carriage/carriage_22/22_panel_middle",
+            "y": 270
+        }
+    }
+}

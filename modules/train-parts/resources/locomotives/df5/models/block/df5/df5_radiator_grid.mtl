@@ -1,0 +1,8 @@
+# Made in Blockbench 4.12.5
+newmtl m_2cc362ea-9126-1397-2ea4-b41152a5d101
+map_Kd kuayue:block/df5/df5_radiator_grid
+newmtl m_f0e29662-3a36-7d3c-fb74-dd1718b85b41
+map_Kd kuayue:block/df5/df5_panel_bottom
+newmtl m_c2cb628d-6d07-64a1-cf09-e60a06847a72
+map_Kd kuayue:block/df5/df5_panel_top
+newmtl none

@@ -1,0 +1,79 @@
+{
+    "type": "create:sequenced_assembly",
+    "ingredient": {
+        "item": "create:brass_sheet"
+    },
+    "loops": 1,
+    "results": [
+        {
+            "count": 1,
+            "item": "kuayue:circuit_board"
+        }
+    ],
+    "sequence": [
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "kuayue:circuit_board_constructing"
+                },
+                {
+                    "item": "kuayue:plastic_board"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:circuit_board_constructing"
+                }
+            ]
+        },
+        {
+            "type": "create:pressing",
+            "ingredients": [
+                {
+                    "item": "kuayue:circuit_board_constructing"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:circuit_board_constructing"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "kuayue:circuit_board_constructing"
+                },
+                {
+                    "item": "create:electron_tube"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:circuit_board_constructing"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "kuayue:circuit_board_constructing"
+                },
+                {
+                    "item": "create:electron_tube"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:circuit_board"
+                }
+            ]
+        }
+    ],
+    "transitionalItem": {
+        "item": "kuayue:circuit_board_constructing"
+    }
+}

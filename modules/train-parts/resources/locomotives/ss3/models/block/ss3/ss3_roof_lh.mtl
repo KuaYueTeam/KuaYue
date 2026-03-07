@@ -1,0 +1,8 @@
+# Made in Blockbench 4.12.4
+newmtl m_66fe5a83-7395-ebab-63eb-d35b1e545be6
+map_Kd kuayue:block/ss3/ss3_carport_center
+newmtl m_6f4b510d-41c3-cc8d-64e4-3c80cd889f15
+map_Kd kuayue:block/ss3/ss3_insulator
+newmtl m_bced9dac-1dc8-1d3e-a07e-ae493dbe6c9d
+map_Kd kuayue:block/ss3/ss3_mcb
+newmtl none

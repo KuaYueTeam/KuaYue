@@ -1,0 +1,63 @@
+{
+    "type": "create:sequenced_assembly",
+    "ingredient": {
+        "item": "kuayue:standard_track"
+    },
+    "loops": 1,
+    "results": [
+        {
+            "count": 1,
+            "item": "kuayue:guard_track"
+        }
+    ],
+    "sequence": [
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "kuayue:incomplete_guard_track"
+                },
+                {
+                    "item": "kuayue:weathering_resistant_steel_nugget"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:incomplete_guard_track"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "kuayue:incomplete_guard_track"
+                },
+                {
+                    "item": "kuayue:weathering_resistant_steel_nugget"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:incomplete_guard_track"
+                }
+            ]
+        },
+        {
+            "type": "create:pressing",
+            "ingredients": [
+                {
+                    "item": "kuayue:incomplete_guard_track"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:incomplete_guard_track"
+                }
+            ]
+        }
+    ],
+    "transitionalItem": {
+        "item": "kuayue:incomplete_guard_track"
+    }
+}

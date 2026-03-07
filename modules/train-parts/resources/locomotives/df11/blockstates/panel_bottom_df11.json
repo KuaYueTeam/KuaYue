@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "facing=east": {
+            "model": "kuayue:block/df11/panel_bottom_df11",
+            "y": 90
+        },
+        "facing=north": {
+            "model": "kuayue:block/df11/panel_bottom_df11",
+            "y": 0
+        },
+        "facing=south": {
+            "model": "kuayue:block/df11/panel_bottom_df11",
+            "y": 180
+        },
+        "facing=west": {
+            "model": "kuayue:block/df11/panel_bottom_df11",
+            "y": 270
+        }
+    }
+}

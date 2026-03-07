@@ -1,0 +1,68 @@
+{
+    "type": "create:sequenced_assembly",
+    "ingredient": {
+        "item": "kuayue:train_moulds"
+    },
+    "loops": 1,
+    "results": [
+        {
+            "item": "kuayue:jy290_panel"
+        }
+    ],
+    "sequence": [
+        {
+            "type": "kuayue:blueprint_deploy",
+            "node": "kuayue:carriage_blueprint_group.node_head_jy290_blueprint",
+            "paste_node_to_result": false,
+            "ingredients": [
+                {
+                    "item": "kuayue:jy290_panel"
+                },
+                {
+                    "item": "kuayue:head_jy290_blueprint"
+                }
+            ],
+            "keepHeldItem": true,
+            "results": [
+                {
+                    "item": "kuayue:jy290_panel"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "kuayue:jy290_panel"
+                },
+                {
+                    "item": "kuayue:color_masterbatch"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:jy290_panel"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "kuayue:jy290_panel"
+                },
+                {
+                    "item": "kuayue:train_moulds"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:jy290_panel"
+                }
+            ]
+        }
+    ],
+    "transitionalItem": {
+        "item": "kuayue:train_moulds"
+    }
+}

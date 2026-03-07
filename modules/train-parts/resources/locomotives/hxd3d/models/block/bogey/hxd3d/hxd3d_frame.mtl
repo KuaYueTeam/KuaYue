@@ -1,0 +1,6 @@
+# Made in Blockbench 4.11.2
+newmtl m_d1f00e8f-9209-5bd3-3176-5fac81c33a3d
+map_Kd kuayue:block/bogey/hxd3d/hxd3d_running_gear
+newmtl m_e6abb678-178d-f0df-fae5-299d22d98f86
+map_Kd kuayue:block/bogey/hxd3d/hxd3d_frame
+newmtl none

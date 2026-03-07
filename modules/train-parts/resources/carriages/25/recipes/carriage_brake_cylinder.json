@@ -1,0 +1,44 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "kuayue:weathering_resistant_steel_pole"
+        },
+        "B": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        },
+        "C": [
+            {
+                "item": "kuayue:floor_25b"
+            },
+            {
+                "item": "kuayue:floor_25g"
+            },
+            {
+                "item": "kuayue:floor_25z"
+            },
+            {
+                "item": "kuayue:floor_25k"
+            },
+            {
+                "item": "kuayue:floor_25t"
+            }
+        ],
+        "D": {
+            "item": "kuayue:circuit_motherboard"
+        },
+        "E": {
+            "item": "minecraft:redstone"
+        }
+    },
+    "pattern": [
+        " DCE ",
+        "BBAAB",
+        " BBB "
+    ],
+    "result": {
+        "count": 2,
+        "item": "kuayue:carriage_brake_cylinder"
+    }
+}

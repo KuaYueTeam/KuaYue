@@ -1,0 +1,68 @@
+{
+    "type": "create:sequenced_assembly",
+    "ingredient": {
+        "item": "kuayue:weathering_resistant_steel_pole"
+    },
+    "loops": 1,
+    "results": [
+        {
+            "item": "kuayue:22_floor"
+        }
+    ],
+    "sequence": [
+        {
+            "type": "kuayue:blueprint_deploy",
+            "node": "kuayue:carriage_blueprint_group.node_carriage_22_blueprint",
+            "paste_node_to_result": false,
+            "ingredients": [
+                {
+                    "item": "kuayue:weathering_resistant_steel_pole"
+                },
+                {
+                    "item": "kuayue:carriage_22_blueprint"
+                }
+            ],
+            "keepHeldItem": true,
+            "results": [
+                {
+                    "item": "kuayue:weathering_resistant_steel_pole"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "kuayue:weathering_resistant_steel_pole"
+                },
+                {
+                    "item": "kuayue:color_masterbatch"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:weathering_resistant_steel_pole"
+                }
+            ]
+        },
+        {
+            "type": "create:deploying",
+            "ingredients": [
+                {
+                    "item": "kuayue:weathering_resistant_steel_pole"
+                },
+                {
+                    "item": "kuayue:train_moulds"
+                }
+            ],
+            "results": [
+                {
+                    "item": "kuayue:22_floor"
+                }
+            ]
+        }
+    ],
+    "transitionalItem": {
+        "item": "kuayue:weathering_resistant_steel_pole"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "count": 1,
+    "ingredient": {
+        "item": "kuayue:slab_bottom_m1"
+    },
+    "result": "kuayue:window_large_between_jy30"
+}

@@ -1,0 +1,17 @@
+{
+    "container.kuayue.inventory.button.all": "所有",
+    "container.kuayue.inventory.button.freight": "货车",
+    "container.kuayue.inventory.loco.button.all": "所有",
+    "itemGroup.kuayue": "跨越1",
+    "itemGroup.kuayue_carriage": "跨越·列车",
+    "itemGroup.kuayue_device": "跨越·信号设备",
+    "itemGroup.kuayue_diet": "跨越·餐饮",
+    "itemGroup.kuayue_loco": "跨越·机车",
+    "itemGroup.kuayue_main": "跨越",
+    "itemGroup.kuayue_materials": "跨越·材料",
+    "kuayue.advancement.track": "SHINKANSEN!",
+    "kuayue.advancement.track.desc": "获得标准轨",
+    "tech_tree.kuayue.exp_unlock_false": "需要更高等级",
+    "tech_tree.kuayue.exp_unlock_true": "满足等级条件",
+    "tech_tree.kuayue.group.ready": "前置科技"
+}

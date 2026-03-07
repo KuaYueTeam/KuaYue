@@ -1,0 +1,95 @@
+{
+    "loader": "forge:obj",
+    "model": "kuayue:models/block/hxd3d/hxd3d_underbody_equip.obj",
+    "flip_v": true,
+    "textures": {
+        "particle": "kuayue:block/hxd3d/hxd3d_underbody_equip"
+    },
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [
+                90,
+                0,
+                0
+            ],
+            "translation": [
+                0,
+                1,
+                0.5
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [
+                90,
+                0,
+                0
+            ],
+            "translation": [
+                0,
+                1,
+                0.5
+            ],
+            "scale": [
+                0.25,
+                0.25,
+                0.25
+            ]
+        },
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                180,
+                0
+            ],
+            "translation": [
+                5.5,
+                1,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [
+                0,
+                180,
+                0
+            ],
+            "translation": [
+                5.5,
+                1,
+                0
+            ],
+            "scale": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "gui": {
+            "rotation": [
+                30,
+                -150,
+                0
+            ],
+            "translation": [
+                1,
+                1,
+                0
+            ],
+            "scale": [
+                0.15,
+                0.15,
+                0.15
+            ]
+        }
+    }
+}

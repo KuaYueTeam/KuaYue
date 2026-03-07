@@ -1,0 +1,20 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "X": {
+            "item": "kuayue:floor_df11g"
+        },
+        "Y": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        }
+    },
+    "pattern": [
+        "YXY",
+        "Y Y",
+        "YYY"
+    ],
+    "result": {
+        "item": "kuayue:df11g_tank"
+    }
+}

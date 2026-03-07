@@ -1,0 +1,27 @@
+{
+    "type": "create:mechanical_crafting",
+    "acceptMirrored": false,
+    "key": {
+        "A": {
+            "item": "create:andesite_bars"
+        },
+        "B": {
+            "item": "kuayue:df5_carport_1"
+        },
+        "C": {
+            "item": "create:propeller"
+        },
+        "E": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        }
+    },
+    "pattern": [
+        "AAA",
+        "ECE",
+        "EBE"
+    ],
+    "result": {
+        "count": 1,
+        "item": "kuayue:df5_cooling_fan"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "type": "create:deploying",
+    "ingredients": [
+        {
+            "item": "kuayue:jy290_floor"
+        },
+        {
+            "item": "create:brass_ladder"
+        }
+    ],
+    "keepHeldItem": false,
+    "results": [
+        {
+            "item": "kuayue:jy290_floor_ladder"
+        }
+    ]
+}

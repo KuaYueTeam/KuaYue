@@ -1,0 +1,19 @@
+{
+    "type": "kuayue:blueprint_deploy",
+    "node": "kuayue:[.*].[.*]",
+    "paste_node_to_result": true,
+    "ingredients": [
+        {
+            "item": "create:empty_schematic"
+        },
+        {
+            "item": "kuayue:carriage_marshalled_blueprint"
+        }
+    ],
+    "keepHeldItem": true,
+    "results": [
+        {
+            "item": "kuayue:carriage_marshalled_blueprint"
+        }
+    ]
+}

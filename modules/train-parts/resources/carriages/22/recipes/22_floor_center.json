@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "count": 1,
+    "ingredient": {
+        "item": "kuayue:22_floor"
+    },
+    "result": "kuayue:22_floor_center"
+}

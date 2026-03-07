@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "count": 1,
+    "ingredient": {
+        "item": "kuayue:jy290_panel"
+    },
+    "result": "kuayue:jy290_panel_logo"
+}

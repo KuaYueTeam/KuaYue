@@ -1,0 +1,20 @@
+{
+    "container.kuayue.inventory.button.all": "All",
+    "container.kuayue.inventory.button.freight": "Freight",
+    "container.kuayue.inventory.loco.button.all": "All",
+    "itemGroup.kuayue": "KuaYue 1",
+    "itemGroup.kuayue_carriage": "Kuayue·Carriages",
+    "itemGroup.kuayue_device": "Kuayue·Signal Devices",
+    "itemGroup.kuayue_diet": "Kuayue·Catering",
+    "itemGroup.kuayue_grid": "Kuayue·Power Grid",
+    "itemGroup.kuayue_loco": "Kuayue·Locomotors",
+    "itemGroup.kuayue_main": "Kuayue",
+    "itemGroup.kuayue_materials": "Kuayue·Materials",
+    "kuayue.advancement.root": "Kuayue",
+    "kuayue.advancement.root.desc": "Welcome to Kuayue!",
+    "kuayue.advancement.track": "SHINKANSEN!",
+    "kuayue.advancement.track.desc": "Obtain the Standard Track",
+    "tech_tree.kuayue.exp_unlock_false": "Required higher level.",
+    "tech_tree.kuayue.exp_unlock_true": "Fulfill level requirements.",
+    "tech_tree.kuayue.group.ready": "Ready Group"
+}

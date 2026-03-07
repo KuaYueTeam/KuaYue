@@ -1,0 +1,19 @@
+{
+    "type": "kuayue:blueprint_deploy",
+    "node": "kuayue:[.*].[.*]",
+    "paste_node_to_result": true,
+    "ingredients": [
+        {
+            "item": "create:empty_schematic"
+        },
+        {
+            "item": "kuayue:head_df11g_blueprint"
+        }
+    ],
+    "keepHeldItem": true,
+    "results": [
+        {
+            "item": "kuayue:head_df11g_blueprint"
+        }
+    ]
+}
