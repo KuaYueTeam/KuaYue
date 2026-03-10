@@ -1,5 +1,7 @@
-package cn.kycraft.kuayue.parts.core.panel;
+package cn.kycraft.kuayue.parts.core.panel.registration;
 
+import cn.kycraft.kuayue.parts.core.panel.PanelBlockItem;
+import cn.kycraft.kuayue.parts.core.panel.TrainPanelBlock;
 import lib.kasuga.registration.Reg;
 import lib.kasuga.registration.minecraft.block.BlockReg;
 import lib.kasuga.registration.minecraft.block.BlockRegConfigurations;

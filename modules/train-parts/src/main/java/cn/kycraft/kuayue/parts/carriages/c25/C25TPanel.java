@@ -1,18 +1,16 @@
 package cn.kycraft.kuayue.parts.carriages.c25;
 
 import cn.kycraft.kuayue.parts.KuaYueTrainPanelModule;
-import cn.kycraft.kuayue.parts.core.panel.PanelReg;
-import cn.kycraft.kuayue.parts.core.panel.TrainHingePanelBlock;
-import cn.kycraft.kuayue.parts.core.panel.TrainPanelBlock;
+import cn.kycraft.kuayue.parts.core.panel.*;
+import cn.kycraft.kuayue.parts.core.panel.registration.PanelReg;
+import cn.kycraft.kuayue.parts.core.panel.registration.SkirtReg;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainOpenableWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainSmallWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainUnOpenableSmallWindowBlock;
 import io.micronaut.context.annotation.Context;
 import lib.kasuga.registration.RegistryGroup;
 import lib.kasuga.registration.minecraft.block.BlockRegConfigurations;
-import lib.kasuga.registration.minecraft.creative_tab.CreativeTabReg;
 import lib.kasuga.registration.minecraft.item.ItemRegConfigurations;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.DyeColor;
 
 import static cn.kycraft.kuayue.parts.KuaYueTrainPanelModule.TRAIN_PANEL_TAB;
@@ -124,5 +122,13 @@ public class C25TPanel {
 
     public static final PanelReg<TrainUnOpenableSmallWindowBlock> WINDOW_OC_WIDE_SEALED_BLUE_25T =
             new PanelReg<>("window_oc_wide_sealed_blue_25t", TrainUnOpenableSmallWindowBlock::new)
+                    .setParent(GROUP_C25T);
+
+    public static final SkirtReg<SkirtBlock> SKIRT_25T =
+            new SkirtReg<>("skirt_25t", SkirtBlock::new)
+                    .setParent(GROUP_C25T);
+
+    public static final SkirtReg<SkirtBlock> SKIRT_MARSHALLED_25T =
+            new SkirtReg<>("skirt_marshalled_25t", SkirtBlock::new)
                     .setParent(GROUP_C25T);
 }

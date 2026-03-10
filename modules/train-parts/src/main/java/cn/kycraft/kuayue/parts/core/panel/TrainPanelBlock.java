@@ -1,5 +1,7 @@
 package cn.kycraft.kuayue.parts.core.panel;
 
+import cn.kycraft.kuayue.parts.core.panel.company.CompanyRegistry;
+import cn.kycraft.kuayue.parts.core.panel.company.CompanyTrainPanel;
 import cn.kycraft.kuayue.utils.DirectionUtil;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import lib.kasuga.content.block.UnModeledBlockProperty;
@@ -161,8 +163,7 @@ public class TrainPanelBlock extends Block implements IWrenchable /*, EntityBloc
     @Override
     public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
         super.onPlace(pState, pLevel, pPos, pOldState, pIsMoving);
-        // @TODO: 迁移 Company Block 逻辑
-        // generateCompanyBlock(pLevel, pState, pPos, pIsMoving);
+        generateCompanyBlock(pLevel, pState, pPos, pIsMoving);
     }
 
     public boolean hasHinge() {
@@ -172,27 +173,26 @@ public class TrainPanelBlock extends Block implements IWrenchable /*, EntityBloc
         return !(width % 2 == 1 && - beginPos.x == (width / 2));
     }
 
-    // @TODO: 迁移 Company Block 逻辑
-//    public void generateCompanyBlock(Level level, BlockState state, BlockPos pos, boolean isMoving) {
-//        Direction direction = state.getValue(FACING);
-//        boolean open = state.hasProperty(BlockStateProperties.OPEN) ?
-//                state.getValue(BlockStateProperties.OPEN) : false;
-//        boolean leftHinge = !state.hasProperty(BlockStateProperties.DOOR_HINGE) || state.getValue(BlockStateProperties.DOOR_HINGE) == DoorHingeSide.LEFT;
-//        BlockUseFunction function = (l, p, parentState, myPos, myState, player, hand, hit) -> {
-//            if (p.equals(myPos)) return InteractionResult.SUCCESS;
-//            BlockState state1 = generateCompanyState(direction, leftHinge ? DoorHingeSide.LEFT : DoorHingeSide.RIGHT, open);
-//            level.setBlock(myPos, state1, 10);
-//            CompanyTrainPanel.setParentBlock(myPos, level, state1, pos);
-//            return InteractionResult.SUCCESS;
-//        };
-//        walkAllValidPos(level, pos, state, null, null, null, function);
-//    }
-//
-//    public BlockState generateCompanyState(Direction direction, DoorHingeSide hingeSide, boolean open) {
-//        return AllBlocks.COMPANY_TRAIN_PANEL.instance().defaultBlockState()
-//                .setValue(CompanyTrainPanel.FACING, direction)
-//                .setValue(BlockStateProperties.DOOR_HINGE, hingeSide);
-//    }
+    public void generateCompanyBlock(Level level, BlockState state, BlockPos pos, boolean isMoving) {
+        Direction direction = state.getValue(FACING);
+        boolean open = state.hasProperty(BlockStateProperties.OPEN) ?
+                state.getValue(BlockStateProperties.OPEN) : false;
+        boolean leftHinge = !state.hasProperty(BlockStateProperties.DOOR_HINGE) || state.getValue(BlockStateProperties.DOOR_HINGE) == DoorHingeSide.LEFT;
+        BlockUseFunction function = (l, p, parentState, myPos, myState, player, hand, hit) -> {
+            if (p.equals(myPos)) return InteractionResult.SUCCESS;
+            BlockState state1 = generateCompanyState(direction, leftHinge ? DoorHingeSide.LEFT : DoorHingeSide.RIGHT, open);
+            level.setBlock(myPos, state1, 10);
+            CompanyTrainPanel.setParentBlock(myPos, level, state1, pos);
+            return InteractionResult.SUCCESS;
+        };
+        walkAllValidPos(level, pos, state, null, null, null, function);
+    }
+
+    public BlockState generateCompanyState(Direction direction, DoorHingeSide hingeSide, boolean open) {
+        return CompanyRegistry.COMPANY_TRAIN_PANEL.getEntry().defaultBlockState()
+                .setValue(CompanyTrainPanel.FACING, direction)
+                .setValue(BlockStateProperties.DOOR_HINGE, hingeSide);
+    }
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
