@@ -2,7 +2,7 @@ package cn.kycraft.kuayue.parts.core.panel.company;
 
 import cn.kycraft.kuayue.parts.core.panel.TrainPanelBlock;
 import cn.kycraft.kuayue.parts.core.panel.TrainPanelProperties;
-import cn.kycraft.kuayue.parts.core.panel.base.TrainPanelShapes;
+import cn.kycraft.kuayue.parts.core.panel.TrainPanelShapes;
 import cn.kycraft.kuayue.utils.DirectionUtil;
 import com.mojang.serialization.MapCodec;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;

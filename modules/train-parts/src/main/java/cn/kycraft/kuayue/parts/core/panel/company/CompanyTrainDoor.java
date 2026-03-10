@@ -1,6 +1,6 @@
 package cn.kycraft.kuayue.parts.core.panel.company;
 
-import cn.kycraft.kuayue.parts.core.panel.base.TrainPanelShapes;
+import cn.kycraft.kuayue.parts.core.panel.TrainPanelShapes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;

@@ -3,17 +3,19 @@ package cn.kycraft.kuayue.parts.core.panel;
 import cn.kycraft.kuayue.utils.DirectionUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class SkirtBlockItem extends PanelBlockItem {
+public class SkirtBlockItem extends BlockItem {
 
 
-    public SkirtBlockItem(TrainPanelBlock pBlock, Properties pProperties) {
-        super(pBlock, pProperties);
+    public SkirtBlockItem(Block block, Properties properties) {
+        super(block, properties);
     }
 
     @Override

@@ -22,6 +22,14 @@ public class CompanyRegistry {
             BlockReg.of("company_panel_door", CompanyTrainDoor::new)
                     .setParent(COMPANY_REGISTRY);
 
+    public static final BlockReg<CompanyTrainSlab> COMPANY_FLOOR =
+            BlockReg.of("company_panel_floor", p -> new CompanyTrainSlab(p, false))
+                    .setParent(COMPANY_REGISTRY);
+
+    public static final BlockReg<CompanyTrainSlab> COMPANY_CARPORT =
+            BlockReg.of("company_panel_carport", p -> new CompanyTrainSlab(p, true))
+                    .setParent(COMPANY_REGISTRY);
+
     public static final BlockEntityReg<CompanyTrainBlockEntity> COMPANY_TRAIN_BLOCK_ENTITY =
             BlockEntityReg.of("company_panel", CompanyTrainBlockEntity::new)
                     .setParent(COMPANY_REGISTRY);

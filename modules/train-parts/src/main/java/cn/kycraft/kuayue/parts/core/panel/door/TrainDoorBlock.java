@@ -1,7 +1,7 @@
 package cn.kycraft.kuayue.parts.core.panel.door;
 
 import cn.kycraft.kuayue.parts.core.panel.TrainPanelBlock;
-import cn.kycraft.kuayue.parts.core.panel.base.TrainPanelShapes;
+import cn.kycraft.kuayue.parts.core.panel.TrainPanelShapes;
 import cn.kycraft.kuayue.parts.core.panel.company.CompanyTrainDoor;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainOpenableWindowBlock;
 import net.minecraft.core.BlockPos;
