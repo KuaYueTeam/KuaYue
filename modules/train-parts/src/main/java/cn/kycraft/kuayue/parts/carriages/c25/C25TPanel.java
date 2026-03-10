@@ -4,6 +4,7 @@ import cn.kycraft.kuayue.parts.KuaYueTrainPanelModule;
 import cn.kycraft.kuayue.parts.core.panel.*;
 import cn.kycraft.kuayue.parts.core.panel.registration.PanelReg;
 import cn.kycraft.kuayue.parts.core.panel.registration.SkirtReg;
+import cn.kycraft.kuayue.parts.core.panel.registration.SlabReg;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainOpenableWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainSmallWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainUnOpenableSmallWindowBlock;
@@ -130,5 +131,51 @@ public class C25TPanel {
 
     public static final SkirtReg<SkirtBlock> SKIRT_MARSHALLED_25T =
             new SkirtReg<>("skirt_marshalled_25t", SkirtBlock::new)
+                    .setParent(GROUP_C25T);
+
+    public static final SlabReg<LadderBlock> LADDER_SLIDING_25T =
+            new SlabReg<>("ladder_sliding_25t", LadderBlock::new)
+                    .setParent(GROUP_C25T);
+
+    public static final SlabReg<SlabBlock> FLOOR_25T =
+            new SlabReg<>("floor_25t", p -> new SlabBlock(p, false))
+                    .configure(
+                            BlockRegConfigurations.adopt(block -> block.mapColor(DyeColor.GREEN))
+                    )
+                    .setParent(GROUP_C25T);
+
+    public static final SlabReg<SlabBlock> TOILET_DD_25T =
+            new SlabReg<>("toilet_dd_25t", p -> new SlabBlock(p, false))
+                    .configure(
+                            BlockRegConfigurations.adopt(block -> block.mapColor(DyeColor.GREEN))
+                    )
+                    .setParent(GROUP_C25T);
+
+    public static final SlabReg<SlabBlock> CARPORT_25T =
+            new SlabReg<>("carport_25t", p -> new SlabBlock(p, true))
+                    .configure(
+                            BlockRegConfigurations.adopt(block -> block.mapColor(DyeColor.GREEN))
+                    )
+                    .setParent(GROUP_C25T);
+
+    public static final SlabReg<SlabBlock> CARPORT_CENTER_BSP25T =
+            new SlabReg<>("carport_center_bsp25t", p -> new SlabBlock(p, true))
+                    .configure(
+                            BlockRegConfigurations.adopt(block -> block.mapColor(DyeColor.GREEN))
+                    )
+                    .setParent(GROUP_C25T);
+
+    public static final SlabReg<SlabBlock> CARPORT_TOILET_25T =
+            new SlabReg<>("carport_toilet_25t", p -> new SlabBlock(p, true))
+                    .configure(
+                            BlockRegConfigurations.adopt(block -> block.mapColor(DyeColor.GREEN))
+                    )
+                    .setParent(GROUP_C25T);
+
+    public static final SlabReg<SlabBlock> AIR_CONDITION_BSP25T =
+            new SlabReg<>("air_condition_bsp25t", p -> new SlabBlock(p, false))
+                    .configure(
+                            BlockRegConfigurations.adopt(block -> block.mapColor(DyeColor.GREEN))
+                    )
                     .setParent(GROUP_C25T);
 }
