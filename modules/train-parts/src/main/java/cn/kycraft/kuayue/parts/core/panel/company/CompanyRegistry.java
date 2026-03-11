@@ -4,6 +4,7 @@ import cn.kycraft.kuayue.parts.KuaYueTrainPanelModule;
 import lib.kasuga.registration.RegistryGroup;
 import lib.kasuga.registration.minecraft.block.BlockReg;
 import lib.kasuga.registration.minecraft.block.BlockRegConfigurations;
+import lib.kasuga.registration.minecraft.block.BlockSupplier;
 import lib.kasuga.registration.minecraft.block_entity.BlockEntityReg;
 
 public class CompanyRegistry {
@@ -22,6 +23,10 @@ public class CompanyRegistry {
             BlockReg.of("company_panel_door", CompanyTrainDoor::new)
                     .setParent(COMPANY_REGISTRY);
 
+    public static final BlockReg<CompanyTrainDoor.Sliding> COMPANY_SLIDING_DOOR =
+            BlockReg.of("company_panel_sliding_door", CompanyTrainDoor.Sliding::new)
+                    .setParent(COMPANY_REGISTRY);
+
     public static final BlockReg<CompanyTrainSlab> COMPANY_FLOOR =
             BlockReg.of("company_panel_floor", p -> new CompanyTrainSlab(p, false))
                     .setParent(COMPANY_REGISTRY);
@@ -32,5 +37,12 @@ public class CompanyRegistry {
 
     public static final BlockEntityReg<CompanyTrainBlockEntity> COMPANY_TRAIN_BLOCK_ENTITY =
             BlockEntityReg.of("company_panel", CompanyTrainBlockEntity::new)
+                    .validBlocks(
+                            COMPANY_TRAIN_PANEL::getEntry,
+                            COMPANY_TRAIN_DOOR::getEntry,
+                            COMPANY_SLIDING_DOOR::getEntry,
+                            COMPANY_FLOOR::getEntry,
+                            COMPANY_CARPORT::getEntry
+                    )
                     .setParent(COMPANY_REGISTRY);
 }
