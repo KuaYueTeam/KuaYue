@@ -139,43 +139,31 @@ public class C25TPanel {
 
     public static final SlabReg<SlabBlock> FLOOR_25T =
             new SlabReg<>("floor_25t", p -> new SlabBlock(p, false))
-                    .configure(
-                            BlockRegConfigurations.adopt(block -> block.mapColor(DyeColor.GREEN))
-                    )
+                    .mapColor(DyeColor.GREEN)
                     .setParent(GROUP_C25T);
 
     public static final SlabReg<SlabBlock> TOILET_DD_25T =
             new SlabReg<>("toilet_dd_25t", p -> new SlabBlock(p, false))
-                    .configure(
-                            BlockRegConfigurations.adopt(block -> block.mapColor(DyeColor.GREEN))
-                    )
+                    .mapColor(DyeColor.GREEN)
                     .setParent(GROUP_C25T);
 
     public static final SlabReg<SlabBlock> CARPORT_25T =
             new SlabReg<>("carport_25t", p -> new SlabBlock(p, true))
-                    .configure(
-                            BlockRegConfigurations.adopt(block -> block.mapColor(DyeColor.GREEN))
-                    )
+                    .mapColor(DyeColor.GREEN)
                     .setParent(GROUP_C25T);
 
     public static final SlabReg<SlabBlock> CARPORT_CENTER_BSP25T =
             new SlabReg<>("carport_center_bsp25t", p -> new SlabBlock(p, true))
-                    .configure(
-                            BlockRegConfigurations.adopt(block -> block.mapColor(DyeColor.GREEN))
-                    )
+                    .mapColor(DyeColor.GREEN)
                     .setParent(GROUP_C25T);
 
     public static final SlabReg<SlabBlock> CARPORT_TOILET_25T =
             new SlabReg<>("carport_toilet_25t", p -> new SlabBlock(p, true))
-                    .configure(
-                            BlockRegConfigurations.adopt(block -> block.mapColor(DyeColor.GREEN))
-                    )
+                    .mapColor(DyeColor.GREEN)
                     .setParent(GROUP_C25T);
 
     public static final SlabReg<SlabBlock> AIR_CONDITION_BSP25T =
             new SlabReg<>("air_condition_bsp25t", p -> new SlabBlock(p, false))
-                    .configure(
-                            BlockRegConfigurations.adopt(block -> block.mapColor(DyeColor.GREEN))
-                    )
+                    .mapColor(DyeColor.GREEN)
                     .setParent(GROUP_C25T);
 }
