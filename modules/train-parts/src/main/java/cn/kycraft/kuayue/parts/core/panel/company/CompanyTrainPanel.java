@@ -133,7 +133,14 @@ public class CompanyTrainPanel extends BaseEntityBlock implements IWrenchable {
         if (parentPos == null) return InteractionResult.PASS;
         BlockState parentState = level.getBlockState(parentPos);
         if (parentState.getBlock() instanceof CompanyTrainPanel) return InteractionResult.PASS;
-        return parentState.useWithoutItem(level, player, hitResult);
+        BlockHitResult parentResult = new BlockHitResult(
+                hitResult.getLocation(),
+                hitResult.getDirection(),
+                parentPos,
+                hitResult.isInside()
+        );
+
+        return parentState.useWithoutItem(level, player, parentResult);
     }
 
     @Override
@@ -142,7 +149,14 @@ public class CompanyTrainPanel extends BaseEntityBlock implements IWrenchable {
         if (parentPos == null) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         BlockState parentState = level.getBlockState(parentPos);
         if (parentState.getBlock() instanceof CompanyTrainPanel) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-        return parentState.useItemOn(stack, level, player, hand, hitResult);
+        BlockHitResult parentResult = new BlockHitResult(
+                hitResult.getLocation(),
+                hitResult.getDirection(),
+                parentPos,
+                hitResult.isInside()
+        );
+
+        return parentState.useItemOn(stack, level, player, hand, parentResult);
     }
 
     @Override

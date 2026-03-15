@@ -1,7 +1,10 @@
 package cn.kycraft.kuayue.parts.carriages.c25;
 
+import cn.kycraft.kuayue.KuaYue;
 import cn.kycraft.kuayue.parts.KuaYueTrainPanelModule;
 import cn.kycraft.kuayue.parts.core.panel.*;
+import cn.kycraft.kuayue.parts.core.panel.custom_rendered.CustomRenderedDoorBlock;
+import cn.kycraft.kuayue.parts.core.panel.custom_rendered.CustomRenderedEndFaceBlock;
 import cn.kycraft.kuayue.parts.core.panel.registration.PanelReg;
 import cn.kycraft.kuayue.parts.core.panel.registration.SkirtReg;
 import cn.kycraft.kuayue.parts.core.panel.registration.SlabReg;
@@ -12,7 +15,11 @@ import io.micronaut.context.annotation.Context;
 import lib.kasuga.registration.RegistryGroup;
 import lib.kasuga.registration.minecraft.block.BlockRegConfigurations;
 import lib.kasuga.registration.minecraft.item.ItemRegConfigurations;
+import net.createmod.catnip.data.Couple;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.phys.Vec3;
 
 import static cn.kycraft.kuayue.parts.KuaYueTrainPanelModule.TRAIN_PANEL_TAB;
 
@@ -32,6 +39,60 @@ public class C25TPanel {
                                     .tabTo(TRAIN_PANEL_TAB)
                     )
             ).setParent(KuaYueTrainPanelModule.REGISTRY_GROUP);
+
+    public static final PanelReg<CustomRenderedDoorBlock> DOOR_25T =
+            new PanelReg<>("door_25t", p -> new CustomRenderedDoorBlock(
+                    p,
+                    Couple.create(
+                            ResourceLocation.fromNamespaceAndPath(KuaYue.MODID, "door/original_25t_door_bottom_hinge"),
+                            ResourceLocation.fromNamespaceAndPath(KuaYue.MODID, "door/original_25t_door_top_hinge")
+                    ),
+                    Couple.create(
+                            ResourceLocation.fromNamespaceAndPath(KuaYue.MODID, "door/original_25t_door_bottom"),
+                            ResourceLocation.fromNamespaceAndPath(KuaYue.MODID, "door/original_25t_door_top")
+                    ),
+                    new Vec3(0, 0, 0),
+                    new Vec3(0, 0, -.124),
+                    RenderShape.ENTITYBLOCK_ANIMATED,
+                    false
+            ))
+                    .setParent(GROUP_C25T);
+
+    public static final PanelReg<CustomRenderedDoorBlock> DOOR_SLIDING_25T =
+            new PanelReg<>("door_sliding_25t", p -> new CustomRenderedDoorBlock(
+                    p,
+                    Couple.create(
+                            ResourceLocation.fromNamespaceAndPath(KuaYue.MODID, "door/sliding_door_25t_bottom"),
+                            ResourceLocation.fromNamespaceAndPath(KuaYue.MODID, "door/sliding_door_25t_upper")
+                    ),
+                    Couple.create(
+                            ResourceLocation.fromNamespaceAndPath(KuaYue.MODID, "door/sliding_door_25t_bottom_lh"),
+                            ResourceLocation.fromNamespaceAndPath(KuaYue.MODID, "door/sliding_door_25t_upper_lh")
+                    ),
+                    RenderShape.ENTITYBLOCK_ANIMATED,
+                    true
+            ))
+                    .setParent(GROUP_C25T);
+
+    public static final PanelReg<CustomRenderedEndFaceBlock> END_FACE_25T_1 =
+            new PanelReg<>("end_face_25t_1", p -> new CustomRenderedEndFaceBlock(
+                    p,
+                    TrainPanelProperties.DoorType.ROTATE_SINGLE_SIDED,
+                    "carriage/carriage25t/end_face/end_face_door_original_25t",
+                    null,
+                    "carriage/carriage25t/end_face/end_face_original_rubber_25t_1"
+            ))
+                    .setParent(GROUP_C25T);
+
+    public static final PanelReg<CustomRenderedEndFaceBlock> END_FACE_25T_2 =
+            new PanelReg<>("end_face_25t_2", p -> new CustomRenderedEndFaceBlock(
+                    p,
+                    TrainPanelProperties.DoorType.ROTATE_SINGLE_SIDED,
+                    "carriage/carriage25t/end_face/end_face_door_original_25t",
+                    null,
+                    "carriage/carriage25t/end_face/end_face_original_rubber_25t_2"
+            ))
+                    .setParent(GROUP_C25T);
 
     public static final PanelReg<TrainPanelBlock> PANEL_BOTTOM_25T =
             new PanelReg<>("panel_bottom_25t", TrainPanelBlock::new)

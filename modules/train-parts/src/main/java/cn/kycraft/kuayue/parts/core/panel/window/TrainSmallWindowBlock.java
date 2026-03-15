@@ -59,10 +59,11 @@ public class TrainSmallWindowBlock extends TrainPanelBlock {
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        InteractionResult result = windowUse(state, level, pos, player, hand, hitResult);
-        return result.equals(InteractionResult.sidedSuccess(level.isClientSide)) ?
-                ItemInteractionResult.sidedSuccess(level.isClientSide) :
-                ItemInteractionResult.FAIL;
+        if (stack.getItem() instanceof PanelBlockItem) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+        windowUse(state, level, pos, player, hand, hitResult);
+        return level.isClientSide ? ItemInteractionResult.SUCCESS : ItemInteractionResult.CONSUME;
     }
 
     public static InteractionResult windowUse(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {

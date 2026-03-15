@@ -1,12 +1,13 @@
 package cn.kycraft.kuayue.parts.core.panel.company;
 
 import cn.kycraft.kuayue.parts.KuaYueTrainPanelModule;
+import io.micronaut.context.annotation.Context;
 import lib.kasuga.registration.RegistryGroup;
 import lib.kasuga.registration.minecraft.block.BlockReg;
 import lib.kasuga.registration.minecraft.block.BlockRegConfigurations;
-import lib.kasuga.registration.minecraft.block.BlockSupplier;
 import lib.kasuga.registration.minecraft.block_entity.BlockEntityReg;
 
+@Context
 public class CompanyRegistry {
     public static final RegistryGroup COMPANY_REGISTRY = new RegistryGroup()
             .configure(BlockRegConfigurations.adopt(block -> block

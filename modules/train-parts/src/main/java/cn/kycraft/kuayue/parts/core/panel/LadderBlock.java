@@ -84,9 +84,7 @@ public class LadderBlock extends SlabBlock{
         if(stack.getItem() instanceof SlabBlockItem) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
-        InteractionResult result = TrainSmallWindowBlock.windowUse(state, level, pos, player, hand, hitResult);
-        return result.equals(InteractionResult.sidedSuccess(level.isClientSide)) ?
-                ItemInteractionResult.sidedSuccess(level.isClientSide) :
-                ItemInteractionResult.FAIL;
+        TrainSmallWindowBlock.windowUse(state, level, pos, player, hand, hitResult);
+        return level.isClientSide ? ItemInteractionResult.SUCCESS : ItemInteractionResult.CONSUME;
     }
 }

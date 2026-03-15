@@ -2,6 +2,7 @@ package cn.kycraft.kuayue.parts.core.panel.door;
 
 import cn.kycraft.kuayue.parts.core.panel.TrainPanelBlock;
 import cn.kycraft.kuayue.parts.core.panel.TrainPanelShapes;
+import cn.kycraft.kuayue.parts.core.panel.company.CompanyRegistry;
 import cn.kycraft.kuayue.parts.core.panel.company.CompanyTrainDoor;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainOpenableWindowBlock;
 import net.minecraft.core.BlockPos;
@@ -110,5 +111,25 @@ public class TrainDoorBlock extends TrainPanelBlock {
 
     public static boolean isOpen(BlockState state) {
         return state.getValue(OPEN);
+    }
+
+    @Override
+    public BlockState generateCompanyState(Direction direction, DoorHingeSide hingeSide, boolean open) {
+        return CompanyRegistry.COMPANY_TRAIN_DOOR.getEntry().defaultBlockState()
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, direction)
+                .setValue(BlockStateProperties.DOOR_HINGE, hingeSide)
+                .setValue(BlockStateProperties.OPEN, open);
+    }
+
+    public static class Sliding extends TrainDoorBlock {
+
+        public Sliding(Properties pProperties) {
+            super(pProperties);
+        }
+
+        @Override
+        public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+            return TrainPanelShapes.getSlidingDoorShape(pState.getValue(FACING), pState.getValue(HINGE), pState.getValue(OPEN));
+        }
     }
 }
