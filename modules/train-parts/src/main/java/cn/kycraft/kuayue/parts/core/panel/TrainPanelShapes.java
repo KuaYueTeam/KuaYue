@@ -567,4 +567,10 @@ public class TrainPanelShapes {
 
         return buffer[0];
     }
+
+    public static class CarportHingeSlabBlock extends HingeSlabBlock {
+        public CarportHingeSlabBlock(Properties properties, boolean isCarport) {
+            super(properties, isCarport);
+        }
+    }
 }

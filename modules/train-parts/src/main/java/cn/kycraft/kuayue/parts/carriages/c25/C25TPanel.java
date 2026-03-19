@@ -23,7 +23,8 @@ import net.minecraft.world.phys.Vec3;
 
 import static cn.kycraft.kuayue.parts.KuaYueTrainPanelModule.TRAIN_PANEL_TAB;
 
-@Context
+
+@Context()
 public class C25TPanel {
 
     public static final RegistryGroup GROUP_C25T =
