@@ -49,6 +49,7 @@ public class CustomRenderedEndFaceRenderer implements BlockEntityRenderer<Custom
         if (frame != null) {
             pose.translate(-.5, 2, -.5);
             SuperByteBuffer frameBuffer = CachedBuffers.partial(frame, blockState);
+            frameBuffer.light(pPackedLight);
             frameBuffer.renderInto(pose, pBufferSource.getBuffer(RenderType.cutout()));
             pose.translate(.5, -2, .5);
         }
@@ -125,10 +126,14 @@ public class CustomRenderedEndFaceRenderer implements BlockEntityRenderer<Custom
             if (rightBuffer != null)
                 rightBuffer.rotateYDegrees(- rotation * sgn);
         }
-        if (leftBuffer != null)
+        if (leftBuffer != null) {
+            leftBuffer.light(pPackedLight);
             leftBuffer.renderInto(pose, pBufferSource.getBuffer(RenderType.cutout()));
-        if (rightBuffer != null)
+        }
+        if (rightBuffer != null) {
+            rightBuffer.light(pPackedLight);
             rightBuffer.renderInto(pose, pBufferSource.getBuffer(RenderType.cutout()));
+        }
         pose.popPose();
     }
 }
