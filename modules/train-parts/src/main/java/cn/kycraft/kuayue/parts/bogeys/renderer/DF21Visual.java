@@ -1,0 +1,141 @@
+package cn.kycraft.kuayue.parts.bogeys.renderer;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import com.simibubi.create.content.trains.bogey.BogeyVisual;
+import dev.engine_room.flywheel.api.instance.Instance;
+import dev.engine_room.flywheel.api.visualization.VisualizationContext;
+import dev.engine_room.flywheel.lib.instance.InstanceTypes;
+import dev.engine_room.flywheel.lib.instance.TransformedInstance;
+import dev.engine_room.flywheel.lib.model.Models;
+import net.createmod.catnip.nbt.NBTHelper;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+
+import java.util.function.Consumer;
+
+public class DF21Visual implements BogeyVisual {
+
+    private final TransformedInstance frame;
+    private final TransformedInstance wheel1;
+    private final TransformedInstance wheel2;
+    private final TransformedInstance wheel3;
+
+    public DF21Visual(VisualizationContext ctx, float partialTick, boolean inContraption) {
+        frame = ctx.instancerProvider()
+                .instancer(InstanceTypes.TRANSFORMED, Models.partial(DF21Renderer.DF21_FRAME))
+                .createInstance();
+
+        var wheelInstancer = ctx.instancerProvider()
+                .instancer(InstanceTypes.TRANSFORMED, Models.partial(DF21Renderer.DF21_WHEEL));
+        wheel1 = wheelInstancer.createInstance();
+        wheel2 = wheelInstancer.createInstance();
+        wheel3 = wheelInstancer.createInstance();
+    }
+
+    @Override
+    public void update(CompoundTag bogeyData, float wheelAngle, PoseStack poseStack) {
+        Direction direction = bogeyData.contains("assembly_direction")
+                ? NBTHelper.readEnum(bogeyData, "assembly_direction", Direction.class)
+                : Direction.NORTH;
+
+        boolean isBackward = direction == Direction.SOUTH || direction == Direction.EAST;
+
+        if (!isBackward) {
+            poseStack.pushPose();
+            poseStack.mulPose(Axis.YP.rotationDegrees(180));
+        }
+
+        frame.setTransform(poseStack).translate(0, 0.225f, 0.17f).setChanged();
+        wheel1.setTransform(poseStack).translate(0, 0.88f, -1.805f).rotateXDegrees(wheelAngle).setChanged();
+        wheel2.setTransform(poseStack).translate(0, 0.88f, 0).rotateXDegrees(wheelAngle).setChanged();
+        wheel3.setTransform(poseStack).translate(0, 0.88f, 1.805f).rotateXDegrees(wheelAngle).setChanged();
+
+        if (!isBackward) {
+            poseStack.popPose();
+        }
+    }
+
+    @Override public void hide() {
+        frame.setZeroTransform().setChanged();
+        wheel1.setZeroTransform().setChanged();
+        wheel2.setZeroTransform().setChanged();
+        wheel3.setZeroTransform().setChanged();
+    }
+
+    @Override public void updateLight(int packedLight) {
+        frame.light(packedLight).setChanged();
+        wheel1.light(packedLight).setChanged();
+        wheel2.light(packedLight).setChanged();
+        wheel3.light(packedLight).setChanged();
+    }
+
+    @Override public void collectCrumblingInstances(Consumer<Instance> consumer) {
+        consumer.accept(frame); consumer.accept(wheel1); consumer.accept(wheel2); consumer.accept(wheel3);
+    }
+
+    @Override public void delete() { frame.delete(); wheel1.delete(); wheel2.delete(); wheel3.delete(); }
+
+    public static class Backward implements BogeyVisual {
+
+        private final TransformedInstance frame;
+        private final TransformedInstance wheel1;
+        private final TransformedInstance wheel2;
+        private final TransformedInstance wheel3;
+
+        public Backward(VisualizationContext ctx, float partialTick, boolean inContraption) {
+            frame = ctx.instancerProvider()
+                    .instancer(InstanceTypes.TRANSFORMED, Models.partial(DF21Renderer.DF21_FRAME))
+                    .createInstance();
+
+            var wheelInstancer = ctx.instancerProvider()
+                    .instancer(InstanceTypes.TRANSFORMED, Models.partial(DF21Renderer.DF21_WHEEL));
+            wheel1 = wheelInstancer.createInstance();
+            wheel2 = wheelInstancer.createInstance();
+            wheel3 = wheelInstancer.createInstance();
+        }
+
+        @Override
+        public void update(CompoundTag bogeyData, float wheelAngle, PoseStack poseStack) {
+            Direction direction = bogeyData.contains("assembly_direction")
+                    ? NBTHelper.readEnum(bogeyData, "assembly_direction", Direction.class)
+                    : Direction.NORTH;
+
+            boolean isBackward = direction == Direction.SOUTH || direction == Direction.EAST;
+
+            if (isBackward) {
+                poseStack.pushPose();
+                poseStack.mulPose(Axis.YP.rotationDegrees(180));
+            }
+
+            frame.setTransform(poseStack).translate(0, 0.225f, 0.17f).setChanged();
+            wheel1.setTransform(poseStack).translate(0, 0.88f, -1.805f).rotateXDegrees(-wheelAngle).setChanged();
+            wheel2.setTransform(poseStack).translate(0, 0.88f, 0).rotateXDegrees(-wheelAngle).setChanged();
+            wheel3.setTransform(poseStack).translate(0, 0.88f, 1.805f).rotateXDegrees(-wheelAngle).setChanged();
+
+            if (isBackward) {
+                poseStack.popPose();
+            }
+        }
+
+        @Override public void hide() {
+            frame.setZeroTransform().setChanged();
+            wheel1.setZeroTransform().setChanged();
+            wheel2.setZeroTransform().setChanged();
+            wheel3.setZeroTransform().setChanged();
+        }
+
+        @Override public void updateLight(int packedLight) {
+            frame.light(packedLight).setChanged();
+            wheel1.light(packedLight).setChanged();
+            wheel2.light(packedLight).setChanged();
+            wheel3.light(packedLight).setChanged();
+        }
+
+        @Override public void collectCrumblingInstances(Consumer<Instance> consumer) {
+            consumer.accept(frame); consumer.accept(wheel1); consumer.accept(wheel2); consumer.accept(wheel3);
+        }
+
+        @Override public void delete() { frame.delete(); wheel1.delete(); wheel2.delete(); wheel3.delete(); }
+    }
+}
