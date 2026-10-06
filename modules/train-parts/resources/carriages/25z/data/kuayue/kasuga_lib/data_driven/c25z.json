@@ -1,0 +1,6 @@
+{
+  "on_register": [
+    "carriages/c25z/groups.json",
+    "carriages/c25z/blocks.json"
+  ]
+}

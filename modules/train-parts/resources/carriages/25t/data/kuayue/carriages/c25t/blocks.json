@@ -1,0 +1,238 @@
+{
+  "blocks": [
+    {
+      "id": "kuayue:panel_bottom_25t",
+      "type": "train_panel",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:panel_bottom_25t_2",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:panel_middle_25t",
+      "type": "train_panel",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:panel_middle_25t_2",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:panel_top_25t",
+      "type": "train_panel",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:panel_top_25t_2",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:panel_top_xl25t",
+      "type": "train_panel",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_sealed_blue_25t",
+      "type": "train_unopenable_small_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_sealed_small_25t",
+      "type": "train_unopenable_small_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_sealed_small_blue_25t",
+      "type": "train_unopenable_small_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_sealed_small_blue_bsp25t",
+      "type": "train_unopenable_small_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_blue_25t",
+      "type": "train_small_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_small_25t",
+      "type": "train_small_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_small_blue_25t",
+      "type": "train_small_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_small_blue_bsp25t",
+      "type": "train_small_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_toilet_25t",
+      "type": "train_small_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_toilet_blue_25t",
+      "type": "train_small_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_toilet_blue_bsp25t",
+      "type": "train_small_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_wide_25t",
+      "type": "train_openable_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_wide_blue_25t",
+      "type": "train_openable_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_wide_blue_bsp25t",
+      "type": "train_openable_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_wide_sealed_25t",
+      "type": "train_unopenable_small_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:window_oc_wide_sealed_blue_25t",
+      "type": "train_unopenable_small_window",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:door_25t",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:door/original_25t_door_bottom_hinge",
+          "kuayue:door/original_25t_door_top_hinge"
+        ],
+        "right_models": [
+          "kuayue:door/original_25t_door_bottom",
+          "kuayue:door/original_25t_door_top"
+        ],
+        "open_offset": [
+          0.0,
+          0.0,
+          -0.124
+        ]
+      },
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:door_sliding_25t",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:door/sliding_door_25t_bottom",
+          "kuayue:door/sliding_door_25t_upper"
+        ],
+        "right_models": [
+          "kuayue:door/sliding_door_25t_bottom_lh",
+          "kuayue:door/sliding_door_25t_upper_lh"
+        ],
+        "is_slide_door": true
+      },
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:end_face_25t_1",
+      "type": "custom_rendered_end_face",
+      "params": {
+        "door_type": "rotate_single_sided",
+        "left_model": "carriage/carriage25t/end_face/end_face_door_original_25t",
+        "frame_model": "carriage/carriage25t/end_face/end_face_original_rubber_25t_1"
+      },
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:end_face_25t_2",
+      "type": "custom_rendered_end_face",
+      "params": {
+        "door_type": "rotate_single_sided",
+        "left_model": "carriage/carriage25t/end_face/end_face_door_original_25t",
+        "frame_model": "carriage/carriage25t/end_face/end_face_original_rubber_25t_2"
+      },
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:skirt_25t",
+      "type": "skirt",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:skirt_marshalled_25t",
+      "type": "skirt",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:ladder_sliding_25t",
+      "type": "ladder",
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:floor_25t",
+      "type": "slab",
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:toilet_dd_25t",
+      "type": "slab",
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:carport_25t",
+      "type": "slab_top",
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:carport_center_bsp25t",
+      "type": "slab_top",
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:carport_toilet_25t",
+      "type": "slab_top",
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:c25t_panels"
+    },
+    {
+      "id": "kuayue:air_condition_bsp25t",
+      "type": "slab",
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:c25t_panels"
+    }
+  ]
+}

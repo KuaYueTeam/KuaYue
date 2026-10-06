@@ -1,0 +1,147 @@
+{
+  "blocks": [
+    {
+      "id": "kuayue:panel_bottom_25g",
+      "type": "train_panel",
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:panel_middle_25g",
+      "type": "train_panel",
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:panel_symbol_marshalled_25g",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:panel_top_25g",
+      "type": "train_panel",
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:window_oc_sealed_small_25g",
+      "type": "train_unopenable_small_window",
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:window_oc_sealed_wide_25g",
+      "type": "train_unopenable_window",
+      "params": {
+        "wide": 2
+      },
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:window_oc_small_25g",
+      "type": "train_small_window",
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:window_oc_small_25g_2",
+      "type": "train_small_window",
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:window_oc_toilet_25g",
+      "type": "train_small_window",
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:window_oc_wide_25g",
+      "type": "train_openable_window",
+      "params": {
+        "wide": 2
+      },
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:door_25g",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:door/original_25g_door_bottom_hinge",
+          "kuayue:door/original_25g_door_top_hinge"
+        ],
+        "right_models": [
+          "kuayue:door/original_25g_door_bottom",
+          "kuayue:door/original_25g_door_top"
+        ],
+        "open_offset": [
+          0.0,
+          0.0,
+          -0.124
+        ]
+      },
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:door_sliding_25g",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:door/sliding_door_25g_bottom",
+          "kuayue:door/sliding_door_25g_upper"
+        ],
+        "right_models": [
+          "kuayue:door/sliding_door_25g_bottom_lh",
+          "kuayue:door/sliding_door_25g_upper_lh"
+        ],
+        "is_slide_door": true
+      },
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:end_face_25g_1",
+      "type": "custom_rendered_end_face",
+      "params": {
+        "door_type": "rotate_single_sided",
+        "left_model": "carriage/carriage25g/end_face/end_face_door_original_25g",
+        "frame_model": "carriage/carriage25g/end_face/end_face_original_25g_1"
+      },
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:end_face_25g_2",
+      "type": "custom_rendered_end_face",
+      "params": {
+        "door_type": "rotate_single_sided",
+        "left_model": "carriage/carriage25g/end_face/end_face_door_original_25g",
+        "frame_model": "carriage/carriage25g/end_face/end_face_original_25g_2"
+      },
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:end_face_25g_3",
+      "type": "custom_rendered_end_face",
+      "params": {
+        "door_type": "rotate_single_sided",
+        "left_model": "carriage/carriage25g/end_face/end_face_door_original_25g",
+        "frame_model": "carriage/carriage25g/end_face/end_face_original_25g_3"
+      },
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:floor_25g",
+      "type": "slab",
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:toilet_dd_25g",
+      "type": "slab",
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:c25g_panels"
+    },
+    {
+      "id": "kuayue:ladder_25g",
+      "type": "ladder",
+      "registry_group": "kuayue:c25g_panels"
+    }
+  ]
+}

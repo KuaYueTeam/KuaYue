@@ -1,0 +1,6 @@
+{
+  "on_register": [
+    "carriages/freight/groups.json",
+    "carriages/freight/blocks.json"
+  ]
+}
