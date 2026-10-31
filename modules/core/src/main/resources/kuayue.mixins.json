@@ -1,0 +1,12 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "cn.kycraft.kuayue.mixins",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": [
+        "BucketItemMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}
