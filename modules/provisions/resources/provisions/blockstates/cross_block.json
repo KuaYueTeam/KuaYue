@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "facing=up": {
+            "model": "minecraft:block/air"
+        },
+        "facing=down": {
+            "model": "minecraft:block/air"
+        }
+    }
+}
