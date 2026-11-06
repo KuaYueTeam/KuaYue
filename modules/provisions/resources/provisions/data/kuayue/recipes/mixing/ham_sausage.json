@@ -1,0 +1,24 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "heated",
+  "ingredients": [
+    [
+      { "item": "minecraft:beef" },
+      { "item": "minecraft:porkchop" },
+      { "item": "minecraft:chicken" }
+    ],
+    [
+      { "item": "minecraft:beef" },
+      { "item": "minecraft:porkchop" },
+      { "item": "minecraft:chicken" }
+    ],
+    { "item": "create:wheat_flour" },
+    { "tag": "forge:salt" }
+  ],
+  "results": [
+    {
+      "count": 4,
+      "item": "kuayue:ham_sausage"
+    }
+  ]
+}

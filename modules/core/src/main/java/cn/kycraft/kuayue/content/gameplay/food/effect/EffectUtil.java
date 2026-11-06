@@ -52,8 +52,8 @@ public final class EffectUtil {
      *
      * @param hasField {@code true} 时显示一条前导的 "可食用" 说明
      */
-    public static void addFoodEffectToTooltip(ItemStack stack, Level level, List<Component> tooltip,
-                                              TooltipFlag flag, boolean hasField) {
+    public static void addFoodEffectToTooltip(ItemStack stack, Item.TooltipContext context,
+                                              List<Component> tooltip, TooltipFlag flag, boolean hasField) {
         FoodProperties food = foodOf(stack);
         if (food == null) {
             return;
@@ -89,9 +89,9 @@ public final class EffectUtil {
     }
 
     /** 简写：供物品 {@code appendHoverText} 直接调用。 */
-    public static void addFoodEffectToTooltip(ItemStack stack, @Nullable Level level,
+    public static void addFoodEffectToTooltip(ItemStack stack, Item.TooltipContext context,
                                               List<Component> tooltip, TooltipFlag flag) {
-        addFoodEffectToTooltip(stack, level, tooltip, flag, false);
+        addFoodEffectToTooltip(stack, context, tooltip, flag, false);
     }
 
     private static @Nullable FoodProperties foodOf(ItemStack stack) {

@@ -107,8 +107,16 @@ dependencies {
 
     implementation("lib.kasuga:kasuga_lib:1.0.0") {
         useBundle(delegate)
+        exclude group: 'com.simibubi.create', module: "create-${minecraft_version}"
+        exclude group: 'net.createmod.ponder', module: "Ponder-NeoForge-${minecraft_version}"
+        exclude group: 'dev.engine-room.flywheel', module: "flywheel-neoforge-api-${minecraft_version}"
+        exclude group: 'dev.engine-room.flywheel', module: "flywheel-neoforge-${minecraft_version}"
+        exclude group: 'com.tterrag.registrate', module: 'Registrate'
+        transitive = false
     }
-    implementation "lib.kasuga:inject:1.0.0"
+    implementation("lib.kasuga:inject:1.0.0") {
+        transitive = false
+    }
 
     implementation("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false }
     implementation("net.createmod.ponder:Ponder-NeoForge-${minecraft_version}:${ponder_version}")
