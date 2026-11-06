@@ -1,4 +1,4 @@
-package cn.kycraft.kuayue.content.gameplay.food.effect;
+package cn.kycraft.kuayue.provisions.food.effect;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;

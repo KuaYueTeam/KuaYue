@@ -1,4 +1,4 @@
-package cn.kycraft.kuayue.content.gameplay.food;
+package cn.kycraft.kuayue.provisions.food;
 
 import cn.kycraft.kuayue.KuaYue;
 import io.micronaut.context.annotation.Context;

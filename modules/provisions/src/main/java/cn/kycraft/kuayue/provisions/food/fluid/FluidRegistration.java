@@ -1,13 +1,11 @@
-package cn.kycraft.kuayue.content.gameplay.food;
+package cn.kycraft.kuayue.provisions.food.fluid;
 
 import cn.kycraft.kuayue.KuaYue;
-import cn.kycraft.kuayue.content.gameplay.food.fluid.*;
 import io.micronaut.context.annotation.Context;
 import lib.kasuga.registration.RegistryGroup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -23,8 +21,8 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
  * 可乐 / 蓝牛 fluids, fluid types, source blocks and buckets.
  *
  * <p>Ported from the 1.0 {@code AllFluids} / {@code FluidsInit} / {@code FluidTypesInit} trio.
- * KasugaLibNext has no fluid registrar, so entries go through plain NeoForge
- * {@link DeferredRegister}s hung under the mod's Kasuga registry tree.</p>
+ * Nothing here resolves a {@link DeferredHolder} during registration: every cross-reference is a
+ * supplier, because {@code RegisterEvent} binds entries one by one.</p>
  */
 @Context
 public class FluidRegistration {
@@ -72,7 +70,7 @@ public class FluidRegistration {
         ITEMS.register(modEventBus);
     }
 
-    /** Fluid entries, declared after the properties they reference (no forward references). */
+    /** Fluid entries; suppliers only, so the properties above can still be constructed. */
     public static final class Fluids {
         public static final DeferredHolder<Fluid, ColaFluid.Source> COLA_STILL =
                 FLUIDS.register("cola_still_fluid", () -> new ColaFluid.Source(COLA_PROPERTIES));
@@ -96,14 +94,17 @@ public class FluidRegistration {
                         BlockBehaviour.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.WATER)));
     }
 
-    /** Buckets. 蓝牛 is {@code stacksTo(1)} as specified; both return the empty bucket. */
+    /**
+     * Buckets. Pouring one out returns the matching empty can through
+     * {@code BucketItemMixin}, not through {@code craftRemainder} (vanilla hard-codes a bucket).
+     */
     public static final class Items {
         public static final DeferredHolder<Item, BucketItem> COLA_BUCKET =
                 ITEMS.register("cola_fluid_bucket", () -> new BucketItem(Fluids.COLA_STILL.get(),
-                        new Item.Properties().stacksTo(1).craftRemainder(net.minecraft.world.item.Items.BUCKET)));
+                        new Item.Properties().stacksTo(1)));
 
         public static final DeferredHolder<Item, BucketItem> BLUE_BULL_BUCKET =
                 ITEMS.register("blue_bull_fluid_bucket", () -> new BucketItem(Fluids.BLUE_BULL_STILL.get(),
-                        new Item.Properties().stacksTo(1).craftRemainder(net.minecraft.world.item.Items.BUCKET)));
+                        new Item.Properties().stacksTo(1)));
     }
 }

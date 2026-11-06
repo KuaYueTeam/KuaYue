@@ -1,4 +1,4 @@
-package cn.kycraft.kuayue.content.gameplay.food.fluid;
+package cn.kycraft.kuayue.provisions.food.fluid;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;

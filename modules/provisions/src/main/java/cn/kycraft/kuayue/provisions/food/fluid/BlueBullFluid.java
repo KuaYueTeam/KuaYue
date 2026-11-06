@@ -1,4 +1,4 @@
-package cn.kycraft.kuayue.content.gameplay.food.fluid;
+package cn.kycraft.kuayue.provisions.food.fluid;
 
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluid;
@@ -6,11 +6,11 @@ import net.minecraft.world.level.material.FluidState;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 
 /**
- * 可乐, using the 1.0 Source / Flowing split pattern.
+ * 蓝牛, using the 1.0 Source / Flowing split pattern.
  */
-public abstract class ColaFluid extends BaseFlowingFluid {
+public abstract class BlueBullFluid extends BaseFlowingFluid {
 
-    protected ColaFluid(Properties properties) {
+    protected BlueBullFluid(Properties properties) {
         super(properties);
     }
 
@@ -21,7 +21,7 @@ public abstract class ColaFluid extends BaseFlowingFluid {
 
     @Override
     public boolean isSource(FluidState state) {
-        return state.getType() instanceof ColaFluid && !(state.getType() instanceof Flowing);
+        return state.getType() instanceof BlueBullFluid && !(state.getType() instanceof Flowing);
     }
 
     @Override
@@ -29,13 +29,13 @@ public abstract class ColaFluid extends BaseFlowingFluid {
         return isSource(state) ? 8 : state.getValue(LEVEL);
     }
 
-    public static class Source extends ColaFluid {
+    public static class Source extends BlueBullFluid {
         public Source(Properties properties) {
             super(properties);
         }
     }
 
-    public static class Flowing extends ColaFluid {
+    public static class Flowing extends BlueBullFluid {
         public Flowing(Properties properties) {
             super(properties);
         }

@@ -1,6 +1,6 @@
 package cn.kycraft.kuayue.provisions.item;
 
-import cn.kycraft.kuayue.content.gameplay.food.effect.EffectUtil;
+import cn.kycraft.kuayue.provisions.food.effect.EffectUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

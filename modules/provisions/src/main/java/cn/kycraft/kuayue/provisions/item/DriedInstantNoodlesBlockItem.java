@@ -1,6 +1,6 @@
 package cn.kycraft.kuayue.provisions.item;
 
-import cn.kycraft.kuayue.content.gameplay.food.FoodProcessor;
+import cn.kycraft.kuayue.provisions.food.FoodProcessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;

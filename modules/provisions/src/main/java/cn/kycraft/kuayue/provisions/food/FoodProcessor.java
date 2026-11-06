@@ -1,4 +1,4 @@
-package cn.kycraft.kuayue.content.gameplay.food;
+package cn.kycraft.kuayue.provisions.food;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;

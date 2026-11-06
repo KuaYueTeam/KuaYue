@@ -1,4 +1,4 @@
-package cn.kycraft.kuayue.content.gameplay.food.fluid;
+package cn.kycraft.kuayue.provisions.food.fluid;
 
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.LiquidBlock;

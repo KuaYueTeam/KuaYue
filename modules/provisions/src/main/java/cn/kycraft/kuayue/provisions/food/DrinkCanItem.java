@@ -1,4 +1,4 @@
-package cn.kycraft.kuayue.content.gameplay.food;
+package cn.kycraft.kuayue.provisions.food;
 
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;

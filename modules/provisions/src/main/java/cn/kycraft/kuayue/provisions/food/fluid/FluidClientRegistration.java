@@ -1,6 +1,6 @@
-package cn.kycraft.kuayue.content.gameplay.food.fluid;
+package cn.kycraft.kuayue.provisions.food.fluid;
 
-import cn.kycraft.kuayue.content.gameplay.food.FluidRegistration;
+import cn.kycraft.kuayue.provisions.food.fluid.FluidRegistration;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
