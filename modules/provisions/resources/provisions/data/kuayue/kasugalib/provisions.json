@@ -1,7 +1,7 @@
 {
   "registry_groups": [
     {
-      "id": "kuayue:provisions_food",
+      "id": "kuayue:meals_food",
       "properties": {
         "strength": [
           0.5,
@@ -15,7 +15,7 @@
       }
     },
     {
-      "id": "kuayue:provisions_drink",
+      "id": "kuayue:meals_drink",
       "properties": {
         "strength": [
           0.5,
@@ -29,7 +29,7 @@
       }
     },
     {
-      "id": "kuayue:provisions_simple",
+      "id": "kuayue:meals_simple",
       "properties": {},
       "item_properties": {
         "tab": "kuayue:provisions_tab"
@@ -40,16 +40,17 @@
     {
       "id": "kuayue:train_diet_1",
       "type": "diet_box",
-      "registry_group": "kuayue:provisions_food",
+      "registry_group": "kuayue:meals_food",
       "params": {
         "food_type": "BOX",
-        "has_tooltip": true
+        "has_tooltip": true,
+        "remainder": "kuayue:lunch_box"
       }
     },
     {
       "id": "kuayue:kua_cola",
       "type": "drink",
-      "registry_group": "kuayue:provisions_drink",
+      "registry_group": "kuayue:meals_drink",
       "params": {
         "food_type": "BOTTLE",
         "has_particle": true,
@@ -59,7 +60,7 @@
     {
       "id": "kuayue:blue_bull",
       "type": "drink",
-      "registry_group": "kuayue:provisions_drink",
+      "registry_group": "kuayue:meals_drink",
       "params": {
         "food_type": "BOTTLE",
         "has_particle": false,
@@ -69,7 +70,7 @@
     {
       "id": "kuayue:dried_instant_noodles",
       "type": "dried_noodles",
-      "registry_group": "kuayue:provisions_food",
+      "registry_group": "kuayue:meals_food",
       "params": {
         "food_type": "BOX",
         "has_tooltip": true
@@ -78,7 +79,7 @@
     {
       "id": "kuayue:soaked_instant_noodles",
       "type": "soaked_noodles",
-      "registry_group": "kuayue:provisions_food",
+      "registry_group": "kuayue:meals_food",
       "params": {
         "has_tooltip": true
       }
@@ -88,7 +89,7 @@
     {
       "id": "kuayue:lunch_box",
       "type": "simple_item",
-      "registry_group": "kuayue:provisions_simple",
+      "registry_group": "kuayue:meals_simple",
       "properties": {
         "tab": "kuayue:provisions_tab"
       }
@@ -96,7 +97,7 @@
     {
       "id": "kuayue:empty_can",
       "type": "simple_item",
-      "registry_group": "kuayue:provisions_simple",
+      "registry_group": "kuayue:meals_simple",
       "properties": {
         "tab": "kuayue:provisions_tab"
       }
@@ -104,7 +105,7 @@
     {
       "id": "kuayue:empty_can_blue",
       "type": "simple_item",
-      "registry_group": "kuayue:provisions_simple",
+      "registry_group": "kuayue:meals_simple",
       "properties": {
         "tab": "kuayue:provisions_tab"
       }
@@ -112,7 +113,7 @@
     {
       "id": "kuayue:ham_sausage",
       "type": "simple_item",
-      "registry_group": "kuayue:provisions_simple",
+      "registry_group": "kuayue:meals_simple",
       "properties": {
         "tab": "kuayue:provisions_tab"
       },
@@ -127,7 +128,7 @@
     {
       "id": "kuayue:marinated_egg",
       "type": "simple_item",
-      "registry_group": "kuayue:provisions_simple",
+      "registry_group": "kuayue:meals_simple",
       "properties": {
         "tab": "kuayue:provisions_tab"
       },
@@ -142,7 +143,7 @@
     {
       "id": "kuayue:half_marinated_egg",
       "type": "simple_item",
-      "registry_group": "kuayue:provisions_simple",
+      "registry_group": "kuayue:meals_simple",
       "properties": {
         "tab": "kuayue:provisions_tab"
       },
@@ -157,7 +158,7 @@
     {
       "id": "kuayue:calcium_milk_biscuits",
       "type": "simple_item",
-      "registry_group": "kuayue:provisions_simple",
+      "registry_group": "kuayue:meals_simple",
       "properties": {
         "tab": "kuayue:provisions_tab"
       },
@@ -172,7 +173,7 @@
     {
       "id": "kuayue:spicy_fish_tofu",
       "type": "simple_item",
-      "registry_group": "kuayue:provisions_simple",
+      "registry_group": "kuayue:meals_simple",
       "properties": {
         "tab": "kuayue:provisions_tab"
       },
@@ -187,7 +188,7 @@
     {
       "id": "kuayue:salt_baked_drumsticks",
       "type": "simple_item",
-      "registry_group": "kuayue:provisions_simple",
+      "registry_group": "kuayue:meals_simple",
       "properties": {
         "tab": "kuayue:provisions_tab"
       },
@@ -202,7 +203,7 @@
     {
       "id": "kuayue:monosodium_glutamate",
       "type": "simple_item",
-      "registry_group": "kuayue:provisions_simple",
+      "registry_group": "kuayue:meals_simple",
       "properties": {
         "tab": "kuayue:provisions_tab"
       }
@@ -210,7 +211,7 @@
     {
       "id": "kuayue:salt",
       "type": "simple_item",
-      "registry_group": "kuayue:provisions_simple",
+      "registry_group": "kuayue:meals_simple",
       "properties": {
         "tab": "kuayue:provisions_tab"
       }

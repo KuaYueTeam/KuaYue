@@ -1,6 +1,8 @@
 package cn.kycraft.kuayue.provisions.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
@@ -13,22 +15,26 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.storage.loot.LootParams;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * 火车盒饭：两阶段食物方块（满 → 空）。
  *
- * <p>第一口吃掉内容物并把 {@code empty} 置 true；第二口移除方块并返还餐盒。</p>
+ * <p>第一口吃掉内容物并把 {@code empty} 置 true；第二口移除方块并返还餐盒
+ * （由 JSON 的 {@code params.remainder} 指定）。</p>
  */
 public class TrainDietBoxBlock extends PlacementFoodBlock {
 
     public static final BooleanProperty EMPTY = BooleanProperty.create("empty");
 
     public TrainDietBoxBlock(Properties properties, FoodType foodType) {
-        super(properties, foodType);
+        this(properties, foodType, null);
+    }
+
+    public TrainDietBoxBlock(Properties properties, FoodType foodType, @Nullable ResourceLocation remainderId) {
+        super(properties, foodType, remainderId);
         this.registerDefaultState(this.getStateDefinition().any()
-                .setValue(FACING, net.minecraft.core.Direction.EAST)
+                .setValue(FACING, Direction.EAST)
                 .setValue(EMPTY, false));
     }
 

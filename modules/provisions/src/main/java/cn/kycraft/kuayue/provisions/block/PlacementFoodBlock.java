@@ -2,11 +2,15 @@ package cn.kycraft.kuayue.provisions.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -27,18 +31,25 @@ import org.jetbrains.annotations.Nullable;
  * 放置类食物的基类：地面上的小方块，右键食用。
  *
  * <p>Ported from the 1.0 {@code PlacementFoodBlock}. The 1.0 base relied on
- * {@code ExternalRemainderBlockItem}; here the returned item is asked from the block itself through
- * {@link #remainderAfterEating(BlockState)}.</p>
+ * {@code ExternalRemainderBlockItem}; here the returned item is declared in the data-driven JSON
+ * ({@code params.remainder}) and resolved when the block is created.</p>
  */
 public class PlacementFoodBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     protected final FoodType foodType;
+    /** 吃完后返还的物品，null 表示不返还。 */
+    private final @Nullable ResourceLocation remainderId;
 
     public PlacementFoodBlock(Properties properties, FoodType foodType) {
+        this(properties, foodType, null);
+    }
+
+    public PlacementFoodBlock(Properties properties, FoodType foodType, @Nullable ResourceLocation remainderId) {
         super(properties);
         this.foodType = foodType;
+        this.remainderId = remainderId;
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.EAST));
     }
 
@@ -46,9 +57,13 @@ public class PlacementFoodBlock extends Block {
         return foodType;
     }
 
-    /** 吃完后返还的物品；默认什么也不返还。 */
+    /** 吃完后返还的物品；默认按 JSON 的 {@code params.remainder} 解析，未声明则什么也不返还。 */
     protected ItemStack remainderAfterEating(BlockState state) {
-        return ItemStack.EMPTY;
+        if (remainderId == null) {
+            return ItemStack.EMPTY;
+        }
+        Item item = BuiltInRegistries.ITEM.get(remainderId);
+        return item == Items.AIR ? ItemStack.EMPTY : new ItemStack(item);
     }
 
     /** 该方块“对应”的食物物品栈（用于读取食物数值）。 */

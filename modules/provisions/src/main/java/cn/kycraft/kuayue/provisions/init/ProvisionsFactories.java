@@ -54,7 +54,8 @@ public final class ProvisionsFactories {
         FactoryRegistry.register(DIET_BOX, (id, params) -> {
             BlockReg<TrainDietBoxBlock> reg = BlockReg.of(id,
                     (java.util.function.Function<net.minecraft.world.level.block.state.BlockBehaviour.Properties, TrainDietBoxBlock>)
-                            p -> new TrainDietBoxBlock(p, FoodType.fromString(param(params, "food_type"))));
+                            p -> new TrainDietBoxBlock(p, FoodType.fromString(param(params, "food_type")),
+                                    remainderId(params)));
             reg.withBlockItem(id, itemSupplier(params));
             return (Reg<BlockReg<?>, Block>) (Reg<?, ?>) reg;
         });
@@ -101,6 +102,12 @@ public final class ProvisionsFactories {
 
     private static String param(JsonObject params, String key) {
         return params != null && params.has(key) ? params.get(key).getAsString() : null;
+    }
+
+    /** 读取 params.remainder，即吃完后返还的物品 id。 */
+    private static net.minecraft.resources.ResourceLocation remainderId(JsonObject params) {
+        String raw = param(params, "remainder");
+        return raw == null ? null : net.minecraft.resources.ResourceLocation.tryParse(raw);
     }
 
     private static boolean boolParam(JsonObject params, String key, boolean fallback) {
