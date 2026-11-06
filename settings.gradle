@@ -31,4 +31,4 @@ include ':temporal:migration'
 include 'temporal:migration'
 findProject(':temporal:migration')?.name = 'migration'
 
-include ':modules:provisions'
+include ':modules:meals'
