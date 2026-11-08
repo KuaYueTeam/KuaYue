@@ -1,0 +1,24 @@
+{
+  "type": "create:mixing",
+  "heatRequirement": "heated",
+  "ingredients": [
+    [
+      { "item": "minecraft:cod" },
+      { "item": "minecraft:salmon" },
+      { "item": "minecraft:tropical_fish" }
+    ],
+    [
+      { "item": "minecraft:cod" },
+      { "item": "minecraft:salmon" },
+      { "item": "minecraft:tropical_fish" }
+    ],
+    { "item": "create:wheat_flour" },
+    { "tag": "forge:salt" }
+  ],
+  "results": [
+    {
+      "count": 4,
+      "item": "kuayue:spicy_fish_tofu"
+    }
+  ]
+}
