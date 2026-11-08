@@ -1,0 +1,531 @@
+{
+  "version": "1.0.0",
+  "id": "kuayue:carriage_blueprint_group",
+  "name": "tech_tree.kuayue.group.carriage_blueprint.name",
+  "description": "tech_tree.kuayue.group.carriage_blueprint.description",
+  "icon":"kuayue:carriage_cr200j_blueprint",
+  "on_unlock": {
+    "description": "tech_tree.kuayue.group.carriage_blueprint.unlock"
+  },
+  "initial_visibility": true,
+  "root_node": "node_weathering_resistant_steel_ingot",
+
+  "nodes": {
+    "node_weathering_resistant_steel_ingot": {
+      "next_nodes": [
+        "node_weathering_resistant_steel_board",
+        "node_weathering_resistant_steel_pole"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.weathering_resistant_steel_ingot.name",
+      "description": "tech_tree.kuayue.group.weathering_resistant_steel_ingot.description",
+      "type": "plain",
+      "logo": "kuayue:weathering_resistant_steel_ingot",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_ingot": 1
+      },
+      "advancements": [],
+      "blueprint": {},
+      "item": {
+        "kuayue:weathering_resistant_steel_block_0": 1,
+        "create:experience_nugget": 32
+      }
+    },
+
+    "node_weathering_resistant_steel_board": {
+      "next_nodes": [
+        "node_carriage_22_blueprint",
+        "node_head_df5_blueprint",
+        "node_head_ss3_blueprint"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.weathering_resistant_steel_board.name",
+      "description": "tech_tree.kuayue.group.weathering_resistant_steel_board.description",
+      "type": "plain",
+      "logo": "kuayue:weathering_resistant_steel_board",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 1
+      },
+      "advancements": [],
+      "blueprint": {},
+      "item": {
+        "kuayue:weathering_resistant_steel_block_0": 1,
+        "create:experience_nugget": 32
+      }
+    },
+
+    "node_weathering_resistant_steel_pole": {
+      "next_nodes": [
+        "node_freight_c70_blueprint"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.weathering_resistant_steel_pole.name",
+      "description": "tech_tree.kuayue.group.weathering_resistant_steel_pole.description",
+      "type": "plain",
+      "logo": "kuayue:weathering_resistant_steel_pole",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_pole": 1
+      },
+      "advancements": [],
+      "blueprint": { "kuayue:weathering_resistant_steel_block_0": 1},
+      "item": {
+        "create:experience_nugget": 32
+      }
+    },
+
+    "node_freight_c70_blueprint": {
+      "next_nodes": ["node_freight_nx70_blueprint"],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.freight_c70_blueprint.name",
+      "description": "tech_tree.kuayue.group.freight_c70_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:freight_c70_end_face",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 16,
+        "kuayue:weathering_resistant_steel_pole": 16,
+        "kuayue:research_report": 8,
+        "create:precision_mechanism": 2
+      },
+      "advancements": [],
+      "blueprint": {"kuayue:freight_c70_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_freight_nx70_blueprint": {
+      "next_nodes": [],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.freight_nx70_blueprint.name",
+      "description": "tech_tree.kuayue.group.freight_nx70_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:freight_nx70_end_face",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 16,
+        "kuayue:weathering_resistant_steel_pole": 16,
+        "kuayue:research_report": 8,
+        "create:precision_mechanism": 2
+      },
+      "advancements": [],
+      "blueprint": { "kuayue:freight_nx70_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+
+    "node_carriage_25b_blueprint": {
+      "next_nodes": [
+        "node_carriage_25g_blueprint",
+        "node_carriage_m1_blueprint"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.carriage_25b_blueprint.name",
+      "description": "tech_tree.kuayue.group.carriage_25b_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:panel_bottom_25b",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 16,
+        "kuayue:weathering_resistant_steel_pole": 16,
+        "kuayue:research_report": 8,
+        "create:precision_mechanism": 2
+      },
+      "advancements": [],
+      "blueprint": {"kuayue:carriage_25b_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_head_df5_blueprint": {
+      "next_nodes": [
+        "node_head_df11_blueprint",
+        "node_head_df21_blueprint",
+        "node_head_jy290_blueprint"
+
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.head_df5_blueprint.name",
+      "description": "tech_tree.kuayue.group.head_df5_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:df5_end_face_1",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 16,
+        "kuayue:weathering_resistant_steel_pole": 16,
+        "kuayue:research_report": 8,
+        "create:precision_mechanism": 2
+      },
+      "advancements": [],
+      "blueprint": {"kuayue:head_df5_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_head_jy290_blueprint": {
+      "next_nodes": [
+
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.head_jy290_blueprint.name",
+      "description": "tech_tree.kuayue.group.head_jy290_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:jy290_head_1",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 16,
+        "kuayue:weathering_resistant_steel_pole": 16,
+        "kuayue:research_report": 8,
+        "create:precision_mechanism": 2
+      },
+      "advancements": [],
+      "blueprint": { "kuayue:head_jy290_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_head_df11_blueprint": {
+      "next_nodes": [
+        "node_head_df11g_blueprint"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.head_df11_blueprint.name",
+      "description": "tech_tree.kuayue.group.head_df11_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:df11_head",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 16,
+        "kuayue:weathering_resistant_steel_pole": 16,
+        "kuayue:research_report": 8,
+        "create:precision_mechanism": 2
+      },
+      "advancements": [],
+      "blueprint": {  "kuayue:head_df11_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_head_ss3_blueprint": {
+      "next_nodes": [
+        "node_head_ss8_blueprint"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.head_ss3_blueprint.name",
+      "description": "tech_tree.kuayue.group.head_ss3_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:ss3_head",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 16,
+        "kuayue:weathering_resistant_steel_pole": 16,
+        "kuayue:research_report": 8,
+        "create:precision_mechanism": 2
+      },
+      "advancements": [],
+      "blueprint": {  "kuayue:head_ss3_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_carriage_25g_blueprint": {
+      "next_nodes": [
+        "node_carriage_25k_blueprint"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.carriage_25g_blueprint.name",
+      "description": "tech_tree.kuayue.group.carriage_25g_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:panel_bottom_25g",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 16,
+        "kuayue:weathering_resistant_steel_pole": 16,
+        "kuayue:research_report": 8,
+        "create:precision_mechanism": 2
+      },
+      "advancements": [],
+      "blueprint": { "kuayue:carriage_25g_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_head_df21_blueprint": {
+      "next_nodes": [],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.head_df21_blueprint.name",
+      "description": "tech_tree.kuayue.group.head_df21_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:head_df21",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 16,
+        "kuayue:weathering_resistant_steel_pole": 16,
+        "kuayue:research_report": 8,
+        "create:precision_mechanism": 2
+      },
+      "advancements": [],
+      "blueprint": {  "kuayue:head_df21_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_carriage_m1_blueprint": {
+      "next_nodes": [
+        "node_head_df21_blueprint"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.carriage_m1_blueprint.name",
+      "description": "tech_tree.kuayue.group.carriage_m1_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:slab_bottom_m1",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 16,
+        "kuayue:weathering_resistant_steel_pole": 16,
+        "kuayue:research_report": 8,
+        "create:precision_mechanism": 2
+      },
+      "advancements": [],
+      "blueprint": { "kuayue:carriage_m1_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_carriage_22_blueprint": {
+      "next_nodes": [
+        "node_carriage_25b_blueprint"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.carriage_22_blueprint.name",
+      "description": "tech_tree.kuayue.group.carriage_22_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:22_panel_bottom",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 16,
+        "kuayue:weathering_resistant_steel_pole": 32,
+        "kuayue:research_report": 16,
+        "create:precision_mechanism": 2
+      },
+      "advancements": [],
+      "blueprint": {"kuayue:carriage_22_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_head_ss8_blueprint": {
+      "next_nodes": [
+        "node_head_hxd3d_blueprint"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.head_ss8_blueprint.name",
+      "description": "tech_tree.kuayue.group.head_ss8_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:ss8_head",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 32,
+        "kuayue:weathering_resistant_steel_pole": 32,
+        "kuayue:research_report": 16,
+        "create:precision_mechanism": 4
+      },
+      "advancements": [],
+      "blueprint": { "kuayue:head_ss8_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_carriage_25z_blueprint": {
+      "next_nodes": [
+        "node_carriage_25t_blueprint"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.carriage_25z_blueprint.name",
+      "description": "tech_tree.kuayue.group.carriage_25z_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:panel_bottom_line_25z",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 32,
+        "kuayue:weathering_resistant_steel_pole": 32,
+        "kuayue:research_report": 16,
+        "create:precision_mechanism": 4
+      },
+      "advancements": [],
+      "blueprint": {"kuayue:carriage_25z_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_carriage_25k_blueprint": {
+      "next_nodes": [
+        "node_carriage_25z_blueprint"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.carriage_25k_blueprint.name",
+      "description": "tech_tree.kuayue.group.carriage_25k_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:panel_bottom_25k",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 32,
+        "kuayue:weathering_resistant_steel_pole": 32,
+        "kuayue:research_report": 16,
+        "create:precision_mechanism": 4
+      },
+      "advancements": [],
+      "blueprint": { "kuayue:carriage_25k_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_head_df11g_blueprint": {
+      "next_nodes": [
+
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.head_df11g_blueprint.name",
+      "description": "tech_tree.kuayue.group.head_df11g_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:head_df11g_2",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 32,
+        "kuayue:weathering_resistant_steel_pole": 32,
+        "kuayue:research_report": 16,
+        "create:precision_mechanism": 8
+      },
+      "advancements": [],
+      "blueprint": { "kuayue:head_df11g_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_carriage_25t_blueprint": {
+      "next_nodes": [
+        "node_carriage_marshalled_blueprint",
+        "node_carriage_cr200j_blueprint"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.carriage_25t_blueprint.name",
+      "description": "tech_tree.kuayue.group.carriage_25t_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:panel_bottom_25t",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 32,
+        "kuayue:weathering_resistant_steel_pole": 32,
+        "kuayue:research_report": 16,
+        "create:precision_mechanism": 8
+      },
+      "advancements": [],
+      "blueprint": {"kuayue:carriage_25t_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 64
+      }
+    },
+
+    "node_carriage_marshalled_blueprint": {
+      "next_nodes": [],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.carriage_marshalled_blueprint.name",
+      "description": "tech_tree.kuayue.group.carriage_marshalled_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:panel_bottom_marshalled_25",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "minecraft:green_dye": 128
+      },
+      "advancements": [],
+      "blueprint": {"kuayue:carriage_marshalled_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 32
+      }
+    },
+
+    "node_head_hxd3d_blueprint": {
+      "next_nodes": [
+        "node_carriage_cr200j_blueprint"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.head_hxd3d_blueprint.name",
+      "description": "tech_tree.kuayue.group.head_hxd3d_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:head_hxd3d",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 32,
+        "kuayue:weathering_resistant_steel_pole": 32,
+        "kuayue:research_report": 32,
+        "create:precision_mechanism": 16
+      },
+      "advancements": [],
+      "blueprint": { "kuayue:head_hxd3d_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 128
+      }
+    },
+
+    "node_carriage_cr200j_blueprint": {
+      "next_nodes": [],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.carriage_cr200j_blueprint.name",
+      "description": "tech_tree.kuayue.group.carriage_cr200j_blueprint.description",
+      "type": "plain",
+      "logo": "kuayue:panel_wide_logo_cr_marshalled_cr200j",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 64,
+        "kuayue:weathering_resistant_steel_pole": 64,
+        "kuayue:research_report": 64,
+        "create:precision_mechanism": 32
+      },
+      "advancements": [],
+      "blueprint": { "kuayue:carriage_cr200j_blueprint": 1},
+      "item": {
+        "create:experience_nugget": 128
+      }
+    }
+  }
+}
