@@ -2,6 +2,7 @@ package cn.kycraft.kuayue.parts.locomotives.df5;
 
 import cn.kycraft.kuayue.parts.KuaYueTrainPanelModule;
 import cn.kycraft.kuayue.parts.core.panel.*;
+import cn.kycraft.kuayue.parts.core.panel.door.TrainDoorBlock;
 import cn.kycraft.kuayue.parts.core.panel.registration.PanelReg;
 import cn.kycraft.kuayue.parts.core.panel.registration.SlabReg;
 import io.micronaut.context.annotation.Context;
@@ -83,14 +84,14 @@ public class I5Panel {
     public static final PanelReg<TrainPanelBlock> DF5_RADIATOR_GRID =
             new PanelReg<>("df5_radiator_grid", p -> new TrainPanelBlock(p, new Vec2(0, 0), new Vec2(1, 2))).setParent(GROUP_DF5);
 
-    public static final PanelReg<TrainHingePanelBlock> DF5_ENGINE_ACCESS_DOOR =
-            new PanelReg<>("df5_engine_access_door", TrainHingePanelBlock::new).setParent(GROUP_DF5);
-    public static final PanelReg<TrainHingePanelBlock> DF5_EQUIP_DOOR_1 =
-            new PanelReg<>("df5_equip_door_1", TrainHingePanelBlock::new).setParent(GROUP_DF5);
-    public static final PanelReg<TrainHingePanelBlock> DF5_EQUIP_DOOR_2 =
-            new PanelReg<>("df5_equip_door_2", TrainHingePanelBlock::new).setParent(GROUP_DF5);
-    public static final PanelReg<TrainHingePanelBlock> DF5_CABIN_DOOR =
-            new PanelReg<>("df5_cabin_door", TrainHingePanelBlock::new).setParent(GROUP_DF5);
+    public static final PanelReg<TrainDoorBlock> DF5_ENGINE_ACCESS_DOOR =
+            new PanelReg<>("df5_engine_access_door", p -> new TrainDoorBlock(p, new Vec2(0, 0), new Vec2(1, 1))).setParent(GROUP_DF5);
+    public static final PanelReg<TrainDoorBlock> DF5_EQUIP_DOOR_1 =
+            new PanelReg<>("df5_equip_door_1", p -> new TrainDoorBlock(p, new Vec2(0, 0), new Vec2(1, 1))).setParent(GROUP_DF5);
+    public static final PanelReg<TrainDoorBlock> DF5_EQUIP_DOOR_2 =
+            new PanelReg<>("df5_equip_door_2", p -> new TrainDoorBlock(p, new Vec2(0, 0), new Vec2(1, 1))).setParent(GROUP_DF5);
+    public static final PanelReg<TrainDoorBlock> DF5_CABIN_DOOR =
+            new PanelReg<>("df5_cabin_door", p -> new TrainDoorBlock(p, new Vec2(0, 0), new Vec2(1, 1))).setParent(GROUP_DF5);
 
     public static final PanelReg<TrainPanelBlock> DF5_HEAD_END_FACE =
             new PanelReg<>("df5_head_end_face", TrainPanelBlock::new).setParent(GROUP_DF5);
