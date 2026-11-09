@@ -26,6 +26,9 @@ public final class TechTreeClientEvents {
     public static void onPlayerTick(PlayerTickEvent.Post event) {
         if (!event.getEntity().level().isClientSide()) return;
         if (event.getEntity() != net.minecraft.client.Minecraft.getInstance().player) return;
+        // Cheap every-tick retry: registers deferred inventory slots as soon as the menu exists.
+        TechTreeScreen.tickPendingInventorySlots();
+
         if (++tickCounter % 40 != 0) return;
         if (TechTreeBoard.isUiOpen()) {
             TechTreeRpc.open().run(new TechTreeRpc.OpenPayload(false))

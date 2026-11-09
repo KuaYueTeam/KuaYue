@@ -2,6 +2,7 @@ package cn.kycraft.kuayue.content.techtree;
 
 import com.lowdragmc.lowdraglib2.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.ItemSlot;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import net.minecraft.network.chat.Component;
@@ -38,6 +39,7 @@ final class TechTreeDetailPanel {
 
         pane.addChild(nodeTitle(node));
         pane.addChild(backButton());
+        pane.addChild(descriptionLabel(node));
         if (unlocked) {
             pane.addChild(finishedTooltip(node));
             return pane;
@@ -58,7 +60,7 @@ final class TechTreeDetailPanel {
                 .setWidth(16).setHeight(8).setPositionType(org.appliedenergistics.yoga.YogaPositionType.ABSOLUTE)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, 6f)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.TOP, 6f));
-        button.style(s -> s.background(TechTreeTextures.accent())
+        button.style(s -> s.background(TechTreeTextures.backArrow())
                 .tooltips(Component.translatable("tech_tree.board.back")));
         button.addEventListener(com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents.CLICK,
                 event -> TechTreeScreen.requestBackToTree());
@@ -76,12 +78,36 @@ final class TechTreeDetailPanel {
         return title;
     }
 
+    /**
+     * Node description, always visible so the detail page explains what the node is.
+     *
+     * <p>The description sits under the title and above the slot row; the completed-view text block is a
+     * separate element and only appears once the node is unlocked.</p>
+     */
+    private static UIElement descriptionLabel(TreeSnapshot.NodeView node) {
+        Label label = new Label();
+        label.setText(Component.translatable(node.descriptionKey()));
+        label.textStyle(t -> t.textColor(0xFFD8C9A8)
+                .adaptiveHeight(true)
+                .textWrap(com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap.WRAP));
+        label.layout(l -> l.setPositionType(org.appliedenergistics.yoga.YogaPositionType.ABSOLUTE)
+                .setWidth(212).setHeight(28)
+                .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, 39f)
+                .setPosition(org.appliedenergistics.yoga.YogaEdge.TOP, 28f));
+        return label;
+    }
+
+    /**
+ * Consumption slots, laid out exactly like the 1.0 screen: one centre slot, a 3x2 block and a
+ * closing slot. They are real {@link ItemSlot}s so a player can put the required items in by hand,
+ * which is what 1.0 allowed (the server still consumes from the inventory on unlock).
+ */
     private static UIElement consumptionSlots(TreeSnapshot.NodeView node, CheckResult check) {
         UIElement group = new UIElement();
         group.layout(l -> l.setPositionType(org.appliedenergistics.yoga.YogaPositionType.ABSOLUTE)
                 .setWidth(TechTreeScreen.BOARD_W).setHeight(TechTreeScreen.BOARD_H));
         List<ItemStack> consume = node.consume();
-        for (int i = 0; i < Math.min(8, consume.size()); i++) {
+        for (int i = 0; i < 8; i++) {
             int x;
             int y;
             if (i == 0) {
@@ -94,7 +120,10 @@ final class TechTreeDetailPanel {
                 x = CONSUME_CENTER_X + ((i - 1) / 2) * SLOT;
                 y = CONSUME_CENTER_Y + ((i - 1) % 2) * SLOT;
             }
-            group.addChild(slot(consume.get(i), x, y, check == null || !missingItem(check, consume.get(i))));
+            // Missing stacks are shown in the slot as a ghost so the player can see how many are needed.
+            ItemStack shown = i < consume.size() ? consume.get(i) : ItemStack.EMPTY;
+            boolean satisfied = check != null && !missingItem(check, shown);
+            group.addChild(slot(shown, x, y, satisfied));
         }
         return group;
     }
@@ -112,16 +141,23 @@ final class TechTreeDetailPanel {
         return group;
     }
 
+    /**
+     * A real LDLib2 item slot.
+     *
+     * <p>Using {@link ItemSlot} instead of a painted rectangle is what makes the slot interactive: players
+     * can drop items in, and the red/green marker is drawn as an overlay on top of it.</p>
+     */
     private static UIElement slot(ItemStack stack, int x, int y, boolean satisfied) {
-        UIElement slot = new UIElement();
+        ItemSlot slot = new ItemSlot();
         slot.layout(l -> l.setPositionType(org.appliedenergistics.yoga.YogaPositionType.ABSOLUTE)
                 .setWidth(SLOT).setHeight(SLOT)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, (float) x)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.TOP, (float) y));
-        slot.style(s -> s.background(TechTreeTextures.slot(satisfied))
-                .overlay(stack.isEmpty() ? null : new ItemStackTexture(stack))
-                .overlay(satisfied ? TechTreeTextures.slotMark(true) : null)
-                .tooltips(stack.isEmpty() ? new Component[0] : new Component[]{stack.getHoverName()}));
+        if (stack != null && !stack.isEmpty()) {
+            slot.setItem(stack);
+            slot.style(s -> s.overlay(TechTreeTextures.slotMark(satisfied))
+                    .tooltips(stack.getHoverName()));
+        }
         return slot;
     }
 
@@ -138,7 +174,7 @@ final class TechTreeDetailPanel {
                 .setWidth(9).setHeight(11)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, 174f)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.TOP, 108f));
-        bar.style(s -> s.background(enough ? TechTreeTextures.slotMark(true) : TechTreeTextures.slotMark(false)));
+        bar.style(s -> s.background(TechTreeTextures.expBar(enough)));
         return bar;
     }
 
@@ -154,7 +190,7 @@ final class TechTreeDetailPanel {
                 .setWidth(16).setHeight(16)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, 168f)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.TOP, 124f));
-        button.style(s -> s.background(TechTreeTextures.accent()).overlay(TechTreeTextures.outline(0xFFFFFFFF)));
+        button.style(s -> s.background(TechTreeTextures.confirm()));
         button.addEventListener(UIEvents.CLICK, event -> {
             cn.kycraft.kuayue.content.techtree.net.TechTreeRpc.unlockNode()
                     .request(node.location().toString())
@@ -170,7 +206,13 @@ final class TechTreeDetailPanel {
                 .setWidth(212).setHeight(33)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, 53f)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.TOP, 107f));
-        block.style(s -> s.background(TechTreeTextures.nodePlate(false, true)));
+        // The stamp is a 32x32 sprite; stretching it across 212x33 widened the check mark. Draw it at
+        // its own size in the corner and leave the rest of the block transparent.
+        UIElement stamp = new UIElement();
+        stamp.layout(l -> l.setPositionType(org.appliedenergistics.yoga.YogaPositionType.ABSOLUTE)
+                .setWidth(32).setHeight(32));
+        stamp.style(s -> s.background(TechTreeTextures.completedStamp()));
+        block.addChild(stamp);
 
         String text = node.unlockKey() == null || node.unlockKey().isEmpty()
                 ? node.descriptionKey()
@@ -180,7 +222,7 @@ final class TechTreeDetailPanel {
         label.textStyle(t -> t.textColor(0xFFFFFFFF).adaptiveHeight(true).textWrap(
                 com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap.WRAP));
         label.layout(l -> l.setWidth(212 - 45).setHeight(33)
-                .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, 5f));
+                .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, 38f));
         block.addChild(label);
         return block;
     }

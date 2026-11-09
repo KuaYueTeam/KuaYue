@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
  * <p>Horizontal facing matches the reference blockstate ({@code facing=north/east/south/west}), and the
  * world-space tech tree board is oriented with it.</p>
  */
-public class BlueprintTableBlock extends HorizontalDirectionalBlock implements EntityBlock {
+public class BlueprintTableBlock extends HorizontalDirectionalBlock implements EntityBlock, TechTreeMenuHost {
 
     public static final MapCodec<BlueprintTableBlock> CODEC = simpleCodec(BlueprintTableBlock::new);
 
@@ -83,10 +83,16 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
                                                BlockHitResult hit) {
-        if (level.isClientSide) {
-            if (level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
-                TechTreeBoard.openFor(table, player.isShiftKeyDown());
+        if (player.isShiftKeyDown()) {
+            // Sneak: read-only board drawn on the table top.
+            if (level.isClientSide && level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
+                TechTreeBoard.openFor(table, true);
             }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+        // Plain use: container-backed screen, which is what allows items to be placed in the slots.
+        if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
+            TechTreeMenuHost.openTable(serverPlayer, pos);
         }
         return InteractionResult.sidedSuccess(level.isClientSide);
     }

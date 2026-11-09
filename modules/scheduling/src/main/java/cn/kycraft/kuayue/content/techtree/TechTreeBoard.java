@@ -89,6 +89,16 @@ public final class TechTreeBoard {
         }
     }
 
+    /** Binds by position only; used by the container-menu path where the block entity is not at hand. */
+    static void bindPosition(net.minecraft.world.entity.player.Player player, net.minecraft.core.BlockPos pos) {
+        if (player == null || player.level() == null) return;
+        if (player.level().getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
+            ResourceLocation group = resolveGroup(table.selectedGroup());
+            if (group != null) currentGroup = group;
+            uiOpen = true;
+        }
+    }
+
     /** Binds the board to a table without registering a world renderable (GUI host). */
     public static void bind(BlueprintTableBlockEntity table) {
         ResourceLocation group = resolveGroup(table.selectedGroup());
@@ -170,7 +180,6 @@ public final class TechTreeBoard {
                 .setFlexDirection(org.appliedenergistics.yoga.YogaFlexDirection.ROW)
                 .setAlignItems(org.appliedenergistics.yoga.YogaAlign.CENTER));
         card.style(s -> s.background(TechTreeTextures.nodePlate(node.type() == NodeType.EPIC, unlocked))
-                .overlay(TechTreeTextures.outline(unlocked ? 0xFF63C07A : 0xFF4A5866))
                 .tooltips(Component.translatable(node.nameKey()),
                         Component.translatable(node.descriptionKey())));
 
