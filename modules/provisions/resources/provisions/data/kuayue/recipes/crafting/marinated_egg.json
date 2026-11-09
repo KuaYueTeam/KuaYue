@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "A": { "tag": "minecraft:small_flowers" },
+    "B": { "item": "minecraft:sugar" },
+    "C": { "tag": "forge:salt" },
+    "D": { "item": "kuayue:monosodium_glutamate" },
+    "E": { "item": "minecraft:egg" }
+  },
+  "pattern": [
+    "AAA",
+    "EEE",
+    "BCD"
+  ],
+  "result": {
+    "item": "kuayue:marinated_egg",
+    "count": 3
+  },
+  "show_notification": true
+}

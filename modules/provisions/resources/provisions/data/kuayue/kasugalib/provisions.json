@@ -1,0 +1,220 @@
+{
+  "registry_groups": [
+    {
+      "id": "kuayue:meals_food",
+      "properties": {
+        "strength": [
+          0.5,
+          0.5
+        ],
+        "no_occlusion": true,
+        "sound_type": "wool"
+      },
+      "item_properties": {
+        "tab": "kuayue:provisions_tab"
+      }
+    },
+    {
+      "id": "kuayue:meals_drink",
+      "properties": {
+        "strength": [
+          0.5,
+          0.5
+        ],
+        "no_occlusion": true,
+        "sound_type": "metal"
+      },
+      "item_properties": {
+        "tab": "kuayue:provisions_tab"
+      }
+    },
+    {
+      "id": "kuayue:meals_simple",
+      "properties": {},
+      "item_properties": {
+        "tab": "kuayue:provisions_tab"
+      }
+    }
+  ],
+  "blocks": [
+    {
+      "id": "kuayue:train_diet_1",
+      "type": "diet_box",
+      "registry_group": "kuayue:meals_food",
+      "params": {
+        "food_type": "BOX",
+        "has_tooltip": true,
+        "remainder": "kuayue:lunch_box"
+      }
+    },
+    {
+      "id": "kuayue:kua_cola",
+      "type": "drink",
+      "registry_group": "kuayue:meals_drink",
+      "params": {
+        "food_type": "BOTTLE",
+        "has_particle": true,
+        "has_tooltip": true
+      }
+    },
+    {
+      "id": "kuayue:blue_bull",
+      "type": "drink",
+      "registry_group": "kuayue:meals_drink",
+      "params": {
+        "food_type": "BOTTLE",
+        "has_particle": false,
+        "has_tooltip": true
+      }
+    },
+    {
+      "id": "kuayue:dried_instant_noodles",
+      "type": "dried_noodles",
+      "registry_group": "kuayue:meals_food",
+      "params": {
+        "food_type": "BOX",
+        "has_tooltip": true
+      }
+    },
+    {
+      "id": "kuayue:soaked_instant_noodles",
+      "type": "soaked_noodles",
+      "registry_group": "kuayue:meals_food",
+      "params": {
+        "has_tooltip": true
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "kuayue:lunch_box",
+      "type": "simple_item",
+      "registry_group": "kuayue:meals_simple",
+      "properties": {
+        "tab": "kuayue:provisions_tab"
+      }
+    },
+    {
+      "id": "kuayue:empty_can",
+      "type": "simple_item",
+      "registry_group": "kuayue:meals_simple",
+      "properties": {
+        "tab": "kuayue:provisions_tab"
+      }
+    },
+    {
+      "id": "kuayue:empty_can_blue",
+      "type": "simple_item",
+      "registry_group": "kuayue:meals_simple",
+      "properties": {
+        "tab": "kuayue:provisions_tab"
+      }
+    },
+    {
+      "id": "kuayue:ham_sausage",
+      "type": "simple_item",
+      "registry_group": "kuayue:meals_simple",
+      "properties": {
+        "tab": "kuayue:provisions_tab"
+      },
+      "params": {
+        "food": {
+          "nutrition": 6,
+          "saturation": 0.5,
+          "fast": true
+        }
+      }
+    },
+    {
+      "id": "kuayue:marinated_egg",
+      "type": "simple_item",
+      "registry_group": "kuayue:meals_simple",
+      "properties": {
+        "tab": "kuayue:provisions_tab"
+      },
+      "params": {
+        "food": {
+          "nutrition": 8,
+          "saturation": 0.75,
+          "fast": true
+        }
+      }
+    },
+    {
+      "id": "kuayue:half_marinated_egg",
+      "type": "simple_item",
+      "registry_group": "kuayue:meals_simple",
+      "properties": {
+        "tab": "kuayue:provisions_tab"
+      },
+      "params": {
+        "food": {
+          "nutrition": 5,
+          "saturation": 1.0,
+          "fast": true
+        }
+      }
+    },
+    {
+      "id": "kuayue:calcium_milk_biscuits",
+      "type": "simple_item",
+      "registry_group": "kuayue:meals_simple",
+      "properties": {
+        "tab": "kuayue:provisions_tab"
+      },
+      "params": {
+        "food": {
+          "nutrition": 3,
+          "saturation": 0.5,
+          "fast": true
+        }
+      }
+    },
+    {
+      "id": "kuayue:spicy_fish_tofu",
+      "type": "simple_item",
+      "registry_group": "kuayue:meals_simple",
+      "properties": {
+        "tab": "kuayue:provisions_tab"
+      },
+      "params": {
+        "food": {
+          "nutrition": 6,
+          "saturation": 0.5,
+          "fast": true
+        }
+      }
+    },
+    {
+      "id": "kuayue:salt_baked_drumsticks",
+      "type": "simple_item",
+      "registry_group": "kuayue:meals_simple",
+      "properties": {
+        "tab": "kuayue:provisions_tab"
+      },
+      "params": {
+        "food": {
+          "nutrition": 8,
+          "saturation": 0.75,
+          "fast": true
+        }
+      }
+    },
+    {
+      "id": "kuayue:monosodium_glutamate",
+      "type": "simple_item",
+      "registry_group": "kuayue:meals_simple",
+      "properties": {
+        "tab": "kuayue:provisions_tab"
+      }
+    },
+    {
+      "id": "kuayue:salt",
+      "type": "simple_item",
+      "registry_group": "kuayue:meals_simple",
+      "properties": {
+        "tab": "kuayue:provisions_tab"
+      }
+    }
+  ]
+}
