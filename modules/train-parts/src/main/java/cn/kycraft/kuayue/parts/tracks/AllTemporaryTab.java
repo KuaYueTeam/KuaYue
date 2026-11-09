@@ -3,7 +3,7 @@ package cn.kycraft.kuayue.parts.tracks;
 import cn.kycraft.kuayue.parts.KuaYueTrainPanelModule;
 import cn.kycraft.kuayue.parts.bogeys.AllCarriageBogeys;
 import io.micronaut.context.annotation.Context;
-import lib.kasuga.registration.minecraft.block.BlockReg;
+import lib.kasuga.create.registration.track.TrackReg;
 import lib.kasuga.registration.minecraft.creative_tab.CreativeTabReg;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -23,8 +23,8 @@ public class AllTemporaryTab {
             })
             .setParent(KuaYueTrainPanelModule.REGISTRY_GROUP);
 
-    private static void addIfNotNull(CreativeModeTab.Output output, BlockReg<?> blockReg) {
-        var block = blockReg.getEntry();
+    private static void addIfNotNull(CreativeModeTab.Output output, TrackReg<?> trackReg) {
+        var block = trackReg.getEntry();
         if (block != null) {
             output.accept(block);
         }

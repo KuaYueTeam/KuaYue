@@ -1,56 +1,79 @@
 package cn.kycraft.kuayue.parts.tracks;
 
 import cn.kycraft.kuayue.parts.KuaYueTrainPanelModule;
-import com.simibubi.create.content.trains.track.TrackBlock;
-import com.simibubi.create.content.trains.track.TrackBlockItem;
+import cn.kycraft.kuayue.parts.bogeys.AllCarriageBogeys;
+import cn.kycraft.kuayue.parts.tracks.core.SimpleTrackBlock;
+import com.simibubi.create.content.trains.bogey.AbstractBogeyBlock;
 import io.micronaut.context.annotation.Context;
+import lib.kasuga.create.registration.track.TrackMaterialReg;
+import lib.kasuga.create.registration.track.TrackReg;
 import lib.kasuga.registration.RegistryGroup;
-import lib.kasuga.registration.minecraft.block.BlockReg;
 import lib.kasuga.registration.minecraft.block.BlockRegConfigurations;
 import net.minecraft.world.level.block.SoundType;
 
+import java.util.function.Supplier;
+
 @Context
-public class AllTracks {
+public final class AllTracks {
 
     public static final RegistryGroup TRACK_REGISTRY = new RegistryGroup()
             .configure(BlockRegConfigurations.adopt(block -> block
                     .noOcclusion()
-                    .strength(0.8F, 0.8F)
+                    .strength(0.8f, 0.8f)
                     .sound(SoundType.METAL)))
             .setParent(KuaYueTrainPanelModule.REGISTRY_GROUP);
 
-    public static final BlockReg<TrackBlock> STANDARD_TRACK =
-            BlockReg.of("standard_track",
-                            p -> AllTrackMaterials.STANDARD.createBlock(p))
-                    .withBlockItem("standard_track",
-                            () -> (block, props) -> new TrackBlockItem(block, props))
-                    .setParent(TRACK_REGISTRY);
+    public static final TrackReg<SimpleTrackBlock> STANDARD_TRACK =
+            track("standard_track", AllTrackMaterials.STANDARD,
+                    () -> AllCarriageBogeys.PK209P_BLOCK.getEntry());
+    public static final TrackReg<SimpleTrackBlock> BALLASTLESS_TRACK =
+            track("ballastless_track", AllTrackMaterials.BALLASTLESS,
+                    () -> AllCarriageBogeys.PK209P_BLOCK.getEntry());
+    public static final TrackReg<SimpleTrackBlock> TIELESS_TRACK =
+            track("tieless_track", AllTrackMaterials.TIELESS,
+                    () -> AllCarriageBogeys.PK209P_BLOCK.getEntry());
+    public static final TrackReg<SimpleTrackBlock> METER_TRACK =
+            track("meter_track", AllTrackMaterials.METER,
+                    () -> AllCarriageBogeys.MKZ_BLOCK.getEntry());
+    public static final TrackReg<SimpleTrackBlock> GUARD_TRACK =
+            track("guard_track", AllTrackMaterials.GUARD,
+                    () -> AllCarriageBogeys.PK209P_BLOCK.getEntry());
 
-    public static final BlockReg<TrackBlock> BALLASTLESS_TRACK =
-            BlockReg.of("ballastless_track",
-                            p -> AllTrackMaterials.BALLASTLESS.createBlock(p))
-                    .withBlockItem("ballastless_track",
-                            () -> (block, props) -> new TrackBlockItem(block, props))
-                    .setParent(TRACK_REGISTRY);
+    static {
+        bind(AllTrackMaterials.STANDARD, STANDARD_TRACK);
+        bind(AllTrackMaterials.BALLASTLESS, BALLASTLESS_TRACK);
+        bind(AllTrackMaterials.TIELESS, TIELESS_TRACK);
+        bind(AllTrackMaterials.METER, METER_TRACK);
+        bind(AllTrackMaterials.GUARD, GUARD_TRACK);
+    }
 
-    public static final BlockReg<TrackBlock> TIELESS_TRACK =
-            BlockReg.of("tieless_track",
-                            p -> AllTrackMaterials.TIELESS.createBlock(p))
-                    .withBlockItem("tieless_track",
-                            () -> (block, props) -> new TrackBlockItem(block, props))
-                    .setParent(TRACK_REGISTRY);
+    public AllTracks() {
+    }
 
-    public static final BlockReg<TrackBlock> METER_TRACK =
-            BlockReg.of("meter_track",
-                            p -> AllTrackMaterials.METER.createBlock(p))
-                    .withBlockItem("meter_track",
-                            () -> (block, props) -> new TrackBlockItem(block, props))
-                    .setParent(TRACK_REGISTRY);
+    private static TrackReg<SimpleTrackBlock> track(
+            String name,
+            TrackMaterialReg material,
+            Supplier<? extends AbstractBogeyBlock<?>> bogey
+    ) {
+        return new TrackReg<>(
+                name,
+                material,
+                (properties, resolvedMaterial) -> new SimpleTrackBlock(
+                        properties,
+                        resolvedMaterial,
+                        bogey
+                )
+        ).withBlockProperties(properties -> properties
+                        .noOcclusion()
+                        .strength(0.8f, 0.8f)
+                        .sound(SoundType.METAL))
+                .setParent(TRACK_REGISTRY);
+    }
 
-    public static final BlockReg<TrackBlock> GUARD_TRACK =
-            BlockReg.of("guard_track",
-                            p -> AllTrackMaterials.GUARD.createBlock(p))
-                    .withBlockItem("guard_track",
-                            () -> (block, props) -> new TrackBlockItem(block, props))
-                    .setParent(TRACK_REGISTRY);
+    private static void bind(
+            TrackMaterialReg material,
+            TrackReg<SimpleTrackBlock> track
+    ) {
+        material.block(track).setParent(TRACK_REGISTRY);
+    }
 }

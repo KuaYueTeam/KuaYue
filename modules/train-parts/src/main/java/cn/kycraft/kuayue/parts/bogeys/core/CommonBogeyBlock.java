@@ -13,11 +13,15 @@ import com.simibubi.create.content.trains.graph.TrackEdge;
 import com.simibubi.create.content.trains.track.TrackMaterial;
 import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
+import lib.kasuga.rendering.models.mc.proxies.ProxyTickers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -35,7 +39,7 @@ public class CommonBogeyBlock extends AbstractBogeyBlock<CommonBogeyBlockEntity>
 
     static Supplier<BlockEntityType<? extends CommonBogeyBlockEntity>> GLOBAL_BE_TYPE = () -> null;
 
-    private final BogeyStyle defaultStyle;
+    private final Supplier<BogeyStyle> defaultStyle;
     private final TrackMaterial.TrackType primaryType;
     private final Set<TrackMaterial.TrackType> validTypes;
     private final double wheelPointSpacing;
@@ -46,13 +50,15 @@ public class CommonBogeyBlock extends AbstractBogeyBlock<CommonBogeyBlockEntity>
         GLOBAL_BE_TYPE = supplier;
     }
 
-    public CommonBogeyBlock(Properties props, BogeySizes.BogeySize size, BogeyStyle defaultStyle,
+    public CommonBogeyBlock(Properties props, BogeySizes.BogeySize size,
+                            Supplier<BogeyStyle> defaultStyle,
                             TrackMaterial.TrackType primaryType, Set<TrackMaterial.TrackType> validTypes,
                             double wheelPointSpacing, Vec3 connectorAnchorOffset) {
         this(props, size, defaultStyle, primaryType, validTypes, wheelPointSpacing, connectorAnchorOffset, true);
     }
 
-    public CommonBogeyBlock(Properties props, BogeySizes.BogeySize size, BogeyStyle defaultStyle,
+    public CommonBogeyBlock(Properties props, BogeySizes.BogeySize size,
+                            Supplier<BogeyStyle> defaultStyle,
                             TrackMaterial.TrackType primaryType, Set<TrackMaterial.TrackType> validTypes,
                             double wheelPointSpacing, Vec3 connectorAnchorOffset,
                             boolean allowSingleBogeyCarriage) {
@@ -112,7 +118,16 @@ public class CommonBogeyBlock extends AbstractBogeyBlock<CommonBogeyBlockEntity>
 
     @Override
     public BogeyStyle getDefaultStyle() {
-        return defaultStyle;
+        return defaultStyle.get();
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            Level level,
+            BlockState state,
+            BlockEntityType<T> type
+    ) {
+        return ProxyTickers.forClientBlockEntity(type);
     }
 
     @Override
