@@ -1,6 +1,6 @@
 {
     "credit": "Made by WillowKoishi",
-    "render_type": "translucent",
+    "render_type": "cutout_mipped",
     "texture_size": [
         64,
         64
