@@ -19,6 +19,7 @@ import lib.kasuga.rendering.models.uml.math.Transform;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import java.util.List;
 
@@ -56,7 +57,8 @@ public final class KuaYueBogeyProxyComposition {
                 instance,
                 parts,
                 () -> null,
-                new Transform()
+                new Transform(),
+                new Vector3f(0f, -placement.yOffset(), 0f)
         );
         return ProxyComposition.of(
                 POLICY,
