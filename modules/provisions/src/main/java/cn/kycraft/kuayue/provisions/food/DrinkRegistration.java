@@ -1,32 +1,19 @@
 package cn.kycraft.kuayue.provisions.food;
 
-import cn.kycraft.kuayue.KuaYue;
-import io.micronaut.context.annotation.Context;
-import lib.kasuga.registration.RegistryGroup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.Item;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 /**
- * 空罐 / 饮料罐 items.
+ * 饮料罐的食物数值。
  *
- * <p>Food values live on {@link DrinkCanItem}, not on {@code Item.Properties#food}, because vanilla
- * skips food handling for items that have a crafting remainder.</p>
+ * <p>物品本身由 data-driven 的 {@code drink} 工厂产出（{@link cn.kycraft.kuayue.provisions.block.ParticlesDrinkBlock}
+ * 方块 + {@link DrinkCanItem} 物品），这里只保留两份 {@link FoodProperties} 供工厂引用，
+ * 避免同一个 id 被两条注册管线重复注册。</p>
  */
-@Context
-public class DrinkRegistration {
+public final class DrinkRegistration {
 
-    public static final RegistryGroup GROUP_DRINK = new RegistryGroup()
-            .setParent(KuaYue.REGISTRY);
-
-    public static final DeferredRegister<Item> ITEMS =
-            DeferredRegister.create(Registries.ITEM, KuaYue.MODID);
-
+    /** 可乐：营养 1 / 饱和 0.5 / 可随时食用 / 迅捷 I 3 分钟。 */
     public static final FoodProperties KUA_COLA_FOOD = new FoodProperties.Builder()
             .nutrition(1)
             .saturationModifier(0.5F)
@@ -34,6 +21,7 @@ public class DrinkRegistration {
             .effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 3600, 1), 1.0F)
             .build();
 
+    /** 蓝牛：营养 1 / 饱和 0.5 / 可随时食用 / 跳跃提升 I 6 分钟。 */
     public static final FoodProperties BLUE_BULL_FOOD = new FoodProperties.Builder()
             .nutrition(1)
             .saturationModifier(0.5F)
@@ -41,25 +29,6 @@ public class DrinkRegistration {
             .effect(new MobEffectInstance(MobEffects.JUMP, 7200, 1), 1.0F)
             .build();
 
-    public static final DeferredHolder<Item, EmptyCanItem> EMPTY_CAN =
-            ITEMS.register("empty_can", () -> new EmptyCanItem(new Item.Properties().stacksTo(64)));
-
-    public static final DeferredHolder<Item, EmptyCanItem> EMPTY_CAN_BLUE =
-            ITEMS.register("empty_can_blue", () -> new EmptyCanItem(new Item.Properties().stacksTo(64)));
-
-    public static final DeferredHolder<Item, DrinkCanItem> KUA_COLA =
-            ITEMS.register("kua_cola", () -> new DrinkCanItem(
-                    new Item.Properties().stacksTo(16),
-                    KUA_COLA_FOOD,
-                    () -> EMPTY_CAN.get()));
-
-    public static final DeferredHolder<Item, DrinkCanItem> BLUE_BULL =
-            ITEMS.register("blue_bull", () -> new DrinkCanItem(
-                    new Item.Properties().stacksTo(16),
-                    BLUE_BULL_FOOD,
-                    () -> EMPTY_CAN_BLUE.get()));
-
-    public static void register(IEventBus modEventBus) {
-        ITEMS.register(modEventBus);
+    private DrinkRegistration() {
     }
 }

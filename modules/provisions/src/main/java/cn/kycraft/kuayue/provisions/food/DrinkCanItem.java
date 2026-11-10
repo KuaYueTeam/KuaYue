@@ -10,30 +10,39 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.Supplier;
 
 /**
- * 饮料罐: hold right-click to drink, then the empty can comes back.
+ * 饮料罐：手持时是饮品，右键方块时是放置物。
  *
- * <p>Food values and effects are applied by hand in {@link #finishUsingItem} instead of through
- * {@code Item.Properties#food}. Vanilla's {@code Item} deliberately skips the food branch for
- * items that declare a crafting remainder, which silently swallowed the effects - doing it here
- * keeps the drink working and the empty can coming back.</p>
+ * <p>继承 {@link BlockItem} 让它能放下 {@code drink} 工厂生成的方块，同时重写 {@link #use}
+ * 提供饮用行为——原版 {@code BlockItem#use} 只处理放置，不会开始使用物品。</p>
+ *
+ * <p>食物数值与效果在 {@link #finishUsingItem} 里手动结算，不走
+ * {@code Item.Properties#food}：原版对声明了 crafting remainder 的物品会整段跳过食物处理。</p>
+ *
+ * <p>方块通过 {@link Supplier} 传入。物品注册与方块注册是两个独立的 {@code RegisterEvent}
+ * 阶段，构造时解引用会撞上未绑定的注册项。</p>
  */
-public class DrinkCanItem extends Item {
+public class DrinkCanItem extends BlockItem {
 
     private final FoodProperties food;
     private final Supplier<? extends Item> container;
 
-    public DrinkCanItem(Properties properties, FoodProperties food, Supplier<? extends Item> container) {
-        super(properties);
+    public DrinkCanItem(Block block, Properties properties, FoodProperties food,
+                        Supplier<? extends Item> container) {
+        super(block, properties);
         this.food = food;
         this.container = container;
     }
@@ -61,8 +70,14 @@ public class DrinkCanItem extends Item {
         return 32;
     }
 
+    /**
+     * 潜行时交给 {@link BlockItem} 的放置逻辑，否则开始饮用。
+     */
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        if (player.isShiftKeyDown()) {
+            return super.use(level, player, hand);
+        }
         player.startUsingItem(hand);
         return InteractionResultHolder.consume(player.getItemInHand(hand));
     }
@@ -73,9 +88,7 @@ public class DrinkCanItem extends Item {
             return super.finishUsingItem(stack, level, entity);
         }
         if (!level.isClientSide) {
-            // nutrition / saturation
             player.getFoodData().eat(food.nutrition(), food.saturation());
-            // alwaysEat effects
             for (FoodProperties.PossibleEffect possible : food.effects()) {
                 if (level.getRandom().nextFloat() < possible.probability()) {
                     player.addEffect(new MobEffectInstance(possible.effect()));
