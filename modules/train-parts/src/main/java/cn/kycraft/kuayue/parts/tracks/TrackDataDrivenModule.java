@@ -1,8 +1,8 @@
 package cn.kycraft.kuayue.parts.tracks;
 
 import cn.kycraft.kuayue.parts.KuaYueTrainPanelModule;
-import cn.kycraft.kuayue.parts.bogeys.AllCarriageBogeys;
 import cn.kycraft.kuayue.parts.tracks.data.TrackTypeHandler;
+import com.simibubi.create.AllBlocks;
 import io.micronaut.context.annotation.Context;
 import jakarta.annotation.PostConstruct;
 import lib.kasuga.registration.data_driven.TypeHandlerRegistry;
@@ -22,7 +22,7 @@ public final class TrackDataDrivenModule {
     /** Creative tab receiving data-driven track items that do not override {@code item_properties.tab}. */
     public static final CreativeTabReg KUAYUE_TEMP_TAB = new CreativeTabReg("kuayue_temp_tab")
             .title(Component.literal("Kuayue Test"))
-            .icon(() -> AllCarriageBogeys.CW2_BLOCK.getEntry().asItem().getDefaultInstance())
+            .icon(() -> AllBlocks.RAILWAY_CASING.asStack())
             .displayItems((params, output) -> {
             })
             .setParent(KuaYueTrainPanelModule.REGISTRY_GROUP);

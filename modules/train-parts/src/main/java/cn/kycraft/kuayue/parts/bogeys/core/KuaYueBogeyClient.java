@@ -1,7 +1,5 @@
 package cn.kycraft.kuayue.parts.bogeys.core;
 
-import cn.kycraft.kuayue.parts.bogeys.AllCarriageBogeys;
-import cn.kycraft.kuayue.parts.bogeys.AllLocoBogeys;
 import io.micronaut.context.annotation.Context;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
@@ -32,12 +30,7 @@ public final class KuaYueBogeyClient {
     private void registerRenderers() {
         ClientBogeyRendererRegistry renderers =
                 KasugaLib.getBean(ClientBogeyRendererRegistry.class);
-        for (KuaYueBogeyRenderers.Binding binding : AllCarriageBogeys.RENDERERS) {
-            register(renderers, binding);
-        }
-        for (KuaYueBogeyRenderers.Binding binding : AllLocoBogeys.RENDERERS) {
-            register(renderers, binding);
-        }
+        KuaYueBogeyRenderers.install(binding -> register(renderers, binding));
     }
 
     private void register(

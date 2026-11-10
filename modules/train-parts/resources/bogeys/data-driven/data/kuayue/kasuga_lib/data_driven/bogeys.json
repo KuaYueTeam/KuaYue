@@ -1,0 +1,6 @@
+{
+  "on_register": [
+    "bogeys/groups.json",
+    "bogeys/bogeys.json"
+  ]
+}
