@@ -27,8 +27,10 @@ import javax.annotation.Nullable;
  * world-space tech tree board is oriented with it. Using the table always shows the tree painted on the
  * model; the server additionally opens {@link TechTreeTableMenu}, whose slots {@link TableSlotProjection}
  * draws in the same board space.</p>
+ *
+ * <p>Sneak-use is a temporary entry point for the standalone {@link CarModelUi} scene.</p>
  */
-public class BlueprintTableBlock extends HorizontalDirectionalBlock implements EntityBlock, TechTreeMenuHost {
+public class BlueprintTableBlock extends HorizontalDirectionalBlock implements EntityBlock {
 
     public static final MapCodec<BlueprintTableBlock> CODEC = simpleCodec(BlueprintTableBlock::new);
 
@@ -88,7 +90,13 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
         // Client half: fetch the snapshot (first use) and show the board painted on the model.
         if (level.isClientSide) {
             if (level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
-                TechTreeBoard.openFor(table, true);
+                if (player.isShiftKeyDown()) {
+                    // TEMPORARY entry point for the standalone car scene, to be replaced by the real
+                    // integration. Sneak-use so the tech tree stays on plain use.
+                    CarModelUiDemo.open(table);
+                } else {
+                    TechTreeBoard.openFor(table, true);
+                }
             }
             return InteractionResult.SUCCESS;
         }

@@ -1,12 +1,10 @@
 package cn.kycraft.kuayue.content.techtree;
 
-import com.lowdragmc.lowdraglib2.gui.factory.BlockUIMenuType;
-import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
-import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
@@ -17,12 +15,15 @@ import java.util.List;
 /**
  * Container menu of the blueprint table whose slots stay on the physical table top.
  *
- * <p>The blueprint table already paints its board into the world on top of the model, so the LDLib2
- * menu-backed screen would show the same tree twice. This menu has no widgets: vanilla never draws the
- * slots, but they are real {@link Slot}s, so clicking, shift-clicking and pickup run through the vanilla
- * menu pair, and {@link TableSlotProjection} paints them where the model's table top is.</p>
+ * <p>Deliberately a plain {@link AbstractContainerMenu} rather than a {@code ModularUIContainerMenu}:
+ * the LDLib2 subclass calls {@code holder.createUI(player)} in its constructor and then dereferences the
+ * result, so a block that hosts no screen at all cannot use it.</p>
+ *
+ * <p>Vanilla never draws these slots, but they are real {@link Slot}s, so clicking, shift-clicking and
+ * pickup run through the vanilla menu pair, and {@link TableSlotProjection} paints them where the model's
+ * table top is.</p>
  */
-public class TechTreeTableMenu extends ModularUIContainerMenu {
+public class TechTreeTableMenu extends AbstractContainerMenu {
 
     /** Number of consumption slots per table. */
     static final int SLOTS = 9;
@@ -34,16 +35,12 @@ public class TechTreeTableMenu extends ModularUIContainerMenu {
     private static final int SLOT_GAP = 36;
 
     private final SimpleContainer items = new SimpleContainer(SLOTS);
+    /** Table this menu belongs to; the client needs it to find the block entity to paint on. */
+    private final BlockPos pos;
 
-    /**
-     * Used by the registered menu type.
-     *
-     * <p>{@link ModularUIContainerMenu} is parameterised on itself rather than on the concrete menu, so the
-     * type is fetched as the base class; the unchecked cast is the natural erasure of that mismatch.</p>
-     */
-    @SuppressWarnings("unchecked")
-    public TechTreeTableMenu(int id, Inventory inventory, BlockUIMenuType.BlockUIHolder holder) {
-        super((MenuType<ModularUIContainerMenu>) (MenuType<?>) TechTreeTableMenuType.get(), id, inventory, holder);
+    public TechTreeTableMenu(int id, Inventory inventory, BlockPos pos) {
+        super(TechTreeTableMenuType.get(), id);
+        this.pos = pos;
         for (int i = 0; i < SLOTS; i++) {
             addSlot(new ProjectedSlot(items, i, SLOT_X + i * SLOT_GAP, SLOT_Y, SLOT_SIZE));
         }
@@ -53,15 +50,19 @@ public class TechTreeTableMenu extends ModularUIContainerMenu {
         return items;
     }
 
-    @Override
-    public ModularUI getModularUI() {
-        return null;
+    public BlockPos pos() {
+        return pos;
     }
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         // Intentional: the slots are a receptacle for the tree, not a storage block.
         return ItemStack.EMPTY;
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        return true;
     }
 
     @Nullable

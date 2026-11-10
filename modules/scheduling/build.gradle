@@ -110,6 +110,14 @@ neoForge {
         "${mod_id}" {
             // Inlcude the core subproject as a dependency.
             sourceSet(sourceSets.main)
+            // The shipped blueprints reference train-part blocks (ss8_cowcatcher and friends), and a
+            // decoder rejects the whole file when one palette id is missing.
+            //
+            // Putting train-parts on the classpath is not enough: the Micronaut context only reads the
+            // BeanDefinitionReference index of jars it was built for, so an undeclared module never gets
+            // its @Context beans instantiated and none of its blocks register. Declaring every bean-bearing
+            // source set here is what makes this run profile see the whole mod.
+            sourceSet(project(":modules:train-parts").sourceSets.main)
         }
     }
 }
@@ -121,6 +129,7 @@ configurations {
 
 dependencies {
     implementation (project(":modules:core"))
+    implementation (project(":modules:train-parts"))
 
     implementation ("io.micronaut:micronaut-inject:4.9.10") {
         exclude group : 'org.slf4j', module: 'slf4j-api'

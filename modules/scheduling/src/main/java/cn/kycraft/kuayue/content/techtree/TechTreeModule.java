@@ -31,6 +31,9 @@ public class TechTreeModule {
         TechTreeRegistryRoot.attach(modEventBus);
         NeoForge.EVENT_BUS.addListener(this::onAddReloadListener);
         NeoForge.EVENT_BUS.register(AdvancementProgressListener.class);
+        if (net.neoforged.fml.loading.FMLEnvironment.dist == net.neoforged.api.distmarker.Dist.CLIENT) {
+            TechTreeClientEvents.register();
+        }
         TechTreeSystem.LOGGER.info("KuaYue tech tree ready.");
     }
 

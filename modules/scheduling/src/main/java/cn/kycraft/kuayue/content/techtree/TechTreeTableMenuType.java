@@ -1,58 +1,50 @@
 package cn.kycraft.kuayue.content.techtree;
 
-import com.lowdragmc.lowdraglib2.gui.factory.BlockUIMenuType;
-import com.lowdragmc.lowdraglib2.gui.holder.ModularUIContainerMenu;
+import lib.kasuga.registration.minecraft.menu.MenuReg;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 
 /**
  * Menu type of {@link TechTreeTableMenu}.
  *
- * <p>Not built through {@code BlockUIMenuType}: that helper always pairs the menu with a
- * {@code ModularUIScreen}, and this table deliberately has none. Both ends rebuild the
- * {@link BlockUIMenuType.BlockUIHolder} from the block position, which is the only thing written to the
- * client.</p>
+ * <p>Registered through Kasuga's {@link MenuReg}, not by hand: it posts the entry on the mod's
+ * {@code REGISTER_EVENT} stage, which is the only point where {@code Registries.MENU} still accepts keys.
+ * Registering lazily threw {@code Registry is already frozen} and took the whole module down at boot.</p>
+ *
+ * <p>Only the block position crosses the wire; both ends rebuild the block reference from it. No screen is
+ * ever opened for this menu: the board is painted in the world.</p>
  */
 final class TechTreeTableMenuType {
 
-    private static MenuType<ModularUIContainerMenu> entry;
+    /**
+     * Declared as a field on purpose: Kasuga registers a {@code Reg} when the group it is parented to is
+     * walked, so the instance has to exist before that pass rather than on first use.
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    static final MenuReg<TechTreeTableMenu, PlaceholderScreen> REG = (MenuReg) new MenuReg<>(
+            "blueprint_table",
+            (id, inventory, buffer) -> new TechTreeTableMenu(id, inventory, buffer.readBlockPos()),
+            null)
+            .setParent(TechTreeSystem.REGISTRY);
 
     private TechTreeTableMenuType() {
     }
 
-    @SuppressWarnings("unchecked")
-    static synchronized MenuType<ModularUIContainerMenu> get() {
-        if (entry == null) {
-            entry = (MenuType<ModularUIContainerMenu>) (MenuType<?>) createEntry();
-            Registry.register(BuiltInRegistries.MENU,
-                    ResourceLocation.fromNamespaceAndPath("kuayue", "blueprint_table"), entry);
+    static MenuType<TechTreeTableMenu> get() {
+        return REG.getEntry();
+    }
+
+    /**
+     * Screen type parameter of {@link MenuReg}, never instantiated.
+     *
+     * <p>An abstract class rather than an interface because {@link MenuReg} requires
+     * {@code U extends Screen & MenuAccess<T>}, and only a class can be a {@link Screen}.</p>
+     */
+    abstract static class PlaceholderScreen extends Screen implements MenuAccess<TechTreeTableMenu> {
+        private PlaceholderScreen() {
+            super(net.minecraft.network.chat.Component.empty());
         }
-        return entry;
-    }
-
-    private static MenuType<?> createEntry() {
-        return new MenuType<TechTreeTableMenu>(
-                new net.minecraft.world.inventory.MenuType.MenuSupplier<TechTreeTableMenu>() {
-                    @Override
-                    public TechTreeTableMenu create(int id, net.minecraft.world.entity.player.Inventory inventory) {
-                        // The supplier form has no buffer; the position arrives through the open-data
-                        // variant below, so this path is only a fallback for the base ctor.
-                        return new TechTreeTableMenu(id, inventory,
-                                holder(inventory.player, inventory.player.blockPosition()));
-                    }
-                }, FeatureFlags.DEFAULT_FLAGS);
-    }
-
-    /** Holder rebuilt from the block itself; {@code BlueprintTableBlock} is the {@code BlockUI}. */
-    static BlockUIMenuType.BlockUIHolder holder(net.minecraft.world.entity.player.Player player, BlockPos pos) {
-        var state = player.level().getBlockState(pos);
-        var block = state.getBlock();
-        BlockUIMenuType.BlockUI ui = block instanceof BlockUIMenuType.BlockUI found ? found : null;
-        return new BlockUIMenuType.BlockUIHolder(ui, player, pos, state);
     }
 }

@@ -35,5 +35,8 @@ public final class BlueprintTableRegistry {
         if (initialized) return;
         initialized = true;
         TechTreeRpc.register(TechTreeSystem.REGISTRY);
+        // Touching the Reg makes sure the menu type is part of the group Kasuga walks on REGISTER_EVENT;
+        // it must not be created on first right-click, when Registries.MENU is already frozen.
+        TechTreeTableMenuType.REG.getClass();
     }
 }

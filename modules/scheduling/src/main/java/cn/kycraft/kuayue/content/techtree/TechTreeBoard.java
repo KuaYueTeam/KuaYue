@@ -3,6 +3,7 @@ package cn.kycraft.kuayue.content.techtree;
 import com.lowdragmc.lowdraglib2.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
+import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext;
 import lib.kasuga.rendering.models.mc.Constants;
@@ -51,6 +52,7 @@ public final class TechTreeBoard {
     public static final int GRID_H = 106;
     public static final int CELL = 20;
 
+
     private static final Map<Long, UIElement> CARDS = new HashMap<>();
 
     private static BoardRenderable board;
@@ -60,6 +62,31 @@ public final class TechTreeBoard {
     private static volatile boolean uiOpen;
 
     private TechTreeBoard() {
+    }
+
+    /** Bridges the LDLib2 element tree into the {@link Renderable} the world UI backend expects. */
+    private static final class BoardRenderable implements Renderable {
+        static UIElement root;
+        private final UIElement canvas;
+
+        private BoardRenderable() {
+            root = new UIElement();
+            root.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT));
+            root.style(s -> s.background(TechTreeTextures.boardPaper()));
+
+            this.canvas = new UIElement();
+            canvas.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT)
+                    .setPositionType(YogaPositionType.ABSOLUTE));
+            root.addChild(canvas);
+        }
+
+        @Override
+        public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+            root.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT));
+            GUIContext context = GUIContext.of(null, graphics, mouseX, mouseY, partialTick);
+            root.drawInBackground(context);
+            root.drawContents(context);
+        }
     }
 
     /**
@@ -290,28 +317,4 @@ public final class TechTreeBoard {
         return ClientTreeState.selectedGroup();
     }
 
-    /** Bridges the LDLib2 element tree into the {@link Renderable} the world UI backend expects. */
-    private static final class BoardRenderable implements Renderable {
-        static UIElement root;
-        private final UIElement canvas;
-
-        private BoardRenderable() {
-            root = new UIElement();
-            root.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT));
-            root.style(s -> s.background(TechTreeTextures.boardPaper()));
-
-            this.canvas = new UIElement();
-            canvas.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT)
-                    .setPositionType(YogaPositionType.ABSOLUTE));
-            root.addChild(canvas);
-        }
-
-        @Override
-        public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-            root.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT));
-            GUIContext context = GUIContext.of(null, graphics, mouseX, mouseY, partialTick);
-            root.drawInBackground(context);
-            root.drawContents(context);
-        }
-    }
 }
