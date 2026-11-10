@@ -65,7 +65,8 @@ public final class ProvisionsFactories {
                     (java.util.function.Function<net.minecraft.world.level.block.state.BlockBehaviour.Properties, ParticlesDrinkBlock>)
                             p -> new ParticlesDrinkBlock(p, FoodType.fromString(param(params, "food_type")),
                                     boolParam(params, "has_particle", true)));
-            reg.withBlockItem(id, itemSupplier(params));
+            reg.withBlockItem(id, () -> (block, props) -> new cn.kycraft.kuayue.provisions.food.DrinkCanItem(
+                    block, props, drinkFood(params), remainderItem(params)));
             return (Reg<BlockReg<?>, Block>) (Reg<?, ?>) reg;
         });
 
@@ -108,6 +109,22 @@ public final class ProvisionsFactories {
     private static net.minecraft.resources.ResourceLocation remainderId(JsonObject params) {
         String raw = param(params, "remainder");
         return raw == null ? null : net.minecraft.resources.ResourceLocation.tryParse(raw);
+    }
+
+    /** 把 params.remainder 解析成延迟取物的 supplier：注册期间不能解引用。 */
+    private static java.util.function.Supplier<? extends Item> remainderItem(JsonObject params) {
+        net.minecraft.resources.ResourceLocation id = remainderId(params);
+        return () -> id == null
+                ? net.minecraft.world.item.Items.AIR
+                : net.minecraft.core.registries.BuiltInRegistries.ITEM.get(id);
+    }
+
+    /** 读取 params.food 对应的 DrinkCanItem 食物数值，缺省用可乐那份。 */
+    private static net.minecraft.world.food.FoodProperties drinkFood(JsonObject params) {
+        String kind = param(params, "drink");
+        return "blue_bull".equals(kind)
+                ? cn.kycraft.kuayue.provisions.food.DrinkRegistration.BLUE_BULL_FOOD
+                : cn.kycraft.kuayue.provisions.food.DrinkRegistration.KUA_COLA_FOOD;
     }
 
     private static boolean boolParam(JsonObject params, String key, boolean fallback) {

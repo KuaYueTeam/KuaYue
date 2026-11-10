@@ -54,7 +54,9 @@
       "params": {
         "food_type": "BOTTLE",
         "has_particle": true,
-        "has_tooltip": true
+        "has_tooltip": true,
+        "drink": "kua_cola",
+        "remainder": "kuayue:empty_can"
       }
     },
     {
@@ -64,7 +66,9 @@
       "params": {
         "food_type": "BOTTLE",
         "has_particle": false,
-        "has_tooltip": true
+        "has_tooltip": true,
+        "drink": "blue_bull",
+        "remainder": "kuayue:empty_can_blue"
       }
     },
     {
