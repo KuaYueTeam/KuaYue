@@ -53,7 +53,14 @@ public final class TechTreeClientEvents {
      * <p>{@code AFTER_ENTITIES} is past the model pass, so the slots land on the table and not under it, and
      * the world board itself is painted later by KasugaLibNext's world UI pipeline.</p>
      */
+    private static int stageLogs;
+
     public static void onRenderLevel(RenderLevelStageEvent event) {
+        // One-off diagnostic: proves the listener is reached and shows which stages actually fire.
+        if (stageLogs < 8) {
+            stageLogs++;
+            TechTreeSystem.LOGGER.info("Blueprint render hook reached stage {}", event.getStage());
+        }
         if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_ENTITIES) return;
 
         // Keep the Kasuga scene valid: it silently skips frames whose level it was not opened for.

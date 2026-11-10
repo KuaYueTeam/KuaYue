@@ -93,7 +93,7 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
                 if (player.isShiftKeyDown()) {
                     // TEMPORARY entry point for the standalone car scene, to be replaced by the real
                     // integration. Sneak-use so the tech tree stays on plain use.
-                    CarModelUiDemo.open(table);
+                    CarModelUiDemo.toggle(table);
                 } else {
                     TechTreeBoard.openFor(table, true);
                 }

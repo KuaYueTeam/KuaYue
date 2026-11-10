@@ -52,12 +52,25 @@ final class BlueprintPreview {
     @Nullable
     static GuiModelPreview open(ResourceLocation blueprint) {
         ResourceLocation id = blueprint == null ? DEFAULT : blueprint;
+        ensureDecoded(id);
         GuiModelPreview preview = OPEN.get(id);
         if (preview != null && !preview.isClosed()) return preview;
         GuiModelPreview created = create(id);
         if (created == null) return null;
         OPEN.put(id, created);
         return created;
+    }
+
+    /**
+     * Decodes a blueprint once and keeps its blocks and model source.
+     *
+     * <p>Separate from {@link #open} because the two consumers are independent: the GUI preview caches a
+     * framebuffer, while the world scene needs the {@code BlockModelSource} itself. Folding both into
+     * {@code open} meant a cached preview skipped decoding, leaving the source cache empty.</p>
+     */
+    private static void ensureDecoded(ResourceLocation blueprint) {
+        if (SOURCES.containsKey(blueprint)) return;
+        create(blueprint);
     }
 
     @Nullable
@@ -99,7 +112,9 @@ final class BlueprintPreview {
      * close it.</p>
      */
     static BlockModelSource source(ResourceLocation blueprint) {
-        return SOURCES.get(blueprint);
+        ResourceLocation id = blueprint == null ? DEFAULT : blueprint;
+        ensureDecoded(id);
+        return SOURCES.get(id);
     }
 
     /**

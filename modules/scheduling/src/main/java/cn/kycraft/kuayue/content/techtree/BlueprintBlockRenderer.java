@@ -53,8 +53,11 @@ final class BlueprintBlockRenderer {
     /** Places {@code source} standing on the table; the scene takes ownership of the source. */
     static void bind(@Nullable MinecraftModelSource source, BlockPos table) {
         close();
+        boundYaw = 0f;
         boundSource = source;
         boundTable = table.immutable();
+        TechTreeSystem.LOGGER.info("Blueprint bind: source {}, table {}",
+                source == null ? "null" : source.getClass().getSimpleName(), boundTable);
         openScene();
     }
 
@@ -69,6 +72,8 @@ final class BlueprintBlockRenderer {
         sceneLevel = minecraft.level;
         if (boundSource == null || sceneLevel == null || boundTable == null) return;
         scene = SceneModels.open(sceneLevel);
+        TechTreeSystem.LOGGER.info("Blueprint scene opened on level {} for table {}",
+                System.identityHashCode(sceneLevel), boundTable);
         entry = scene.add(boundSource, new Vec3(boundTable.getX() + 0.5d,
                 boundTable.getY() + TechTreeBoard.TOP_Y + TOP_LIFT, boundTable.getZ() + 0.5d));
         applyTransform();
@@ -90,6 +95,8 @@ final class BlueprintBlockRenderer {
      * level it was not opened for, so a stale scene would silently draw nothing forever.</p>
      */
     static void ensureLevel() {
+        // Nothing bound means the caller closed the model on purpose; rebuilding here would resurrect it.
+        if (boundTable == null || boundSource == null) return;
         var current = Minecraft.getInstance().level;
         if (current == null) return;
         if (scene == null || sceneLevel != current) {
@@ -117,6 +124,8 @@ final class BlueprintBlockRenderer {
         entry = null;
         sceneLevel = null;
         reported = false;
+        boundTable = null;
+        boundSource = null;
         if (scene != null) {
             scene.close();
             scene = null;
