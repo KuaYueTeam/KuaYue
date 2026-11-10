@@ -140,7 +140,7 @@ public final class KuaYueBogeyProxyComposition {
 
         @Override
         public boolean isReady(CommonBogeyBlockEntity element) {
-            return ready(element);
+            return !closed;
         }
 
         @Override
