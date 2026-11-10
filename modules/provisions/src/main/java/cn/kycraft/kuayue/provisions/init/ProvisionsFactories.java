@@ -49,7 +49,12 @@ public final class ProvisionsFactories {
         }
         registered = true;
 
-        FactoryRegistry.registerItem(SIMPLE_ITEM, (id, params) -> ItemReg.of(id, props -> new HandHeldFoodItem(food(props, params))));
+        FactoryRegistry.registerItem(SIMPLE_ITEM, (id, params) -> {
+            ItemReg<HandHeldFoodItem> reg = ItemReg.of(id,
+                    (java.util.function.Function<net.minecraft.world.item.Item.Properties, HandHeldFoodItem>) HandHeldFoodItem::new);
+            applyFood(reg, params);
+            return (Reg<ItemReg<?>, Item>) (Reg<?, ?>) reg;
+        });
 
         FactoryRegistry.register(DIET_BOX, (id, params) -> {
             BlockReg<TrainDietBoxBlock> reg = BlockReg.of(id,
@@ -132,23 +137,24 @@ public final class ProvisionsFactories {
     }
 
     /**
-     * 从 params 读取食物数值（properties 里的 food 会被 JsonItemParser 丢弃）。
-     * 没有 food 段时返回空属性，得到普通物品。
+     * 把 params.food 应用到 {@link ItemReg} 的 food 修饰器上。
+     *
+     * <p>不走 {@code Item.Properties#food}：原版对声明了 crafting remainder 的物品
+     * 会整段跳过食物处理，且 JsonItemParser 不认识 properties.food。</p>
      */
-    private static Item.Properties food(Item.Properties props, JsonObject params) {
+    private static void applyFood(ItemReg<?> reg, JsonObject params) {
         if (params == null || !params.has("food")) {
-            return props;
+            return;
         }
         JsonObject f = params.getAsJsonObject("food");
-        FoodProperties.Builder builder = new FoodProperties.Builder()
-                .nutrition(f.has("nutrition") ? f.get("nutrition").getAsInt() : 1)
-                .saturationModifier(f.has("saturation") ? f.get("saturation").getAsFloat() : 0.5F);
+        reg.isFood(true)
+                .foodNutrition(f.has("nutrition") ? f.get("nutrition").getAsInt() : 1)
+                .foodSaturationModifier(f.has("saturation") ? f.get("saturation").getAsFloat() : 0.5F);
         if (f.has("fast") && f.get("fast").getAsBoolean()) {
-            builder.fast();
+            reg.foodFast();
         }
         if (f.has("always_eat") && f.get("always_eat").getAsBoolean()) {
-            builder.alwaysEdible();
+            reg.foodAlwaysEdible();
         }
-        return props.food(builder.build());
     }
 }
