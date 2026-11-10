@@ -1,0 +1,83 @@
+{
+  "blocks": [
+    {
+      "id": "kuayue:freight_c70_end_face",
+      "type": "freight_end_face",
+      "params": {
+        "freight_type": "c70"
+      },
+      "registry_group": "kuayue:freight_panels"
+    },
+    {
+      "id": "kuayue:freight_nx70_end_face",
+      "type": "freight_end_face",
+      "params": {
+        "freight_type": "nx70"
+      },
+      "registry_group": "kuayue:freight_panels"
+    },
+    {
+      "id": "kuayue:freight_c70_slab_bottom",
+      "type": "train_panel",
+      "params": {
+        "begin_x": 0,
+        "end_x": 2
+      },
+      "registry_group": "kuayue:freight_panels"
+    },
+    {
+      "id": "kuayue:freight_c70_slab_top",
+      "type": "train_openable_window",
+      "params": {
+        "left": -1,
+        "right": 1,
+        "height": 1
+      },
+      "registry_group": "kuayue:freight_panels"
+    },
+    {
+      "id": "kuayue:freight_c70_door",
+      "type": "double_rotate_door",
+      "params": {
+        "door_type": "rotate_single_sided",
+        "left_model": "carriage/freight/c70/freight_c70_door_left",
+        "right_model": "carriage/freight/c70/freight_c70_door_right",
+        "frame_model": "carriage/freight/c70/freight_c70_door_frame"
+      },
+      "registry_group": "kuayue:freight_panels"
+    },
+    {
+      "id": "kuayue:freight_nx70_floor_center",
+      "type": "slab",
+      "registry_group": "kuayue:freight_panels"
+    },
+    {
+      "id": "kuayue:freight_nx70_floor_high",
+      "type": "slab",
+      "registry_group": "kuayue:freight_panels"
+    },
+    {
+      "id": "kuayue:freight_nx70_floor_cover_plate",
+      "type": "slab_top",
+      "registry_group": "kuayue:freight_panels"
+    },
+    {
+      "id": "kuayue:freight_nx70_floor_connection",
+      "type": "hinge_slab",
+      "params": {
+        "width": 2
+      },
+      "registry_group": "kuayue:freight_panels"
+    },
+    {
+      "id": "kuayue:freight_nx70_floor_low",
+      "type": "slab",
+      "registry_group": "kuayue:freight_panels"
+    },
+    {
+      "id": "kuayue:freight_nx70_floor_low_ladder",
+      "type": "slab",
+      "registry_group": "kuayue:freight_panels"
+    }
+  ]
+}

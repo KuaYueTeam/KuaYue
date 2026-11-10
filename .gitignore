@@ -22,6 +22,8 @@ eclipse
 run
 runs
 run-data
+.DS_Store
+.vscode/
 
 repo
 

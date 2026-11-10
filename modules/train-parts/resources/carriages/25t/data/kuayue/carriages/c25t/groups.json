@@ -1,0 +1,18 @@
+{
+  "registry_groups": [
+    {
+      "id": "kuayue:c25t_panels",
+      "properties": {
+        "no_occlusion": true,
+        "strength": [
+          1.5,
+          3.0
+        ],
+        "map_color": "blue"
+      },
+      "item_properties": {
+        "tab": "kuayue:train_panel_tab"
+      }
+    }
+  ]
+}

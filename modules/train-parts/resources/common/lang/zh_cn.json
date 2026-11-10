@@ -58,5 +58,12 @@
     "tooltip.kuayue.color_template_screen.title": "颜色模板",
     "tooltip.kuayue.get_share_overlay_toast.content": "按下 \" %s \" 以保存",
     "tooltip.kuayue.get_share_overlay_toast.title": "收到新颜色模板",
-    "tooltip.kuayue.type_screen.title": "编辑车厢类型"
+    "tooltip.kuayue.type_screen.title": "编辑车厢类型",
+    "kuayue.bogey.style.loco": "机车转向架",
+    "kuayue.bogey.style.meter_loco": "米轨机车转向架",
+    "kuayue.bogey.style.asymmetry_loco": "非对称机车转向架",
+    "kuayue.bogey.style.andesite_loco": "安山机车转向架",
+    "kuayue.bogey.style.carriage": "客车转向架",
+    "kuayue.bogey.style.meter_carriage": "米轨客车转向架",
+    "kuayue.bogey.style.andesite_carriage": "安山客车转向架"
 }
