@@ -4,6 +4,7 @@
     "package": "cn.kycraft.kuayue.mixins",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
+        "BogeyStyleMessageMixin",
         "BucketItemMixin"
     ],
     "injectors": {
