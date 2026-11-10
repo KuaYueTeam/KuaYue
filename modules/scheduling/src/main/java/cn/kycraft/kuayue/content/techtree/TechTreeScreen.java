@@ -226,6 +226,10 @@ public final class TechTreeScreen extends ModularUIScreen {
         return MENU_FOCUS.get();
     }
 
+    static void clearMenuFocus() {
+        setMenuFocus(null);
+    }
+
     public TechTreeScreen(BlueprintTableBlockEntity table) {
         super(ModularUI.of(UI.of(new UIElement())), Component.translatable("tech_tree.board.title"));
         this.table = table;

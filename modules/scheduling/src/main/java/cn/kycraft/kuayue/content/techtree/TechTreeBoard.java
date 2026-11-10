@@ -1,7 +1,5 @@
 package cn.kycraft.kuayue.content.techtree;
 
-import com.lowdragmc.lowdraglib2.gui.texture.ColorBorderTexture;
-import com.lowdragmc.lowdraglib2.gui.texture.ColorRectTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.ItemStackTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
@@ -14,27 +12,46 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.appliedenergistics.yoga.YogaAlign;
+import org.appliedenergistics.yoga.YogaEdge;
+import org.appliedenergistics.yoga.YogaFlexDirection;
+import org.appliedenergistics.yoga.YogaPositionType;
 import org.joml.Matrix4f;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * World-space tech tree board drawn on the blueprint table top.
  *
- * <p>Layout is a LDLib2 (taffy/yoga) element tree; the tree is registered with KasugaLibNext's world UI
- * backend, which paints it into the world after the level pass at an arbitrary transform. Mouse input
- * arrives through the same backend, so the board behaves like a physical panel instead of a screen.</p>
+ * <p>The board carries the tree itself: the group strip of the table GUI, one plate per node and the
+ * focused node's detail card, all placed in the same 300x150 pixel space as the original
+ * {@code blueprint_table.png} sheet. The sheet is deliberately not drawn any more, so the tree is what
+ * covers the wooden table model; the container slots of {@link TechTreeTableMenu} sit in the strip below
+ * the plates and are painted by {@link TableSlotProjection}.</p>
+ *
+ * <p>The layout is an LDLib2 element tree registered with KasugaLibNext's world UI backend, which paints it
+ * after the level pass at an arbitrary transform and routes mouse input through the same backend.</p>
  */
 public final class TechTreeBoard {
 
-    public static final int WIDTH = 512;
-    public static final int HEIGHT = 320;
-    private static final int CELL_W = 96;
-    private static final int CELL_H = 64;
+    /** Local design space, matching the original blueprint table sheet. */
+    public static final int WIDTH = 300;
+    public static final int HEIGHT = 150;
 
-    private static final Map<ResourceLocation, List<UIElement>> CARDS = new HashMap<>();
+    /** Pixels per block for the world-space mapping. */
+    public static final float PIXEL = 0.005f;
+    /** Height above the block origin where the table top sits. */
+    public static final float TOP_Y = 1.01f;
+
+    public static final int HEADER_H = 14;
+    public static final int GRID_X = 12;
+    public static final int GRID_Y = 16;
+    public static final int GRID_W = 276;
+    public static final int GRID_H = 106;
+    public static final int CELL = 20;
+
+    private static final Map<Long, UIElement> CARDS = new HashMap<>();
 
     private static BoardRenderable board;
     private static ResourceLocation currentGroup;
@@ -82,7 +99,7 @@ public final class TechTreeBoard {
             rebuild(group);
         }
         uiOpen = true;
-        Constants.UI_BACKEND.addRenderable(board, transformFor(table));
+        Constants.UI_BACKEND.addRenderable(board, tableTransform(table, null));
         if (!pointerOpen) {
             pointerOpen = true;
             Constants.UI_BACKEND.openPointer();
@@ -138,14 +155,31 @@ public final class TechTreeBoard {
         pointerOpen = false;
     }
 
-    /** Local pixel space -> world, lying flat on the table top. */
-    private static Matrix4f transformFor(BlueprintTableBlockEntity table) {
+    /** Rebuilds the board after a snapshot refresh; called from the client tick while the board is up. */
+    static void refresh() {
+        ResourceLocation group = currentGroup != null ? currentGroup : ClientTreeState.selectedGroup();
+        if (group != null) {
+            currentGroup = group;
+            rebuild(group);
+        }
+    }
+
+    /**
+     * Local pixel space -> world, lying flat on the table top.
+     *
+     * <p>{@code view} is the model view matrix the caller renders with; passing {@code null} yields the
+     * transform relative to the camera, which is what the world UI backend expects.</p>
+     */
+    public static Matrix4f tableTransform(BlueprintTableBlockEntity table, Matrix4f view) {
         var pos = table.getBlockPos();
-        return new Matrix4f()
-                .translate(pos.getX() + 0.5f, pos.getY() + 1.005f, pos.getZ() + 0.5f)
+        Matrix4f matrix = new Matrix4f();
+        if (view != null) matrix.mul(view);
+        return matrix
+                .translate(pos.getX() + 0.5f, pos.getY() + TOP_Y, pos.getZ() + 0.5f)
                 .rotateY((float) Math.toRadians(table.yaw()))
                 .rotateX((float) Math.toRadians(-90.0f))
-                .scale(0.005f, -0.005f, 1.0f);
+                .scale(PIXEL, -PIXEL, 1.0f)
+                .translate(-WIDTH * 0.5f, -HEIGHT * 0.5f, 0);
     }
 
     private static void rebuild(ResourceLocation groupId) {
@@ -156,51 +190,96 @@ public final class TechTreeBoard {
         }
         CARDS.clear();
 
+        mapPin(groupId);
+        canvas.addChild(groupStrip());
+
+        TreeSnapshot.GroupView view = ClientTreeState.groups().get(groupId);
+        if (view != null) {
+            Label title = new Label();
+            title.setText(Component.translatable(view.nameKey()));
+            title.textStyle(t -> t.textColor(0xFF2A2018).adaptiveHeight(true));
+            title.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                    .setPosition(YogaEdge.LEFT, (float) (GRID_X + 2))
+                    .setPosition(YogaEdge.TOP, 3f));
+            canvas.addChild(title);
+        }
+
         Map<NodeLocation, int[]> positions = ClientTreeState.layout(groupId);
-        Map<Long, UIElement> columns = new HashMap<>();
         positions.forEach((location, columnRow) -> {
             if (!ClientTreeState.visible(location)) return;
             TreeSnapshot.NodeView node = ClientTreeState.nodes().get(location);
             if (node == null) return;
-            UIElement column = columns.computeIfAbsent((long) columnRow[0], col -> {
-                UIElement element = new UIElement();
-                element.layout(l -> l.setWidth(CELL_W)
-                        .setFlexDirection(org.appliedenergistics.yoga.YogaFlexDirection.COLUMN));
-                canvas.addChild(element);
-                return element;
-            });
-            column.addChild(nodeCard(node));
+            canvas.addChild(nodePlate(node, GRID_X + Math.max(0, columnRow[0]) * (CELL + 6),
+                    GRID_Y + Math.max(0, columnRow[1]) * (CELL + 4)));
         });
+
+        NodeLocation focused = TechTreeScreen.getMenuFocus();
+        if (focused != null && ClientTreeState.nodes().containsKey(focused)) {
+            canvas.addChild(TechTreeDetailPanel.build(ClientTreeState.nodes().get(focused),
+                    ClientTreeState.unlocked(focused)));
+        }
     }
 
-    private static UIElement nodeCard(TreeSnapshot.NodeView node) {
+    /** Left column of the board: one button per published group, above the plate grid. */
+    private static UIElement groupStrip() {
+        UIElement strip = new UIElement();
+        strip.layout(l -> l.setWidth(10).setHeight(GRID_H)
+                .setPositionType(YogaPositionType.ABSOLUTE)
+                .setPosition(YogaEdge.LEFT, 1f)
+                .setPosition(YogaEdge.TOP, (float) GRID_Y)
+                .setFlexDirection(YogaFlexDirection.COLUMN));
+        int index = 0;
+        for (ResourceLocation id : ClientTreeState.groups().keySet()) {
+            if (index++ >= 6) break;
+            TreeSnapshot.GroupView group = ClientTreeState.groups().get(id);
+            UIElement button = new UIElement();
+            button.layout(l -> l.setWidth(9).setHeight(9));
+            button.style(s -> s.background(TechTreeTextures.nodePlateDark(false))
+                    .overlay(group.icon().isEmpty() ? null : new ItemStackTexture(group.icon())));
+            button.addEventListener(UIEvents.CLICK, event -> {
+                ClientTreeState.selectGroup(id);
+                currentGroup = id;
+                TechTreeRpc.open().run(new TechTreeRpc.OpenPayload(false))
+                        .thenAccept(ClientTreeState::apply);
+                rebuild(id);
+            });
+            strip.addChild(button);
+        }
+        return strip;
+    }
+
+    private static UIElement nodePlate(TreeSnapshot.NodeView node, int x, int y) {
         boolean unlocked = ClientTreeState.unlocked(node.location());
-        UIElement card = new UIElement();
-        card.layout(l -> l.setWidth(CELL_W - 12).setHeight(CELL_H)
-                .setFlexDirection(org.appliedenergistics.yoga.YogaFlexDirection.ROW)
-                .setAlignItems(org.appliedenergistics.yoga.YogaAlign.CENTER));
-        card.style(s -> s.background(TechTreeTextures.nodePlate(node.type() == NodeType.EPIC, unlocked))
+        UIElement plate = new UIElement();
+        plate.setId("node_" + node.location());
+        plate.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                .setWidth(CELL).setHeight(CELL)
+                .setPosition(YogaEdge.LEFT, (float) x)
+                .setPosition(YogaEdge.TOP, (float) y));
+        plate.style(s -> s.background(unlocked
+                        ? TechTreeTextures.nodePlate(node.type() == NodeType.EPIC, true)
+                        : TechTreeTextures.nodePlateDark(node.type() == NodeType.EPIC))
+                .overlay(node.logo().isEmpty() ? null : new ItemStackTexture(node.logo()))
                 .tooltips(Component.translatable(node.nameKey()),
                         Component.translatable(node.descriptionKey())));
 
-        ItemStack logo = node.logo();
-        if (!logo.isEmpty()) {
-            UIElement icon = new UIElement();
-            icon.layout(l -> l.setWidth(20).setHeight(20));
-            icon.style(s -> s.background(new ItemStackTexture(logo)));
-            card.addChild(icon);
-        }
+        plate.addEventListener(UIEvents.CLICK, event -> {
+            TechTreeScreen.setMenuFocus(node.location());
+            rebuild(currentGroup);
+            TechTreeRpc.canUnlock().request(node.location().toString())
+                    .thenAccept(result -> {
+                        ClientTreeState.applyCheck(node.location(), result);
+                        net.minecraft.client.Minecraft.getInstance().execute(() -> {
+                            if (currentGroup != null) rebuild(currentGroup);
+                        });
+                    });
+        });
+        return plate;
+    }
 
-        Label name = new Label();
-        name.setText(Component.translatable(node.nameKey()));
-        name.textStyle(t -> t.textColor(unlocked ? 0xFFB9F0C4 : 0xFFDCE3EA).adaptiveHeight(true));
-        name.layout(l -> l.setWidthAuto().setMinWidth(CELL_W - 44));
-        card.addChild(name);
-
-        card.addEventListener(UIEvents.CLICK, event -> TechTreeRpc.unlockNode()
-                .request(node.location().toString())
-                .thenAccept(ClientTreeState::apply));
-        return card;
+    /** The board used the detail pane of the screen at the same size; keep the card geometry aligned. */
+    private static void mapPin(ResourceLocation groupId) {
+        CARDS.clear();
     }
 
     private static ResourceLocation resolveGroup(String raw) {
@@ -219,25 +298,17 @@ public final class TechTreeBoard {
         private BoardRenderable() {
             root = new UIElement();
             root.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT));
-            root.style(s -> s.background(TechTreeTextures.board()));
-
-            Label title = new Label();
-            title.setText(Component.translatable("tech_tree.board.title"));
-            title.textStyle(t -> t.textColor(0xFFFFFFFF).adaptiveHeight(true));
-            title.layout(l -> l.setPositionType(org.appliedenergistics.yoga.YogaPositionType.ABSOLUTE)
-                    .setWidth(WIDTH - 24));
-            root.addChild(title);
+            root.style(s -> s.background(TechTreeTextures.boardPaper()));
 
             this.canvas = new UIElement();
-            canvas.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT - 40)
-                    .setFlexDirection(org.appliedenergistics.yoga.YogaFlexDirection.ROW)
-                    .setAlignItems(org.appliedenergistics.yoga.YogaAlign.FLEX_START));
+            canvas.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT)
+                    .setPositionType(YogaPositionType.ABSOLUTE));
             root.addChild(canvas);
         }
 
         @Override
         public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-            root.layout(l -> { l.setWidth(WIDTH).setHeight(HEIGHT); });
+            root.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT));
             GUIContext context = GUIContext.of(null, graphics, mouseX, mouseY, partialTick);
             root.drawInBackground(context);
             root.drawContents(context);

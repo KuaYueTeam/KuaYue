@@ -1,48 +1,44 @@
 package cn.kycraft.kuayue.content.techtree;
 
+import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.ColorBorderTexture;
 import com.lowdragmc.lowdraglib2.gui.texture.ColorRectTexture;
-import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
 import net.minecraft.resources.ResourceLocation;
 
 /**
- * Textures of the blueprint table, sliced from the NeoKuayue GUI sheets.
+ * Textures of the blueprint table board.
  *
- * <p>The sheets are copied verbatim into {@code assets/kuayue/textures/gui/tech_tree/} and the UV
- * rectangles match the reference widgets. {@link SheetTexture} draws the slices itself, because LDLib2's
- * {@code SpriteTexture} resolves the sheet size through the texture manager and yields a 1x1 placeholder
- * for non-atlas GUI sheets.</p>
+ * <p>Small widgets (node plates, buttons, bars) still come from the NeoKuayue GUI sheets; the large
+ * 300x150 table background is gone on purpose. The board is painted straight onto the physical table
+ * model, so the furniture itself is the backdrop and only the tree UI is drawn on top of it.</p>
  */
 final class TechTreeTextures {
 
-    static final ResourceLocation TABLE_BG =
-            ResourceLocation.fromNamespaceAndPath("kuayue", "textures/gui/tech_tree/blueprint_table/blueprint_table.png");
     static final ResourceLocation TABLE_BUTTONS =
             ResourceLocation.fromNamespaceAndPath("kuayue", "textures/gui/tech_tree/blueprint_table/blueprint_buttons.png");
 
     /** Sheet dimensions, hard-coded so no texture-manager probing is involved. */
-    private static final int TABLE_W = 300, TABLE_H = 150;
     private static final int BUTTONS = 128;
 
-    // --- whole sheets ---------------------------------------------------------------------------
-
-    /** Board background (300x150). */
-    static IGuiTexture board() {
-        return new SheetTexture(TABLE_BG, TABLE_W, TABLE_H, 0, 0, TABLE_W, TABLE_H);
+    private TechTreeTextures() {
     }
 
-    // --- blueprint_buttons.png slices (128x128 sheet) ---------------------------------------------
+    /** Board backdrop: warm parchment over the model, no sheet blit. */
+    static IGuiTexture boardPaper() {
+        return new ColorRectTexture(0xF2E8D6);
+    }
+
+    /** Blueprint-table sheet background, kept for the screen host. */
+    static IGuiTexture board() {
+        return boardPaper();
+    }
 
     private static IGuiTexture slice(int x1, int y1, int x2, int y2) {
         return new SheetTexture(TABLE_BUTTONS, BUTTONS, BUTTONS, x1, y1, x2, y2);
     }
 
-    /** Small node plate: plain / epic (gold), and their locked (dark) variants. */
+    /** Small node plate: plain / epic (gold). */
     static IGuiTexture nodePlate(boolean epic, boolean done) {
-        if (done) {
-            // Finished nodes use the highlighted small plate in the reference screen.
-            return epic ? slice(96, 16, 116, 36) : slice(0, 16, 20, 36);
-        }
         return epic ? slice(96, 16, 116, 36) : slice(0, 16, 20, 36);
     }
 

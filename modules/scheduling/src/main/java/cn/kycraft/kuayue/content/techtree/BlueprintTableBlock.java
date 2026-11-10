@@ -23,8 +23,10 @@ import javax.annotation.Nullable;
 /**
  * Blueprint table.
  *
- * <p>Horizontal facing matches the reference blockstate ({@code facing=north/east/south/west}), and the
- * world-space tech tree board is oriented with it.</p>
+ * <p>Horizontal facing matches the reference blockstate ({@code facing=north/east/south/west}) and the
+ * world-space tech tree board is oriented with it. Using the table always shows the tree painted on the
+ * model; the server additionally opens {@link TechTreeTableMenu}, whose slots {@link TableSlotProjection}
+ * draws in the same board space.</p>
  */
 public class BlueprintTableBlock extends HorizontalDirectionalBlock implements EntityBlock, TechTreeMenuHost {
 
@@ -83,17 +85,25 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
                                                BlockHitResult hit) {
-        if (player.isShiftKeyDown()) {
-            // Sneak: read-only board drawn on the table top.
-            if (level.isClientSide && level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
+        // Client half: fetch the snapshot (first use) and show the board painted on the model.
+        if (level.isClientSide) {
+            if (level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
                 TechTreeBoard.openFor(table, true);
             }
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS;
         }
-        // Plain use: container-backed screen, which is what allows items to be placed in the slots.
+        // Server half: the slot menu has to exist on both ends; the client already shows the board.
         if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
             TechTreeMenuHost.openTable(serverPlayer, pos);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.CONSUME;
+    }
+
+    @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        super.onRemove(state, level, pos, newState, movedByPiston);
+        if (level.isClientSide) {
+            TechTreeBoard.close();
+        }
     }
 }
