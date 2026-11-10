@@ -7,9 +7,13 @@ import net.minecraft.world.food.FoodProperties;
 /**
  * 饮料罐的食物数值。
  *
- * <p>物品本身由 data-driven 的 {@code drink} 工厂产出（{@link cn.kycraft.kuayue.provisions.block.ParticlesDrinkBlock}
- * 方块 + {@link DrinkCanItem} 物品），这里只保留两份 {@link FoodProperties} 供工厂引用，
- * 避免同一个 id 被两条注册管线重复注册。</p>
+ * <p>物品本身由 data-driven 的 {@code drink} 工厂产出：{@code BlockReg.withBlockItem} 内部创建
+ * {@link lib.kasuga.registration.minecraft.item.ItemReg}，把 {@code ParticlesDrinkBlock} 方块与
+ * {@link DrinkCanItem} 物品一起注册。这里只保留两份 {@link FoodProperties} 供工厂引用，避免同一个
+ * id 被两条注册管线重复注册。</p>
+ *
+ * <p>食物数值不走 {@code Item.Properties#food}：原版对声明了 crafting remainder 的物品会整段
+ * 跳过食物处理，效果会静默失效。</p>
  */
 public final class DrinkRegistration {
 
