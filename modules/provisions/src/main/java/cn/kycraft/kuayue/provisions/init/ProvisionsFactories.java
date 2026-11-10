@@ -49,7 +49,12 @@ public final class ProvisionsFactories {
         }
         registered = true;
 
-        FactoryRegistry.registerItem(SIMPLE_ITEM, (id, params) -> ItemReg.of(id, props -> new HandHeldFoodItem(food(props, params))));
+        FactoryRegistry.registerItem(SIMPLE_ITEM, (id, params) -> {
+            ItemReg<HandHeldFoodItem> reg = ItemReg.of(id,
+                    (java.util.function.Function<net.minecraft.world.item.Item.Properties, HandHeldFoodItem>) HandHeldFoodItem::new);
+            applyFood(reg, params);
+            return (Reg<ItemReg<?>, Item>) (Reg<?, ?>) reg;
+        });
 
         FactoryRegistry.register(DIET_BOX, (id, params) -> {
             BlockReg<TrainDietBoxBlock> reg = BlockReg.of(id,
@@ -65,7 +70,8 @@ public final class ProvisionsFactories {
                     (java.util.function.Function<net.minecraft.world.level.block.state.BlockBehaviour.Properties, ParticlesDrinkBlock>)
                             p -> new ParticlesDrinkBlock(p, FoodType.fromString(param(params, "food_type")),
                                     boolParam(params, "has_particle", true)));
-            reg.withBlockItem(id, itemSupplier(params));
+            reg.withBlockItem(id, () -> (block, props) -> new cn.kycraft.kuayue.provisions.food.DrinkCanItem(
+                    block, props, drinkFood(params), remainderItem(params)));
             return (Reg<BlockReg<?>, Block>) (Reg<?, ?>) reg;
         });
 
@@ -110,28 +116,45 @@ public final class ProvisionsFactories {
         return raw == null ? null : net.minecraft.resources.ResourceLocation.tryParse(raw);
     }
 
+    /** 把 params.remainder 解析成延迟取物的 supplier：注册期间不能解引用。 */
+    private static java.util.function.Supplier<? extends Item> remainderItem(JsonObject params) {
+        net.minecraft.resources.ResourceLocation id = remainderId(params);
+        return () -> id == null
+                ? net.minecraft.world.item.Items.AIR
+                : net.minecraft.core.registries.BuiltInRegistries.ITEM.get(id);
+    }
+
+    /** 读取 params.food 对应的 DrinkCanItem 食物数值，缺省用可乐那份。 */
+    private static net.minecraft.world.food.FoodProperties drinkFood(JsonObject params) {
+        String kind = param(params, "drink");
+        return "blue_bull".equals(kind)
+                ? cn.kycraft.kuayue.provisions.food.DrinkRegistration.BLUE_BULL_FOOD
+                : cn.kycraft.kuayue.provisions.food.DrinkRegistration.KUA_COLA_FOOD;
+    }
+
     private static boolean boolParam(JsonObject params, String key, boolean fallback) {
         return params != null && params.has(key) ? params.get(key).getAsBoolean() : fallback;
     }
 
     /**
-     * 从 params 读取食物数值（properties 里的 food 会被 JsonItemParser 丢弃）。
-     * 没有 food 段时返回空属性，得到普通物品。
+     * 把 params.food 应用到 {@link ItemReg} 的 food 修饰器上。
+     *
+     * <p>不走 {@code Item.Properties#food}：原版对声明了 crafting remainder 的物品
+     * 会整段跳过食物处理，且 JsonItemParser 不认识 properties.food。</p>
      */
-    private static Item.Properties food(Item.Properties props, JsonObject params) {
+    private static void applyFood(ItemReg<?> reg, JsonObject params) {
         if (params == null || !params.has("food")) {
-            return props;
+            return;
         }
         JsonObject f = params.getAsJsonObject("food");
-        FoodProperties.Builder builder = new FoodProperties.Builder()
-                .nutrition(f.has("nutrition") ? f.get("nutrition").getAsInt() : 1)
-                .saturationModifier(f.has("saturation") ? f.get("saturation").getAsFloat() : 0.5F);
+        reg.isFood(true)
+                .foodNutrition(f.has("nutrition") ? f.get("nutrition").getAsInt() : 1)
+                .foodSaturationModifier(f.has("saturation") ? f.get("saturation").getAsFloat() : 0.5F);
         if (f.has("fast") && f.get("fast").getAsBoolean()) {
-            builder.fast();
+            reg.foodFast();
         }
         if (f.has("always_eat") && f.get("always_eat").getAsBoolean()) {
-            builder.alwaysEdible();
+            reg.foodAlwaysEdible();
         }
-        return props.food(builder.build());
     }
 }

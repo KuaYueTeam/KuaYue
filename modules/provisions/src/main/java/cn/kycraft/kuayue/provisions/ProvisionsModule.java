@@ -32,10 +32,8 @@ public class ProvisionsModule {
     public void init() {
         // 工厂必须先于 data-driven 内容阶段注册，否则 JSON 里的 type 查不到实现。
         ProvisionsFactories.register();
-        // 饮料罐 / 空罐仍走 NeoForge DeferredRegister。
-        DrinkRegistration.register(modEventBus);
-        // 流体走 KasugaLib 的 FluidReg：它把自己挂在 KuaYue.REGISTRY 上，
-        // 由 KuaYueApplication 的 REGISTRY.register(modEventBus) 统一分发，
-        // 这里不能再手动 DeferredRegister。
+        // 饮料罐与流体都走 KasugaLib（ItemReg / FluidReg），挂在 KuaYue.REGISTRY 上，
+        // 由 KuaYueApplication 的 REGISTRY.register(modEventBus) 统一分发；
+        // 这里不能再手动 DeferredRegister，否则会重复注册。
     }
 }
