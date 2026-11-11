@@ -3,6 +3,7 @@ package cn.kycraft.kuayue.content.techtree;
 import lib.kasuga.registration.minecraft.block.BlockReg;
 import lib.kasuga.registration.minecraft.block_entity.BlockEntityReg;
 import cn.kycraft.kuayue.content.techtree.net.TechTreeRpc;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.SoundType;
 
 /**
@@ -26,17 +27,27 @@ public final class BlueprintTableRegistry {
                     .validBlocks(BLOCK::getEntry)
                     .setParent(TechTreeSystem.REGISTRY);
 
+    /** Backing store of each table's slots; the LDLib2 menu reads and writes these. */
+    private static final java.util.Map<BlockPos, TableSlots> SLOTS = new java.util.concurrent.ConcurrentHashMap<>();
+
     private static boolean initialized;
 
     private BlueprintTableRegistry() {
+    }
+
+    /** Slot store of one table, created on first use. */
+    static TableSlots slotsFor(BlockPos pos) {
+        return SLOTS.computeIfAbsent(pos.immutable(), TableSlots::new);
+    }
+
+    /** Drops a table's slots when the block is removed. */
+    static void dropSlots(BlockPos pos) {
+        SLOTS.remove(pos);
     }
 
     public static synchronized void init() {
         if (initialized) return;
         initialized = true;
         TechTreeRpc.register(TechTreeSystem.REGISTRY);
-        // Touching the Reg makes sure the menu type is part of the group Kasuga walks on REGISTER_EVENT;
-        // it must not be created on first right-click, when Registries.MENU is already frozen.
-        TechTreeTableMenuType.REG.getClass();
     }
 }

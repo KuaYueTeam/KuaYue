@@ -124,6 +124,46 @@ final class BlueprintPreview {
     }
 
     /**
+     * Decodes a blueprint into a new block source, uncached.
+     *
+     * <p>Kasuga's {@code SceneModels} takes ownership of the source and closes it with the scene, so a
+     * source that has already been handed to one scene cannot be mounted again. Each scene therefore gets
+     * its own decode.</p>
+     */
+    @Nullable
+    static BlockModelSource freshSource(ResourceLocation blueprint) {
+        ResourceLocation id = blueprint == null ? DEFAULT : blueprint;
+        return decode(id);
+    }
+
+    /** Reads and decodes one blueprint file; null when it is missing or rejected. */
+    @Nullable
+    private static BlockModelSource decode(ResourceLocation blueprint) {
+        var minecraft = net.minecraft.client.Minecraft.getInstance();
+        if (minecraft.level == null) return null;
+        Optional<Resource> resource = minecraft.getResourceManager().getResource(blueprintFile(blueprint));
+        if (resource.isEmpty()) {
+            TechTreeSystem.LOGGER.warn("Blueprint {} is missing from {}", blueprint, DIRECTORY);
+            return null;
+        }
+        if (!net.minecraft.core.registries.BuiltInRegistries.BLOCK.containsKey(
+                ResourceLocation.fromNamespaceAndPath("kuayue", "ss8_cowcatcher"))) {
+            TechTreeSystem.LOGGER.warn("Blueprint {} references train-part blocks that are not registered",
+                    blueprint);
+        }
+        try (InputStream stream = resource.get().open()) {
+            CompoundTag root = NbtIo.readCompressed(stream,
+                    NbtAccounter.create(SchematicModelData.MAX_NBT_BYTES));
+            var decoded = SchematicModelData.structure(root, minecraft.level.holderLookup(Registries.BLOCK), 0);
+            TechTreeSystem.LOGGER.info("Blueprint {} decoded into {} block infos", blueprint, decoded.size());
+            return MinecraftModelSources.blocks(minecraft.level, decoded);
+        } catch (Exception error) {
+            TechTreeSystem.LOGGER.warn("Blueprint {} could not be decoded", blueprint, error);
+            return null;
+        }
+    }
+
+    /**
      * Decoded blocks of a blueprint, or an empty list when it was never opened.
      *
      * <p>Used by {@link BlueprintBlockRenderer}: drawing the structure as real blocks needs the block states

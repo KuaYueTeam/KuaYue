@@ -127,10 +127,8 @@ public final class TechTreeBoard {
         }
         uiOpen = true;
         Constants.UI_BACKEND.addRenderable(board, tableTransform(table, null));
-        if (!pointerOpen) {
-            pointerOpen = true;
-            Constants.UI_BACKEND.openPointer();
-        }
+        // No openPointer() here: it installs a WorldUiInputScreen that swallows mouse look and every later
+        // right-click, which left the table unusable after the first use.
     }
 
     /** Binds by position only; used by the container-menu path where the block entity is not at hand. */
@@ -158,6 +156,27 @@ public final class TechTreeBoard {
             board = new BoardRenderable();
         }
         return board.root;
+    }
+
+    /**
+     * Board content for a GUI host.
+     *
+     * <p>Returns a fresh tree instead of the world board's root: a UI element has one parent, so handing the
+     * live board element to a menu UI would steal it from the world scene. The content is the same tree the
+     * world board paints, rebuilt against the current snapshot.</p>
+     */
+    public static UIElement buildGuiBoard() {
+        UIElement canvas = new UIElement();
+        canvas.setId("tech_tree_board");
+        canvas.layout(l -> l.setWidth(GRID_W + GRID_X * 2).setHeight(HEIGHT)
+                .setPositionType(YogaPositionType.ABSOLUTE));
+        canvas.style(s -> s.background(TechTreeTextures.boardPaper()));
+        canvas.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                .setPosition(YogaEdge.LEFT, 0f)
+                .setPosition(YogaEdge.TOP, 0f)
+                .setWidth(WIDTH).setHeight(HEIGHT));
+        fillCanvas(canvas, resolveGroup(null));
+        return canvas;
     }
 
     /** True when a board or screen is currently attached to a table. */
@@ -211,7 +230,17 @@ public final class TechTreeBoard {
 
     private static void rebuild(ResourceLocation groupId) {
         if (board == null) return;
-        UIElement canvas = board.canvas;
+        fillCanvas(board.canvas, groupId);
+    }
+
+    /**
+     * Fills a canvas with the current tree.
+     *
+     * <p>Separate from {@link #rebuild} because the GUI needs its own element tree: a UI element belongs to a
+     * single parent, so the world board's canvas cannot be mounted into a menu UI - doing that moved it out of
+     * the world and left both hosts empty.</p>
+     */
+    private static void fillCanvas(UIElement canvas, ResourceLocation groupId) {
         for (UIElement child : new java.util.ArrayList<>(canvas.getChildren())) {
             canvas.removeChild(child);
         }

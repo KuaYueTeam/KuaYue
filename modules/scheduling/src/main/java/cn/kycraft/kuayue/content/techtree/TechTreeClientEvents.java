@@ -38,13 +38,17 @@ public final class TechTreeClientEvents {
     @SubscribeEvent
     public static void onClientLogin(ClientPlayerNetworkEvent.LoggingIn event) {
         tickCounter = 0;
+        // Warm the tree cache on join: the menu UI renders from ClientTreeState, and without a snapshot it
+        // has no groups to lay out, so the table GUI would open as an empty board.
+        TechTreeRpc.open().run(new TechTreeRpc.OpenPayload(false))
+                .thenAccept(snapshot -> ClientTreeState.apply(snapshot));
     }
 
     @SubscribeEvent
     public static void onClientLogout(ClientPlayerNetworkEvent.LoggingOut event) {
         TechTreeBoard.close();
         TechTreeScreen.clearMenuFocus();
-        BlueprintBlockRenderer.close();
+        CarModelUiDemo.closeAll();
     }
 
     /**
@@ -63,18 +67,6 @@ public final class TechTreeClientEvents {
         }
         if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_ENTITIES) return;
 
-        // Keep the Kasuga scene valid: it silently skips frames whose level it was not opened for.
-        BlueprintBlockRenderer.ensureLevel();
-
-        Minecraft mc = Minecraft.getInstance();
-        TechTreeTableMenu menu = TechTreeTableMenu.of(mc.player);
-        if (menu == null || mc.screen != null) return;
-        if (!(mc.level.getBlockEntity(menu.pos()) instanceof BlueprintTableBlockEntity table)) return;
-        var guiStack = new com.mojang.blaze3d.vertex.PoseStack();
-        guiStack.mulPose(event.getModelViewMatrix());
-        var gui = lib.kasuga.rendering.models.mc.backend.ui.UIBackend.constructGuiGraphics(guiStack);
-        TableSlotProjection.render(table, menu, gui,
-                event.getPartialTick().getGameTimeDeltaPartialTick(false));
     }
 
     /** Throttled snapshot refresh: keeps the board correct for visibility changed while opened. */

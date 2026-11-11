@@ -24,13 +24,12 @@ import javax.annotation.Nullable;
  * Blueprint table.
  *
  * <p>Horizontal facing matches the reference blockstate ({@code facing=north/east/south/west}) and the
- * world-space tech tree board is oriented with it. Using the table always shows the tree painted on the
- * model; the server additionally opens {@link TechTreeTableMenu}, whose slots {@link TableSlotProjection}
- * draws in the same board space.</p>
+ * world-space blueprint scene is oriented with it. Plain use opens the LDLib2 table GUI, which carries the
+ * slots; sneak-use toggles the standalone model scene.</p>
  *
  * <p>Sneak-use is a temporary entry point for the standalone {@link CarModelUi} scene.</p>
  */
-public class BlueprintTableBlock extends HorizontalDirectionalBlock implements EntityBlock {
+public class BlueprintTableBlock extends HorizontalDirectionalBlock implements EntityBlock, TechTreeMenuHost {
 
     public static final MapCodec<BlueprintTableBlock> CODEC = simpleCodec(BlueprintTableBlock::new);
 
@@ -87,21 +86,15 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
                                                BlockHitResult hit) {
-        // Client half: fetch the snapshot (first use) and show the board painted on the model.
         if (level.isClientSide) {
-            if (level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
-                if (player.isShiftKeyDown()) {
-                    // TEMPORARY entry point for the standalone car scene, to be replaced by the real
-                    // integration. Sneak-use so the tech tree stays on plain use.
-                    CarModelUiDemo.toggle(table);
-                } else {
-                    TechTreeBoard.openFor(table, true);
-                }
+            if (level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table && player.isShiftKeyDown()) {
+                // TEMPORARY entry point for the standalone car scene, replaced by the real integration.
+                CarModelUiDemo.toggle(table);
             }
             return InteractionResult.SUCCESS;
         }
-        // Server half: the slot menu has to exist on both ends; the client already shows the board.
-        if (player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
+        if (!player.isShiftKeyDown()
+                && player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
             TechTreeMenuHost.openTable(serverPlayer, pos);
         }
         return InteractionResult.CONSUME;
@@ -110,7 +103,11 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         super.onRemove(state, level, pos, newState, movedByPiston);
+        if (!level.isClientSide) BlueprintTableRegistry.dropSlots(pos);
         if (level.isClientSide) {
+            // The model and its text column live outside the block entity, so removing the table has to take
+            // them down explicitly; otherwise they stay hanging where the table used to be.
+            CarModelUiDemo.hide(pos.immutable());
             TechTreeBoard.close();
         }
     }

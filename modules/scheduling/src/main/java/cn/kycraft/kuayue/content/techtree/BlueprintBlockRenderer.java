@@ -1,35 +1,33 @@
 package cn.kycraft.kuayue.content.techtree;
 
 import lib.kasuga.rendering.models.mc.scene.MinecraftModelSource;
-import lib.kasuga.rendering.models.mc.scene.display.ModelDisplayTarget;
 import lib.kasuga.scene.SceneModels;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import lib.kasuga.rendering.models.mc.scene.ModelBounds;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
- * Shows a blueprint on the blueprint table using Kasuga's world model scene.
+ * Shows a blueprint on each blueprint table through Kasuga's world model scene.
  *
- * <p>Earlier attempts drew the structure through {@code snapshot.render} with the caller's {@code
- * MultiBufferSource}. That path only produces geometry when the source is fed Ksg's own
- * {@code PreviewRenderBuffers}, so the blocks never appeared and only the neighbouring text was visible.
- * {@code SceneModels} owns exactly that plumbing: it registers a render pipeline phase, allocates the
- * preview buffers, subtracts the camera position and hands the source a context it can draw with.</p>
+ * <p>Kasuga's {@code SceneModels} is a world-space display: it registers a render pipeline phase, allocates
+ * the preview buffers, subtracts the camera position and hands the source a context it can actually draw
+ * with. Drawing a source directly with the caller's buffer source produces no geometry at all.</p>
  *
- * <p>{@code SceneModels} silently skips every frame whose level differs from the one it was opened for, so
- * the scene is rebuilt whenever the current level changes (leaving and rejoining a world swaps the level
- * instance even though the block entity is unchanged).</p>
+ * <p>One scene per table, because a scene owns the model source it is given and closes it on
+ * {@code close()}. A single shared scene made hiding one table destroy the models on every other table, and
+ * made a re-show mount an already-closed source.</p>
  */
 final class BlueprintBlockRenderer {
 
     /** World size of the fitted model's longest axis, in blocks. */
-    private static final double FIT_EXTENT = 1.1;
-
-    /** World size of the source structure's longest axis, used to normalise the model into FIT_EXTENT. */
-    private static final float SOURCE_SPAN = 16.0f;
+    private static final double FIT_EXTENT = 0.10;
 
     /**
      * Extra lift above the block origin.
@@ -37,102 +35,78 @@ final class BlueprintBlockRenderer {
      * <p>The drawn table top of the model is above the collision box, so anchoring at y+1.01 leaves the
      * structure sunk into the table; this raises it onto the visible surface.</p>
      */
-    private static final float TOP_LIFT = 0.5f;
+    private static final float TOP_LIFT = 0.22f;
 
-    private static SceneModels scene;
-    private static SceneModels.Entry entry;
-    private static ClientLevel sceneLevel;
-    private static MinecraftModelSource boundSource;
-    private static BlockPos boundTable;
-    private static float boundYaw;
-    private static boolean reported;
+    private static final Map<BlockPos, SceneModels> SCENES = new HashMap<>();
+    private static final Map<BlockPos, SceneModels.Entry> ENTRIES = new HashMap<>();
 
     private BlueprintBlockRenderer() {
     }
 
-    /** Places {@code source} standing on the table; the scene takes ownership of the source. */
-    static void bind(@Nullable MinecraftModelSource source, BlockPos table) {
-        close();
-        boundYaw = 0f;
-        boundSource = source;
-        boundTable = table.immutable();
-        TechTreeSystem.LOGGER.info("Blueprint bind: source {}, table {}",
-                source == null ? "null" : source.getClass().getSimpleName(), boundTable);
-        openScene();
-    }
-
     /**
-     * (Re)creates the scene for the current level.
+     * Mounts the blueprint on one table.
      *
-     * <p>The model source is consumed by each scene, so rebuilding needs a fresh decode; the blueprint
-     * bookkeeping in {@link BlueprintPreview} hands out a new source on demand.</p>
+     * <p>Decodes a fresh source every time: the previous one was closed together with its scene, and a
+     * closed source draws nothing.</p>
      */
-    private static void openScene() {
-        var minecraft = Minecraft.getInstance();
-        sceneLevel = minecraft.level;
-        if (boundSource == null || sceneLevel == null || boundTable == null) return;
-        scene = SceneModels.open(sceneLevel);
-        TechTreeSystem.LOGGER.info("Blueprint scene opened on level {} for table {}",
-                System.identityHashCode(sceneLevel), boundTable);
-        entry = scene.add(boundSource, new Vec3(boundTable.getX() + 0.5d,
-                boundTable.getY() + TechTreeBoard.TOP_Y + TOP_LIFT, boundTable.getZ() + 0.5d));
-        applyTransform();
-        entry.visible(true);
-    }
-
-    private static void applyTransform() {
-        if (entry == null) return;
-        entry.transform(new Matrix4f()
-                .rotateY((float) Math.toRadians(boundYaw))
-                .scale((float) (FIT_EXTENT / SOURCE_SPAN))
-                .translate(-1.5f, 0.0f, -2.5f));
-    }
-
-    /**
-     * Keeps the scene valid across world changes.
-     *
-     * <p>Called once per render pass from the blueprint table: {@code SceneModels} ignores frames whose
-     * level it was not opened for, so a stale scene would silently draw nothing forever.</p>
-     */
-    static void ensureLevel() {
-        // Nothing bound means the caller closed the model on purpose; rebuilding here would resurrect it.
-        if (boundTable == null || boundSource == null) return;
-        var current = Minecraft.getInstance().level;
-        if (current == null) return;
-        if (scene == null || sceneLevel != current) {
-            // The old scene owns its source; ask for a fresh one before rebuilding.
-            var source = BlueprintPreview.source(BlueprintPreview.DEFAULT);
-            if (source == null) return;
-            boundSource = source;
-            openScene();
-            TechTreeSystem.LOGGER.info("Blueprint scene rebuilt for new level {}",
-                    System.identityHashCode(current));
+    static void bind(BlockPos table, ResourceLocation blueprint, float yaw) {
+        unbind(table);
+        var level = Minecraft.getInstance().level;
+        if (level == null) return;
+        MinecraftModelSource source = BlueprintPreview.freshSource(blueprint);
+        if (source == null) {
+            TechTreeSystem.LOGGER.warn("No model to mount on table {}", table);
+            return;
         }
-        if (!reported && scene != null) {
-            reported = true;
-            TechTreeSystem.LOGGER.info("Blueprint scene active on level {}", System.identityHashCode(sceneLevel));
+        BlockPos key = table.immutable();
+        try {
+            // Bounds describe the structure in source coordinates; they are what centres it on the table.
+            var frame = source.snapshot(lib.kasuga.rendering.models.mc.scene.LayerLayout.ASSEMBLED, 0);
+            if (frame == null) {
+                TechTreeSystem.LOGGER.warn("Blueprint {} produced no geometry for table {}", blueprint, key);
+                return;
+            }
+            SceneModels scene = SceneModels.open(level);
+            var entry = scene.add(source, seat(table));
+            entry.transform(transform(yaw, key, frame.bounds()));
+            entry.visible(true);
+            SCENES.put(key, scene);
+            ENTRIES.put(key, entry);
+            TechTreeSystem.LOGGER.info("Blueprint {} mounted on table {}", blueprint, key);
+        } catch (RuntimeException failure) {
+            // The scene took ownership of the source, so closing it here would double-free; just report.
+            TechTreeSystem.LOGGER.warn("Blueprint {} could not be mounted on table {}", blueprint, key, failure);
         }
     }
 
-    static void setYaw(float yaw) {
-        boundYaw = yaw;
-        applyTransform();
+    /** Removes the model from one table; the scene closes the source it owns. */
+    static void unbind(BlockPos table) {
+        SceneModels scene = SCENES.remove(table);
+        ENTRIES.remove(table);
+        if (scene != null) scene.close();
     }
 
-    /** Drops the scene, which also closes the model source it owns. */
-    static void close() {
-        entry = null;
-        sceneLevel = null;
-        reported = false;
-        boundTable = null;
-        boundSource = null;
-        if (scene != null) {
-            scene.close();
-            scene = null;
-        }
+    /** Removes every mounted model. */
+    static void closeAll() {
+        for (BlockPos pos : List.copyOf(SCENES.keySet())) unbind(pos);
     }
 
-    static boolean isBound() {
-        return scene != null;
+    static boolean isBound(BlockPos table) {
+        return SCENES.containsKey(table);
+    }
+
+    /** Where the structure stands: the middle of the table top, lifted onto the visible surface. */
+    private static Vec3 seat(BlockPos table) {
+        return new Vec3(table.getX() + 0.5d, table.getY() + TechTreeBoard.TOP_Y + TOP_LIFT,
+                table.getZ() + 0.5d);
+    }
+
+    /** Turns the structure with the table and scales it into {@link #FIT_EXTENT} blocks. */
+    private static Matrix4f transform(float yaw, BlockPos table, ModelBounds bounds) {
+        var centre = bounds.minimum().add(bounds.maximum()).mul(0.5f);
+        return new Matrix4f()
+                .rotateY((float) Math.toRadians(yaw))
+                .scale((float) FIT_EXTENT)
+                .translate(-centre.x, -bounds.minimum().y, -centre.z);
     }
 }
