@@ -1,5 +1,6 @@
 package cn.kycraft.kuayue.parts.bogeys.data;
 
+import cn.kycraft.kuayue.parts.bogeys.core.BogeyModelPlan;
 import cn.kycraft.kuayue.parts.bogeys.core.KuaYueBogeyModels;
 import cn.kycraft.kuayue.parts.bogeys.core.KuaYueBogeyRenderers;
 import com.google.gson.JsonObject;
@@ -12,16 +13,14 @@ import lib.kasuga.registration.data_driven.context.BuildContext;
 import lib.kasuga.registration.data_driven.context.JsonRegistryGroup;
 import lib.kasuga.registration.data_driven.context.RegBuildContext;
 import lib.kasuga.registration.data_driven.dedup.EffectiveId;
-import lib.kasuga.rendering.models.mc.proxies.ModelPart;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Supplier;
 
 /**
- * Creates Create bogey styles and connects their JSON variants to legacy visual profiles.
+ * Creates Create bogey styles and connects their JSON variants to compiled model plans.
  */
 public final class BogeyStyleTypeHandler implements TypeHandler<BogeyStyleDefinition> {
     private final BogeyDefinitionParser parser = new BogeyDefinitionParser();
@@ -115,11 +114,18 @@ public final class BogeyStyleTypeHandler implements TypeHandler<BogeyStyleDefini
                 );
             }
 
-            ResourceLocation visualId = ResourceLocation.parse(variant.visual());
-            Supplier<List<ModelPart>> visual = LegacyBogeyVisuals.require(visualId);
+            BogeyModelPlan model = context.getMeta(
+                    BogeyDataDrivenTypes.MODEL_PLAN,
+                    variant.model()
+            );
+            if (model == null) {
+                throw new IllegalArgumentException(
+                        "Style " + styleId + " references unknown model " + variant.model()
+                );
+            }
             KuaYueBogeyRenderers.Binding renderer = KuaYueBogeyRenderers.bind(sizeId, size);
             group.bogey(size, block, renderer.handle());
-            variants.add(new CompiledVariant(size, visual));
+            variants.add(new CompiledVariant(size, model));
         }
 
         group.onCommitted(style -> registerModels(style, variants));
@@ -139,14 +145,14 @@ public final class BogeyStyleTypeHandler implements TypeHandler<BogeyStyleDefini
             KuaYueBogeyModels.register(
                     style,
                     variant.size().getEntry(),
-                    variant.visual().get()
+                    variant.model()
             );
         }
     }
 
     private record CompiledVariant(
             BogeySizeReg size,
-            Supplier<List<ModelPart>> visual
+            BogeyModelPlan model
     ) {
     }
 }

@@ -1,6 +1,11 @@
 {
   "on_register": [
     "bogeys/groups.json",
-    "bogeys/bogeys.json"
+    "bogeys/bogeys.json",
+    "bogeys/motions.json",
+    "bogeys/models.json"
+  ],
+  "on_reload": [
+    "animation_clips/qj_mechanism.json"
   ]
 }

@@ -36,7 +36,12 @@ class BogeyDataDrivenSchemaTest {
     void documentPreservesEveryExistingSizeBlockAndStyleVariant() throws IOException {
         JsonObject index = readJson(DATA);
         assertEquals(
-                List.of("bogeys/groups.json", "bogeys/bogeys.json"),
+                List.of(
+                        "bogeys/groups.json",
+                        "bogeys/bogeys.json",
+                        "bogeys/motions.json",
+                        "bogeys/models.json"
+                ),
                 index.getAsJsonArray("on_register").asList().stream()
                         .map(JsonElement::getAsString)
                         .toList()
@@ -88,7 +93,7 @@ class BogeyDataDrivenSchemaTest {
                 BogeyBlockDefinition block = blocks.get(variant.block());
                 assertEquals(style.id(), block.defaultStyle());
                 assertEquals(block.size(), variant.size());
-                assertTrue(variant.visual().startsWith("kuayue:legacy/"));
+                assertTrue(variant.model().startsWith("kuayue:bogey/"));
             }
         }
 

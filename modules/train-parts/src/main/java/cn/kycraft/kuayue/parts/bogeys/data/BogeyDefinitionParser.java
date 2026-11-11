@@ -19,6 +19,16 @@ public final class BogeyDefinitionParser {
             "bogey_sizes", "bogey_blocks", "bogey_styles"
     );
     private static final Set<String> SIZE_FIELDS = Set.of("id", "wheel_radius");
+    private static final Set<String> MOTION_FIELDS = Set.of(
+            "id", "type", "scale", "sign", "clip"
+    );
+    private static final Set<String> MODEL_FIELDS = Set.of("id", "y_offset", "parts");
+    private static final Set<String> MODEL_PART_FIELDS = Set.of(
+            "id", "model", "local", "motion"
+    );
+    private static final Set<String> LOCAL_OPERATION_FIELDS = Set.of(
+            "translate", "rotate", "scale"
+    );
     private static final Set<String> BLOCK_FIELDS = Set.of(
             "id", "size", "registry_group", "default_style", "properties", "physics"
     );
@@ -32,7 +42,7 @@ public final class BogeyDefinitionParser {
     private static final Set<String> STYLE_FIELDS = Set.of(
             "id", "cycle_group", "registry_group", "translation_key", "variants"
     );
-    private static final Set<String> VARIANT_FIELDS = Set.of("size", "block", "visual");
+    private static final Set<String> VARIANT_FIELDS = Set.of("size", "block", "model");
 
     /**
      * Parses one {@code bogey_sizes} entry.
@@ -40,6 +50,90 @@ public final class BogeyDefinitionParser {
     public BogeySizeDefinition parseSize(JsonObject json) {
         rejectUnknownFields(json, SIZE_FIELDS, "bogey_sizes[]");
         return DataJson.GSON.fromJson(json, BogeySizeDefinition.class);
+    }
+
+    /**
+     * Parses one {@code bogey_motions} entry.
+     */
+    public BogeyMotionDefinition parseMotion(JsonObject json) {
+        rejectUnknownFields(json, MOTION_FIELDS, "bogey_motions[]");
+        JsonObject normalized = json.deepCopy();
+        if (!normalized.has("scale")) {
+            normalized.addProperty("scale", 1.0f);
+        }
+        if (!normalized.has("sign")) {
+            normalized.addProperty("sign", 1.0f);
+        }
+        if (!normalized.has("type")
+                || !normalized.get("type").isJsonPrimitive()
+                || !normalized.getAsJsonPrimitive("type").isString()) {
+            throw new IllegalArgumentException("bogey_motions[].type must be a string");
+        }
+        String type = normalized.get("type").getAsString();
+        if (!Set.of("wheel_spin", "rod_rotation", "formula").contains(type)) {
+            throw new IllegalArgumentException(
+                    "Unsupported bogey motion type: " + type
+            );
+        }
+        if (type.equals("formula")) {
+            if (!normalized.has("clip")
+                    || !normalized.get("clip").isJsonPrimitive()
+                    || !normalized.getAsJsonPrimitive("clip").isString()
+                    || normalized.get("clip").getAsString().isBlank()) {
+                throw new IllegalArgumentException(
+                        "bogey_motions[].clip must be a non-blank string for formula motions"
+                );
+            }
+        } else if (normalized.has("clip")) {
+            throw new IllegalArgumentException(
+                    "bogey_motions[].clip is only valid for formula motions"
+            );
+        }
+        return DataJson.GSON.fromJson(normalized, BogeyMotionDefinition.class);
+    }
+
+    /**
+     * Parses one {@code bogey_models} entry.
+     */
+    public BogeyModelDefinition parseModel(JsonObject json) {
+        rejectUnknownFields(json, MODEL_FIELDS, "bogey_models[]");
+        JsonObject normalized = json.deepCopy();
+        if (!normalized.has("y_offset")) {
+            normalized.addProperty("y_offset", -1.5078125f);
+        }
+        for (JsonElement part : requireArray(normalized, "parts", "bogey_models[]")) {
+            if (!part.isJsonObject()) {
+                throw new IllegalArgumentException(
+                        "bogey_models[].parts[] entries must be JSON objects"
+                );
+            }
+            JsonObject partObject = part.getAsJsonObject();
+            rejectUnknownFields(
+                    partObject,
+                    MODEL_PART_FIELDS,
+                    "bogey_models[].parts[]"
+            );
+            if (partObject.has("local")) {
+                if (!partObject.get("local").isJsonArray()) {
+                    throw new IllegalArgumentException(
+                            "bogey_models[].parts[].local must be an array"
+                    );
+                }
+                for (JsonElement operation : partObject.getAsJsonArray("local")) {
+                    if (!operation.isJsonObject()) {
+                        throw new IllegalArgumentException(
+                                "bogey_models[].parts[].local[] entries must be JSON objects"
+                        );
+                    }
+                    rejectUnknownFields(
+                            operation.getAsJsonObject(),
+                            LOCAL_OPERATION_FIELDS,
+                            "bogey_models[].parts[].local[]"
+                    );
+                }
+            }
+        }
+        return DataJson.GSON.fromJson(normalized, BogeyModelDefinition.class);
     }
 
     /**
@@ -143,6 +237,48 @@ public final class BogeyDefinitionParser {
             );
         }
         return file;
+    }
+
+    /**
+     * Parses and validates one motion document.
+     */
+    public List<BogeyMotionDefinition> parseMotionFile(JsonObject root) {
+        rejectUnknownFields(root, Set.of("bogey_motions"), "bogey motion document");
+        List<BogeyMotionDefinition> motions =
+                parseEntries(root, "bogey_motions", this::parseMotion);
+        uniqueIds(
+                motions.stream().map(BogeyMotionDefinition::id).toList(),
+                "bogey_motions[].id"
+        );
+        return motions;
+    }
+
+    /**
+     * Parses and validates one model document against known motion IDs.
+     */
+    public List<BogeyModelDefinition> parseModelFile(
+            JsonObject root,
+            Set<String> motionIds
+    ) {
+        rejectUnknownFields(root, Set.of("bogey_models"), "bogey model document");
+        List<BogeyModelDefinition> models =
+                parseEntries(root, "bogey_models", this::parseModel);
+        uniqueIds(
+                models.stream().map(BogeyModelDefinition::id).toList(),
+                "bogey_models[].id"
+        );
+        for (BogeyModelDefinition model : models) {
+            for (BogeyModelDefinition.Part part : model.parts()) {
+                if (part.motion() != null) {
+                    requireReference(
+                            motionIds,
+                            part.motion(),
+                            "model " + model.id() + " part " + part.id() + " motion"
+                    );
+                }
+            }
+        }
+        return models;
     }
 
     private <T> List<T> parseEntries(

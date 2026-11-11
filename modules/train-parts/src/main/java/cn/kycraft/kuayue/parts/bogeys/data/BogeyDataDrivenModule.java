@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.SoundType;
  */
 @Context
 public final class BogeyDataDrivenModule {
-
     /**
      * Installs bogey type handlers before Kasuga processes the mod JSON index.
      */
@@ -28,6 +27,8 @@ public final class BogeyDataDrivenModule {
             };
         });
         TypeHandlerRegistry.register(new BogeySizeTypeHandler());
+        TypeHandlerRegistry.register(new BogeyMotionTypeHandler());
+        TypeHandlerRegistry.register(new BogeyModelTypeHandler());
         TypeHandlerRegistry.register(new BogeyBlockTypeHandler());
         TypeHandlerRegistry.register(new BogeyStyleTypeHandler());
     }

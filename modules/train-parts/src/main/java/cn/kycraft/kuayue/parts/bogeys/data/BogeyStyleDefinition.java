@@ -11,7 +11,7 @@ import java.util.List;
  * @param cycleGroup     Create style cycle group
  * @param registryGroup  optional registration group for the style registration
  * @param translationKey localization key for the style display name
- * @param variants       mappings from size and block to a legacy visual profile
+ * @param variants       mappings from size and block to a compiled model
  */
 public record BogeyStyleDefinition(
         String id,
@@ -44,12 +44,12 @@ public record BogeyStyleDefinition(
      *
      * @param size    referenced bogey size
      * @param block   referenced bogey block
-     * @param visual  Java visual bridge identifier
+     * @param model   referenced {@code bogey_models} entry
      */
     public record Variant(
             String size,
             String block,
-            String visual
+            String model
     ) {
         /**
          * Creates and validates a style variant.
@@ -57,7 +57,7 @@ public record BogeyStyleDefinition(
         public Variant {
             size = BogeySchemaStrings.requireId(size, "bogey_styles[].variants[].size");
             block = BogeySchemaStrings.requireId(block, "bogey_styles[].variants[].block");
-            visual = BogeySchemaStrings.requireId(visual, "bogey_styles[].variants[].visual");
+            model = BogeySchemaStrings.requireId(model, "bogey_styles[].variants[].model");
         }
     }
 }

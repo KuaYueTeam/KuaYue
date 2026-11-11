@@ -1,0 +1,248 @@
+{
+  "animation_clips": [
+    {
+      "id": "kuayue:qj_mechanism",
+      "duration_seconds": 1.0,
+      "variables": [
+        {
+          "name": "qj.degrees",
+          "expression": "((query.wheel_angle % 360) + 360) % 360"
+        },
+        {
+          "name": "qj.angle",
+          "expression": "rad(qj.degrees)"
+        },
+        {
+          "name": "qj.angle2",
+          "expression": "rad(qj.degrees - 90)"
+        },
+        {
+          "name": "qj.other_angle",
+          "expression": "rad(qj.degrees + 90)"
+        },
+        {
+          "name": "qj.other_angle2",
+          "expression": "qj.angle"
+        },
+        {
+          "name": "qj.link1",
+          "expression": "3.6"
+        },
+        {
+          "name": "qj.link2",
+          "expression": "27.399968"
+        },
+        {
+          "name": "qj.link3",
+          "expression": "9.712"
+        },
+        {
+          "name": "qj.link4",
+          "expression": "31.6864"
+        },
+        {
+          "name": "qj.link_distance_squared",
+          "expression": "qj.link1 * qj.link1 + qj.link4 * qj.link4 - 2 * qj.link1 * qj.link4 * cos(qj.angle2 - rad(90))"
+        },
+        {
+          "name": "qj.link_distance",
+          "expression": "sqrt(max(0, qj.link_distance_squared))"
+        },
+        {
+          "name": "qj.other_link_distance_squared",
+          "expression": "qj.link1 * qj.link1 + qj.link4 * qj.link4 - 2 * qj.link1 * qj.link4 * cos(qj.other_angle2 - rad(90))"
+        },
+        {
+          "name": "qj.other_link_distance",
+          "expression": "sqrt(max(0, qj.other_link_distance_squared))"
+        },
+        {
+          "name": "qj.phi1",
+          "expression": "deg(asin(max(-1, min(1, qj.link1 / qj.link_distance * sin(qj.angle2)))))"
+        },
+        {
+          "name": "qj.phi2",
+          "expression": "deg(acos(max(-1, min(1, (qj.link_distance_squared + qj.link3 * qj.link3 - qj.link2 * qj.link2) / (2 * qj.link_distance * qj.link3)))))"
+        },
+        {
+          "name": "qj.other_phi1",
+          "expression": "deg(asin(max(-1, min(1, qj.link1 / qj.other_link_distance * sin(qj.other_angle2)))))"
+        },
+        {
+          "name": "qj.other_phi2",
+          "expression": "deg(acos(max(-1, min(1, (qj.other_link_distance_squared + qj.link3 * qj.link3 - qj.link2 * qj.link2) / (2 * qj.other_link_distance * qj.link3)))))"
+        },
+        {
+          "name": "qj.theta3",
+          "expression": "qj.phi1 + qj.phi2"
+        },
+        {
+          "name": "qj.theta2",
+          "expression": "deg(asin(max(-1, min(1, (qj.link3 * sin(rad(-qj.theta3 - 11.4502)) + qj.link1 * sin(qj.angle2 + rad(70))) / qj.link2))))"
+        },
+        {
+          "name": "qj.other_theta3",
+          "expression": "qj.other_phi1 + qj.other_phi2"
+        },
+        {
+          "name": "qj.other_theta2",
+          "expression": "deg(asin(max(-1, min(1, (qj.link3 * sin(rad(-qj.other_theta3 - 11.4502)) + qj.link1 * sin(qj.other_angle2 + rad(70))) / qj.link2))))"
+        },
+        {
+          "name": "qj.crank_rotation",
+          "expression": "deg(atan((0 - cos(qj.angle)) * 0.12)) + 6.89"
+        },
+        {
+          "name": "qj.crank_x",
+          "expression": "0.4 * sin(qj.angle) - 3.045 + sqrt(max(0, 3.045 * 3.045 - 0.4 * 0.4 * cos(qj.angle) * cos(qj.angle)))"
+        },
+        {
+          "name": "qj.other_crank_rotation",
+          "expression": "deg(atan((0 - cos(qj.other_angle)) * 0.12)) + 6.89"
+        },
+        {
+          "name": "qj.other_crank_x",
+          "expression": "0.4 * sin(qj.other_angle) - 3.045 + sqrt(max(0, 3.045 * 3.045 - 0.4 * 0.4 * cos(qj.other_angle) * cos(qj.other_angle)))"
+        },
+        {
+          "name": "qj.expansion_angle",
+          "expression": "qj.theta3 * 0.76 - 20"
+        },
+        {
+          "name": "qj.other_expansion_angle",
+          "expression": "qj.other_theta3 * 0.76 - 20"
+        },
+        {
+          "name": "qj.connecting_y",
+          "expression": "-0.38 - cos(qj.angle + pi) * 0.38"
+        },
+        {
+          "name": "qj.connecting_z",
+          "expression": "sin(qj.angle + pi) * 0.38"
+        },
+        {
+          "name": "qj.other_connecting_y",
+          "expression": "-0.38 - cos(qj.other_angle + pi) * 0.38"
+        },
+        {
+          "name": "qj.other_connecting_z",
+          "expression": "sin(qj.other_angle + pi) * 0.38"
+        },
+        {
+          "name": "qj.eccentric_rotation",
+          "expression": "qj.theta2 + 15"
+        },
+        {
+          "name": "qj.eccentric_y",
+          "expression": "(0 - cos(qj.angle2)) * 0.225"
+        },
+        {
+          "name": "qj.eccentric_z",
+          "expression": "0 - sin(qj.angle2) * 0.225 - 0.225"
+        },
+        {
+          "name": "qj.other_eccentric_rotation",
+          "expression": "qj.other_theta2 + 15"
+        },
+        {
+          "name": "qj.other_eccentric_y",
+          "expression": "(0 - cos(qj.other_angle2)) * 0.225"
+        },
+        {
+          "name": "qj.other_eccentric_z",
+          "expression": "0 - sin(qj.other_angle2) * 0.225 - 0.225"
+        },
+        {
+          "name": "qj.anchor_rotation",
+          "expression": "7 - deg(atan(max(sin(qj.angle - rad(90)), 0 - sin(qj.angle - rad(90))))) * 0.1"
+        },
+        {
+          "name": "qj.other_anchor_rotation",
+          "expression": "7 - deg(atan(max(sin(qj.other_angle - rad(90)), 0 - sin(qj.other_angle - rad(90))))) * 0.1"
+        }
+      ],
+      "formula_transforms": [
+        {
+          "target": { "part": "part_06" },
+          "transform": {
+            "translate": { "z": "0.1 + qj.crank_x" },
+            "rotate": { "x": "-qj.crank_rotation", "y": "180" }
+          }
+        },
+        {
+          "target": { "part": "part_07" },
+          "transform": {
+            "translate": { "z": "0.1 + qj.other_crank_x" },
+            "rotate": { "x": "-qj.other_crank_rotation", "y": "180" }
+          }
+        },
+        {
+          "target": { "part": "part_08" },
+          "transform": {
+            "rotate": { "x": "qj.expansion_angle" }
+          }
+        },
+        {
+          "target": { "part": "part_09" },
+          "transform": {
+            "rotate": { "x": "qj.other_expansion_angle" }
+          }
+        },
+        {
+          "target": { "part": "part_10" },
+          "transform": {
+            "translate": { "y": "qj.connecting_y", "z": "-qj.connecting_z" },
+            "rotate": { "y": "180" }
+          }
+        },
+        {
+          "target": { "part": "part_11" },
+          "transform": {
+            "translate": { "y": "qj.other_connecting_y", "z": "-qj.other_connecting_z" },
+            "rotate": { "y": "180" }
+          }
+        },
+        {
+          "target": { "part": "part_12" },
+          "transform": {
+            "translate": { "y": "qj.eccentric_y", "z": "qj.eccentric_z" },
+            "rotate": { "x": "qj.eccentric_rotation" }
+          }
+        },
+        {
+          "target": { "part": "part_13" },
+          "transform": {
+            "translate": { "y": "qj.other_eccentric_y", "z": "qj.other_eccentric_z" },
+            "rotate": { "x": "qj.other_eccentric_rotation" }
+          }
+        },
+        {
+          "target": { "part": "part_14" },
+          "transform": {
+            "translate": { "z": "qj.crank_x" }
+          }
+        },
+        {
+          "target": { "part": "part_15" },
+          "transform": {
+            "translate": { "z": "qj.other_crank_x" }
+          }
+        },
+        {
+          "target": { "part": "part_16" },
+          "transform": {
+            "translate": { "z": "qj.crank_x" },
+            "rotate": { "x": "qj.anchor_rotation" }
+          }
+        },
+        {
+          "target": { "part": "part_17" },
+          "transform": {
+            "translate": { "z": "qj.other_crank_x" },
+            "rotate": { "x": "qj.other_anchor_rotation" }
+          }
+        }
+      ]
+    }
+  ]
+}

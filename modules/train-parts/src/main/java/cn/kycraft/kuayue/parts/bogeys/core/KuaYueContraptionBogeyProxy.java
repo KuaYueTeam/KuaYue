@@ -9,17 +9,17 @@ import java.util.List;
 
 /** Train-mounted twin of {@link KuaYueBogeyProxyComposition}. */
 public final class KuaYueContraptionBogeyProxy extends ContraptionBogeyProxy {
-
     @Override
     protected List<ModelPart> partsFor(
             ContraptionBogey element,
             BogeyModels.Placement placement
     ) {
-        return KuaYueBogeyMotion.bind(
-                element.sizeId(),
-                placement.parts(),
-                element::wheelAngle,
-                true
+        BogeyModelPlan plan = KuaYueBogeyModels.resolve(
+                element.styleId(),
+                element.sizeId()
         );
+        return plan == null
+                ? placement.parts()
+                : plan.bind(element::wheelAngle, true);
     }
 }

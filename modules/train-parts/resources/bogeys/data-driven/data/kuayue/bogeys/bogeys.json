@@ -755,42 +755,42 @@
         {
           "size": "kuayue:cw2",
           "block": "kuayue:cw2_bogey",
-          "visual": "kuayue:legacy/cw2"
+          "model": "kuayue:bogey/cw2"
         },
         {
           "size": "kuayue:pk209p",
           "block": "kuayue:pk209p_bogey",
-          "visual": "kuayue:legacy/pk209p_forward"
+          "model": "kuayue:bogey/pk209p"
         },
         {
           "size": "kuayue:pk209p_backward",
           "block": "kuayue:pk209p_backward_bogey",
-          "visual": "kuayue:legacy/pk209p_backward"
+          "model": "kuayue:bogey/pk209p_backward"
         },
         {
           "size": "kuayue:pk209p_no_motor",
           "block": "kuayue:pk209p_no_motor_bogey",
-          "visual": "kuayue:legacy/pk209p_no_motor"
+          "model": "kuayue:bogey/pk209p_no_motor"
         },
         {
           "size": "kuayue:sw220k",
           "block": "kuayue:sw220k_bogey",
-          "visual": "kuayue:legacy/sw220k"
+          "model": "kuayue:bogey/sw220k"
         },
         {
           "size": "kuayue:sw220k_backward",
           "block": "kuayue:sw220k_backward_bogey",
-          "visual": "kuayue:legacy/sw220k"
+          "model": "kuayue:bogey/sw220k_backward"
         },
         {
           "size": "kuayue:sw160",
           "block": "kuayue:sw160_bogey",
-          "visual": "kuayue:legacy/sw160"
+          "model": "kuayue:bogey/sw160"
         },
         {
           "size": "kuayue:zk6",
           "block": "kuayue:zk6_bogey",
-          "visual": "kuayue:legacy/zk6"
+          "model": "kuayue:bogey/zk6"
         }
       ]
     },
@@ -803,27 +803,27 @@
         {
           "size": "kuayue:mkz",
           "block": "kuayue:mkz_bogey",
-          "visual": "kuayue:legacy/mkz"
+          "model": "kuayue:bogey/mkz"
         },
         {
           "size": "kuayue:tkz2",
           "block": "kuayue:tkz2_bogey",
-          "visual": "kuayue:legacy/tkz2"
+          "model": "kuayue:bogey/tkz2"
         },
         {
           "size": "kuayue:tkz2_motor",
           "block": "kuayue:tkz2_motor_bogey",
-          "visual": "kuayue:legacy/tkz2_motor"
+          "model": "kuayue:bogey/tkz2_motor"
         },
         {
           "size": "kuayue:tkz2_motor_backward",
           "block": "kuayue:tkz2_motor_backward_bogey",
-          "visual": "kuayue:legacy/tkz2_motor_backward"
+          "model": "kuayue:bogey/tkz2_motor_backward"
         },
         {
           "size": "kuayue:tkz1",
           "block": "kuayue:tkz1_bogey",
-          "visual": "kuayue:legacy/tkz1"
+          "model": "kuayue:bogey/tkz1"
         }
       ]
     },
@@ -836,42 +836,42 @@
         {
           "size": "kuayue:cw2_a",
           "block": "kuayue:cw2_bogey_a",
-          "visual": "kuayue:legacy/cw2_andesite"
+          "model": "kuayue:bogey/cw2_a"
         },
         {
           "size": "kuayue:pk209p_a",
           "block": "kuayue:pk209p_bogey_a",
-          "visual": "kuayue:legacy/pk209p_forward_andesite"
+          "model": "kuayue:bogey/pk209p_a"
         },
         {
           "size": "kuayue:pk209p_backward_a",
           "block": "kuayue:pk209p_backward_bogey_a",
-          "visual": "kuayue:legacy/pk209p_backward_andesite"
+          "model": "kuayue:bogey/pk209p_backward_a"
         },
         {
           "size": "kuayue:pk209p_no_motor_a",
           "block": "kuayue:pk209p_no_motor_bogey_a",
-          "visual": "kuayue:legacy/pk209p_no_motor_andesite"
+          "model": "kuayue:bogey/pk209p_no_motor_a"
         },
         {
           "size": "kuayue:sw220k_a",
           "block": "kuayue:sw220k_bogey_a",
-          "visual": "kuayue:legacy/sw220k_andesite"
+          "model": "kuayue:bogey/sw220k_a"
         },
         {
           "size": "kuayue:sw220k_backward_a",
           "block": "kuayue:sw220k_backward_bogey_a",
-          "visual": "kuayue:legacy/sw220k_andesite"
+          "model": "kuayue:bogey/sw220k_backward_a"
         },
         {
           "size": "kuayue:sw160_a",
           "block": "kuayue:sw160_bogey_a",
-          "visual": "kuayue:legacy/sw160_andesite"
+          "model": "kuayue:bogey/sw160_a"
         },
         {
           "size": "kuayue:zk6_a",
           "block": "kuayue:zk6_bogey_a",
-          "visual": "kuayue:legacy/zk6_andesite"
+          "model": "kuayue:bogey/zk6_a"
         }
       ]
     },
@@ -884,77 +884,77 @@
         {
           "size": "kuayue:df11g",
           "block": "kuayue:df11g_bogey",
-          "visual": "kuayue:legacy/df11g"
+          "model": "kuayue:bogey/df11g"
         },
         {
           "size": "kuayue:df11g_backward",
           "block": "kuayue:df11g_backward_bogey",
-          "visual": "kuayue:legacy/df11g_backward"
+          "model": "kuayue:bogey/df11g_backward"
         },
         {
           "size": "kuayue:qj_main",
           "block": "kuayue:qj_bogey",
-          "visual": "kuayue:legacy/qj_main"
+          "model": "kuayue:bogey/qj_main"
         },
         {
           "size": "kuayue:ss3",
           "block": "kuayue:ss3_bogey",
-          "visual": "kuayue:legacy/ss3"
+          "model": "kuayue:bogey/ss3"
         },
         {
           "size": "kuayue:ss3_backward",
           "block": "kuayue:ss3_backward_bogey",
-          "visual": "kuayue:legacy/ss3_backward"
+          "model": "kuayue:bogey/ss3_backward"
         },
         {
           "size": "kuayue:hxd3d",
           "block": "kuayue:hxd3d_bogey",
-          "visual": "kuayue:legacy/hxd3d"
+          "model": "kuayue:bogey/hxd3d"
         },
         {
           "size": "kuayue:hxd3d_backward",
           "block": "kuayue:hxd3d_backward_bogey",
-          "visual": "kuayue:legacy/hxd3d_backward"
+          "model": "kuayue:bogey/hxd3d_backward"
         },
         {
           "size": "kuayue:ss8",
           "block": "kuayue:ss8_bogey",
-          "visual": "kuayue:legacy/ss8"
+          "model": "kuayue:bogey/ss8"
         },
         {
           "size": "kuayue:ss8_backward",
           "block": "kuayue:ss8_backward_bogey",
-          "visual": "kuayue:legacy/ss8_backward"
+          "model": "kuayue:bogey/ss8_backward"
         },
         {
           "size": "kuayue:dfh21_s",
           "block": "kuayue:dfh21_bogey_s",
-          "visual": "kuayue:legacy/dfh21_standard"
+          "model": "kuayue:bogey/dfh21_s"
         },
         {
           "size": "kuayue:dfh21_backward_s",
           "block": "kuayue:dfh21_backward_bogey_s",
-          "visual": "kuayue:legacy/dfh21_standard"
+          "model": "kuayue:bogey/dfh21_backward_s"
         },
         {
           "size": "kuayue:jy290",
           "block": "kuayue:jy290_bogey",
-          "visual": "kuayue:legacy/jy290"
+          "model": "kuayue:bogey/jy290"
         },
         {
           "size": "kuayue:jy290_backward",
           "block": "kuayue:jy290_backward_bogey",
-          "visual": "kuayue:legacy/jy290_backward"
+          "model": "kuayue:bogey/jy290_backward"
         },
         {
           "size": "kuayue:df5",
           "block": "kuayue:df5_bogey",
-          "visual": "kuayue:legacy/df5"
+          "model": "kuayue:bogey/df5"
         },
         {
           "size": "kuayue:df5_backward",
           "block": "kuayue:df5_backward_bogey",
-          "visual": "kuayue:legacy/df5_backward"
+          "model": "kuayue:bogey/df5_backward"
         }
       ]
     },
@@ -967,7 +967,7 @@
         {
           "size": "kuayue:qj_guide",
           "block": "kuayue:qj_guide_bogey",
-          "visual": "kuayue:legacy/qj_guide"
+          "model": "kuayue:bogey/qj_guide"
         }
       ]
     },
@@ -980,22 +980,22 @@
         {
           "size": "kuayue:df21",
           "block": "kuayue:df21_bogey",
-          "visual": "kuayue:legacy/df21"
+          "model": "kuayue:bogey/df21"
         },
         {
           "size": "kuayue:df21_backward",
           "block": "kuayue:df21_backward_bogey",
-          "visual": "kuayue:legacy/df21_backward"
+          "model": "kuayue:bogey/df21_backward"
         },
         {
           "size": "kuayue:dfh21",
           "block": "kuayue:dfh21_bogey",
-          "visual": "kuayue:legacy/dfh21"
+          "model": "kuayue:bogey/dfh21"
         },
         {
           "size": "kuayue:dfh21_backward",
           "block": "kuayue:dfh21_backward_bogey",
-          "visual": "kuayue:legacy/dfh21"
+          "model": "kuayue:bogey/dfh21_backward"
         }
       ]
     },
@@ -1008,62 +1008,62 @@
         {
           "size": "kuayue:df11g_a",
           "block": "kuayue:df11g_bogey_a",
-          "visual": "kuayue:legacy/df11g_andesite"
+          "model": "kuayue:bogey/df11g_a"
         },
         {
           "size": "kuayue:df11g_backward_a",
           "block": "kuayue:df11g_backward_bogey_a",
-          "visual": "kuayue:legacy/df11g_andesite"
+          "model": "kuayue:bogey/df11g_backward_a"
         },
         {
           "size": "kuayue:qj_main_a",
           "block": "kuayue:qj_bogey_a",
-          "visual": "kuayue:legacy/qj_main_andesite"
+          "model": "kuayue:bogey/qj_main_a"
         },
         {
           "size": "kuayue:qj_guide_bogey_a",
           "block": "kuayue:qj_guide_bogey_a",
-          "visual": "kuayue:legacy/qj_guide_andesite"
+          "model": "kuayue:bogey/qj_guide_bogey_a"
         },
         {
           "size": "kuayue:ss3_a",
           "block": "kuayue:ss3_bogey_a",
-          "visual": "kuayue:legacy/ss3_andesite"
+          "model": "kuayue:bogey/ss3_a"
         },
         {
           "size": "kuayue:ss3_backward_a",
           "block": "kuayue:ss3_backward_bogey_a",
-          "visual": "kuayue:legacy/ss3_andesite"
+          "model": "kuayue:bogey/ss3_backward_a"
         },
         {
           "size": "kuayue:hxd3d_a",
           "block": "kuayue:hxd3d_bogey_a",
-          "visual": "kuayue:legacy/hxd3d_andesite"
+          "model": "kuayue:bogey/hxd3d_a"
         },
         {
           "size": "kuayue:hxd3d_backward_a",
           "block": "kuayue:hxd3d_backward_bogey_a",
-          "visual": "kuayue:legacy/hxd3d_andesite"
+          "model": "kuayue:bogey/hxd3d_backward_a"
         },
         {
           "size": "kuayue:ss8_a",
           "block": "kuayue:ss8_bogey_a",
-          "visual": "kuayue:legacy/ss8_andesite"
+          "model": "kuayue:bogey/ss8_a"
         },
         {
           "size": "kuayue:ss8_backward_a",
           "block": "kuayue:ss8_backward_bogey_a",
-          "visual": "kuayue:legacy/ss8_andesite"
+          "model": "kuayue:bogey/ss8_backward_a"
         },
         {
           "size": "kuayue:dfh21_a",
           "block": "kuayue:dfh21_bogey_a",
-          "visual": "kuayue:legacy/dfh21_standard"
+          "model": "kuayue:bogey/dfh21_a"
         },
         {
           "size": "kuayue:dfh21_backward_a",
           "block": "kuayue:dfh21_backward_bogey_a",
-          "visual": "kuayue:legacy/dfh21_standard"
+          "model": "kuayue:bogey/dfh21_backward_a"
         }
       ]
     }
