@@ -1,34 +1,21 @@
 package cn.kycraft.kuayue.content.techtree;
 
-import cn.kycraft.kuayue.KuaYue;
-import io.micronaut.context.ApplicationContext;
+import cn.kycraft.kuayue.parts.KuaYueTrainPanelModule;
+import cn.kycraft.kuayue.parts.locomotives.ss.ISS8Panel;
 
 /**
- * Resolves the train-part beans before a blueprint is decoded.
+ * Touches the train-part registration holders before a blueprint is decoded.
  *
  * <p>Part blocks are declared as static fields on Micronaut {@code @Context} beans, and a blueprint
- * decoder rejects the whole file on a single unknown palette id. The beans must therefore exist before
- * the palette is resolved.</p>
+ * decoder rejects the whole file on a single unknown palette id. Reading one of those static fields is
+ * what runs the holder's initialiser and thereby registers its {@code BlockReg} entries.</p>
  *
- * <p>Reflection through this class's own loader does not work: every mod is loaded through a transformer
- * class loader, so {@code cn.kycraft.kuayue.parts.*} is invisible from here even when the jar is on the
- * classpath. The mod's Micronaut context does see it, and asking the context for the bean is also what
- * instantiates it.</p>
- *
- * <p>{@code modules:scheduling} does not compile against {@code modules:train-parts}, so the bean types
- * are named as strings; a missing module is reported and skipped.</p>
+ * <p>This is a plain static reference rather than {@code Class.forName}: in the dev client every module is
+ * loaded through its own transformer class loader, so lookup by name from this class fails even though the
+ * jar is on the classpath. A compiled reference is resolved by the module layer instead, which does see the
+ * sibling module.</p>
  */
 final class TrainPartBlocks {
-
-    /**
-     * Beans whose initialisation registers the blocks a shipped blueprint can reference.
-     *
-     * <p>Adding a blueprint that uses another locomotive family means adding its panel bean here.</p>
-     */
-    private static final String[] PANEL_BEANS = {
-            "cn.kycraft.kuayue.parts.KuaYueTrainPanelModule",
-            "cn.kycraft.kuayue.parts.locomotives.ss.ISS8Panel",
-    };
 
     private static volatile boolean loaded;
     private static volatile boolean available;
@@ -36,7 +23,7 @@ final class TrainPartBlocks {
     private TrainPartBlocks() {
     }
 
-    /** True once {@link #ensureLoaded()} ran and at least one part bean was resolved. */
+    /** True once {@link #ensureLoaded()} ran and the part holders were reachable. */
     static boolean available() {
         return available;
     }
@@ -46,21 +33,15 @@ final class TrainPartBlocks {
         if (loaded) return;
         synchronized (TrainPartBlocks.class) {
             if (loaded) return;
-            ApplicationContext context = KuaYue.getContext();
-            boolean found = false;
-            for (String name : PANEL_BEANS) {
-                try {
-                    Class<?> type = Class.forName(name, false, context.getClass().getClassLoader());
-                    Object bean = context.getBean(type);
-                    if (bean != null) found = true;
-                } catch (ClassNotFoundException | io.micronaut.context.exceptions.NoSuchBeanException missing) {
-                    TechTreeSystem.LOGGER.debug("Train part bean {} is not installed", name);
-                } catch (Throwable error) {
-                    TechTreeSystem.LOGGER.warn("Train part bean {} failed to initialise", name, error);
-                    found = true;
-                }
+            try {
+                // Reading the group field initialises the holder, which registers every panel in it.
+                Object group = KuaYueTrainPanelModule.REGISTRY_GROUP;
+                Object ss8 = ISS8Panel.GROUP_SS8;
+                available = group != null && ss8 != null;
+            } catch (Throwable error) {
+                TechTreeSystem.LOGGER.warn("Train part holders could not be initialised", error);
+                available = false;
             }
-            available = found;
             loaded = true;
             TechTreeSystem.LOGGER.info("Train part blocks for blueprint previews: {}",
                     available ? "available" : "missing");

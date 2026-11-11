@@ -139,7 +139,10 @@ final class CarModelUi {
         return new org.joml.Matrix4f()
                 .translate(pos.getX() + 0.5f, pos.getY() + TechTreeBoard.TOP_Y, pos.getZ() + 0.5f)
                 .rotateY((float) Math.toRadians(table.yaw()))
-                .scale(pixelsPerBlock, -pixelsPerBlock, pixelsPerBlock)
+                // The parchment plate is drawn with GUI coordinates (Y down), so Y is negated. X is negated
+                // too: without it the whole plate is mirrored once it is rotated onto the horizontal table
+                // top, and every glyph reads backwards from the front of the table.
+                .scale(-pixelsPerBlock, -pixelsPerBlock, pixelsPerBlock)
                 .translate(-anchorX, -anchorY, 0f);
     }
 }

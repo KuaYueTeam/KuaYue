@@ -28,8 +28,8 @@ final class BlueprintBlockRenderer {
     /** World size of the fitted model's longest axis, in blocks. */
     private static final double FIT_EXTENT = 1.1;
 
-    /** World size of the source structure's longest axis; {@code test_bogie} is 3x2x5. */
-    private static final float SOURCE_SPAN = 5.0f;
+    /** World size of the source structure's longest axis, used to normalise the model into FIT_EXTENT. */
+    private static final float SOURCE_SPAN = 16.0f;
 
     /**
      * Extra lift above the block origin.
@@ -37,7 +37,7 @@ final class BlueprintBlockRenderer {
      * <p>The drawn table top of the model is above the collision box, so anchoring at y+1.01 leaves the
      * structure sunk into the table; this raises it onto the visible surface.</p>
      */
-    private static final float TOP_LIFT = 0.28f;
+    private static final float TOP_LIFT = 0.5f;
 
     private static SceneModels scene;
     private static SceneModels.Entry entry;

@@ -15,6 +15,9 @@ useGenerator(project)
 // The mod entry point (@Mod KuaYue + its Micronaut @Context applications) lives in :modules:core.
 // Without this the module starts with no KuaYue context at all, so no @Context bean ever runs.
 useModProject(project(":modules:core"))
+// Same declaration as core: this is what actually puts a module's compiled output on the kuayue module
+// path. `mods { sourceSet(...) }` alone does not, which is why the part blocks were never registered.
+useModProject(project(":modules:train-parts"))
 
 var find = gradle.getIncludedBuilds()*.any {
     it.name == "KasugaLibNext"
@@ -110,14 +113,8 @@ neoForge {
         "${mod_id}" {
             // Inlcude the core subproject as a dependency.
             sourceSet(sourceSets.main)
-            // The shipped blueprints reference train-part blocks (ss8_cowcatcher and friends), and a
-            // decoder rejects the whole file when one palette id is missing.
-            //
-            // Putting train-parts on the classpath is not enough: the Micronaut context only reads the
-            // BeanDefinitionReference index of jars it was built for, so an undeclared module never gets
-            // its @Context beans instantiated and none of its blocks register. Declaring every bean-bearing
-            // source set here is what makes this run profile see the whole mod.
-            sourceSet(project(":modules:train-parts").sourceSets.main)
+            // train-parts joins this mod through useModProject above; declaring its source set here as
+            // well makes moddev report "Duplicate source set 'main' in mod 'kuayue'".
         }
     }
 }
@@ -125,6 +122,14 @@ neoForge {
 
 configurations {
     runtimeClasspath.extendsFrom localRuntime
+}
+
+// The part module is already part of this mod through `mods { }`, which merges its source set into the
+// kuayue module. Adding it to the runtime classpath as well put the same classes on two module paths and
+// the launcher refused to start ("Module minecraft reads more than one module named kuayue"), so the only
+// thing needed here is the build order.
+tasks.matching { it.name == "runClient" }.configureEach {
+    dependsOn(":modules:train-parts:classes", ":modules:train-parts:processResources")
 }
 
 dependencies {
@@ -244,8 +249,4 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-tasks.shadowJar {
-    zip64 = true
 }

@@ -36,7 +36,7 @@ final class BlueprintPreview {
     private static final String DIRECTORY = "blueprints";
 
     /** Currently shipped blueprint, used until the table selects another one. */
-    static final ResourceLocation DEFAULT = ResourceLocation.fromNamespaceAndPath("kuayue", "test_bogie");
+    static final ResourceLocation DEFAULT = ResourceLocation.fromNamespaceAndPath("kuayue", "test_ss8");
 
     private static final Map<ResourceLocation, GuiModelPreview> OPEN = new HashMap<>();
     /** Decoded block sources, kept for the world-space scene renderer. */
@@ -88,7 +88,13 @@ final class BlueprintPreview {
         // Train-part modules contribute the blocks a KuaYue blueprint references. Resolving their beans is
         // best-effort: a blueprint made of vanilla blocks must still decode when the part module is not on
         // this classpath (the single-module dev run), so this only warms them up.
-        TrainPartBlocks.ensureLoaded();
+        // Part blocks come from another module whose classes are not linkable here in the dev client, so
+        // ask the registry instead of touching their holders.
+        if (!net.minecraft.core.registries.BuiltInRegistries.BLOCK.containsKey(
+                ResourceLocation.fromNamespaceAndPath("kuayue", "ss8_cowcatcher"))) {
+            TechTreeSystem.LOGGER.warn("Blueprint {} references train-part blocks that are not registered",
+                    blueprint);
+        }
         try (InputStream stream = resource.get().open()) {
             CompoundTag root = NbtIo.readCompressed(stream,
                     NbtAccounter.create(SchematicModelData.MAX_NBT_BYTES));
