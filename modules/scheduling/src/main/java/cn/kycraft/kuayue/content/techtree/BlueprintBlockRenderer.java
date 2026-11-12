@@ -27,7 +27,7 @@ import java.util.Map;
 final class BlueprintBlockRenderer {
 
     /** World size of the fitted model's longest axis, in blocks. */
-    private static final double FIT_EXTENT = 0.10;
+    private static final double FIT_EXTENT = 0.07;
 
     /**
      * Extra lift above the block origin.
@@ -67,7 +67,7 @@ final class BlueprintBlockRenderer {
                 return;
             }
             SceneModels scene = SceneModels.open(level);
-            var entry = scene.add(source, seat(table));
+            var entry = scene.add(source, seat(table, yaw));
             entry.transform(transform(yaw, key, frame.bounds()));
             entry.visible(true);
             SCENES.put(key, scene);
@@ -96,16 +96,38 @@ final class BlueprintBlockRenderer {
     }
 
     /** Where the structure stands: the middle of the table top, lifted onto the visible surface. */
-    private static Vec3 seat(BlockPos table) {
-        return new Vec3(table.getX() + 0.5d, table.getY() + TechTreeBoard.TOP_Y + TOP_LIFT,
-                table.getZ() + 0.5d);
+    /** How far the model sits toward the table's own left, in blocks. */
+    private static final double SEAT_LEFT = 0.55d;
+
+    /**
+     * Seat the model on the table's left half.
+     *
+     * <p>Offsets along the table's own left vector rather than world X: a fixed X offset moved the model to
+     * the right of the table whenever the table faced east or west.</p>
+     */
+    /** Seat of the model on one table; also used to anchor the overlay so both move together. */
+    static Vec3 seatOf(BlockPos table, float yaw) {
+        return seat(table, yaw);
+    }
+
+    private static Vec3 seat(BlockPos table, float yaw) {
+        double radians = Math.toRadians(yaw);
+        // Local left of the model at yaw 0 is -X. After rotateY(yaw) a local (lx, 0, lz) maps to
+        // (lx*cos + lz*sin, 0, -lx*sin + lz*cos), so local (-1, 0, 0) becomes (-cos, 0, +sin).
+        double dx = -Math.cos(radians) * SEAT_LEFT;
+        double dz = Math.sin(radians) * SEAT_LEFT;
+        return new Vec3(table.getX() + 0.5d + dx,
+                table.getY() + TechTreeBoard.TOP_Y + TOP_LIFT, table.getZ() + 0.5d + dz);
     }
 
     /** Turns the structure with the table and scales it into {@link #FIT_EXTENT} blocks. */
+    /** Extra tilt so the model is presented at an angle instead of square-on. */
+    private static final float TILT_YAW = 38f;
+
     private static Matrix4f transform(float yaw, BlockPos table, ModelBounds bounds) {
         var centre = bounds.minimum().add(bounds.maximum()).mul(0.5f);
         return new Matrix4f()
-                .rotateY((float) Math.toRadians(yaw))
+                .rotateY((float) Math.toRadians(yaw + TILT_YAW))
                 .scale((float) FIT_EXTENT)
                 .translate(-centre.x, -bounds.minimum().y, -centre.z);
     }

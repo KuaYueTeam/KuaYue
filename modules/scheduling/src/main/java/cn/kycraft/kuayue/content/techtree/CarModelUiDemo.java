@@ -18,7 +18,10 @@ final class CarModelUiDemo {
     private record Mounted(CarModelUi ui, Renderable renderable) {
     }
 
-    private static final Map<net.minecraft.core.BlockPos, Mounted> MOUNTED = new HashMap<>();
+    /** Tables currently showing the model. */
+    private static final java.util.Set<net.minecraft.core.BlockPos> MOUNTED = new java.util.HashSet<>();
+    /** Title/description/buttons, mounted per table and independent of the model toggle. */
+    private static final Map<net.minecraft.core.BlockPos, Mounted> OVERLAYS = new HashMap<>();
 
     private CarModelUiDemo() {
     }
@@ -30,7 +33,7 @@ final class CarModelUiDemo {
      */
     static void toggle(BlueprintTableBlockEntity table) {
         var pos = table.getBlockPos();
-        if (MOUNTED.containsKey(pos)) {
+        if (MOUNTED.contains(pos)) {
             hide(pos);
             TechTreeSystem.LOGGER.info("Car model demo hidden on {}", pos);
             return;
@@ -40,29 +43,47 @@ final class CarModelUiDemo {
 
     private static void show(BlueprintTableBlockEntity table) {
         var pos = table.getBlockPos().immutable();
-        // No openPointer() here: that switched Ksg into world-UI pointer mode and nothing switched it back,
-        // which left the cursor free and the crosshair unable to turn the camera after the second use.
-        // The model is drawn by Kasuga's scene; the UI host only carries the text column beside it.
-        CarModelUi ui = CarModelUi.of(BlueprintPreview.DEFAULT);
-        Renderable renderable = ui.attach(CarModelUi.uprightTransform(table, 0.005f));
+        // The overlay is independent of the model: it stays on the table whether or not the model is shown,
+        // so it is mounted here and not removed by hide().
+        ensureOverlay(table);
         BlueprintBlockRenderer.bind(pos, BlueprintPreview.DEFAULT, table.yaw());
-        MOUNTED.put(pos, new Mounted(ui, renderable));
+        MOUNTED.add(pos);
         TechTreeSystem.LOGGER.info("Car model demo shown on {} for {}", pos, BlueprintPreview.DEFAULT);
+    }
+
+    /** Mounts the title/description/buttons on a table once; they persist independently of the model. */
+    static void ensureOverlay(BlueprintTableBlockEntity table) {
+        var pos = table.getBlockPos().immutable();
+        if (OVERLAYS.containsKey(pos)) return;
+        CarModelUi ui = CarModelUi.of();
+        Renderable renderable = ui.attach(CarModelUi.tableTopTransform(table, 0.005f));
+        OVERLAYS.put(pos, new Mounted(ui, renderable));
+    }
+
+    /** Removes the overlay of one table. */
+    private static void removeOverlay(net.minecraft.core.BlockPos pos) {
+        Mounted mounted = OVERLAYS.remove(pos);
+        if (mounted == null) return;
+        if (Constants.UI_BACKEND != null) Constants.UI_BACKEND.removeRenderable(mounted.renderable());
+        mounted.ui().close();
     }
 
     /** Removes the model and the text from one table. */
     static void hide(net.minecraft.core.BlockPos pos) {
-        Mounted mounted = MOUNTED.remove(pos);
-        if (mounted != null) {
-            if (Constants.UI_BACKEND != null) Constants.UI_BACKEND.removeRenderable(mounted.renderable());
-            mounted.ui().close();
-        }
+        // Only the model goes away; the overlay was never part of it.
+        MOUNTED.remove(pos);
         BlueprintBlockRenderer.unbind(pos);
     }
 
     /** Removes everything; used when leaving the world. */
     static void closeAll() {
-        for (var pos : java.util.List.copyOf(MOUNTED.keySet())) hide(pos);
+        for (var pos : java.util.List.copyOf(MOUNTED)) hide(pos);
+        for (var pos : java.util.List.copyOf(OVERLAYS.keySet())) removeOverlay(pos);
         BlueprintBlockRenderer.closeAll();
+    }
+
+    /** Drops the overlay of one table, e.g. when the table is broken. */
+    static void hideOverlay(net.minecraft.core.BlockPos pos) {
+        removeOverlay(pos);
     }
 }

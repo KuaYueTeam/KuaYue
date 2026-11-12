@@ -1,78 +1,58 @@
 package cn.kycraft.kuayue.content.techtree;
 
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
+import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import lib.kasuga.rendering.models.mc.Constants;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import org.appliedenergistics.yoga.YogaEdge;
 import org.appliedenergistics.yoga.YogaPositionType;
 
 /**
- * Text column that stands beside the blueprint model on a table.
+ * Title, description and two buttons drawn on the blueprint table model.
  *
- * <p>The model itself is drawn in the world by Kasuga's scene; this host carries only the title and the
- * description, upright next to the table. It stays its own element tree so it can be nested into another
- * layout later.</p>
+ * <p>Only these three elements live here: no panel, no background and no model. The model is a world scene
+ * rendered by Kasuga, so anything drawn by this host would sit on top of it as a separate surface.</p>
  */
 final class CarModelUi {
 
-    /** Width of the plate the model occupies, in GUI pixels. */
-    static final int SCENE_SIZE = 150;
-    /** Width of the whole host: the model column plus the text column. */
-    static final int WIDTH = 300;
-    static final int HEIGHT = 150;
+    /** Drawing area in local pixels, matching the blue part of the table model. */
+    static final int WIDTH = 200;
+    static final int HEIGHT = 200;
 
-    /** Model column starts at the left edge. */
-    private static final int SCENE_X = 0;
-    private static final int SCENE_Y = 0;
+    /** Blue area of the model, in this canvas. */
+    static final int BLUE_X = 10;
+    static final int BLUE_Y = 40;
+    static final int BLUE_W = 180;
+    static final int BLUE_H = 90;
 
-    /** Text starts right after the model column. */
-    private static final float TEXT_X = SCENE_X + SCENE_SIZE + 10;
-    private static final float TEXT_W = WIDTH - TEXT_X - 4;
+    /** Every element is lifted by this many pixels. */
+    private static final float LIFT = -4f;
 
-    // Light ink: the text is drawn over the world now, not over dark parchment.
-    private static final int INK = 0xFFE8E2D8;
-    private static final int INK_STRONG = 0xFFFFF6E2;
+    private static final int INK = 0xFF1E2A44;
+    private static final int INK_STRONG = 0xFF10203A;
 
     private final UIElement root = new UIElement();
-    private final CarModelScene scene = new CarModelScene(SCENE_SIZE, SCENE_SIZE);
-    private final ResourceLocation blueprint;
 
-    private CarModelUi(ResourceLocation blueprint) {
-        this.blueprint = blueprint;
+    private CarModelUi() {
         root.setId("car_model_ui");
         root.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT));
-
-        UIElement plate = scene.element();
-        plate.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, SCENE_X)
-                .setPosition(YogaEdge.TOP, SCENE_Y)
-                .setWidth(SCENE_SIZE).setHeight(SCENE_SIZE));
-        root.addChild(plate);
         root.addChild(title());
         root.addChild(body());
+        root.addChild(button("按钮A", 0));
+        root.addChild(button("按钮B", 1));
     }
 
-    static CarModelUi of(ResourceLocation blueprint) {
-        return new CarModelUi(blueprint);
+    static CarModelUi of() {
+        return new CarModelUi();
     }
 
     UIElement root() {
         return root;
     }
 
-    CarModelScene scene() {
-        return scene;
-    }
-
-    ResourceLocation blueprint() {
-        return blueprint;
-    }
-
-    /** Draws only the text column; the model is drawn in the world. */
     void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         var context = com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext.of(null, graphics, mouseX, mouseY,
                 partialTick);
@@ -83,33 +63,50 @@ final class CarModelUi {
     void close() {
     }
 
+    /** Title above the blue area. */
     private UIElement title() {
         Label label = new Label();
-        label.setText(Component.translatable("tech_tree.blueprint.title"));
+        label.setText(Component.literal("这是标题"));
         label.textStyle(t -> t.textColor(INK_STRONG).adaptiveHeight(true));
         label.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, TEXT_X)
-                .setPosition(YogaEdge.TOP, 40f)
-                .setWidth(TEXT_W));
+                .setPosition(YogaEdge.LEFT, (float) (BLUE_X + 2))
+                .setPosition(YogaEdge.TOP, (float) (BLUE_Y - 16) + LIFT)
+                .setWidth(BLUE_W - 4));
         return label;
     }
 
+    /** Description inside the blue area; the label wraps at its width. */
     private UIElement body() {
         Label label = new Label();
-        label.setText(Component.translatable("tech_tree.blueprint.description"));
+        label.setText(Component.literal("这是介绍，介绍介绍介绍介绍介绍介绍介绍介绍"));
         label.textStyle(t -> t.textColor(INK).adaptiveHeight(true));
         label.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, TEXT_X)
-                .setPosition(YogaEdge.TOP, 64f)
-                .setWidth(TEXT_W));
+                .setPosition(YogaEdge.LEFT, (float) (BLUE_X + 6))
+                .setPosition(YogaEdge.TOP, (float) (BLUE_Y + 6) + LIFT)
+                .setWidth(BLUE_W - 12));
         return label;
+    }
+
+    /** Clickable button below the blue area. */
+    private UIElement button(String caption, int index) {
+        Button button = new Button();
+        button.setText(Component.literal(caption));
+        button.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                .setPosition(YogaEdge.LEFT, (float) (BLUE_X + 8 + index * 88))
+                .setPosition(YogaEdge.TOP, (float) (BLUE_Y + BLUE_H + 6) + LIFT)
+                .setWidth(80).setHeight(18));
+        button.setOnClick(event -> {
+            TechTreeSystem.LOGGER.info("Blueprint table button {} pressed on table", caption);
+            event.stopPropagation();
+        });
+        return button;
     }
 
     Renderable renderable() {
         return this::render;
     }
 
-    /** Registers the text column on the table model at the given transform. */
+    /** Registers the overlay on the table model at the given transform. */
     Renderable attach(org.joml.Matrix4f localToWorld) {
         Renderable renderable = renderable();
         if (Constants.UI_BACKEND != null) Constants.UI_BACKEND.addRenderable(renderable, localToWorld);
@@ -117,21 +114,25 @@ final class CarModelUi {
     }
 
     /**
-     * Upright placement of the host above the table top.
+     * Flat placement on the table top.
      *
-     * <p>Anchored at the bottom-centre of the whole host, not of the model plate: anchoring on the plate
-     * pushed the text column far outside the table.</p>
+     * <p>Shares the table's horizontal plane. X is negated because the surface is rotated onto a horizontal
+     * top, otherwise the glyphs read backwards.</p>
      */
-    static org.joml.Matrix4f uprightTransform(BlueprintTableBlockEntity table, float pixelsPerBlock) {
+    static org.joml.Matrix4f tableTopTransform(BlueprintTableBlockEntity table, float pixelsPerBlock) {
         var pos = table.getBlockPos();
-        float anchorX = WIDTH * 0.5f;
-        float anchorY = HEIGHT;
+        // Same seat as the model (its own left offset and height), so the overlay lands on the blue part of
+        // the table top instead of over the block centre.
+        var seat = BlueprintBlockRenderer.seatOf(pos, table.yaw());
         return new org.joml.Matrix4f()
-                .translate(pos.getX() + 0.5f, pos.getY() + TechTreeBoard.TOP_Y + 0.5f, pos.getZ() + 0.5f)
+                // Sit just above the table top, not half a block up: at +0.5 the plate floated above the
+                // surface and had to be viewed from below.
+                .translate((float) seat.x, (float) seat.y + 0.01f, (float) seat.z)
                 .rotateY((float) Math.toRadians(table.yaw()))
-                // GUI coordinates have Y down and the plate is rotated onto a horizontal surface, so both
-                // axes are negated; without the X flip every glyph reads backwards.
-                .scale(-pixelsPerBlock, -pixelsPerBlock, pixelsPerBlock)
-                .translate(-anchorX, -anchorY, 0f);
+                .rotateX((float) Math.toRadians(-90.0f))
+                // GUI space has Y down; on a horizontal top that also mirrors X, so X must not be negated as
+                // well or every glyph reads backwards.
+                .scale(pixelsPerBlock, -pixelsPerBlock, pixelsPerBlock)
+                .translate(-WIDTH * 0.5f, -HEIGHT * 0.5f, 0f);
     }
 }

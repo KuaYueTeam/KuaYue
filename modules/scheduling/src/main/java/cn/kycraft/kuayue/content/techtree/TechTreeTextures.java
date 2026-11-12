@@ -20,7 +20,15 @@ final class TechTreeTextures {
     /** Sheet dimensions, hard-coded so no texture-manager probing is involved. */
     private static final int BUTTONS = 128;
 
+    private static final ResourceLocation TABLE_SHEET =
+            ResourceLocation.fromNamespaceAndPath("kuayue", "textures/gui/tech_tree/blueprint_table/blueprint_table.png");
+
     private TechTreeTextures() {
+    }
+
+    /** The original 300x150 blueprint-table GUI sheet, drawn in the menu host. */
+    static IGuiTexture tableSheet() {
+        return new SheetTexture(TABLE_SHEET, 300, 150, 0, 0, 300, 150);
     }
 
     /** Board backdrop: warm parchment over the model, no sheet blit. */
@@ -44,6 +52,11 @@ final class TechTreeTextures {
 
     static IGuiTexture nodePlateDark(boolean epic) {
         return epic ? slice(96, 36, 116, 56) : slice(0, 36, 20, 56);
+    }
+
+    /** Group button plate: the sheet's own node plate, so no flat colour block is drawn. */
+    static IGuiTexture groupButton() {
+        return nodePlate(false, true);
     }
 
     /** Completion stamp drawn behind the finished description block. */

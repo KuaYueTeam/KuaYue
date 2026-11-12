@@ -87,9 +87,13 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
                                                BlockHitResult hit) {
         if (level.isClientSide) {
-            if (level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table && player.isShiftKeyDown()) {
-                // TEMPORARY entry point for the standalone car scene, replaced by the real integration.
-                CarModelUiDemo.toggle(table);
+            if (level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
+                // The overlay is permanent; only the model is toggled.
+                CarModelUiDemo.ensureOverlay(table);
+                if (player.isShiftKeyDown()) {
+                    // TEMPORARY entry point for the standalone car scene, replaced by the real integration.
+                    CarModelUiDemo.toggle(table);
+                }
             }
             return InteractionResult.SUCCESS;
         }
@@ -108,6 +112,7 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
             // The model and its text column live outside the block entity, so removing the table has to take
             // them down explicitly; otherwise they stay hanging where the table used to be.
             CarModelUiDemo.hide(pos.immutable());
+            CarModelUiDemo.hideOverlay(pos.immutable());
             TechTreeBoard.close();
         }
     }

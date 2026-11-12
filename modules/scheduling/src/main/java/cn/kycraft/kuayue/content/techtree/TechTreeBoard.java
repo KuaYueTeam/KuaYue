@@ -165,16 +165,25 @@ public final class TechTreeBoard {
      * live board element to a menu UI would steal it from the world scene. The content is the same tree the
      * world board paints, rebuilt against the current snapshot.</p>
      */
+    /** Light-blue drawing field of {@code blueprint_table.png}, in sheet pixels. */
+    static final int FIELD_X = 4;
+    static final int FIELD_Y = 8;
+    static final int FIELD_W = 288;
+    static final int FIELD_H = 121;
+
+    /**
+     * Board content sized to the sheet's blue drawing field.
+     *
+     * <p>The sheet already draws the outer frame, the title strip and the slot tray, so the tree is laid out
+     * inside that field rather than over the whole 300x150 panel.</p>
+     */
     public static UIElement buildGuiBoard() {
         UIElement canvas = new UIElement();
         canvas.setId("tech_tree_board");
-        canvas.layout(l -> l.setWidth(GRID_W + GRID_X * 2).setHeight(HEIGHT)
-                .setPositionType(YogaPositionType.ABSOLUTE));
-        canvas.style(s -> s.background(TechTreeTextures.boardPaper()));
         canvas.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, 0f)
-                .setPosition(YogaEdge.TOP, 0f)
-                .setWidth(WIDTH).setHeight(HEIGHT));
+                .setPosition(YogaEdge.LEFT, (float) FIELD_X)
+                .setPosition(YogaEdge.TOP, (float) FIELD_Y)
+                .setWidth(FIELD_W).setHeight(FIELD_H));
         fillCanvas(canvas, resolveGroup(null));
         return canvas;
     }
@@ -290,7 +299,7 @@ public final class TechTreeBoard {
             TreeSnapshot.GroupView group = ClientTreeState.groups().get(id);
             UIElement button = new UIElement();
             button.layout(l -> l.setWidth(9).setHeight(9));
-            button.style(s -> s.background(TechTreeTextures.nodePlateDark(false))
+            button.style(s -> s.background(TechTreeTextures.groupButton())
                     .overlay(group.icon().isEmpty() ? null : new ItemStackTexture(group.icon())));
             button.addEventListener(UIEvents.CLICK, event -> {
                 ClientTreeState.selectGroup(id);
