@@ -1,0 +1,1071 @@
+{
+  "bogey_sizes": [
+    {
+      "id": "kuayue:cw2",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:pk209p",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:pk209p_backward",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:pk209p_no_motor",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:sw220k",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:sw220k_backward",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:sw160",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:zk6",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:mkz",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:tkz2",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:tkz2_motor",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:tkz2_motor_backward",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:tkz1",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:cw2_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:pk209p_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:pk209p_backward_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:pk209p_no_motor_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:sw220k_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:sw220k_backward_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:sw160_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:zk6_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:df11g",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:df11g_backward",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:qj_main",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:qj_guide",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:ss3",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:ss3_backward",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:hxd3d",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:hxd3d_backward",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:ss8",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:ss8_backward",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:dfh21_s",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:dfh21_backward_s",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:jy290",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:jy290_backward",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:df5",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:df5_backward",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:df21",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:df21_backward",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:dfh21",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:dfh21_backward",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:df11g_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:df11g_backward_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:qj_main_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:qj_guide_bogey_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:ss3_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:ss3_backward_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:hxd3d_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:hxd3d_backward_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:ss8_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:ss8_backward_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:dfh21_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:dfh21_backward_a",
+      "wheel_radius": 0.4575
+    }
+  ],
+  "bogey_blocks": [
+    {
+      "id": "kuayue:cw2_bogey",
+      "size": "kuayue:cw2",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:carriage",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:pk209p_bogey",
+      "size": "kuayue:pk209p",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:pk209p_backward_bogey",
+      "size": "kuayue:pk209p_backward",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:pk209p_no_motor_bogey",
+      "size": "kuayue:pk209p_no_motor",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:sw220k_bogey",
+      "size": "kuayue:sw220k",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:sw220k_backward_bogey",
+      "size": "kuayue:sw220k_backward",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:sw160_bogey",
+      "size": "kuayue:sw160",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:zk6_bogey",
+      "size": "kuayue:zk6",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:mkz_bogey",
+      "size": "kuayue:mkz",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:meter_carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:tkz2_bogey",
+      "size": "kuayue:tkz2",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:meter_carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:tkz2_motor_bogey",
+      "size": "kuayue:tkz2_motor",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:meter_carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:tkz2_motor_backward_bogey",
+      "size": "kuayue:tkz2_motor_backward",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:meter_carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:tkz1_bogey",
+      "size": "kuayue:tkz1",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:meter_carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:cw2_bogey_a",
+      "size": "kuayue:cw2_a",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:andesite_carriage",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:pk209p_bogey_a",
+      "size": "kuayue:pk209p_a",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:andesite_carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:pk209p_backward_bogey_a",
+      "size": "kuayue:pk209p_backward_a",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:andesite_carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:pk209p_no_motor_bogey_a",
+      "size": "kuayue:pk209p_no_motor_a",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:andesite_carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:sw220k_bogey_a",
+      "size": "kuayue:sw220k_a",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:andesite_carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:sw220k_backward_bogey_a",
+      "size": "kuayue:sw220k_backward_a",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:andesite_carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:sw160_bogey_a",
+      "size": "kuayue:sw160_a",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:andesite_carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:zk6_bogey_a",
+      "size": "kuayue:zk6_a",
+      "registry_group": "kuayue:carriage_bogeys",
+      "default_style": "kuayue:andesite_carriage",
+      "physics": {
+        "wheel_point_spacing": 2.5,
+        "allow_single_bogey_carriage": true
+      }
+    },
+    {
+      "id": "kuayue:df11g_bogey",
+      "size": "kuayue:df11g",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:df11g_backward_bogey",
+      "size": "kuayue:df11g_backward",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:qj_bogey",
+      "size": "kuayue:qj_main",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:ss3_bogey",
+      "size": "kuayue:ss3",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:ss3_backward_bogey",
+      "size": "kuayue:ss3_backward",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:hxd3d_bogey",
+      "size": "kuayue:hxd3d",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:hxd3d_backward_bogey",
+      "size": "kuayue:hxd3d_backward",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:ss8_bogey",
+      "size": "kuayue:ss8",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:ss8_backward_bogey",
+      "size": "kuayue:ss8_backward",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:dfh21_bogey_s",
+      "size": "kuayue:dfh21_s",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:dfh21_backward_bogey_s",
+      "size": "kuayue:dfh21_backward_s",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:jy290_bogey",
+      "size": "kuayue:jy290",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:jy290_backward_bogey",
+      "size": "kuayue:jy290_backward",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:df5_bogey",
+      "size": "kuayue:df5",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:df5_backward_bogey",
+      "size": "kuayue:df5_backward",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:qj_guide_bogey",
+      "size": "kuayue:qj_guide",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:asymmetry_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:df21_bogey",
+      "size": "kuayue:df21",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:meter_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:df21_backward_bogey",
+      "size": "kuayue:df21_backward",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:meter_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:dfh21_bogey",
+      "size": "kuayue:dfh21",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:meter_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:dfh21_backward_bogey",
+      "size": "kuayue:dfh21_backward",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:meter_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:df11g_bogey_a",
+      "size": "kuayue:df11g_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:df11g_backward_bogey_a",
+      "size": "kuayue:df11g_backward_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:qj_bogey_a",
+      "size": "kuayue:qj_main_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:qj_guide_bogey_a",
+      "size": "kuayue:qj_guide_bogey_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:ss3_bogey_a",
+      "size": "kuayue:ss3_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:ss3_backward_bogey_a",
+      "size": "kuayue:ss3_backward_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:hxd3d_bogey_a",
+      "size": "kuayue:hxd3d_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:hxd3d_backward_bogey_a",
+      "size": "kuayue:hxd3d_backward_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:ss8_bogey_a",
+      "size": "kuayue:ss8_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:ss8_backward_bogey_a",
+      "size": "kuayue:ss8_backward_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:dfh21_bogey_a",
+      "size": "kuayue:dfh21_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:dfh21_backward_bogey_a",
+      "size": "kuayue:dfh21_backward_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    }
+  ],
+  "bogey_styles": [
+    {
+      "id": "kuayue:carriage",
+      "cycle_group": "kuayue:kuayue_bogey",
+      "registry_group": "kuayue:bogey_data",
+      "translation_key": "kuayue.bogey.style.carriage",
+      "variants": [
+        {
+          "size": "kuayue:cw2",
+          "block": "kuayue:cw2_bogey",
+          "model": "kuayue:bogey/cw2"
+        },
+        {
+          "size": "kuayue:pk209p",
+          "block": "kuayue:pk209p_bogey",
+          "model": "kuayue:bogey/pk209p"
+        },
+        {
+          "size": "kuayue:pk209p_backward",
+          "block": "kuayue:pk209p_backward_bogey",
+          "model": "kuayue:bogey/pk209p_backward"
+        },
+        {
+          "size": "kuayue:pk209p_no_motor",
+          "block": "kuayue:pk209p_no_motor_bogey",
+          "model": "kuayue:bogey/pk209p_no_motor"
+        },
+        {
+          "size": "kuayue:sw220k",
+          "block": "kuayue:sw220k_bogey",
+          "model": "kuayue:bogey/sw220k"
+        },
+        {
+          "size": "kuayue:sw220k_backward",
+          "block": "kuayue:sw220k_backward_bogey",
+          "model": "kuayue:bogey/sw220k_backward"
+        },
+        {
+          "size": "kuayue:sw160",
+          "block": "kuayue:sw160_bogey",
+          "model": "kuayue:bogey/sw160"
+        },
+        {
+          "size": "kuayue:zk6",
+          "block": "kuayue:zk6_bogey",
+          "model": "kuayue:bogey/zk6"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:meter_carriage",
+      "cycle_group": "kuayue:kuayue_bogey_2",
+      "registry_group": "kuayue:bogey_data",
+      "translation_key": "kuayue.bogey.style.meter_carriage",
+      "variants": [
+        {
+          "size": "kuayue:mkz",
+          "block": "kuayue:mkz_bogey",
+          "model": "kuayue:bogey/mkz"
+        },
+        {
+          "size": "kuayue:tkz2",
+          "block": "kuayue:tkz2_bogey",
+          "model": "kuayue:bogey/tkz2"
+        },
+        {
+          "size": "kuayue:tkz2_motor",
+          "block": "kuayue:tkz2_motor_bogey",
+          "model": "kuayue:bogey/tkz2_motor"
+        },
+        {
+          "size": "kuayue:tkz2_motor_backward",
+          "block": "kuayue:tkz2_motor_backward_bogey",
+          "model": "kuayue:bogey/tkz2_motor_backward"
+        },
+        {
+          "size": "kuayue:tkz1",
+          "block": "kuayue:tkz1_bogey",
+          "model": "kuayue:bogey/tkz1"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:andesite_carriage",
+      "cycle_group": "create:standard",
+      "registry_group": "kuayue:bogey_data",
+      "translation_key": "kuayue.bogey.style.andesite_carriage",
+      "variants": [
+        {
+          "size": "kuayue:cw2_a",
+          "block": "kuayue:cw2_bogey_a",
+          "model": "kuayue:bogey/cw2_a"
+        },
+        {
+          "size": "kuayue:pk209p_a",
+          "block": "kuayue:pk209p_bogey_a",
+          "model": "kuayue:bogey/pk209p_a"
+        },
+        {
+          "size": "kuayue:pk209p_backward_a",
+          "block": "kuayue:pk209p_backward_bogey_a",
+          "model": "kuayue:bogey/pk209p_backward_a"
+        },
+        {
+          "size": "kuayue:pk209p_no_motor_a",
+          "block": "kuayue:pk209p_no_motor_bogey_a",
+          "model": "kuayue:bogey/pk209p_no_motor_a"
+        },
+        {
+          "size": "kuayue:sw220k_a",
+          "block": "kuayue:sw220k_bogey_a",
+          "model": "kuayue:bogey/sw220k_a"
+        },
+        {
+          "size": "kuayue:sw220k_backward_a",
+          "block": "kuayue:sw220k_backward_bogey_a",
+          "model": "kuayue:bogey/sw220k_backward_a"
+        },
+        {
+          "size": "kuayue:sw160_a",
+          "block": "kuayue:sw160_bogey_a",
+          "model": "kuayue:bogey/sw160_a"
+        },
+        {
+          "size": "kuayue:zk6_a",
+          "block": "kuayue:zk6_bogey_a",
+          "model": "kuayue:bogey/zk6_a"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:loco",
+      "cycle_group": "kuayue:kuayue_bogey",
+      "registry_group": "kuayue:bogey_data",
+      "translation_key": "kuayue.bogey.style.loco",
+      "variants": [
+        {
+          "size": "kuayue:df11g",
+          "block": "kuayue:df11g_bogey",
+          "model": "kuayue:bogey/df11g"
+        },
+        {
+          "size": "kuayue:df11g_backward",
+          "block": "kuayue:df11g_backward_bogey",
+          "model": "kuayue:bogey/df11g_backward"
+        },
+        {
+          "size": "kuayue:qj_main",
+          "block": "kuayue:qj_bogey",
+          "model": "kuayue:bogey/qj_main"
+        },
+        {
+          "size": "kuayue:ss3",
+          "block": "kuayue:ss3_bogey",
+          "model": "kuayue:bogey/ss3"
+        },
+        {
+          "size": "kuayue:ss3_backward",
+          "block": "kuayue:ss3_backward_bogey",
+          "model": "kuayue:bogey/ss3_backward"
+        },
+        {
+          "size": "kuayue:hxd3d",
+          "block": "kuayue:hxd3d_bogey",
+          "model": "kuayue:bogey/hxd3d"
+        },
+        {
+          "size": "kuayue:hxd3d_backward",
+          "block": "kuayue:hxd3d_backward_bogey",
+          "model": "kuayue:bogey/hxd3d_backward"
+        },
+        {
+          "size": "kuayue:ss8",
+          "block": "kuayue:ss8_bogey",
+          "model": "kuayue:bogey/ss8"
+        },
+        {
+          "size": "kuayue:ss8_backward",
+          "block": "kuayue:ss8_backward_bogey",
+          "model": "kuayue:bogey/ss8_backward"
+        },
+        {
+          "size": "kuayue:dfh21_s",
+          "block": "kuayue:dfh21_bogey_s",
+          "model": "kuayue:bogey/dfh21_s"
+        },
+        {
+          "size": "kuayue:dfh21_backward_s",
+          "block": "kuayue:dfh21_backward_bogey_s",
+          "model": "kuayue:bogey/dfh21_backward_s"
+        },
+        {
+          "size": "kuayue:jy290",
+          "block": "kuayue:jy290_bogey",
+          "model": "kuayue:bogey/jy290"
+        },
+        {
+          "size": "kuayue:jy290_backward",
+          "block": "kuayue:jy290_backward_bogey",
+          "model": "kuayue:bogey/jy290_backward"
+        },
+        {
+          "size": "kuayue:df5",
+          "block": "kuayue:df5_bogey",
+          "model": "kuayue:bogey/df5"
+        },
+        {
+          "size": "kuayue:df5_backward",
+          "block": "kuayue:df5_backward_bogey",
+          "model": "kuayue:bogey/df5_backward"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:asymmetry_loco",
+      "cycle_group": "kuayue:kuayue_bogey",
+      "registry_group": "kuayue:bogey_data",
+      "translation_key": "kuayue.bogey.style.asymmetry_loco",
+      "variants": [
+        {
+          "size": "kuayue:qj_guide",
+          "block": "kuayue:qj_guide_bogey",
+          "model": "kuayue:bogey/qj_guide"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:meter_loco",
+      "cycle_group": "kuayue:kuayue_bogey_2",
+      "registry_group": "kuayue:bogey_data",
+      "translation_key": "kuayue.bogey.style.meter_loco",
+      "variants": [
+        {
+          "size": "kuayue:df21",
+          "block": "kuayue:df21_bogey",
+          "model": "kuayue:bogey/df21"
+        },
+        {
+          "size": "kuayue:df21_backward",
+          "block": "kuayue:df21_backward_bogey",
+          "model": "kuayue:bogey/df21_backward"
+        },
+        {
+          "size": "kuayue:dfh21",
+          "block": "kuayue:dfh21_bogey",
+          "model": "kuayue:bogey/dfh21"
+        },
+        {
+          "size": "kuayue:dfh21_backward",
+          "block": "kuayue:dfh21_backward_bogey",
+          "model": "kuayue:bogey/dfh21_backward"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:andesite_loco",
+      "cycle_group": "create:standard",
+      "registry_group": "kuayue:bogey_data",
+      "translation_key": "kuayue.bogey.style.andesite_loco",
+      "variants": [
+        {
+          "size": "kuayue:df11g_a",
+          "block": "kuayue:df11g_bogey_a",
+          "model": "kuayue:bogey/df11g_a"
+        },
+        {
+          "size": "kuayue:df11g_backward_a",
+          "block": "kuayue:df11g_backward_bogey_a",
+          "model": "kuayue:bogey/df11g_backward_a"
+        },
+        {
+          "size": "kuayue:qj_main_a",
+          "block": "kuayue:qj_bogey_a",
+          "model": "kuayue:bogey/qj_main_a"
+        },
+        {
+          "size": "kuayue:qj_guide_bogey_a",
+          "block": "kuayue:qj_guide_bogey_a",
+          "model": "kuayue:bogey/qj_guide_bogey_a"
+        },
+        {
+          "size": "kuayue:ss3_a",
+          "block": "kuayue:ss3_bogey_a",
+          "model": "kuayue:bogey/ss3_a"
+        },
+        {
+          "size": "kuayue:ss3_backward_a",
+          "block": "kuayue:ss3_backward_bogey_a",
+          "model": "kuayue:bogey/ss3_backward_a"
+        },
+        {
+          "size": "kuayue:hxd3d_a",
+          "block": "kuayue:hxd3d_bogey_a",
+          "model": "kuayue:bogey/hxd3d_a"
+        },
+        {
+          "size": "kuayue:hxd3d_backward_a",
+          "block": "kuayue:hxd3d_backward_bogey_a",
+          "model": "kuayue:bogey/hxd3d_backward_a"
+        },
+        {
+          "size": "kuayue:ss8_a",
+          "block": "kuayue:ss8_bogey_a",
+          "model": "kuayue:bogey/ss8_a"
+        },
+        {
+          "size": "kuayue:ss8_backward_a",
+          "block": "kuayue:ss8_backward_bogey_a",
+          "model": "kuayue:bogey/ss8_backward_a"
+        },
+        {
+          "size": "kuayue:dfh21_a",
+          "block": "kuayue:dfh21_bogey_a",
+          "model": "kuayue:bogey/dfh21_a"
+        },
+        {
+          "size": "kuayue:dfh21_backward_a",
+          "block": "kuayue:dfh21_backward_bogey_a",
+          "model": "kuayue:bogey/dfh21_backward_a"
+        }
+      ]
+    }
+  ]
+}

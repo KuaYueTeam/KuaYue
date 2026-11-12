@@ -1,0 +1,5 @@
+{
+  "on_register": [
+    "tracks/tracks.json"
+  ]
+}

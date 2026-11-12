@@ -131,7 +131,6 @@ dependencies {
         exclude group: 'com.tterrag.registrate', module: 'Registrate'
         transitive = false
     }
-
     implementation("lib.kasuga:inject:1.0.0"){
         transitive = false
     }
@@ -143,6 +142,10 @@ dependencies {
     implementation("com.tterrag.registrate:Registrate:${registrate_version}")
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
+    testImplementation 'com.google.code.gson:gson:2.10.1'
+    testImplementation 'org.joml:joml:1.10.5'
+    testImplementation 'com.mojang:datafixerupper:8.0.16'
+    testImplementation 'lib.kasuga:formula:1.0.0'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 

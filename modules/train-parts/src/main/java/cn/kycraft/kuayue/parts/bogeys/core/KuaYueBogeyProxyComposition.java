@@ -46,12 +46,10 @@ public final class KuaYueBogeyProxyComposition {
         }
 
         FrozenTickInput input = new FrozenTickInput(element.getVirtualAngle(1f));
-        List<ModelPart> parts = KuaYueBogeyMotion.bind(
-                size.id(),
-                placement.parts(),
-                input::wheelAngle,
-                false
-        );
+        BogeyModelPlan plan = KuaYueBogeyModels.resolve(element.getStyle().id, size.id());
+        List<ModelPart> parts = plan == null
+                ? placement.parts()
+                : plan.bind(input::wheelAngle, false);
         ResourceLocation instance = ProxyIdentity.ofBlock(level, element.getBlockPos()).key();
         RigidPartVisualStage stage = new RigidPartVisualStage(
                 instance,
@@ -77,7 +75,7 @@ public final class KuaYueBogeyProxyComposition {
             float yOffset
     ) {
         return ignored -> new PlacedInput(
-                BogeyRoots.of(element, yOffset),
+                BogeyHostAlignment.placedRoot(BogeyRoots.of(element, yOffset)),
                 element.getVirtualAngle(1f)
         );
     }
