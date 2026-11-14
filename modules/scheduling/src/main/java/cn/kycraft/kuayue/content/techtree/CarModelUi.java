@@ -137,7 +137,8 @@ final class CarModelUi {
                 .translate(pos.getX() + 0.5f, pos.getY() + TechTreeBoard.TOP_Y + 0.51f, pos.getZ() + 0.5f)
                 .rotateY((float) Math.toRadians(table.yaw()))
                 .rotateX((float) Math.toRadians(-90.0f))
-                .scale(-pixelsPerBlock, -pixelsPerBlock, pixelsPerBlock)
-                .translate(-WIDTH * 0.5f, -HEIGHT * 0.5f, 0f);
+                .scale(-pixelsPerBlock, -pixelsPerBlock, pixelsPerBlock);
+                // No half-size centring: the local origin is the canvas top-left, so element coordinates are
+                // used as authored.
     }
 }

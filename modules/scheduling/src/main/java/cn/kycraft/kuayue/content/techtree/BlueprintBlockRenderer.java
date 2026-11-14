@@ -5,7 +5,7 @@ import lib.kasuga.scene.SceneModels;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import lib.kasuga.rendering.models.mc.scene.ModelBounds;
+import lib.kasuga.rendering.models.mc.scene.BlockDimensions;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 
@@ -27,7 +27,7 @@ import java.util.Map;
 final class BlueprintBlockRenderer {
 
     /** World size of the fitted model's longest axis, in blocks. */
-    private static final double FIT_EXTENT = 0.07;
+    private static final double FIT_EXTENT = 0.6;
 
     /**
      * Extra lift above the block origin.
@@ -35,7 +35,7 @@ final class BlueprintBlockRenderer {
      * <p>The drawn table top of the model is above the collision box, so anchoring at y+1.01 leaves the
      * structure sunk into the table; this raises it onto the visible surface.</p>
      */
-    private static final float TOP_LIFT = 0.22f;
+    private static final float TOP_LIFT = 0.16f;
 
     private static final Map<BlockPos, SceneModels> SCENES = new HashMap<>();
     private static final Map<BlockPos, SceneModels.Entry> ENTRIES = new HashMap<>();
@@ -53,22 +53,24 @@ final class BlueprintBlockRenderer {
         unbind(table);
         var level = Minecraft.getInstance().level;
         if (level == null) return;
-        MinecraftModelSource source = BlueprintPreview.freshSource(blueprint);
+        var source = BlueprintPreview.freshSource(blueprint);
         if (source == null) {
             TechTreeSystem.LOGGER.warn("No model to mount on table {}", table);
             return;
         }
         BlockPos key = table.immutable();
         try {
-            // Bounds describe the structure in source coordinates; they are what centres it on the table.
-            var frame = source.snapshot(lib.kasuga.rendering.models.mc.scene.LayerLayout.ASSEMBLED, 0);
-            if (frame == null) {
-                TechTreeSystem.LOGGER.warn("Blueprint {} produced no geometry for table {}", blueprint, key);
+            // Kasuga reports the tight block extents; they drive both the scale and the half-size centring.
+            var dimensions = source.dimensions().orElse(null);
+            if (dimensions == null) {
+                TechTreeSystem.LOGGER.warn("Blueprint {} has no block dimensions for table {}", blueprint, key);
                 return;
             }
             SceneModels scene = SceneModels.open(level);
-            var entry = scene.add(source, seat(table, yaw));
-            entry.transform(transform(yaw, key, frame.bounds()));
+            // The scene entry is placed at the world origin; the full chain lives in one matrix so the four
+            // steps run in the required order.
+            var entry = scene.add(source, Vec3.ZERO);
+            entry.transform(transform(seat(table, yaw), yaw, dimensions));
             entry.visible(true);
             SCENES.put(key, scene);
             ENTRIES.put(key, entry);
@@ -97,7 +99,9 @@ final class BlueprintBlockRenderer {
 
     /** Where the structure stands: the middle of the table top, lifted onto the visible surface. */
     /** How far the model sits toward the table's own left, in blocks. */
-    private static final double SEAT_LEFT = 0.72d;
+    private static final double SEAT_LEFT = 0.22d;
+    /** How far the model sits toward the table's back edge (away from the player). */
+    private static final double SEAT_BACK = -0.25d;
 
     /**
      * Seat the model on the table's left half.
@@ -114,21 +118,29 @@ final class BlueprintBlockRenderer {
         double radians = Math.toRadians(yaw);
         // Local left of the model at yaw 0 is -X. After rotateY(yaw) a local (lx, 0, lz) maps to
         // (lx*cos + lz*sin, 0, -lx*sin + lz*cos), so local (-1, 0, 0) becomes (-cos, 0, +sin).
-        double dx = Math.cos(radians) * SEAT_LEFT;
-        double dz = -Math.sin(radians) * SEAT_LEFT;
+        double dx = Math.cos(radians) * SEAT_LEFT + Math.sin(radians) * SEAT_BACK;
+        double dz = -Math.sin(radians) * SEAT_LEFT + Math.cos(radians) * SEAT_BACK;
         return new Vec3(table.getX() + 0.5d + dx,
                 table.getY() + TechTreeBoard.TOP_Y + TOP_LIFT, table.getZ() + 0.5d + dz);
     }
 
     /** Turns the structure with the table and scales it into {@link #FIT_EXTENT} blocks. */
     /** Extra tilt so the model is presented at an angle instead of square-on. */
-    private static final float TILT_YAW = 26f;
+    /** Oblique presentation angle in the table plane; smaller reads as more square-on. */
+    private static final float TILT_YAW = 60f;
 
-    private static Matrix4f transform(float yaw, BlockPos table, ModelBounds bounds) {
-        var centre = bounds.minimum().add(bounds.maximum()).mul(0.5f);
+    /**
+     * Model transform on the table top, in the prescribed order.
+     *
+     * <p>translate to the anchor, rotate, scale to the carriage size, then shift by half the structure's
+     * length and width so the model sits centred on that anchor instead of hanging off its corner.</p>
+     */
+    private static Matrix4f transform(Vec3 anchor, float yaw, BlockDimensions dimensions) {
+        float scale = (float) (FIT_EXTENT / dimensions.longestAxis());
         return new Matrix4f()
+                .translate((float) anchor.x, (float) anchor.y, (float) anchor.z)
                 .rotateY((float) Math.toRadians(yaw + TILT_YAW))
-                .scale((float) FIT_EXTENT)
-                .translate(-centre.x, -bounds.minimum().y, -centre.z);
+                .scale(scale)
+                .translate(-dimensions.length() / 2f, 0f, -dimensions.width() / 2f);
     }
 }
