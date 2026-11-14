@@ -1,6 +1,7 @@
 package cn.kycraft.kuayue.interlocking.signal.circuit;
 
 import cn.kycraft.kuayue.interlocking.signal.SignalModule;
+import com.simibubi.create.content.trains.entity.Train;
 import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import lib.kasuga.KasugaLib;
@@ -8,28 +9,23 @@ import lib.kasuga.create.content.train.device.TrainDeviceManager;
 import lib.kasuga.create.content.train.device.TrainDeviceSystem;
 import lib.kasuga.create.content.train.graph.RailwayData;
 import lib.kasuga.create.content.train.graph.RailwayManager;
-import lib.kasuga.create.content.train.signal.CustomTrackSegment;
 import lib.kasuga.structure.Pair;
-import lib.kasuga.utils.ValueInspectionUtils;
 import net.createmod.catnip.data.Couple;
-import net.minecraft.core.UUIDUtil;
-import net.minecraft.nbt.*;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.UUID;
-
+/**
+ * 挂在列车上的轨道电路采集设备：每 tick 把「本车占用了哪些区段」写进区段表。
+ *
+ * <p>占用是派生状态，不存盘：每 tick 先由 {@link TrainSignalCollector} 按车身几何重算一遍
+ * （{@link CircuitOccupancy#reseed}），再逐个落进 {@link TrackCircuitSegment}。因此列车装车、
+ * 拆解、换维度、读档、车厢增删、转向架数量变化之后，下一 tick 都会自然重建，不会残留旧占用。
+ * 前端/后端监听器（{@link #notifySignalFront} / {@link #notifySignalBack}）保持与 Create
+ * {@code Train#frontSignalListener()} / {@code backSignalListener()} 相同的语义，在车身越界时
+ * 即时维护集合；下一 tick 的几何重算会整体校正，所以监听器漏掉（/tp、装车、拆解）也不会留下脏状态。</p>
+ */
 public class BogeyCircuitConnectorDevice extends TrainDeviceSystem {
 
-    private Set<UUID> occupiedSegments = new HashSet<>();
-    private boolean collected = false;
-
-    private boolean enableSignalReceive = false;
-
-    private Set<Object> signalReceived = new HashSet();
+    private final CircuitOccupancy occupancy = new CircuitOccupancy();
 
     public BogeyCircuitConnectorDevice(TrainDeviceManager manager) {
         super(manager);
@@ -37,103 +33,43 @@ public class BogeyCircuitConnectorDevice extends TrainDeviceSystem {
 
     @Override
     public boolean notifySignalFront(Double distance, Pair<TrackEdgePoint, Couple<TrackNode>> pair) {
-        if(!(pair.getFirst() instanceof TrackInsulator insulator)) {
+        if (!(pair.getFirst() instanceof TrackInsulator insulator)) {
             return false;
         }
-        UUID groupId = insulator.getGroupId(insulator.isPrimary(pair.getSecond().getSecond()));
-        if(groupId != null) {
-            this.occupiedSegments.add(groupId);
-        }
+        // Create: signal.getGroup(node2)，即列车前方进入的一侧
+        occupancy.enter(insulator.getGroupId(insulator.isPrimary(pair.getSecond().getSecond())));
         return false;
     }
 
     @Override
     public boolean notifySignalBack(Double distance, Pair<TrackEdgePoint, Couple<TrackNode>> pair) {
-        if(!(pair.getFirst() instanceof TrackInsulator insulator)) {
+        if (!(pair.getFirst() instanceof TrackInsulator insulator)) {
             return false;
         }
-        UUID groupId = insulator.getGroupId(insulator.isPrimary(pair.getSecond().getFirst()));
-        if(groupId != null){
-            this.occupiedSegments.remove(groupId);
-        }
+        // Create: signal.getGroup(node1)，即列车后方离开的一侧
+        occupancy.leave(insulator.getGroupId(insulator.isPrimary(pair.getSecond().getFirst())));
         return false;
     }
 
     @Override
     public void notifySignalCollection() {
-        collected = true;
-        Set<UUID> collectedSignals = TrainSignalCollector.collectInitiallyOccupiedSignalBlocks(this.manager.getTrain());
-        if(collectedSignals == null)
-            return;
-        this.occupiedSegments.clear();
-        this.occupiedSegments.addAll(collectedSignals);
+        // Create 侧重算占用的时机（落地/编组变化），这里也同步刷新一次
+        refresh();
     }
 
     @Override
     public void earlyTick(Level level) {
-        if(!this.collected) {
-            this.notifySignalCollection();
-        }
-        signalReceived.clear();
+        refresh();
+
         RailwayData data = KasugaLib.getBean(RailwayManager.class).getData();
-        Iterator<UUID> iterator = occupiedSegments.iterator();
-        if(!iterator.hasNext())
-            return;
-        for (UUID occupiedSegment = iterator.next(); iterator.hasNext(); occupiedSegment = iterator.next()) {
-            CustomTrackSegment segment = data.getSegment(SignalModule.INSULATOR_SEGMENT_ID, occupiedSegment);
-            if(!(segment instanceof TrackCircuitSegment circuit)) {
-                iterator.remove();
-                continue;
-            }
-            circuit.occupy(this.manager.getTrain());
-            circuit.receive(signalReceived);
-        }
+        Train train = this.manager.getTrain();
+        occupancy.apply(
+                segmentId -> data.getSegment(SignalModule.INSULATOR_SEGMENT_ID, segmentId),
+                circuit -> circuit.occupy(train)
+        );
     }
 
-    @Override
-    public void tick(Level level) {
-        super.tick(level);
-        ValueInspectionUtils.INSTANCE.print(this.getClass().getName() + "::occupiedSegments", occupiedSegments, ()->{
-            System.out.println("");
-            System.out.println("OccupiedSegments changed:");
-            for (UUID uuid : occupiedSegments) {
-                System.out.println(" - " + uuid.toString());
-            }
-            System.out.println("");
-        });
-    }
-
-
-
-    @Override
-    public void write(CompoundTag systemTag) {
-        super.write(systemTag);
-        ListTag occupiedList = new ListTag(Tag.TAG_INT_ARRAY);
-        for (UUID occupiedSegment : occupiedSegments) {
-            IntArrayTag tag = new IntArrayTag(UUIDUtil.uuidToIntArray(occupiedSegment));
-            occupiedList.add(tag);
-        }
-        systemTag.put("OccupiedSegments", occupiedList);
-        systemTag.putBoolean("Collected", collected);
-    }
-
-    @Override
-    public void read(CompoundTag systemTag) {
-        super.read(systemTag);
-        occupiedSegments.clear();
-        ListTag occupiedList = systemTag.getList("OccupiedSegments", Tag.TAG_INT_ARRAY);
-        for (int i = 0; i < occupiedList.size(); i++) {
-            int[] array = occupiedList.getIntArray(i);
-            UUID uuid = UUIDUtil.uuidFromIntArray(array);
-            occupiedSegments.add(uuid);
-        }
-        collected = systemTag.getBoolean("Collected");
-    }
-
-    @Override
-    public void onSegmentUpdated(ResourceLocation segmentType) {
-        if(segmentType == SignalModule.INSULATOR_SEGMENT_ID){
-            collected = false;
-        }
+    private void refresh() {
+        occupancy.reseed(TrainSignalCollector.collectOccupiedSegments(this.manager.getTrain()));
     }
 }
