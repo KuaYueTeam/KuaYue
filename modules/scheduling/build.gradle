@@ -4,10 +4,20 @@ plugins {
     id 'net.neoforged.moddev' version '2.0.107'
     id 'com.gradleup.shadow' version '9.0.2'
     id 'idea'
+    id 'builder.kasuga.generator'
+    id 'builder.kasuga.monorepo'
 }
 
 version = mod_version
 group = mod_group_id
+
+useGenerator(project)
+// The mod entry point (@Mod KuaYue + its Micronaut @Context applications) lives in :modules:core.
+// Without this the module starts with no KuaYue context at all, so no @Context bean ever runs.
+useModProject(project(":modules:core"))
+// Same declaration as core: this is what actually puts a module's compiled output on the kuayue module
+// path. `mods { sourceSet(...) }` alone does not, which is why the part blocks were never registered.
+useModProject(project(":modules:train-parts"))
 
 var find = gradle.getIncludedBuilds()*.any {
     it.name == "KasugaLibNext"
@@ -33,9 +43,23 @@ base {
     archivesName = mod_id
 }
 
+/** Jar files unpacked from LDLib2's jarjar payloads. Resolved lazily: empty before extraction runs. */
+def ldlib2NestedFiles(dirProvider) {
+    def dir = dirProvider.get().asFile
+    def entries = dir.listFiles()
+    if (entries == null) return new java.util.LinkedHashSet<java.io.File>()
+    return entries.findAll { it.name.endsWith('.jar') }.toSet()
+}
+
+
 configurations {
     shadowLibrary
     implementation.extendsFrom shadowLibrary
+    // Isolated handle on the LDLib2 artifact, used only to unpack its nested layout-engine jars.
+    ldlib2Runtime {
+        canBeConsumed = false
+        canBeResolved = true
+    }
 }
 
 test {
@@ -89,6 +113,8 @@ neoForge {
         "${mod_id}" {
             // Inlcude the core subproject as a dependency.
             sourceSet(sourceSets.main)
+            // train-parts joins this mod through useModProject above; declaring its source set here as
+            // well makes moddev report "Duplicate source set 'main' in mod 'kuayue'".
         }
     }
 }
@@ -98,7 +124,18 @@ configurations {
     runtimeClasspath.extendsFrom localRuntime
 }
 
+// The part module is already part of this mod through `mods { }`, which merges its source set into the
+// kuayue module. Adding it to the runtime classpath as well put the same classes on two module paths and
+// the launcher refused to start ("Module minecraft reads more than one module named kuayue"), so the only
+// thing needed here is the build order.
+tasks.matching { it.name == "runClient" }.configureEach {
+    dependsOn(":modules:train-parts:classes", ":modules:train-parts:processResources")
+}
+
 dependencies {
+    implementation (project(":modules:core"))
+    implementation (project(":modules:train-parts"))
+
     implementation ("io.micronaut:micronaut-inject:4.9.10") {
         exclude group : 'org.slf4j', module: 'slf4j-api'
     }
@@ -116,6 +153,9 @@ dependencies {
     implementation("lib.kasuga:kasuga_lib:1.0.0") {
         useBundle(delegate)
     }
+    // kasuga_lib already shades the utils module, while kasuga-inject pulls kasuga-utils in as its own
+    // mod jar. Two modules exporting lib.kasuga.utils aborts mod loading with a ResolutionException,
+    // so keep it off the runtime classpath (compile still sees the classes through kasuga_lib).
     implementation "lib.kasuga:inject:1.0.0"
 
 
@@ -126,6 +166,38 @@ dependencies {
     implementation("com.tterrag.registrate:Registrate:${registrate_version}")
 
     implementation("com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:${ldlib2_version}:all") { transitive = false }
+    ldlib2Runtime("com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:${ldlib2_version}:all") { transitive = false }
+
+    // LDLib2 ships taffy/yoga as jarjar payloads. Declaration order matters here: the extraction
+    // task is created first, then the unpacked jars are added lazily (their folder does not exist yet
+    // on a clean checkout), then compileJava depends on that task.
+    def ldlib2NestedDir = layout.buildDirectory.dir("ldlib2-nested")
+    def ldlib2AllJar = file(configurations.getByName("ldlib2Runtime").files.find {
+        it.name.startsWith("ldlib2-neoforge-") && it.name.endsWith("-all.jar")
+    })
+    def ldlib2UnzipTask = tasks.register("extractLdlib2Nested", Copy) {
+        from({ zipTree(ldlib2AllJar) }) {
+            include 'META-INF/jarjar/*.jar'
+            eachFile { it.path = it.name }
+            includeEmptyDirs = false
+        }
+        into(ldlib2NestedDir)
+    }
+    // The unpacked jars must be on the compile classpath. fileTree covers a clean build because the
+    // jar files are produced by extractLdlib2Nested before compileJava runs.
+    compileOnly(fileTree(ldlib2NestedDir) { include '*.jar' })
+    compileJava.dependsOn(ldlib2UnzipTask)
+
+    // kasuga-inject 把 :modules:utils 作为 includeBuild 项目依赖带进运行时，而 kasuga_lib 的 shadow jar
+    // 已经包含同一批 lib.kasuga.utils 类。两个模块导出同一个包会让 JPMS 在启动阶段直接抛
+    // ResolutionException（mod 还没开始加载），所以把独立的 utils jar 从运行时类路径剔除。
+    // 项目依赖不吃 component exclude，只能按产物文件名过滤。
+    configurations.matching { it.name.startsWith("runtimeClasspath") || it.name == "additionalRuntimeClasspath" }.configureEach { cfg ->
+        cfg.exclude group: 'lib.kasuga', module: 'utils'
+    }
+
+
+
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -177,8 +249,4 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-tasks.shadowJar {
-    zip64 = true
 }
