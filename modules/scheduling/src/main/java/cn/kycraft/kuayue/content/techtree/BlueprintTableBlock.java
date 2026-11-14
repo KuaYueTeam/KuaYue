@@ -61,6 +61,10 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
         if (!level.isClientSide && level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
             table.setYaw(yawOf(state.getValue(FACING)));
         }
+        if (level.isClientSide) {
+            // Mount the overlay as soon as the table exists, so the text never depends on using the block.
+            CarModelUiDemo.scheduleOverlay(pos);
+        }
     }
 
     /** Degrees used by the board transform for each facing. */

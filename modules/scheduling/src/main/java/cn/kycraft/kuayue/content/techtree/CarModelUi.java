@@ -1,5 +1,6 @@
 package cn.kycraft.kuayue.content.techtree;
 
+import com.lowdragmc.lowdraglib2.gui.texture.ColorBorderTexture;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
@@ -11,34 +12,38 @@ import org.appliedenergistics.yoga.YogaEdge;
 import org.appliedenergistics.yoga.YogaPositionType;
 
 /**
- * Title, description and two buttons drawn on the blueprint table model.
+ * Title, description and two buttons on the blueprint table model, built as LDLib2 UI elements.
  *
- * <p>Only these three elements live here: no panel, no background and no model. The model is a world scene
- * rendered by Kasuga, so anything drawn by this host would sit on top of it as a separate surface.</p>
+ * <p>The client requires LDLib2 for this surface, so it stays an element tree mounted through Kasuga's world
+ * UI backend. Only these three groups live here: no panel, no background and no model.</p>
  */
 final class CarModelUi {
 
-    /** Drawing area in local pixels, matching the blue part of the table model. */
     static final int WIDTH = 200;
     static final int HEIGHT = 200;
 
-    /** Blue area of the model, in this canvas. */
+    /** Blue area of the model, in canvas pixels. */
     static final int BLUE_X = 10;
     static final int BLUE_Y = 40;
     static final int BLUE_W = 180;
     static final int BLUE_H = 90;
 
-    /** Every element is lifted by this many pixels. */
+    /** Fixed bands: title line, body block, button row. */
+    private static final float TITLE_TOP = 6f;
+    private static final float BODY_TOP = 30f;
+    private static final float BUTTON_TOP = 132f;
+
     private static final float LIFT = -4f;
 
-    private static final int INK = 0xFF1E2A44;
-    private static final int INK_STRONG = 0xFF10203A;
+    private static final int INK = 0xFFFFF030;
+    private static final int INK_STRONG = 0xFFFFFFFF;
 
     private final UIElement root = new UIElement();
 
     private CarModelUi() {
         root.setId("car_model_ui");
         root.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT));
+        root.addChild(blueFrame());
         root.addChild(title());
         root.addChild(body());
         root.addChild(button("按钮A", 0));
@@ -63,37 +68,45 @@ final class CarModelUi {
     void close() {
     }
 
-    /** Title above the blue area. */
+    /** Red frame around the assumed blue area, for calibration. */
+    private static UIElement blueFrame() {
+        UIElement frame = new UIElement();
+        frame.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                .setPosition(YogaEdge.LEFT, (float) BLUE_X)
+                .setPosition(YogaEdge.TOP, (float) BLUE_Y)
+                .setWidth(BLUE_W).setHeight(BLUE_H));
+        frame.style(s -> s.background(new ColorBorderTexture(1, 0xFFFF3030)));
+        return frame;
+    }
+
     private UIElement title() {
         Label label = new Label();
         label.setText(Component.literal("这是标题"));
         label.textStyle(t -> t.textColor(INK_STRONG).adaptiveHeight(true));
         label.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
                 .setPosition(YogaEdge.LEFT, (float) (BLUE_X + 2))
-                .setPosition(YogaEdge.TOP, (float) (BLUE_Y - 16) + LIFT)
+                .setPosition(YogaEdge.TOP, TITLE_TOP + LIFT)
                 .setWidth(BLUE_W - 4));
         return label;
     }
 
-    /** Description inside the blue area; the label wraps at its width. */
     private UIElement body() {
         Label label = new Label();
         label.setText(Component.literal("这是介绍，介绍介绍介绍介绍介绍介绍介绍介绍"));
         label.textStyle(t -> t.textColor(INK).adaptiveHeight(true));
         label.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, (float) (BLUE_X + 6))
-                .setPosition(YogaEdge.TOP, (float) (BLUE_Y + 6) + LIFT)
-                .setWidth(BLUE_W - 12));
+                .setPosition(YogaEdge.LEFT, (float) (BLUE_X + 2))
+                .setPosition(YogaEdge.TOP, BODY_TOP + LIFT)
+                .setWidth(BLUE_W - 12).setHeight(90));
         return label;
     }
 
-    /** Clickable button below the blue area. */
     private UIElement button(String caption, int index) {
         Button button = new Button();
         button.setText(Component.literal(caption));
         button.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
                 .setPosition(YogaEdge.LEFT, (float) (BLUE_X + 8 + index * 88))
-                .setPosition(YogaEdge.TOP, (float) (BLUE_Y + BLUE_H + 6) + LIFT)
+                .setPosition(YogaEdge.TOP, BUTTON_TOP + LIFT)
                 .setWidth(80).setHeight(18));
         button.setOnClick(event -> {
             TechTreeSystem.LOGGER.info("Blueprint table button {} pressed on table", caption);
@@ -106,7 +119,6 @@ final class CarModelUi {
         return this::render;
     }
 
-    /** Registers the overlay on the table model at the given transform. */
     Renderable attach(org.joml.Matrix4f localToWorld) {
         Renderable renderable = renderable();
         if (Constants.UI_BACKEND != null) Constants.UI_BACKEND.addRenderable(renderable, localToWorld);
@@ -116,23 +128,16 @@ final class CarModelUi {
     /**
      * Flat placement on the table top.
      *
-     * <p>Shares the table's horizontal plane. X is negated because the surface is rotated onto a horizontal
-     * top, otherwise the glyphs read backwards.</p>
+     * <p>Laid flat and turned with the table; both scales negative, which is the combination that keeps the
+     * plane readable from the front rather than mirrored or upside-down.</p>
      */
     static org.joml.Matrix4f tableTopTransform(BlueprintTableBlockEntity table, float pixelsPerBlock) {
         var pos = table.getBlockPos();
-        // Same seat as the model (its own left offset and height), so the overlay lands on the blue part of
-        // the table top instead of over the block centre.
-        var seat = BlueprintBlockRenderer.seatOf(pos, table.yaw());
         return new org.joml.Matrix4f()
-                // Sit just above the table top, not half a block up: at +0.5 the plate floated above the
-                // surface and had to be viewed from below.
-                .translate((float) seat.x, (float) seat.y + 0.01f, (float) seat.z)
+                .translate(pos.getX() + 0.5f, pos.getY() + TechTreeBoard.TOP_Y + 0.51f, pos.getZ() + 0.5f)
                 .rotateY((float) Math.toRadians(table.yaw()))
                 .rotateX((float) Math.toRadians(-90.0f))
-                // GUI space has Y down; on a horizontal top that also mirrors X, so X must not be negated as
-                // well or every glyph reads backwards.
-                .scale(pixelsPerBlock, -pixelsPerBlock, pixelsPerBlock)
+                .scale(-pixelsPerBlock, -pixelsPerBlock, pixelsPerBlock)
                 .translate(-WIDTH * 0.5f, -HEIGHT * 0.5f, 0f);
     }
 }
