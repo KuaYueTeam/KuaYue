@@ -12,7 +12,11 @@ import lib.kasuga.registration.data_driven.context.BuildContext;
 import lib.kasuga.registration.data_driven.context.JsonRegistryGroup;
 import lib.kasuga.registration.data_driven.context.RegBuildContext;
 import lib.kasuga.registration.data_driven.dedup.EffectiveId;
+import lib.kasuga.registration.data_driven.pipeline.DefinitionKey;
+import lib.kasuga.registration.data_driven.pipeline.HandlerCapability;
+import lib.kasuga.registration.data_driven.pipeline.RegistryClaim;
 import lib.kasuga.registration.data_driven.property.JsonPropertyParser;
+import lib.kasuga.registration.data_driven.validation.ValidationContext;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.Vec3;
@@ -37,6 +41,48 @@ public final class BogeyBlockTypeHandler implements TypeHandler<BogeyBlockDefini
     @Override
     public int getPhase() {
         return 40;
+    }
+
+    @Override
+    public Set<HandlerCapability> capabilities() {
+        return Set.of(
+                HandlerCapability.STRICT_PREFLIGHT,
+                HandlerCapability.REGISTRY_CLAIMS
+        );
+    }
+
+    @Override
+    public void validate(BogeyBlockDefinition definition, ValidationContext context) {
+        context.requireDefinition(
+                new DefinitionKey(
+                        BogeyDataDrivenTypes.SIZES,
+                        EffectiveId.of(context.hostModId(), definition.size())
+                ),
+                "/size"
+        );
+        context.requireDefinition(
+                new DefinitionKey(
+                        BogeyDataDrivenTypes.STYLES,
+                        EffectiveId.of(context.hostModId(), definition.defaultStyle())
+                ),
+                "/default_style"
+        );
+        if (definition.registryGroup() != null) {
+            context.requireDefinition(
+                    new DefinitionKey("registry_groups", definition.registryGroup()),
+                    "/registry_group"
+            );
+        }
+    }
+
+    @Override
+    public List<RegistryClaim> claims(
+            BogeyBlockDefinition definition,
+            ValidationContext context
+    ) {
+        ResourceLocation id = ResourceLocation.parse(
+                EffectiveId.of(context.hostModId(), definition.id()));
+        return List.of(context.claim("minecraft:block", id));
     }
 
     @Override

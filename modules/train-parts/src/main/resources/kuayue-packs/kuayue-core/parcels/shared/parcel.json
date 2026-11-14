@@ -1,0 +1,10 @@
+{
+  "format_version": 1,
+  "id": "kuayue:shared",
+  "name_key": "parcel.kuayue.shared.name",
+  "description_key": "parcel.kuayue.shared.description",
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/bogeys.json",
+    "data/kuayue/kasuga_lib/data_driven/freight.json"
+  ]
+}

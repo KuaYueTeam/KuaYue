@@ -1,0 +1,9 @@
+{
+  "format_version": 1,
+  "id": "integration_train:validation_car",
+  "name_key": "parcel.integration_train.validation_car.name",
+  "description_key": "parcel.integration_train.validation_car.description",
+  "indexes": [
+    "data/integration_train/kasuga_lib/data_driven/validation_car.json"
+  ]
+}

@@ -58,9 +58,9 @@ public record TrackDefinition(
          * @throws IllegalArgumentException when any model path is missing or blank
          */
         public Models {
-            tie = TrackStrings.requireText(tie, "tracks[].material.models.tie");
-            left = TrackStrings.requireText(left, "tracks[].material.models.left");
-            right = TrackStrings.requireText(right, "tracks[].material.models.right");
+            tie = TrackStrings.requireId(tie, "tracks[].material.models.tie");
+            left = TrackStrings.requireId(left, "tracks[].material.models.left");
+            right = TrackStrings.requireId(right, "tracks[].material.models.right");
         }
     }
 }

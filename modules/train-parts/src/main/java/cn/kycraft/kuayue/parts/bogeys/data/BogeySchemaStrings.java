@@ -19,10 +19,12 @@ final class BogeySchemaStrings {
     static String requireId(String value, String field) {
         requireText(value, field);
         String[] parts = value.split(":", -1);
-        if (parts.length > 2
+        if (parts.length != 2
                 || !parts[0].matches("[a-z0-9_.-]+")
-                || (parts.length == 2 && !parts[1].matches("[a-z0-9_./-]+"))) {
-            throw new IllegalArgumentException(field + " is not a valid resource location: " + value);
+                || !parts[1].matches("[a-z0-9_./-]+")) {
+            throw new IllegalArgumentException(
+                    field + " must be a namespace-qualified resource location: " + value
+            );
         }
         return value;
     }

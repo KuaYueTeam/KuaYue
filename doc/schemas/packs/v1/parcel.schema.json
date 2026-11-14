@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/packs/v1/parcel.schema.json",
+  "title": "KuaYue parcel manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format_version", "id", "name_key", "indexes"],
+  "properties": {
+    "format_version": {"const": 1},
+    "id": {"type": "string", "pattern": "^[a-z0-9_.-]+:[a-z0-9_.-]+(?:/[a-z0-9_.-]+)*$"},
+    "name_key": {"type": "string", "minLength": 1},
+    "description_key": {"type": "string", "minLength": 1},
+    "icon": {"type": "string", "pattern": "^[a-z0-9_.-]+:textures(?:/[a-z0-9_.-]+)+\\.(png|jpe?g|webp)$"},
+    "indexes": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^data/[a-z0-9_.-]+/kasuga_lib/data_driven/[a-z0-9_.-]+(?:/[a-z0-9_.-]+)*\\.json$"
+      }
+    }
+  }
+}

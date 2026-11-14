@@ -158,24 +158,24 @@ public class BlockFactories {
     });
 
     static {
-        FactoryRegistry.register("train_panel", TRAIN_PANEL);
-        FactoryRegistry.register("slab", SLAB);
-        FactoryRegistry.register("slab_top", SLAB_TOP);
-        FactoryRegistry.register("ladder", LADDER);
-        FactoryRegistry.register("train_small_window", TRAIN_SMALL_WINDOW);
-        FactoryRegistry.register("train_openable_window", TRAIN_OPENABLE_WINDOW);
-        FactoryRegistry.register("train_hinge_panel", TRAIN_HINGE_PANEL);
-        FactoryRegistry.register("air_vent", AIR_VENT);
-        FactoryRegistry.register("custom_rendered_door", CUSTOM_RENDERED_DOOR);
-        FactoryRegistry.register("custom_rendered_end_face", CUSTOM_RENDERED_END_FACE);
-        FactoryRegistry.register("train_unopenable_small_window", TRAIN_UNOPENABLE_SMALL_WINDOW);
-        FactoryRegistry.register("train_unopenable_window", TRAIN_UNOPENABLE_WINDOW);
-        FactoryRegistry.register("hinge_slab", HINGE_SLAB);
-        FactoryRegistry.register("skirt", SKIRT);
-        FactoryRegistry.register("level_panel", LEVEL_PANEL);
-        FactoryRegistry.register("level_window", LEVEL_WINDOW);
-        FactoryRegistry.register("double_rotate_door", DOUBLE_ROTATE_DOOR);
-        FactoryRegistry.register("freight_end_face", FREIGHT_END_FACE);
-        FactoryRegistry.register("meter_carriage_end_face", METER_CARRIAGE_END_FACE);
+        FactoryRegistry.register("train_panel", TRAIN_PANEL, true);
+        FactoryRegistry.register("slab", SLAB, true);
+        FactoryRegistry.register("slab_top", SLAB_TOP, true);
+        FactoryRegistry.register("ladder", LADDER, true);
+        FactoryRegistry.register("train_small_window", TRAIN_SMALL_WINDOW, true);
+        FactoryRegistry.register("train_openable_window", TRAIN_OPENABLE_WINDOW, true);
+        FactoryRegistry.register("train_hinge_panel", TRAIN_HINGE_PANEL, true);
+        FactoryRegistry.register("air_vent", AIR_VENT, true);
+        FactoryRegistry.register("custom_rendered_door", CUSTOM_RENDERED_DOOR, true);
+        FactoryRegistry.register("custom_rendered_end_face", CUSTOM_RENDERED_END_FACE, true);
+        FactoryRegistry.register("train_unopenable_small_window", TRAIN_UNOPENABLE_SMALL_WINDOW, true);
+        FactoryRegistry.register("train_unopenable_window", TRAIN_UNOPENABLE_WINDOW, true);
+        FactoryRegistry.register("hinge_slab", HINGE_SLAB, true);
+        FactoryRegistry.register("skirt", SKIRT, true);
+        FactoryRegistry.register("level_panel", LEVEL_PANEL, true);
+        FactoryRegistry.register("level_window", LEVEL_WINDOW, true);
+        FactoryRegistry.register("double_rotate_door", DOUBLE_ROTATE_DOOR, true);
+        FactoryRegistry.register("freight_end_face", FREIGHT_END_FACE, true);
+        FactoryRegistry.register("meter_carriage_end_face", METER_CARRIAGE_END_FACE, true);
     }
 }

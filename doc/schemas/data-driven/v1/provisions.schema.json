@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/provisions.schema.json",
+  "title": "KuaYue provisions data bundle (v1)",
+  "description": "provisions.json 没有独立的 provisions TypeHandler；它复用 registry_groups、blocks、items，并由 ProvisionsFactories 解释 params。",
+  "type": "object",
+  "minProperties": 1,
+  "properties": {
+    "registry_groups": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/registryGroup"
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "content.schema.json#/$defs/block"
+          },
+          {
+            "properties": {
+              "type": {
+                "enum": [
+                  "diet_box",
+                  "drink",
+                  "placement_food",
+                  "dried_noodles",
+                  "soaked_noodles"
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "content.schema.json#/$defs/item"
+          },
+          {
+            "properties": {
+              "type": {
+                "const": "simple_item"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "additionalProperties": false
+}

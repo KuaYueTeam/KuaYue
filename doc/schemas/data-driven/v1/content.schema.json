@@ -1,0 +1,2096 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/content.schema.json",
+  "title": "KuaYue 注册期数据驱动内容（v1）",
+  "description": "校验 on_register 指向的联合内容文件。animation_clips 属于 on_reload 域，请使用 animation-clips.schema.json。",
+  "type": "object",
+  "minProperties": 1,
+  "properties": {
+    "registry_groups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/registryGroup"
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/block"
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    },
+    "bogey_sizes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/bogeySize"
+      }
+    },
+    "bogey_motions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/bogeyMotion"
+      }
+    },
+    "bogey_models": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/bogeyModel"
+      }
+    },
+    "bogey_blocks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/bogeyBlock"
+      }
+    },
+    "bogey_styles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/bogeyStyle"
+      }
+    },
+    "tracks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/track"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "resourceLocation": {
+      "type": "string",
+      "pattern": "^(?:[a-z0-9_.-]+:)?[a-z0-9_.-]+(?:/[a-z0-9_.-]+)*$"
+    },
+    "explicitResourceLocation": {
+      "type": "string",
+      "pattern": "^[a-z0-9_.-]+:[a-z0-9_.-]+(?:/[a-z0-9_.-]+)*$"
+    },
+    "nonBlankString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": ".*\\S.*"
+    },
+    "blockProperties": {
+      "type": "object",
+      "properties": {
+        "no_occlusion": {
+          "type": "boolean"
+        },
+        "no_collision": {
+          "type": "boolean"
+        },
+        "no_collission": {
+          "type": "boolean"
+        },
+        "requires_correct_tool": {
+          "type": "boolean"
+        },
+        "replaceable": {
+          "type": "boolean"
+        },
+        "dynamic_shape": {
+          "type": "boolean"
+        },
+        "random_ticks": {
+          "type": "boolean"
+        },
+        "no_loot_table": {
+          "type": "boolean"
+        },
+        "ignited_by_lava": {
+          "type": "boolean"
+        },
+        "liquid": {
+          "type": "boolean"
+        },
+        "force_solid_on": {
+          "type": "boolean"
+        },
+        "air": {
+          "type": "boolean"
+        },
+        "no_terrain_particles": {
+          "type": "boolean"
+        },
+        "friction": {
+          "type": "number"
+        },
+        "speed_factor": {
+          "type": "number"
+        },
+        "jump_factor": {
+          "type": "number"
+        },
+        "destroy_time": {
+          "type": "number"
+        },
+        "explosion_resistance": {
+          "type": "number"
+        },
+        "strength": {
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": "number"
+              }
+            }
+          ]
+        },
+        "map_color": {
+          "type": "string",
+          "enum": [
+            "white",
+            "orange",
+            "magenta",
+            "light_blue",
+            "yellow",
+            "lime",
+            "pink",
+            "gray",
+            "light_gray",
+            "cyan",
+            "purple",
+            "blue",
+            "brown",
+            "green",
+            "red",
+            "black"
+          ]
+        },
+        "sound_type": {
+          "type": "string",
+          "enum": [
+            "stone",
+            "wood",
+            "gravel",
+            "grass",
+            "sand",
+            "metal",
+            "glass",
+            "wool",
+            "wet_grass",
+            "coral_block",
+            "lantern",
+            "stem",
+            "sweet_berry_bush",
+            "crop",
+            "nether_wood",
+            "nether_ore",
+            "nether_wart",
+            "basalt",
+            "soul_sand",
+            "bone_block",
+            "netherrack",
+            "nether_bricks",
+            "shroomlight",
+            "wart_block",
+            "anvil",
+            "chain",
+            "copper",
+            "calcite",
+            "tuff",
+            "dripstone_block",
+            "pointed_dripstone",
+            "moss_carpet",
+            "hanging_roots",
+            "rooted_dirt",
+            "big_dripleaf",
+            "small_dripleaf",
+            "spore_blossom",
+            "cave_vines",
+            "powder_snow",
+            "amethyst_cluster",
+            "sponge",
+            "lily_pad",
+            "cobweb",
+            "suspicious_sand",
+            "suspicious_gravel"
+          ]
+        },
+        "light_emission": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 15
+        },
+        "netherite_block": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "itemProperties": {
+      "type": "object",
+      "properties": {
+        "stacks_to": {
+          "type": "integer"
+        },
+        "rarity": {
+          "type": "string",
+          "enum": [
+            "common",
+            "uncommon",
+            "rare",
+            "epic",
+            "COMMON",
+            "UNCOMMON",
+            "RARE",
+            "EPIC"
+          ]
+        },
+        "fire_resistant": {
+          "type": "boolean"
+        },
+        "durability": {
+          "type": "integer"
+        },
+        "no_repair": {
+          "type": "boolean"
+        },
+        "tab": {
+          "type": "string",
+          "pattern": "^(?:[a-z0-9_.-]+:)?[a-z0-9_.-]+(?:/[a-z0-9_.-]+)*$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "statePropertyDefinition": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/stateBooleanProperty"
+        },
+        {
+          "$ref": "#/$defs/stateIntegerProperty"
+        },
+        {
+          "$ref": "#/$defs/stateEnumProperty"
+        },
+        {
+          "$ref": "#/$defs/stateVanillaProperty"
+        }
+      ]
+    },
+    "stateBooleanProperty": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "boolean"
+        },
+        "default": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false,
+      "maxProperties": 2
+    },
+    "stateIntegerProperty": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "integer"
+        },
+        "min": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "default": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "type",
+        "min",
+        "max"
+      ],
+      "additionalProperties": false,
+      "maxProperties": 4
+    },
+    "stateEnumProperty": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "enum"
+        },
+        "values": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        },
+        "default": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        }
+      },
+      "required": [
+        "type",
+        "values"
+      ],
+      "additionalProperties": false,
+      "maxProperties": 3
+    },
+    "stateVanillaProperty": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "vanilla"
+        },
+        "property": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_]+$"
+        },
+        "default": {
+          "type": [
+            "string",
+            "number",
+            "boolean"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "property"
+      ],
+      "additionalProperties": false,
+      "maxProperties": 3
+    },
+    "stateProperties": {
+      "type": "object",
+      "maxProperties": 64,
+      "propertyNames": {
+        "pattern": "^[a-z0-9_]+$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/statePropertyDefinition"
+      }
+    },
+    "embeddedBlockEntity": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "registryGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "parent": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "properties": {
+          "$ref": "#/$defs/blockProperties"
+        },
+        "item_properties": {
+          "$ref": "#/$defs/itemProperties"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "panelBoundsParams": {
+      "type": "object",
+      "properties": {
+        "begin_x": {
+          "type": "number"
+        },
+        "begin_y": {
+          "type": "number"
+        },
+        "end_x": {
+          "type": "number"
+        },
+        "end_y": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    },
+    "emptyParams": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    },
+    "trainSmallWindowParams": {
+      "type": "object",
+      "properties": {
+        "height": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "trainOpenableWindowParams": {
+      "type": "object",
+      "properties": {
+        "wide": {
+          "type": "integer"
+        },
+        "left": {
+          "type": "integer"
+        },
+        "right": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "trainUnopenableWindowParams": {
+      "type": "object",
+      "properties": {
+        "wide": {
+          "type": "integer"
+        },
+        "begin_y": {
+          "type": "integer"
+        },
+        "end_y": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ladderParams": {
+      "type": "object",
+      "properties": {
+        "is_meter": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "customRenderedDoorParams": {
+      "type": "object",
+      "properties": {
+        "left_models": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(?:[a-z0-9_.-]+:)?[a-z0-9_.-]+(?:/[a-z0-9_.-]+)*$"
+          },
+          "minItems": 2,
+          "uniqueItems": true
+        },
+        "right_models": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(?:[a-z0-9_.-]+:)?[a-z0-9_.-]+(?:/[a-z0-9_.-]+)*$"
+          },
+          "minItems": 2,
+          "uniqueItems": true
+        },
+        "offset": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
+        },
+        "open_offset": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
+        },
+        "render_shape": {
+          "type": "string",
+          "enum": [
+            "invisible",
+            "model",
+            "entityblock_animated"
+          ]
+        },
+        "is_slide_door": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "left_models",
+        "right_models"
+      ],
+      "additionalProperties": false
+    },
+    "endFaceParams": {
+      "type": "object",
+      "properties": {
+        "door_type": {
+          "type": "string",
+          "enum": [
+            "fold",
+            "slide",
+            "slide_2",
+            "slide_3",
+            "rotate",
+            "rotate_single_sided",
+            "no_door"
+          ]
+        },
+        "left_model": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "right_model": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "frame_model": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "doubleRotateDoorParams": {
+      "type": "object",
+      "properties": {
+        "door_type": {
+          "type": "string",
+          "enum": [
+            "fold",
+            "slide",
+            "slide_2",
+            "slide_3",
+            "rotate",
+            "rotate_single_sided",
+            "no_door"
+          ]
+        },
+        "left_model": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "right_model": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "frame_model": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "hingeSlabParams": {
+      "type": "object",
+      "properties": {
+        "is_carport": {
+          "type": "boolean"
+        },
+        "width": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "freightEndFaceParams": {
+      "type": "object",
+      "properties": {
+        "freight_type": {
+          "type": "string",
+          "enum": [
+            "c70",
+            "nx70"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "meterCarriageEndFaceParams": {
+      "type": "object",
+      "properties": {
+        "door_type": {
+          "type": "string",
+          "enum": [
+            "fold",
+            "slide",
+            "slide_2",
+            "slide_3",
+            "rotate",
+            "rotate_single_sided",
+            "no_door"
+          ]
+        },
+        "outside": {
+          "type": "boolean"
+        },
+        "left_model": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "right_model": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "frame_model": {
+          "$ref": "#/$defs/nonBlankString"
+        }
+      },
+      "additionalProperties": false
+    },
+    "dietBoxParams": {
+      "type": "object",
+      "properties": {
+        "food_type": {
+          "type": "string",
+          "enum": [
+            "box",
+            "bowl",
+            "bottle",
+            "BOX",
+            "BOWL",
+            "BOTTLE"
+          ]
+        },
+        "has_tooltip": {
+          "type": "boolean"
+        },
+        "remainder": {
+          "type": "string",
+          "pattern": "^(?:[a-z0-9_.-]+:)?[a-z0-9_.-]+(?:/[a-z0-9_.-]+)*$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "drinkParams": {
+      "type": "object",
+      "properties": {
+        "food_type": {
+          "type": "string",
+          "enum": [
+            "box",
+            "bowl",
+            "bottle",
+            "BOX",
+            "BOWL",
+            "BOTTLE"
+          ]
+        },
+        "has_particle": {
+          "type": "boolean"
+        },
+        "has_tooltip": {
+          "type": "boolean",
+          "description": "当前资源使用该字段；Drink 工厂未读取它。"
+        },
+        "drink": {
+          "type": "string",
+          "enum": [
+            "kua_cola",
+            "blue_bull"
+          ]
+        },
+        "remainder": {
+          "type": "string",
+          "pattern": "^(?:[a-z0-9_.-]+:)?[a-z0-9_.-]+(?:/[a-z0-9_.-]+)*$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "foodParams": {
+      "type": "object",
+      "properties": {
+        "food_type": {
+          "type": "string",
+          "enum": [
+            "box",
+            "bowl",
+            "bottle",
+            "BOX",
+            "BOWL",
+            "BOTTLE"
+          ]
+        },
+        "has_tooltip": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "soakedNoodlesParams": {
+      "type": "object",
+      "properties": {
+        "has_tooltip": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "foodValueParams": {
+      "type": "object",
+      "properties": {
+        "nutrition": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "saturation": {
+          "type": "number",
+          "minimum": 0
+        },
+        "fast": {
+          "type": "boolean"
+        },
+        "always_eat": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "simpleItemParams": {
+      "type": "object",
+      "properties": {
+        "food": {
+          "$ref": "#/$defs/foodValueParams"
+        }
+      },
+      "additionalProperties": false
+    },
+    "block": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "train_panel",
+            "slab",
+            "slab_top",
+            "ladder",
+            "train_small_window",
+            "train_openable_window",
+            "train_hinge_panel",
+            "air_vent",
+            "custom_rendered_door",
+            "custom_rendered_end_face",
+            "train_unopenable_small_window",
+            "train_unopenable_window",
+            "hinge_slab",
+            "skirt",
+            "level_panel",
+            "level_window",
+            "double_rotate_door",
+            "freight_end_face",
+            "meter_carriage_end_face",
+            "diet_box",
+            "drink",
+            "placement_food",
+            "dried_noodles",
+            "soaked_noodles"
+          ]
+        },
+        "registry_group": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "properties": {
+          "$ref": "#/$defs/blockProperties"
+        },
+        "item_properties": {
+          "$ref": "#/$defs/itemProperties"
+        },
+        "params": {
+          "type": "object"
+        },
+        "state_properties": {
+          "$ref": "#/$defs/stateProperties"
+        },
+        "state_machine": {
+          "type": [
+            "string",
+            "number",
+            "boolean"
+          ]
+        },
+        "block_entity": {
+          "$ref": "#/$defs/embeddedBlockEntity"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "train_panel"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/panelBoundsParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "train_hinge_panel"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/panelBoundsParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "level_panel"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/panelBoundsParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "slab"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/emptyParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "slab_top"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/emptyParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "air_vent"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/emptyParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "skirt"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/emptyParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "level_window"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/emptyParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "train_unopenable_small_window"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/emptyParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "train_small_window"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/trainSmallWindowParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "train_openable_window"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/trainOpenableWindowParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "ladder"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/ladderParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "custom_rendered_door"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "params"
+            ],
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/customRenderedDoorParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "custom_rendered_end_face"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/endFaceParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "train_unopenable_window"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/trainUnopenableWindowParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "hinge_slab"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/hingeSlabParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "double_rotate_door"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/doubleRotateDoorParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "freight_end_face"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/freightEndFaceParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "meter_carriage_end_face"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/meterCarriageEndFaceParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "diet_box"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/dietBoxParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "drink"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/drinkParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "placement_food"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/foodParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "dried_noodles"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/foodParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "soaked_noodles"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/soakedNoodlesParams"
+              }
+            }
+          }
+        }
+      ],
+      "dependentRequired": {
+        "state_machine": [
+          "block_entity"
+        ]
+      }
+    },
+    "item": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "type": {
+          "const": "simple_item"
+        },
+        "registry_group": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "properties": {
+          "$ref": "#/$defs/itemProperties"
+        },
+        "params": {
+          "$ref": "#/$defs/simpleItemParams"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "additionalProperties": false
+    },
+    "bogeySize": {
+      "type": "object",
+      "properties": {
+        "id": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "wheel_radius": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "wheel_radius"
+      ],
+      "additionalProperties": false
+    },
+    "bogeyMotion": {
+      "type": "object",
+      "properties": {
+        "id": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "wheel_spin",
+            "rod_rotation",
+            "formula"
+          ]
+        },
+        "scale": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "default": 1.0
+        },
+        "sign": {
+          "type": "number",
+          "not": {
+            "const": 0
+          },
+          "default": 1.0
+        },
+        "clip": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "formula"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "clip"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "wheel_spin",
+                  "rod_rotation"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "not": {
+              "required": [
+                "clip"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "localTransformOperation": {
+      "type": "object",
+      "properties": {
+        "translate": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
+        },
+        "rotate": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
+        },
+        "scale": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "minProperties": 1,
+      "maxProperties": 1
+    },
+    "bogeyModelPart": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+$"
+        },
+        "model": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "local": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/localTransformOperation"
+          }
+        },
+        "motion": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        }
+      },
+      "required": [
+        "id",
+        "model"
+      ],
+      "additionalProperties": false
+    },
+    "bogeyModel": {
+      "type": "object",
+      "properties": {
+        "id": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "y_offset": {
+          "type": "number",
+          "default": -1.5078125
+        },
+        "parts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/bogeyModelPart"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "parts"
+      ],
+      "additionalProperties": false
+    },
+    "bogeyPhysics": {
+      "type": "object",
+      "properties": {
+        "primary_track_type": {
+          "type": "string",
+          "enum": [
+            "standard",
+            "create:standard"
+          ],
+          "default": "standard"
+        },
+        "valid_track_types": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "standard",
+              "create:standard"
+            ]
+          }
+        },
+        "wheel_point_spacing": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "connector_anchor_offset": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number"
+          },
+          "default": [
+            0.0,
+            0.21875,
+            1.0
+          ]
+        },
+        "allow_single_bogey_carriage": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "required": [
+        "wheel_point_spacing"
+      ],
+      "additionalProperties": false
+    },
+    "bogeyBlock": {
+      "type": "object",
+      "properties": {
+        "id": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "size": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "registry_group": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "default_style": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "properties": {
+          "$ref": "#/$defs/blockProperties"
+        },
+        "physics": {
+          "$ref": "#/$defs/bogeyPhysics"
+        }
+      },
+      "required": [
+        "id",
+        "size",
+        "default_style",
+        "physics"
+      ],
+      "additionalProperties": false
+    },
+    "bogeyStyleVariant": {
+      "type": "object",
+      "properties": {
+        "size": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "block": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "model": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        }
+      },
+      "required": [
+        "size",
+        "block",
+        "model"
+      ],
+      "additionalProperties": false
+    },
+    "bogeyStyle": {
+      "type": "object",
+      "properties": {
+        "id": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "cycle_group": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "registry_group": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "translation_key": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "variants": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/bogeyStyleVariant"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "cycle_group",
+        "translation_key",
+        "variants"
+      ],
+      "additionalProperties": false
+    },
+    "trackModels": {
+      "type": "object",
+      "properties": {
+        "tie": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "left": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "right": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        }
+      },
+      "required": [
+        "tie",
+        "left",
+        "right"
+      ],
+      "additionalProperties": false
+    },
+    "trackMaterial": {
+      "type": "object",
+      "properties": {
+        "id": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "name": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "particle": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "half_distance": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "sleepers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+      "$ref": "#/$defs/explicitResourceLocation"
+          }
+        },
+        "models": {
+          "$ref": "#/$defs/trackModels"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "particle",
+        "half_distance",
+        "sleepers",
+        "models"
+      ],
+      "additionalProperties": false
+    },
+    "track": {
+      "type": "object",
+      "properties": {
+        "id": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "type": {
+          "const": "simple_track"
+        },
+        "registry_group": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "default_bogey": {
+      "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "properties": {
+          "$ref": "#/$defs/blockProperties"
+        },
+        "item_properties": {
+          "$ref": "#/$defs/itemProperties"
+        },
+        "material": {
+          "$ref": "#/$defs/trackMaterial"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "registry_group",
+        "default_bogey",
+        "material"
+      ],
+      "additionalProperties": false
+    },
+    "vector3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "number"
+      }
+    },
+    "transformDefinition": {
+      "type": "object",
+      "properties": {
+        "translate": {
+          "$ref": "#/$defs/vector3"
+        },
+        "rotate": {
+          "$ref": "#/$defs/vector3"
+        },
+        "scale": {
+          "$ref": "#/$defs/vector3"
+        }
+      },
+      "additionalProperties": false
+    },
+    "boneKeyframe": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "number",
+          "minimum": 0
+        },
+        "transform": {
+          "$ref": "#/$defs/transformDefinition"
+        },
+        "easing": {
+          "type": "string",
+          "enum": [
+            "linear",
+            "ease_in_quad",
+            "ease_out_quad",
+            "ease_in_out_quad",
+            "ease_in_cubic",
+            "ease_out_cubic",
+            "ease_in_out_cubic",
+            "ease_in_sine",
+            "ease_out_sine",
+            "ease_in_out_sine",
+            "back",
+            "elastic",
+            "bounce"
+          ],
+          "default": "linear"
+        }
+      },
+      "required": [
+        "time",
+        "transform"
+      ],
+      "additionalProperties": false
+    },
+    "boneTrack": {
+      "type": "object",
+      "properties": {
+        "bone": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "keyframes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/boneKeyframe"
+          }
+        }
+      },
+      "required": [
+        "bone",
+        "keyframes"
+      ],
+      "additionalProperties": false
+    },
+    "morphKeyframe": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "number",
+          "minimum": 0
+        },
+        "value": {
+          "type": "number"
+        },
+        "easing": {
+          "type": "string",
+          "enum": [
+            "linear",
+            "ease_in_quad",
+            "ease_out_quad",
+            "ease_in_out_quad",
+            "ease_in_cubic",
+            "ease_out_cubic",
+            "ease_in_out_cubic",
+            "ease_in_sine",
+            "ease_out_sine",
+            "ease_in_out_sine",
+            "back",
+            "elastic",
+            "bounce"
+          ],
+          "default": "linear"
+        }
+      },
+      "required": [
+        "time",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "morphTrack": {
+      "type": "object",
+      "properties": {
+        "morph": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "keyframes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/morphKeyframe"
+          }
+        }
+      },
+      "required": [
+        "morph",
+        "keyframes"
+      ],
+      "additionalProperties": false
+    },
+    "frameKeyframe": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "number",
+          "minimum": 0
+        },
+        "frame": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "time",
+        "frame"
+      ],
+      "additionalProperties": false
+    },
+    "frameTrack": {
+      "type": "object",
+      "properties": {
+        "material": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "keyframes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/frameKeyframe"
+          }
+        }
+      },
+      "required": [
+        "material",
+        "keyframes"
+      ],
+      "additionalProperties": false
+    },
+    "cameraKeyframe": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "number",
+          "minimum": 0
+        },
+        "value": {
+          "type": "number"
+        },
+        "easing": {
+          "type": "string",
+          "enum": [
+            "linear",
+            "ease_in_quad",
+            "ease_out_quad",
+            "ease_in_out_quad",
+            "ease_in_cubic",
+            "ease_out_cubic",
+            "ease_in_out_cubic",
+            "ease_in_sine",
+            "ease_out_sine",
+            "ease_in_out_sine",
+            "back",
+            "elastic",
+            "bounce"
+          ],
+          "default": "linear"
+        }
+      },
+      "required": [
+        "time",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "cameraTrack": {
+      "type": "object",
+      "properties": {
+        "channel": {
+          "type": "string",
+          "enum": [
+            "x",
+            "y",
+            "z",
+            "yaw",
+            "pitch",
+            "roll",
+            "zoom"
+          ]
+        },
+        "keyframes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/cameraKeyframe"
+          }
+        }
+      },
+      "required": [
+        "channel",
+        "keyframes"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "channel": {
+                "const": "zoom"
+              }
+            },
+            "required": [
+              "channel"
+            ]
+          },
+          "then": {
+            "properties": {
+              "keyframes": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/cameraKeyframe"
+                    },
+                    {
+                      "properties": {
+                        "value": {
+                          "exclusiveMinimum": 0
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "cameraTrackGroup": {
+      "type": "object",
+      "properties": {
+        "camera": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "tracks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cameraTrack"
+          }
+        }
+      },
+      "required": [
+        "camera",
+        "tracks"
+      ],
+      "additionalProperties": false
+    },
+    "formulaVariable": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^(?!query\\.)[a-z][a-z1-9]*(?:_[a-z1-9]+)*(?:\\.[a-z][a-z1-9]*(?:_[a-z1-9]+)*)*$"
+        },
+        "expression": {
+          "$ref": "#/$defs/nonBlankString"
+        }
+      },
+      "required": [
+        "name",
+        "expression"
+      ],
+      "additionalProperties": false
+    },
+    "formulaVector": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "string"
+        },
+        "y": {
+          "type": "string"
+        },
+        "z": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "formulaTransform": {
+      "type": "object",
+      "properties": {
+        "translate": {
+          "$ref": "#/$defs/formulaVector"
+        },
+        "rotate": {
+          "$ref": "#/$defs/formulaVector"
+        },
+        "scale": {
+          "$ref": "#/$defs/formulaVector"
+        }
+      },
+      "additionalProperties": false
+    },
+    "formulaTarget": {
+      "type": "object",
+      "properties": {
+        "part": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "bone": {
+          "$ref": "#/$defs/nonBlankString"
+        }
+      },
+      "additionalProperties": false,
+      "minProperties": 1,
+      "anyOf": [
+        {
+          "required": [
+            "part"
+          ]
+        },
+        {
+          "required": [
+            "bone"
+          ]
+        }
+      ]
+    },
+    "formulaTransformTrack": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/$defs/formulaTarget"
+        },
+        "transform": {
+          "$ref": "#/$defs/formulaTransform"
+        }
+      },
+      "required": [
+        "target"
+      ],
+      "additionalProperties": false
+    },
+    "animationClip": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "duration_seconds": {
+          "type": "number",
+          "minimum": 0,
+          "default": 1.0
+        },
+        "bones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/boneTrack"
+          }
+        },
+        "morphs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/morphTrack"
+          }
+        },
+        "frames": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/frameTrack"
+          }
+        },
+        "cameras": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cameraTrackGroup"
+          }
+        },
+        "variables": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/formulaVariable"
+          }
+        },
+        "formula_transforms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/formulaTransformTrack"
+          }
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

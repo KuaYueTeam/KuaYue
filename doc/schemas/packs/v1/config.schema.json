@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/packs/v1/config.schema.json",
+  "title": "KuaYue instance pack configuration",
+  "description": "Validates <game-dir>/kuayue/config.json. A missing file or object without packs uses runtime defaults.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "packs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format_version"
+      ],
+      "properties": {
+        "format_version": {
+          "const": 1
+        },
+        "enabled": {
+          "type": "object",
+          "propertyNames": {
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        },
+        "order": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          }
+        },
+        "inventory": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          }
+        }
+      }
+    }
+  },
+  "$comment": "The game rewrites inventory from installed external pack IDs. order is low priority to high priority."
+}

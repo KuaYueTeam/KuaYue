@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/block-entities.schema.json",
+  "title": "KuaYue embedded block_entity fragment",
+  "description": "该 Schema 直接校验 blocks[].block_entity 对象；没有独立的顶层 block_entities 字段。",
+  "$ref": "content.schema.json#/$defs/embeddedBlockEntity"
+}

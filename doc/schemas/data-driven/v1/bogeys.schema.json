@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/bogeys.schema.json",
+  "title": "转向架复合内容文件",
+  "description": "当前 bogeys.json 在同一文件内包含 bogey_sizes、bogey_blocks、bogey_styles。",
+  "type": "object",
+  "properties": {
+    "bogey_sizes": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/bogeySize"
+      }
+    },
+    "bogey_blocks": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/bogeyBlock"
+      }
+    },
+    "bogey_styles": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/bogeyStyle"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "minProperties": 1
+}

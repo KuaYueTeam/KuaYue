@@ -1,0 +1,14 @@
+{
+  "packs": {
+    "format_version": 1,
+    "enabled": {
+      "kuayue-core": false,
+      "sample-train": true
+    },
+    "order": [
+      "kuayue-core",
+      "sample-train"
+    ],
+    "inventory": []
+  }
+}

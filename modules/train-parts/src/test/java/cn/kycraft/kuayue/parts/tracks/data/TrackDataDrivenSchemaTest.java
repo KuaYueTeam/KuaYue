@@ -115,6 +115,13 @@ class TrackDataDrivenSchemaTest {
                 .deepCopy();
         unknownField.addProperty("default_bogeys", "kuayue:pk209p_bogey");
         assertThrows(IllegalArgumentException.class, () -> parser.parse(unknownField));
+
+        JsonObject bareId = document.getAsJsonArray("tracks")
+                .get(0)
+                .getAsJsonObject()
+                .deepCopy();
+        bareId.addProperty("id", "standard_track");
+        assertThrows(RuntimeException.class, () -> parser.parse(bareId));
     }
 
     @Test

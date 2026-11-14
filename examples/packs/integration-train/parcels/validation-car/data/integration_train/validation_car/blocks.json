@@ -1,0 +1,25 @@
+{
+  "registry_groups": [
+    {
+      "id": "integration_train:validation_car_panels",
+      "properties": {
+        "no_occlusion": false,
+        "strength": [
+          2.0,
+          3.0
+        ],
+        "sound_type": "stone"
+      },
+      "item_properties": {
+        "tab": "kuayue:train_panel_tab"
+      }
+    }
+  ],
+  "blocks": [
+    {
+      "id": "integration_train:validation_car_floor",
+      "type": "slab",
+      "registry_group": "integration_train:validation_car_panels"
+    }
+  ]
+}

@@ -29,7 +29,7 @@ final class BogeyRuntimeRegistration {
                 context.getMeta(BogeyDataDrivenTypes.RUNTIME,
                         BogeyDataDrivenTypes.BLOCK_REGISTRATIONS);
         if (registrations == null || registrations.isEmpty()) {
-            throw new IllegalStateException("No data-driven bogey blocks are available");
+            return;
         }
 
         BlockEntityReg<CommonBogeyBlockEntity> blockEntity =
@@ -45,7 +45,7 @@ final class BogeyRuntimeRegistration {
                 type,
                 ResourceLocation.fromNamespaceAndPath("kuayue", "loco_bogey"),
                 KuaYueBogeyProxyComposition::create
-        )).setParent(KuaYueTrainPanelModule.REGISTRY_GROUP);
+        )).setParent(KuaYueTrainPanelModule.RUNTIME_REGISTRY_GROUP);
         CommonBogeyBlock.setGlobalBlockEntityType(blockEntity::getEntry);
         context.putMeta(BogeyDataDrivenTypes.RUNTIME,
                 BogeyDataDrivenTypes.BLOCK_ENTITY, blockEntity);

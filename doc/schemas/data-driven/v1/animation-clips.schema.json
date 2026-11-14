@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/animation-clips.schema.json",
+  "title": "动画剪辑 reload 内容文件",
+  "description": "AnimationClipLoader / FsmClipsReloadHandler / AnimationClip",
+  "type": "object",
+  "properties": {
+    "animation_clips": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/animationClip"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "animation_clips"
+  ]
+}

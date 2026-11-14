@@ -1,0 +1,3 @@
+{
+  "on_register": ["sample_train/blocks.json"]
+}

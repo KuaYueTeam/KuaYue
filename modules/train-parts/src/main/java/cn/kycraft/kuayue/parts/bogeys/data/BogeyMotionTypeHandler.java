@@ -4,6 +4,9 @@ import com.google.gson.JsonObject;
 import lib.kasuga.registration.data_driven.TypeHandler;
 import lib.kasuga.registration.data_driven.context.BuildContext;
 import lib.kasuga.registration.data_driven.dedup.EffectiveId;
+import lib.kasuga.registration.data_driven.pipeline.HandlerCapability;
+
+import java.util.Set;
 
 /**
  * Compiles reusable motion profiles from {@code bogey_motions}.
@@ -19,6 +22,14 @@ public final class BogeyMotionTypeHandler implements TypeHandler<BogeyMotionDefi
     @Override
     public int getPhase() {
         return 20;
+    }
+
+    @Override
+    public Set<HandlerCapability> capabilities() {
+        return Set.of(
+                HandlerCapability.STRICT_PREFLIGHT,
+                HandlerCapability.NON_REGISTRATION
+        );
     }
 
     @Override

@@ -63,7 +63,7 @@ public final class ProvisionsFactories {
                                     remainderId(params)));
             reg.withBlockItem(id, itemSupplier(params));
             return (Reg<BlockReg<?>, Block>) (Reg<?, ?>) reg;
-        });
+        }, true);
 
         FactoryRegistry.register(DRINK, (id, params) -> {
             BlockReg<ParticlesDrinkBlock> reg = BlockReg.of(id,
@@ -73,7 +73,7 @@ public final class ProvisionsFactories {
             reg.withBlockItem(id, () -> (block, props) -> new cn.kycraft.kuayue.provisions.food.DrinkCanItem(
                     block, props, drinkFood(params), remainderItem(params)));
             return (Reg<BlockReg<?>, Block>) (Reg<?, ?>) reg;
-        });
+        }, true);
 
         FactoryRegistry.register(PLACEMENT_FOOD, (id, params) -> {
             BlockReg<PlacementFoodBlock> reg = BlockReg.of(id,
@@ -81,7 +81,7 @@ public final class ProvisionsFactories {
                             p -> new PlacementFoodBlock(p, FoodType.fromString(param(params, "food_type"))));
             reg.withBlockItem(id, itemSupplier(params));
             return (Reg<BlockReg<?>, Block>) (Reg<?, ?>) reg;
-        });
+        }, true);
 
         FactoryRegistry.register(DRIED_NOODLES, (id, params) -> {
             BlockReg<DriedInstantNoodlesBlock> reg = BlockReg.of(id,
@@ -90,7 +90,7 @@ public final class ProvisionsFactories {
             reg.withBlockItem(id, () -> (block, props) -> new cn.kycraft.kuayue.provisions.item.DriedInstantNoodlesBlockItem(
                     block, props, boolParam(params, "has_tooltip", true)));
             return (Reg<BlockReg<?>, Block>) (Reg<?, ?>) reg;
-        });
+        }, true);
 
         FactoryRegistry.register(SOAKED_NOODLES, (id, params) -> {
             BlockReg<SoakedInstantNoodlesBlock> reg = BlockReg.of(id,
@@ -98,7 +98,7 @@ public final class ProvisionsFactories {
                             SoakedInstantNoodlesBlock::new);
             reg.withBlockItem(id, itemSupplier(params));
             return (Reg<BlockReg<?>, Block>) (Reg<?, ?>) reg;
-        });
+        }, true);
     }
 
     private static Supplier<BiFunction<Block, Item.Properties, BlockItem>> itemSupplier(JsonObject params) {

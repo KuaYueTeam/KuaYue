@@ -1,0 +1,53 @@
+{
+  "format_version": 1,
+  "id": "kuayue-core",
+  "version": "2.0.0",
+  "namespaces": [
+    "kuayue"
+  ],
+  "name_key": "pack.kuayue_core.name",
+  "description_key": "pack.kuayue_core.description",
+  "dependencies": {
+    "mods": {
+      "minecraft": "1.21.1",
+      "neoforge": "21.1.203",
+      "kuayue": "2.0.0",
+      "kasuga_lib": "1.0.0",
+      "create": "6.0.6"
+    },
+    "packs": {}
+  },
+  "parcels": [
+    "parcels/shared/parcel.json",
+    "parcels/c22/parcel.json",
+    "parcels/c25/parcel.json",
+    "parcels/c25b/parcel.json",
+    "parcels/c25g/parcel.json",
+    "parcels/c25k/parcel.json",
+    "parcels/c25t/parcel.json",
+    "parcels/c25z/parcel.json",
+    "parcels/cr200j/parcel.json",
+    "parcels/m1/parcel.json",
+    "parcels/jy30/parcel.json",
+    "parcels/df11/parcel.json",
+    "parcels/df11g/parcel.json",
+    "parcels/df21/parcel.json",
+    "parcels/df5/parcel.json",
+    "parcels/dfh21/parcel.json",
+    "parcels/hxd3d/parcel.json",
+    "parcels/jy290/parcel.json",
+    "parcels/ss3/parcel.json",
+    "parcels/ss8/parcel.json",
+    "parcels/c70/parcel.json",
+    "parcels/nx70/parcel.json",
+    "parcels/bogey-cw2/parcel.json",
+    "parcels/bogey-mkz/parcel.json",
+    "parcels/bogey-pk209p/parcel.json",
+    "parcels/bogey-qj/parcel.json",
+    "parcels/bogey-sw160/parcel.json",
+    "parcels/bogey-sw220k/parcel.json",
+    "parcels/bogey-tkz1/parcel.json",
+    "parcels/bogey-tkz2/parcel.json",
+    "parcels/bogey-zk6/parcel.json"
+  ]
+}

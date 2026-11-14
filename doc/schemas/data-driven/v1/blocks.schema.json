@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/blocks.schema.json",
+  "title": "方块内容文件",
+  "description": "BlockTypeHandler / BlockDef；block_entity 为 blocks[] 的内嵌字段",
+  "type": "object",
+  "properties": {
+    "blocks": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/block"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "blocks"
+  ]
+}

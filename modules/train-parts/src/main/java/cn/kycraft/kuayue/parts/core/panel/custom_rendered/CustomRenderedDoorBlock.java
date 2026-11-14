@@ -1,6 +1,5 @@
 package cn.kycraft.kuayue.parts.core.panel.custom_rendered;
 
-import cn.kycraft.kuayue.KuaYue;
 import cn.kycraft.kuayue.parts.core.panel.TrainPanelBlock;
 import cn.kycraft.kuayue.parts.core.panel.TrainPanelShapes;
 import cn.kycraft.kuayue.parts.core.panel.company.CompanyRegistry;
@@ -40,8 +39,8 @@ public class CustomRenderedDoorBlock extends TrainDoorBlock implements IBE<Custo
                                    Couple<ResourceLocation> rightDoorModels,
                                    RenderShape renderShape, boolean isSlideDoor) {
         super(pProperties);
-        this.leftDoorModels = Couple.create(block(leftDoorModels.get(true).getPath()), block(leftDoorModels.get(false).getPath()));
-        this.rightDoorModels = Couple.create(block(rightDoorModels.get(true).getPath()), block(rightDoorModels.get(false).getPath()));
+        this.leftDoorModels = Couple.create(block(leftDoorModels.get(true)), block(leftDoorModels.get(false)));
+        this.rightDoorModels = Couple.create(block(rightDoorModels.get(true)), block(rightDoorModels.get(false)));
         this.renderShape = renderShape;
         this.offset = Vec3.ZERO;
         this.openoffset = Vec3.ZERO;
@@ -67,8 +66,8 @@ public class CustomRenderedDoorBlock extends TrainDoorBlock implements IBE<Custo
                                    Vec3 openoffset,
                                    RenderShape renderShape, boolean isSlideDoor) {
         super(properties);
-        this.leftDoorModels = Couple.create(block(leftDoorModels.get(true).getPath()), block(leftDoorModels.get(false).getPath()));
-        this.rightDoorModels = Couple.create(block(rightDoorModels.get(true).getPath()), block(rightDoorModels.get(false).getPath()));
+        this.leftDoorModels = Couple.create(block(leftDoorModels.get(true)), block(leftDoorModels.get(false)));
+        this.rightDoorModels = Couple.create(block(rightDoorModels.get(true)), block(rightDoorModels.get(false)));
         this.renderShape = renderShape;
         this.offset = offset;
         this.openoffset = openoffset;
@@ -103,8 +102,11 @@ public class CustomRenderedDoorBlock extends TrainDoorBlock implements IBE<Custo
         return openoffset;
     }
 
-    private static PartialModel block(String path) {
-        return PartialModel.of(ResourceLocation.fromNamespaceAndPath(KuaYue.MODID, "block/" + path));
+    private static PartialModel block(ResourceLocation model) {
+        return PartialModel.of(ResourceLocation.fromNamespaceAndPath(
+                model.getNamespace(),
+                "block/" + model.getPath()
+        ));
     }
 
     @Override

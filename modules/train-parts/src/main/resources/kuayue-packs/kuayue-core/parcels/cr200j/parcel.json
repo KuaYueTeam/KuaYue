@@ -1,0 +1,9 @@
+{
+  "format_version": 1,
+  "id": "kuayue:cr200j",
+  "name_key": "parcel.kuayue.cr200j.name",
+  "description_key": "parcel.kuayue.cr200j.description",
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/cr200j.json"
+  ]
+}

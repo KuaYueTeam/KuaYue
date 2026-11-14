@@ -1,0 +1,9 @@
+{
+  "format_version": 1,
+  "id": "kuayue:m1",
+  "name_key": "parcel.kuayue.m1.name",
+  "description_key": "parcel.kuayue.m1.description",
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/m1.json"
+  ]
+}

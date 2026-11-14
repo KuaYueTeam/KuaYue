@@ -38,12 +38,10 @@ base {
 
 configurations {}
 
-sourceSets {
-    main {
-        resources {
-            srcDir "src/compiled/resources/"
-        }
-    }
+apply from: "corepack.gradle"
+
+tasks.named("compileResources") {
+    enabled = false
 }
 
 test {
@@ -90,6 +88,9 @@ neoForge {
             systemProperty 'forge.logging.markers', 'REGISTRIES'
 
             logLevel = org.slf4j.event.Level.DEBUG
+            if (System.getenv("KUAYUE_RUN_DIR")) {
+                gameDirectory = file(System.getenv("KUAYUE_RUN_DIR"))
+            }
         }
     }
 

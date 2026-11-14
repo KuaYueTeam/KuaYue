@@ -13,6 +13,10 @@ import lib.kasuga.registration.data_driven.context.BuildContext;
 import lib.kasuga.registration.data_driven.context.JsonRegistryGroup;
 import lib.kasuga.registration.data_driven.context.RegBuildContext;
 import lib.kasuga.registration.data_driven.dedup.EffectiveId;
+import lib.kasuga.registration.data_driven.pipeline.DefinitionKey;
+import lib.kasuga.registration.data_driven.pipeline.HandlerCapability;
+import lib.kasuga.registration.data_driven.pipeline.RegistryClaim;
+import lib.kasuga.registration.data_driven.validation.ValidationContext;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
@@ -33,6 +37,59 @@ public final class BogeyStyleTypeHandler implements TypeHandler<BogeyStyleDefini
     @Override
     public int getPhase() {
         return 50;
+    }
+
+    @Override
+    public Set<HandlerCapability> capabilities() {
+        return Set.of(
+                HandlerCapability.STRICT_PREFLIGHT,
+                HandlerCapability.REGISTRY_CLAIMS
+        );
+    }
+
+    @Override
+    public void validate(BogeyStyleDefinition definition, ValidationContext context) {
+        for (int index = 0; index < definition.variants().size(); index++) {
+            BogeyStyleDefinition.Variant variant = definition.variants().get(index);
+            String pointer = "/variants/" + index;
+            context.requireDefinition(
+                    new DefinitionKey(
+                            BogeyDataDrivenTypes.SIZES,
+                            EffectiveId.of(context.hostModId(), variant.size())
+                    ),
+                    pointer + "/size"
+            );
+            context.requireDefinition(
+                    new DefinitionKey(
+                            BogeyDataDrivenTypes.BLOCKS,
+                            EffectiveId.of(context.hostModId(), variant.block())
+                    ),
+                    pointer + "/block"
+            );
+            context.requireDefinition(
+                    new DefinitionKey(
+                            BogeyDataDrivenTypes.MODELS,
+                            EffectiveId.of(context.hostModId(), variant.model())
+                    ),
+                    pointer + "/model"
+            );
+        }
+        if (definition.registryGroup() != null) {
+            context.requireDefinition(
+                    new DefinitionKey("registry_groups", definition.registryGroup()),
+                    "/registry_group"
+            );
+        }
+    }
+
+    @Override
+    public List<RegistryClaim> claims(
+            BogeyStyleDefinition definition,
+            ValidationContext context
+    ) {
+        ResourceLocation style = ResourceLocation.parse(
+                EffectiveId.of(context.hostModId(), definition.id()));
+        return List.of(context.claim("create:bogey_style", style));
     }
 
     @Override
@@ -129,7 +186,6 @@ public final class BogeyStyleTypeHandler implements TypeHandler<BogeyStyleDefini
         }
 
         group.onCommitted(style -> registerModels(style, variants));
-        BogeyRuntimeRegistration.ensure(context);
         context.putReg(getTypeName(), definition.id(), group);
         context.putMeta(BogeyDataDrivenTypes.STYLE_REG, definition.id(), group);
         context.putMeta(BogeyDataDrivenTypes.STYLE_DEFINITION, definition.id(), definition);

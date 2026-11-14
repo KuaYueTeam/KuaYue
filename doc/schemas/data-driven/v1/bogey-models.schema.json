@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/bogey-models.schema.json",
+  "title": "转向架模型内容文件",
+  "description": "BogeyModelTypeHandler / BogeyModelDefinition",
+  "type": "object",
+  "properties": {
+    "bogey_models": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/bogeyModel"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "bogey_models"
+  ]
+}

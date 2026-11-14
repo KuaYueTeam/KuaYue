@@ -1,0 +1,9 @@
+{
+  "format_version": 1,
+  "id": "kuayue:c25k",
+  "name_key": "parcel.kuayue.c25k.name",
+  "description_key": "parcel.kuayue.c25k.description",
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/c25k.json"
+  ]
+}

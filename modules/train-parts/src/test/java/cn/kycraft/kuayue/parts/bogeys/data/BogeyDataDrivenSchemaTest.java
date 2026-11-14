@@ -175,6 +175,13 @@ class BogeyDataDrivenSchemaTest {
                 .getAsJsonObject()
                 .addProperty("default_style", "kuayue:loco");
         assertThrows(IllegalArgumentException.class, () -> parser.parseFile(wrongDefaultStyle));
+
+        JsonObject bareId = document.deepCopy();
+        bareId.getAsJsonArray("bogey_blocks")
+                .get(0)
+                .getAsJsonObject()
+                .addProperty("id", "pk209p_bogey");
+        assertThrows(RuntimeException.class, () -> parser.parseFile(bareId));
     }
 
     private static JsonObject readJson(Path path) throws IOException {

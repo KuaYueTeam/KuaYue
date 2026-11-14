@@ -1,0 +1,7 @@
+{
+  "block.sample_train.demo_floor": "Sample Train Floor",
+  "pack.sample_train.name": "Sample Train",
+  "pack.sample_train.description": "A minimal external pack for KuaYue integration testing.",
+  "parcel.sample_train.demo.name": "Sample Carriage",
+  "parcel.sample_train.demo.description": "Demo parcel"
+}

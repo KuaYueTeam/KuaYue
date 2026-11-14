@@ -1,0 +1,7 @@
+{
+  "block.integration_train.validation_car_floor": "验证车地板",
+  "pack.integration_train.name": "集成测试列车包",
+  "pack.integration_train.description": "用于验证注册与原生资源加载的完整外部车包。",
+  "parcel.integration_train.validation_car.name": "验证车",
+  "parcel.integration_train.validation_car.description": "以单个车型组织的测试 parcel，包含地板方块及其资源。"
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "sample_train:block/demo_floor"
+    },
+    "type=top": {
+      "model": "sample_train:block/demo_floor_top"
+    },
+    "type=double": {
+      "model": "minecraft:block/andesite"
+    }
+  }
+}

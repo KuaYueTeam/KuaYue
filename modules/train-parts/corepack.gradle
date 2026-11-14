@@ -1,0 +1,237 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+
+def corepackModelSources = [
+        "c22"        : ["carriages/22"],
+        "c25"        : ["carriages/25"],
+        "c25b"       : ["carriages/25b"],
+        "c25g"       : ["carriages/25g"],
+        "c25k"       : ["carriages/25k"],
+        "c25t"       : ["carriages/25t"],
+        "c25z"       : ["carriages/25z"],
+        "cr200j"     : ["carriages/cr200j", "locomotives/cr200j"],
+        "m1"         : ["carriages/m1"],
+        "jy30"       : ["carriages/jy30"],
+        "df11"       : ["locomotives/df11"],
+        "df11g"      : ["locomotives/df11g"],
+        "df21"       : ["locomotives/df21"],
+        "df5"        : ["locomotives/df5"],
+        "dfh21"      : ["locomotives/dfh21"],
+        "hxd3d"      : ["locomotives/hxd3d"],
+        "jy290"      : ["locomotives/jy290"],
+        "ss3"        : ["locomotives/ss3"],
+        "ss8"        : ["locomotives/ss8"],
+        "c70"        : ["freights/c70"],
+        "nx70"       : ["freights/nx70"],
+        "bogey-cw2"  : ["bogeys/cw2"],
+        "bogey-mkz"  : ["bogeys/mkz"],
+        "bogey-pk209p": ["bogeys/pk209p"],
+        "bogey-qj"   : ["bogeys/qj"],
+        "bogey-sw160": ["bogeys/sw160"],
+        "bogey-sw220k": ["bogeys/sw220k"],
+        "bogey-tkz1" : ["bogeys/tkz1"],
+        "bogey-tkz2" : ["bogeys/tkz2"],
+        "bogey-zk6"  : ["bogeys/zk6"],
+]
+
+def runtimeSources = ["common", "tracks", "seat", "toilet"]
+def sharedDataSources = ["bogeys/data-driven", "data-driven/shared"]
+def sourceRoot = file("resources")
+def corepackOutput = layout.buildDirectory.dir("generated/kuayue-corepack")
+def runtimeOutput = layout.buildDirectory.dir("generated/kuayue-runtime-resources")
+def runtimeInput = layout.buildDirectory.dir("tmp/kuayue-runtime-input")
+
+def selectedModelDirectories = {
+    corepackModelSources.values().flatten().collect { file("resources/${it}") }
+}
+
+def copyTree = { File source, File destination, Boolean includeModuleToml ->
+    if (!source.isDirectory()) {
+        return
+    }
+    Files.walk(source.toPath()).withCloseable { paths ->
+        paths.filter { Files.isRegularFile(it) }
+                .sorted()
+                .forEach { path ->
+                    String relative = source.toPath().relativize(path).toString().replace('\\', '/')
+                    if ((!includeModuleToml && relative == "module.toml")
+                            || relative.endsWith("/.DS_Store")
+                            || relative == ".DS_Store") {
+                        return
+                    }
+                    File target = new File(destination, relative)
+                    Files.createDirectories(target.parentFile.toPath())
+                    Files.copy(path, target.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                }
+    }
+}
+
+def copyDataWithoutTags = { File source, File destination ->
+    File dataRoot = new File(source, "data")
+    if (!dataRoot.isDirectory()) {
+        return
+    }
+    Files.walk(dataRoot.toPath()).withCloseable { paths ->
+        paths.filter { Files.isRegularFile(it) }
+                .sorted()
+                .forEach { path ->
+                    String relative = dataRoot.toPath().relativize(path).toString().replace('\\', '/')
+                    List<String> segments = relative.split("/").toList()
+                    if (segments.contains("tags") || relative.endsWith("/.DS_Store")) {
+                        return
+                    }
+                    File target = new File(new File(destination, "data"), relative)
+                    Files.createDirectories(target.parentFile.toPath())
+                    Files.copy(path, target.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                }
+    }
+}
+
+def deepMerge = { Map target, Map source ->
+    source.each { key, value ->
+        if (!target.containsKey(key)) {
+            target[key] = value
+        } else if (target[key] instanceof Map && value instanceof Map) {
+            deepMerge(target[key], value)
+        } else if (target[key] instanceof List && value instanceof List) {
+            target[key].addAll(value)
+        } else {
+            target[key] = value
+        }
+    }
+}
+
+def addJsonGroup = { Map<String, List<File>> groups, String target, File input ->
+    groups.computeIfAbsent(target, { [] }).add(input)
+}
+
+def writeMergedGroups = { Map<String, List<File>> groups, File destination ->
+    JsonSlurper json = new JsonSlurper()
+    groups.entrySet().sort { it.key }.each { entry ->
+        Map merged = [:]
+        entry.value.each { File input ->
+            deepMerge(merged, (Map) json.parse(input))
+        }
+        File target = new File(destination, entry.key)
+        Files.createDirectories(target.parentFile.toPath())
+        target.setText(JsonOutput.prettyPrint(JsonOutput.toJson(merged)) + System.lineSeparator(), "UTF-8")
+    }
+}
+
+def generateCorepack = tasks.register("generateKuaYueCorepack") {
+    group = "resources"
+    description = "Builds the real KuaYue corepack with one parcel per model."
+    notCompatibleWithConfigurationCache(
+            "The generated pack task uses legacy Gradle script closures."
+    )
+    inputs.dir(sourceRoot)
+    outputs.dir(corepackOutput)
+
+    doLast {
+        File output = corepackOutput.get().asFile
+        delete output
+        Files.createDirectories(output.toPath())
+
+        Map<String, List<File>> mergedLanguage = [:]
+        Map<String, List<File>> mergedTags = [:]
+
+        corepackModelSources.each { String parcelName, List<String> directories ->
+            File parcelRoot = new File(new File(output, "parcels"), parcelName)
+            Files.createDirectories(parcelRoot.toPath())
+
+            directories.each { String relativeSource ->
+                File source = new File(sourceRoot, relativeSource)
+                [
+                        "blockstates": "assets/kuayue/blockstates",
+                        "models"     : "assets/kuayue/models",
+                        "sounds"     : "assets/kuayue/sounds",
+                        "textures"   : "assets/kuayue/textures",
+                        "assets"     : "assets",
+                        "recipes"    : "data/kuayue/recipes",
+                        "loots"      : "data/kuayue/loot_tables",
+                        "scripts"    : "scripts",
+                ].each { category, destination ->
+                    copyTree(new File(source, category), new File(parcelRoot, destination), false)
+                }
+                copyDataWithoutTags(source, parcelRoot)
+
+                new File(source, "lang").listFiles()?.findAll { it.name.endsWith(".json") }?.each { File input ->
+                    addJsonGroup(mergedLanguage, "assets/kuayue/lang/${input.name}", input)
+                }
+                File tagRoot = new File(source, "tags")
+                if (tagRoot.isDirectory()) {
+                    Files.walk(tagRoot.toPath()).withCloseable { paths ->
+                        paths.filter { Files.isRegularFile(it) && it.fileName.toString().endsWith(".json") }
+                                .sorted()
+                                .forEach { path ->
+                                    String relative = tagRoot.toPath().relativize(path).toString().replace('\\', '/')
+                                    addJsonGroup(mergedTags, "data/kuayue/tags/${relative}", path.toFile())
+                                }
+                    }
+                }
+                File dataTagRoot = new File(source, "data")
+                if (dataTagRoot.isDirectory()) {
+                    Files.walk(dataTagRoot.toPath()).withCloseable { paths ->
+                        paths.filter {
+                            Files.isRegularFile(it)
+                                    && it.fileName.toString().endsWith(".json")
+                                    && it.toString().replace('\\', '/').contains("/tags/")
+                        }.sorted().forEach { path ->
+                            String relative = dataTagRoot.toPath().relativize(path).toString().replace('\\', '/')
+                            addJsonGroup(mergedTags, "data/${relative}", path.toFile())
+                        }
+                    }
+                }
+            }
+        }
+
+        sharedDataSources.each { String relativeSource ->
+            copyTree(
+                    new File(sourceRoot, relativeSource),
+                    new File(output, "parcels/shared"),
+                    false
+            )
+        }
+        writeMergedGroups(mergedLanguage, output)
+        writeMergedGroups(mergedTags, output)
+    }
+}
+
+def generateRuntime = tasks.register("generateKuaYueRuntimeResources") {
+    group = "resources"
+    description = "Compiles resources that stay outside the rolling-stock corepack."
+    notCompatibleWithConfigurationCache(
+            "The runtime resource task invokes JavaExec from a legacy Gradle script closure."
+    )
+    inputs.dir(sourceRoot)
+    outputs.dir(runtimeOutput)
+
+    doLast {
+        File staging = runtimeInput.get().asFile
+        File output = runtimeOutput.get().asFile
+        delete staging, output
+        Files.createDirectories(staging.toPath())
+        runtimeSources.each { String name ->
+            copyTree(new File(sourceRoot, name), new File(staging, name), true)
+        }
+        project.javaexec {
+            classpath = configurations.resourceCompilerDependency
+            mainClass = "lib.kasuga.resource.ResourceCompilerMain"
+            args(staging.absolutePath, output.absolutePath, project.property("mod_id"))
+        }
+    }
+}
+
+tasks.named("processResources") {
+    notCompatibleWithConfigurationCache(
+            "Depends on generated pack tasks that use legacy Gradle script closures."
+    )
+    dependsOn generateCorepack, generateRuntime
+    from(corepackOutput) {
+        into "kuayue-packs/kuayue-core"
+    }
+    from(runtimeOutput)
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "integration_train:block/validation_car_floor_bottom"
+    },
+    "type=top": {
+      "model": "integration_train:block/validation_car_floor_top"
+    },
+    "type=double": {
+      "model": "minecraft:block/quartz_block"
+    }
+  }
+}

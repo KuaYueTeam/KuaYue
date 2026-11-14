@@ -1,0 +1,7 @@
+{
+  "block.integration_train.validation_car_floor": "Validation Car Floor",
+  "pack.integration_train.name": "Integration Train",
+  "pack.integration_train.description": "A complete external KuaYue pack used to verify registration and native resources.",
+  "parcel.integration_train.validation_car.name": "Validation Car",
+  "parcel.integration_train.validation_car.description": "One test vehicle containing a floor block and its native resources."
+}
