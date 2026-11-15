@@ -74,7 +74,8 @@ public final class TechTreeClientEvents {
         if (!event.getEntity().level().isClientSide()) return;
         if (event.getEntity() != Minecraft.getInstance().player) return;
 
-        if (++tickCounter % 40 != 0) return;
+        if (++tickCounter % 10 != 0) return;
+        CarModelUiDemo.pruneStale();
         if (TechTreeBoard.isUiOpen()) {
             TechTreeRpc.open().run(new TechTreeRpc.OpenPayload(false))
                     .thenAccept(snapshot -> {

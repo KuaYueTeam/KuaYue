@@ -1,8 +1,8 @@
 package cn.kycraft.kuayue.content.techtree;
 
-import com.lowdragmc.lowdraglib2.gui.texture.ColorBorderTexture;
+import com.lowdragmc.lowdraglib2.gui.ui.ModularUI;
+import com.lowdragmc.lowdraglib2.gui.ui.UI;
 import com.lowdragmc.lowdraglib2.gui.ui.UIElement;
-import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import lib.kasuga.rendering.models.mc.Constants;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,48 +10,197 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 import org.appliedenergistics.yoga.YogaEdge;
 import org.appliedenergistics.yoga.YogaPositionType;
+import org.joml.Matrix4f;
 
 /**
- * Title, description and two buttons on the blueprint table model, built as LDLib2 UI elements.
+ * Blueprint table surface, laid flat on the model through Kasuga's world-UI backend.
  *
- * <p>The client requires LDLib2 for this surface, so it stays an element tree mounted through Kasuga's world
- * UI backend. Only these three groups live here: no panel, no background and no model.</p>
+ * <p>The element tree lives inside a {@link ModularUI}: text styles and Yoga layout only resolve through the
+ * UI that owns them. Drawing the tree directly with a detached context ignored every colour and every
+ * position, so all rows came out white and stacked at the origin.</p>
  */
-final class CarModelUi {
+final class CarModelUi implements net.minecraft.client.gui.layouts.LayoutElement,
+        net.minecraft.client.gui.components.events.GuiEventListener {
 
+    /** Panel size in GUI pixels. */
     static final int WIDTH = 200;
-    static final int HEIGHT = 200;
+    /** Compact panel: a tall one overflowed the tabletop and its rows landed on the model. */
+    static final int HEIGHT = 96;
 
-    /** Blue area of the model, in canvas pixels. */
-    static final int BLUE_X = 10;
-    static final int BLUE_Y = 40;
-    static final int BLUE_W = 180;
-    static final int BLUE_H = 90;
+    /** Row bands, in panel pixels. */
+    private static final float TITLE_TOP = -8f;
+    private static final float BODY_TOP = 0f;
+    private static final float BUTTON_TOP = 44f;
+    private static final float BUTTON_W = 80f;
+    private static final float BUTTON_H = 18f;
+    private static final float BUTTON_GAP = 90f;
 
-    /** Fixed bands: title line, body block, button row. */
-    private static final float TITLE_TOP = 6f;
-    private static final float BODY_TOP = 30f;
-    private static final float BUTTON_TOP = 132f;
+    /** World size of one GUI pixel. */
+    private static final float PIXEL = 0.0045f;
 
-    private static final float LIFT = -4f;
+    /** Panel centre offset from the table centre, in table-local blocks (X = right, Z = away). */
+    private static final float OFFSET_X = 0f;
+    private static final float OFFSET_Z = 0f;
 
-    private static final int INK = 0xFFFFF030;
-    private static final int INK_STRONG = 0xFFFFFFFF;
 
-    private final UIElement root = new UIElement();
+    private static final int INK = 0xFFFFFFFF;
+
+    private final ModularUI ui;
+    private final UIElement root;
+    /** Layout tree is built on first render; rendering before that throws inside taffy. */
+    private boolean initialised;
 
     private CarModelUi() {
+        root = new UIElement();
         root.setId("car_model_ui");
         root.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT));
-        root.addChild(blueFrame());
-        root.addChild(title());
-        root.addChild(body());
-        root.addChild(button("按钮A", 0));
-        root.addChild(button("按钮B", 1));
+
+        root.addChild(label("这是标题", 8f, TITLE_TOP, 0xFFFFF030));
+        root.addChild(paragraph("介绍介绍介绍介绍介绍介绍介绍介绍", 8f, BODY_TOP, WIDTH - 16, INK));
+        root.addChild(button("按钮A", 8f, BUTTON_TOP));
+        root.addChild(button("按钮B", 8f + BUTTON_GAP, BUTTON_TOP));
+
+        ui = ModularUI.of(UI.of(root));
+    }
+
+    /** Clickable button; the label is centred over the button box. */
+    private static UIElement button(String caption, float x, float y) {
+        UIElement holder = new UIElement();
+        holder.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                .setPosition(YogaEdge.LEFT, x)
+                .setPosition(YogaEdge.TOP, y)
+                .setWidth(BUTTON_W).setHeight(BUTTON_H));
+
+        var button = new com.lowdragmc.lowdraglib2.gui.ui.elements.Button();
+        button.setText(Component.literal(caption));
+        button.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                .setPosition(YogaEdge.LEFT, 0f)
+                .setPosition(YogaEdge.TOP, 0f)
+                .setWidth(BUTTON_W).setHeight(BUTTON_H));
+        button.setOnClick(event -> {
+            TechTreeSystem.LOGGER.info("Blueprint table button {} pressed", caption);
+            event.stopPropagation();
+        });
+        holder.addChild(button);
+        return holder;
+    }
+
+    /**
+     * Wrapping paragraph bounded by {@code maxWidth}.
+     *
+     * <p>Wrapping needs {@code adaptiveWidth(false)} plus an explicit width, otherwise the label sizes itself to
+     * the whole string and overflows the panel.</p>
+     */
+    private static UIElement paragraph(String caption, float x, float y, float maxWidth, int colour) {
+        UIElement holder = new UIElement();
+        holder.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                .setPosition(YogaEdge.LEFT, x)
+                .setPosition(YogaEdge.TOP, y)
+                .setWidth(maxWidth).setHeight(HEIGHT - 16));
+
+        Label label = new Label();
+        label.setText(Component.literal(caption));
+        label.textStyle(s -> s.textColor(colour)
+                .adaptiveWidth(false)
+                .adaptiveHeight(true)
+                .textWrap(com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap.WRAP));
+        label.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                .setPosition(YogaEdge.LEFT, 0f)
+                .setPosition(YogaEdge.TOP, 0f)
+                .setWidth(maxWidth));
+        holder.addChild(label);
+        return holder;
+    }
+
+    /** A label inside a positioned container; the container is what Yoga places. */
+    private static UIElement label(String caption, float x, float y, int colour) {
+        UIElement holder = new UIElement();
+        // Tall enough for a glyph row; a tight box clipped the text away entirely.
+        holder.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                .setPosition(YogaEdge.LEFT, x)
+                .setPosition(YogaEdge.TOP, y)
+                .setWidth(WIDTH - 16).setHeight(24));
+
+        Label label = new Label();
+        label.setText(Component.literal(caption));
+        label.textStyle(s -> s.textColor(colour).adaptiveWidth(true).adaptiveHeight(true));
+        holder.addChild(label);
+        return holder;
     }
 
     static CarModelUi of() {
         return new CarModelUi();
+    }
+
+    @Override public void setX(int x) {
+    }
+
+    @Override public void setY(int y) {
+    }
+
+    @Override public int getX() {
+        return 0;
+    }
+
+    @Override public int getY() {
+        return 0;
+    }
+
+    @Override public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override public int getHeight() {
+        return HEIGHT;
+    }
+
+    @Override public void visitWidgets(java.util.function.Consumer<net.minecraft.client.gui.components.AbstractWidget> consumer) {
+    }
+
+    // Input: the backend only registers an input surface for renderables that are GuiEventListeners, so the
+    // events have to be forwarded to the ModularUI widget, which dispatches them to the element tree.
+
+    private boolean focused;
+
+    /**
+     * Resolves the duplicate default of {@link LayoutElement} and
+     * {@link net.minecraft.client.gui.components.events.GuiEventListener}.
+     *
+     * <p>Kept at the panel's own frame: the backend uses this rect to place and clip the canvas, so a
+     * screen-space rect here made the panel disappear.</p>
+     */
+    @Override
+    public net.minecraft.client.gui.navigation.ScreenRectangle getRectangle() {
+        return new net.minecraft.client.gui.navigation.ScreenRectangle(getX(), getY(), WIDTH, HEIGHT);
+    }
+
+    @Override public void setFocused(boolean focused) {
+        this.focused = focused;
+        ui.getWidget().setFocused(focused);
+    }
+
+    @Override public boolean isFocused() {
+        return focused;
+    }
+
+    @Override public void mouseMoved(double mouseX, double mouseY) {
+        ui.getWidget().mouseMoved(mouseX, mouseY);
+    }
+
+    @Override public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        return ui.getWidget().mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        return ui.getWidget().mouseReleased(mouseX, mouseY, button);
+    }
+
+    @Override public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        return ui.getWidget().mouseDragged(mouseX, mouseY, button, dragX, dragY);
+    }
+
+    @Override public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        return ui.getWidget().mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
     UIElement root() {
@@ -59,67 +208,26 @@ final class CarModelUi {
     }
 
     void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        var context = com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext.of(null, graphics, mouseX, mouseY,
-                partialTick);
-        root.drawInBackground(context);
-        root.drawContents(context);
+        if (!initialised) {
+            // Builds the taffy layout tree and the widget; rendering beforehand hits a null node.
+            ui.init(WIDTH, HEIGHT);
+            initialised = true;
+        }
+        ui.getWidget().render(graphics, mouseX, mouseY, partialTick);
+        // The canvas shares the main buffer source; text batches must be submitted before the framebuffer is
+        // read, otherwise every glyph is dropped while rectangles still show.
+        graphics.flush();
     }
 
     void close() {
-    }
-
-    /** Red frame around the assumed blue area, for calibration. */
-    private static UIElement blueFrame() {
-        UIElement frame = new UIElement();
-        frame.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, (float) BLUE_X)
-                .setPosition(YogaEdge.TOP, (float) BLUE_Y)
-                .setWidth(BLUE_W).setHeight(BLUE_H));
-        frame.style(s -> s.background(new ColorBorderTexture(1, 0xFFFF3030)));
-        return frame;
-    }
-
-    private UIElement title() {
-        Label label = new Label();
-        label.setText(Component.literal("这是标题"));
-        label.textStyle(t -> t.textColor(INK_STRONG).adaptiveHeight(true));
-        label.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, (float) (BLUE_X + 2))
-                .setPosition(YogaEdge.TOP, TITLE_TOP + LIFT)
-                .setWidth(BLUE_W - 4));
-        return label;
-    }
-
-    private UIElement body() {
-        Label label = new Label();
-        label.setText(Component.literal("这是介绍，介绍介绍介绍介绍介绍介绍介绍介绍"));
-        label.textStyle(t -> t.textColor(INK).adaptiveHeight(true));
-        label.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, (float) (BLUE_X + 2))
-                .setPosition(YogaEdge.TOP, BODY_TOP + LIFT)
-                .setWidth(BLUE_W - 12).setHeight(90));
-        return label;
-    }
-
-    private UIElement button(String caption, int index) {
-        Button button = new Button();
-        button.setText(Component.literal(caption));
-        button.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, (float) (BLUE_X + 8 + index * 88))
-                .setPosition(YogaEdge.TOP, BUTTON_TOP + LIFT)
-                .setWidth(80).setHeight(18));
-        button.setOnClick(event -> {
-            TechTreeSystem.LOGGER.info("Blueprint table button {} pressed on table", caption);
-            event.stopPropagation();
-        });
-        return button;
+        ui.onRemoved();
     }
 
     Renderable renderable() {
         return this::render;
     }
 
-    Renderable attach(org.joml.Matrix4f localToWorld) {
+    Renderable attach(Matrix4f localToWorld) {
         Renderable renderable = renderable();
         if (Constants.UI_BACKEND != null) Constants.UI_BACKEND.addRenderable(renderable, localToWorld);
         return renderable;
@@ -128,17 +236,27 @@ final class CarModelUi {
     /**
      * Flat placement on the table top.
      *
-     * <p>Laid flat and turned with the table; both scales negative, which is the combination that keeps the
-     * plane readable from the front rather than mirrored or upside-down.</p>
+     * <p>Only the backend's own convention is used: local +X right, local +Y down. The XY plane is laid onto the
+     * table's XZ plane with the normal up, then mirrored with a 180 turn about the up axis rather than a
+     * negative scale, so the surface keeps its outward normal.</p>
      */
-    static org.joml.Matrix4f tableTopTransform(BlueprintTableBlockEntity table, float pixelsPerBlock) {
+    static Matrix4f tableTopTransform(BlueprintTableBlockEntity table) {
         var pos = table.getBlockPos();
-        return new org.joml.Matrix4f()
-                .translate(pos.getX() + 0.5f, pos.getY() + TechTreeBoard.TOP_Y + 0.51f, pos.getZ() + 0.5f)
-                .rotateY((float) Math.toRadians(table.yaw()))
-                .rotateX((float) Math.toRadians(-90.0f))
-                .scale(-pixelsPerBlock, -pixelsPerBlock, pixelsPerBlock);
-                // No half-size centring: the local origin is the canvas top-left, so element coordinates are
-                // used as authored.
+        double yaw = Math.toRadians(table.yaw());
+        // Offset is applied in the table's own frame, so nudging stays correct at any facing.
+        float localZ = OFFSET_Z;
+        float dx = (float) (Math.cos(yaw) * OFFSET_X + Math.sin(yaw) * localZ);
+        float dz = (float) (-Math.sin(yaw) * OFFSET_X + Math.cos(yaw) * localZ);
+        var matrix = new Matrix4f()
+                // Well clear of the tabletop: at 0.02 the panel lost the depth test against the table model and
+                // was hidden until the block was removed.
+                .translate(pos.getX() + 0.5f + dx, pos.getY() + TechTreeBoard.TOP_Y + 0.30f,
+                        pos.getZ() + 0.5f + dz)
+                .rotateY((float) yaw);
+        matrix.rotateY((float) Math.toRadians(180.0f));
+        matrix.rotateX((float) Math.toRadians(90.0f));
+        matrix.scale(PIXEL, PIXEL, PIXEL);
+        matrix.translate(-WIDTH * 0.5f, -HEIGHT * 0.5f, 0f);
+        return matrix;
     }
 }

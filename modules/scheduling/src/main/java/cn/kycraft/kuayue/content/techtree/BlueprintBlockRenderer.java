@@ -99,9 +99,9 @@ final class BlueprintBlockRenderer {
 
     /** Where the structure stands: the middle of the table top, lifted onto the visible surface. */
     /** How far the model sits toward the table's own left, in blocks. */
-    private static final double SEAT_LEFT = 0.22d;
+    private static final double SEAT_LEFT = 0.72d;
     /** How far the model sits toward the table's back edge (away from the player). */
-    private static final double SEAT_BACK = -0.25d;
+    private static final double SEAT_BACK = -0.55d;
 
     /**
      * Seat the model on the table's left half.
@@ -118,8 +118,10 @@ final class BlueprintBlockRenderer {
         double radians = Math.toRadians(yaw);
         // Local left of the model at yaw 0 is -X. After rotateY(yaw) a local (lx, 0, lz) maps to
         // (lx*cos + lz*sin, 0, -lx*sin + lz*cos), so local (-1, 0, 0) becomes (-cos, 0, +sin).
-        double dx = Math.cos(radians) * SEAT_LEFT + Math.sin(radians) * SEAT_BACK;
-        double dz = -Math.sin(radians) * SEAT_LEFT + Math.cos(radians) * SEAT_BACK;
+        // The seat is the table centre; the lateral shift is applied inside the model transform so it rotates
+        // with the model and reads the same from every facing.
+        double dx = 0;
+        double dz = 0;
         return new Vec3(table.getX() + 0.5d + dx,
                 table.getY() + TechTreeBoard.TOP_Y + TOP_LIFT, table.getZ() + 0.5d + dz);
     }
@@ -141,6 +143,8 @@ final class BlueprintBlockRenderer {
                 .translate((float) anchor.x, (float) anchor.y, (float) anchor.z)
                 .rotateY((float) Math.toRadians(yaw + TILT_YAW))
                 .scale(scale)
-                .translate(-dimensions.length() / 2f, 0f, -dimensions.width() / 2f);
+                // Half the structure plus the left/back shift, all in the model's own local frame.
+                .translate((float) (-dimensions.length() / 2.0 - SEAT_LEFT), 0f,
+                        (float) (-dimensions.width() / 2.0 + SEAT_BACK));
     }
 }

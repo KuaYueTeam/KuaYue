@@ -18,6 +18,9 @@ final class CarModelUiDemo {
     private record Mounted(CarModelUi ui, Renderable renderable) {
     }
 
+    /** Second probe: same surface, opposite lay-flat sign, shifted sideways. */
+    private static final Map<net.minecraft.core.BlockPos, Mounted> PROBES = new HashMap<>();
+
     /** Tables currently showing the model. */
     private static final java.util.Set<net.minecraft.core.BlockPos> MODEL = new java.util.HashSet<>();
     /** Title/description/buttons, mounted per table and independent of the model toggle. */
@@ -59,21 +62,46 @@ final class CarModelUiDemo {
         var pos = table.getBlockPos().immutable();
         if (OVERLAYS.containsKey(pos)) return;
         CarModelUi ui = CarModelUi.of();
-        Renderable renderable = ui.attach(CarModelUi.tableTopTransform(table, 0.006f));
+        Renderable renderable = ui.attach(CarModelUi.tableTopTransform(table));
         OVERLAYS.put(pos, new Mounted(ui, renderable));
+
     }
 
     private static void removeOverlay(net.minecraft.core.BlockPos pos) {
         Mounted mounted = OVERLAYS.remove(pos);
-        if (mounted == null) return;
-        if (Constants.UI_BACKEND != null) Constants.UI_BACKEND.removeRenderable(mounted.renderable());
-        mounted.ui().close();
+        if (mounted != null) {
+            if (Constants.UI_BACKEND != null) Constants.UI_BACKEND.removeRenderable(mounted.renderable());
+            mounted.ui().close();
+        }
+        Mounted probe = PROBES.remove(pos);
+        if (probe != null) {
+            if (Constants.UI_BACKEND != null) Constants.UI_BACKEND.removeRenderable(probe.renderable());
+            probe.ui().close();
+        }
     }
 
     /** Removes the model of one table; the overlay stays. */
     static void hide(net.minecraft.core.BlockPos pos) {
         MODEL.remove(pos);
         BlueprintBlockRenderer.unbind(pos);
+    }
+
+    /**
+     * Drops mounts whose table no longer exists.
+     *
+     * <p>{@code onRemove} is not guaranteed to run before the block entity is gone, so the mounts are
+     * validated against the level each tick instead of relying on that callback alone.</p>
+     */
+    static void pruneStale() {
+        var minecraft = net.minecraft.client.Minecraft.getInstance();
+        var level = minecraft.level;
+        if (level == null) return;
+        for (var pos : java.util.List.copyOf(MODEL)) {
+            if (!(level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity)) hide(pos);
+        }
+        for (var pos : java.util.List.copyOf(OVERLAYS.keySet())) {
+            if (!(level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity)) removeOverlay(pos);
+        }
     }
 
     static void closeAll() {
