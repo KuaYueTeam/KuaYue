@@ -29,7 +29,9 @@ import java.util.UUID;
  *     <li>车尾点所在区段由最近的绝缘节决定（{@code EdgeData#next(EdgePointType, double)} +
  *     {@code TrackEdgePoint#getLocationOn(TrackEdge)}），方向取 {@code isPrimary(node)}；</li>
  *     <li>车身中间跨过的绝缘节，取「进入一侧」的区段（{@link CircuitTraversal#enter(UUID)}）；</li>
- *     <li>被动区段（没有绝缘节分割的边）回落到图 id，对齐 Create 的 fallback signal group。</li>
+ *     <li>没有绝缘节分割的边（被动区段）不算区段：如实按「没有区段」返回，<b>不</b>拿图 id
+ *     之类的替代 UUID 顶上（Create 那边会落到 fallback signal group，KuaYue 的区段表里没有
+ *     这种条目，硬替只会把一个不存在的区段混进占用集合）。</li>
  * </ul>
  *
  * <p>与 Create 的差异：本方法不写任何状态、只返回结果，因此每 tick 都可以重算（幂等），
@@ -86,10 +88,9 @@ public final class TrainSignalCollector {
             }
         } else {
             UUID segmentId = signalDataExtra.getBoundaryFeature(segmentType);
-            if (segmentId != null) {
-                if (segmentId.equals(EdgeExtraData.passiveBoundaryGroup)) {
-                    segmentId = train.graph.id;
-                }
+            // 没有绝缘节分割的边不算轨道电路区段：如实按「没有区段」处理，不拿图 id 之类的
+            // 替代 UUID 顶上（KuaYue 的区段表里也没有图 id 对应的区段）。
+            if (segmentId != null && !segmentId.equals(EdgeExtraData.passiveBoundaryGroup)) {
                 traversal.startAt(segmentId);
             }
         }
