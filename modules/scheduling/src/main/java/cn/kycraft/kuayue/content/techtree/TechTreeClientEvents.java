@@ -38,6 +38,10 @@ public final class TechTreeClientEvents {
     @SubscribeEvent
     public static void onClientLogin(ClientPlayerNetworkEvent.LoggingIn event) {
         tickCounter = 0;
+        // Tables that already existed must show their panel immediately; waiting for an interaction left the
+        // surface invisible after every world join.
+        net.minecraft.client.Minecraft.getInstance().execute(CarModelUiDemo::mountExistingOverlays);
+
         // Warm the tree cache on join: the menu UI renders from ClientTreeState, and without a snapshot it
         // has no groups to lay out, so the table GUI would open as an empty board.
         TechTreeRpc.open().run(new TechTreeRpc.OpenPayload(false))

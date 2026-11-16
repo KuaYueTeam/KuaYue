@@ -20,7 +20,7 @@ import org.joml.Matrix4f;
  * position, so all rows came out white and stacked at the origin.</p>
  */
 final class CarModelUi implements net.minecraft.client.gui.layouts.LayoutElement,
-        net.minecraft.client.gui.components.events.GuiEventListener {
+        net.minecraft.client.gui.components.events.GuiEventListener, Renderable {
 
     /** Panel size in GUI pixels. */
     static final int WIDTH = 200;
@@ -40,13 +40,17 @@ final class CarModelUi implements net.minecraft.client.gui.layouts.LayoutElement
 
     /** Panel centre offset from the table centre, in table-local blocks (X = right, Z = away). */
     private static final float OFFSET_X = 0f;
-    private static final float OFFSET_Z = 0f;
+    private static final float OFFSET_Z = -0.125f;
 
 
     private static final int INK = 0xFFFFFFFF;
 
     private final ModularUI ui;
     private final UIElement root;
+    private int probeFrames;
+    /** The exact instance handed to the backend; containsListener compares by identity. */
+    private Renderable attached;
+
     /** Layout tree is built on first render; rendering before that throws inside taffy. */
     private boolean initialised;
 
@@ -207,11 +211,26 @@ final class CarModelUi implements net.minecraft.client.gui.layouts.LayoutElement
         return root;
     }
 
-    void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    @Override
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         if (!initialised) {
             // Builds the taffy layout tree and the widget; rendering beforehand hits a null node.
             ui.init(WIDTH, HEIGHT);
             initialised = true;
+        }
+        if (++probeFrames % 60 == 0 && Constants.UI_BACKEND != null) {
+            var router = Constants.UI_BACKEND.getInputRouter();
+            var screen = router.screenPosition(this, WIDTH * 0.5f, HEIGHT * 0.5f);
+            var mc = net.minecraft.client.Minecraft.getInstance();
+            double cx = mc.getWindow().getGuiScaledWidth() * 0.5;
+            double cy = mc.getWindow().getGuiScaledHeight() * 0.5;
+            var backend = Constants.UI_BACKEND;
+            TechTreeSystem.LOGGER.info(
+                    "PROBE screen={} crosshair=({},{}) gui={}x{} listenerRegistered={} renderables={} listeners={}",
+                    screen == null ? "none" : (int) screen.x + "," + (int) screen.y,
+                    (int) cx, (int) cy,
+                    mc.getWindow().getGuiScaledWidth(), mc.getWindow().getGuiScaledHeight(),
+                    backend.containsListener(attached), backend.renderableSize(), backend.listenerSize());
         }
         ui.getWidget().render(graphics, mouseX, mouseY, partialTick);
         // The canvas shares the main buffer source; text batches must be submitted before the framebuffer is
@@ -223,14 +242,16 @@ final class CarModelUi implements net.minecraft.client.gui.layouts.LayoutElement
         ui.onRemoved();
     }
 
-    Renderable renderable() {
-        return this::render;
-    }
-
+    /**
+     * Registers this object, not a lambda.
+     *
+     * <p>The backend asks the registered instance for its viewport size and its input surface, so handing it a
+     * {@code this::render} reference lost both: the panel drew correctly but could never be hit by a click.</p>
+     */
     Renderable attach(Matrix4f localToWorld) {
-        Renderable renderable = renderable();
-        if (Constants.UI_BACKEND != null) Constants.UI_BACKEND.addRenderable(renderable, localToWorld);
-        return renderable;
+        attached = this;
+        if (Constants.UI_BACKEND != null) Constants.UI_BACKEND.addRenderable(this, localToWorld);
+        return this;
     }
 
     /**
@@ -250,7 +271,7 @@ final class CarModelUi implements net.minecraft.client.gui.layouts.LayoutElement
         var matrix = new Matrix4f()
                 // Well clear of the tabletop: at 0.02 the panel lost the depth test against the table model and
                 // was hidden until the block was removed.
-                .translate(pos.getX() + 0.5f + dx, pos.getY() + TechTreeBoard.TOP_Y + 0.30f,
+                .translate(pos.getX() + 0.5f + dx, pos.getY() + TechTreeBoard.TOP_Y + 0.175f,
                         pos.getZ() + 0.5f + dz)
                 .rotateY((float) yaw);
         matrix.rotateY((float) Math.toRadians(180.0f));

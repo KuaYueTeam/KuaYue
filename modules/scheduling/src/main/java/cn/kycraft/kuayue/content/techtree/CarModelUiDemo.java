@@ -92,6 +92,26 @@ final class CarModelUiDemo {
      * <p>{@code onRemove} is not guaranteed to run before the block entity is gone, so the mounts are
      * validated against the level each tick instead of relying on that callback alone.</p>
      */
+    /**
+     * Mounts the panel on every blueprint table already in the level.
+     *
+     * <p>Called on join and whenever a chunk loads, so the surface is present without the player having to
+     * interact with the block first.</p>
+     */
+    static void mountExistingOverlays() {
+        var minecraft = net.minecraft.client.Minecraft.getInstance();
+        var level = minecraft.level;
+        if (level == null || minecraft.player == null) return;
+        int radius = 64;
+        var origin = minecraft.player.blockPosition();
+        for (var pos : net.minecraft.core.BlockPos.betweenClosed(
+                origin.offset(-radius, -radius, -radius), origin.offset(radius, radius, radius))) {
+            if (level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
+                ensureOverlay(table);
+            }
+        }
+    }
+
     static void pruneStale() {
         var minecraft = net.minecraft.client.Minecraft.getInstance();
         var level = minecraft.level;

@@ -99,9 +99,9 @@ final class BlueprintBlockRenderer {
 
     /** Where the structure stands: the middle of the table top, lifted onto the visible surface. */
     /** How far the model sits toward the table's own left, in blocks. */
-    private static final double SEAT_LEFT = 0.72d;
+    private static final double SEAT_LEFT = -0.375d;
     /** How far the model sits toward the table's back edge (away from the player). */
-    private static final double SEAT_BACK = -0.55d;
+    private static final double SEAT_BACK = -0.25d;
 
     /**
      * Seat the model on the table's left half.
@@ -140,11 +140,13 @@ final class BlueprintBlockRenderer {
     private static Matrix4f transform(Vec3 anchor, float yaw, BlockDimensions dimensions) {
         float scale = (float) (FIT_EXTENT / dimensions.longestAxis());
         return new Matrix4f()
-                .translate((float) anchor.x, (float) anchor.y, (float) anchor.z)
+                // Seat shift first, in world blocks: applying it after `scale` divided it by the model scale
+                // (about 0.002), which is why the model never appeared to move.
+                .translate((float) anchor.x + (float) -SEAT_LEFT, (float) anchor.y,
+                        (float) anchor.z + (float) SEAT_BACK)
                 .rotateY((float) Math.toRadians(yaw + TILT_YAW))
                 .scale(scale)
-                // Half the structure plus the left/back shift, all in the model's own local frame.
-                .translate((float) (-dimensions.length() / 2.0 - SEAT_LEFT), 0f,
-                        (float) (-dimensions.width() / 2.0 + SEAT_BACK));
+                // Centre the structure on that point.
+                .translate((float) (-dimensions.length() / 2.0), 0f, (float) (-dimensions.width() / 2.0));
     }
 }
