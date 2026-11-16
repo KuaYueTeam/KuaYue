@@ -5,6 +5,10 @@ import cn.kycraft.kuayue.packs.PackFileEntry;
 import cn.kycraft.kuayue.packs.PackLimits;
 import cn.kycraft.kuayue.packs.PackSourceKind;
 import cn.kycraft.kuayue.packs.ParcelManifest;
+import cn.kycraft.kuayue.packs.origin.SystemOriginTagIds;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lib.kasuga.core.resource.identity.ResourceUri;
 import lib.kasuga.core.resource.source.InputPolicy;
 import lib.kasuga.core.resource.source.ResourceSnapshot;
@@ -13,6 +17,7 @@ import lib.kasuga.core.resource.source.ResourceSourceDescriptor;
 import lib.kasuga.core.resource.source.ResourceSources;
 import lib.kasuga.registration.data_driven.source.ContentSource;
 import lib.kasuga.registration.data_driven.source.ContentSourceFactory;
+import lib.kasuga.registration.data_driven.source.SourceAccessException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -70,23 +75,65 @@ public final class PackResourceSnapshotter {
                 0,
                 ResourceSourceDescriptor.Origin.EXTERNAL
         );
-        ResourceSource live = pack.sourceKind() == PackSourceKind.ZIP
-                ? ResourceSources.archive(captureDescriptor, sourceRoot, policy)
-                : ResourceSources.mod(captureDescriptor, sourceRoot, policy);
+        ResourceSource live;
+        try {
+            live = pack.sourceKind() == PackSourceKind.ZIP
+                    ? ResourceSources.archive(captureDescriptor, sourceRoot, policy)
+                    : ResourceSources.mod(captureDescriptor, sourceRoot, policy);
+        } catch (SourceAccessException exception) {
+            throw classify(pack.packId(), "External pack input is invalid", exception);
+        }
 
         ResourceSnapshot source;
         try {
             source = live.capture();
-        } finally {
+        } catch (SourceAccessException exception) {
+            PackCaptureException classified = classify(
+                    pack.packId(),
+                    "External pack changed or failed validation",
+                    exception
+            );
+            try {
+                live.close();
+            } catch (IOException closeFailure) {
+                classified.addSuppressed(closeFailure);
+            }
+            throw classified;
+        } catch (IOException exception) {
+            PackCaptureException host = PackCaptureException.hostFailure(
+                    pack.packId(),
+                    "Unable to capture pack bytes",
+                    exception
+            );
+            try {
+                live.close();
+            } catch (IOException closeFailure) {
+                host.addSuppressed(closeFailure);
+            }
+            throw host;
+        }
+        try {
             live.close();
+        } catch (IOException closeFailure) {
+            try {
+                source.close();
+            } catch (IOException sourceCloseFailure) {
+                closeFailure.addSuppressed(sourceCloseFailure);
+            }
+            throw PackCaptureException.hostFailure(
+                    pack.packId(),
+                    "Unable to close live pack input after capture",
+                    closeFailure
+            );
         }
 
         Map<String, PackFileEntry> inventory = new LinkedHashMap<>();
-        pack.files().forEach(file -> inventory.put(file.physicalPath(), file));
-        List<RootDefinition> definitions = rootDefinitions(pack, firstRank);
         Map<String, ResourceSnapshot.Builder> builders = new LinkedHashMap<>();
         List<ResourceSource> sources = new ArrayList<>();
+        Throwable primaryFailure = null;
         try {
+            pack.files().forEach(file -> inventory.put(file.physicalPath(), file));
+            List<RootDefinition> definitions = rootDefinitions(pack, firstRank);
             for (RootDefinition definition : definitions) {
                 builders.put(
                         definition.rootId(),
@@ -98,23 +145,49 @@ public final class PackResourceSnapshotter {
                 if (entry == null || !isMinecraftResource(entry.logicalPath())) {
                     continue;
                 }
+                if (SystemOriginTagIds.isReservedDataPath(entry.logicalPath())) {
+                    throw PackCaptureException.ownerInput(
+                            pack.packId(),
+                            "Pack writes the reserved system-origin tag namespace: "
+                                    + entry.logicalPath(),
+                            null
+                    );
+                }
+                if ("pack.mcmeta".equals(entry.logicalPath())) {
+                    validatePackMetadata(pack.packId(), file);
+                }
                 RootDefinition definition = definitions.stream()
                         .filter(candidate -> Objects.equals(candidate.parcelId(), entry.parcelId()))
                         .findFirst()
                         .orElseThrow(() -> new IOException(
                                 "Pack file is not assigned to a root: " + entry.physicalPath()));
-                builders.get(definition.rootId()).add(
-                        ResourceUri.file(
-                                definition.descriptor().sourceId(),
-                                definition.rootId(),
-                                file.descriptor().uri().path()
-                        ),
-                        entry.logicalPath(),
-                        file.descriptor().type(),
-                        file.descriptor().subtype(),
-                        file.descriptor().tags(),
-                        file::open
-                );
+                try {
+                    builders.get(definition.rootId()).add(
+                            ResourceUri.file(
+                                    definition.descriptor().sourceId(),
+                                    definition.rootId(),
+                                    file.descriptor().uri().path()
+                            ),
+                            entry.logicalPath(),
+                            file.descriptor().type(),
+                            file.descriptor().subtype(),
+                            file.descriptor().tags(),
+                            file::open
+                    );
+                } catch (ResourceSnapshot.Builder.ValidationException exception) {
+                    throw PackCaptureException.ownerInput(
+                            pack.packId(),
+                            "Invalid captured resource " + entry.logicalPath() + ": "
+                                    + exception.getMessage(),
+                            exception
+                    );
+                } catch (IOException exception) {
+                    throw PackCaptureException.hostFailure(
+                            pack.packId(),
+                            "Unable to copy captured resource " + entry.logicalPath(),
+                            exception
+                    );
+                }
             }
 
             List<CapturedRoot> roots = new ArrayList<>();
@@ -124,9 +197,12 @@ public final class PackResourceSnapshotter {
                     Set<String> actual = builders.get(definition.rootId()).logicalPaths();
                     for (String index : definition.declaredIndexes()) {
                         if (!actual.contains(index)) {
-                            throw new IOException(
+                            throw PackCaptureException.ownerInput(
+                                    pack.packId(),
                                     "Parcel " + definition.parcelId()
-                                            + " declares missing index " + index);
+                                            + " declares missing index " + index,
+                                    null
+                            );
                         }
                     }
                 }
@@ -143,24 +219,59 @@ public final class PackResourceSnapshotter {
                 ));
             }
             return new CapturedPack(pack.packId(), List.copyOf(roots), nextRank);
-        } catch (IOException | RuntimeException failure) {
-            for (ResourceSource captured : sources) {
-                try {
-                    captured.close();
-                } catch (IOException closeFailure) {
-                    failure.addSuppressed(closeFailure);
-                }
-            }
+        } catch (IOException failure) {
+            primaryFailure = failure;
+            closeCapturedSources(sources, failure);
+            throw failure;
+        } catch (RuntimeException failure) {
+            primaryFailure = failure;
+            closeCapturedSources(sources, failure);
+            throw failure;
+        } catch (Error failure) {
+            primaryFailure = failure;
+            closeCapturedSources(sources, failure);
             throw failure;
         } finally {
+            IOException cleanup = null;
             for (ResourceSnapshot.Builder builder : builders.values()) {
                 try {
                     builder.close();
-                } catch (IOException ignored) {
-                    // Successfully built root snapshots are owned by their fixed sources.
+                } catch (IOException closeFailure) {
+                    if (cleanup == null) cleanup = closeFailure;
+                    else cleanup.addSuppressed(closeFailure);
                 }
             }
-            source.close();
+            try {
+                source.close();
+            } catch (IOException closeFailure) {
+                if (cleanup == null) cleanup = closeFailure;
+                else cleanup.addSuppressed(closeFailure);
+            }
+            if (cleanup != null) {
+                if (primaryFailure != null) {
+                    primaryFailure.addSuppressed(cleanup);
+                } else {
+                    throw cleanup;
+                }
+            }
+        }
+    }
+
+    private static void closeCapturedSources(
+            List<ResourceSource> sources,
+            Throwable failure
+    ) {
+        IOException cleanup = null;
+        for (ResourceSource captured : sources) {
+            try {
+                captured.close();
+            } catch (IOException closeFailure) {
+                if (cleanup == null) cleanup = closeFailure;
+                else cleanup.addSuppressed(closeFailure);
+            }
+        }
+        if (cleanup != null) {
+            failure.addSuppressed(cleanup);
         }
     }
 
@@ -168,7 +279,7 @@ public final class PackResourceSnapshotter {
             throws IOException {
         List<RootDefinition> definitions = new ArrayList<>();
         long nextRank = firstRank;
-        int mainRank = checkedRank(nextRank++);
+        int mainRank = checkedRank(nextRank++, pack.packId());
         definitions.add(new RootDefinition(
                 "main",
                 null,
@@ -193,14 +304,21 @@ public final class PackResourceSnapshotter {
                     .map(PackFileEntry::parcelId)
                     .filter(Objects::nonNull)
                     .findFirst()
-                    .orElseThrow(() -> new IOException(
-                            "Cannot resolve parcel manifest root: " + parcelPath));
+                    .orElseThrow(() -> PackCaptureException.ownerInput(
+                            pack.packId(),
+                            "Cannot resolve parcel manifest root: " + parcelPath,
+                            null
+                    ));
             ParcelManifest parcel = pack.parcels().get(parcelId);
             if (parcel == null) {
-                throw new IOException("Missing parcel manifest: " + parcelPath);
+                throw PackCaptureException.ownerInput(
+                        pack.packId(),
+                        "Missing parcel manifest: " + parcelPath,
+                        null
+                );
             }
             String rootId = "parcel-" + folder;
-            int rank = checkedRank(nextRank++);
+            int rank = checkedRank(nextRank++, pack.packId());
             definitions.add(new RootDefinition(
                     rootId,
                     parcel.id(),
@@ -218,9 +336,13 @@ public final class PackResourceSnapshotter {
         return List.copyOf(definitions);
     }
 
-    private static int checkedRank(long rank) throws IOException {
+    private static int checkedRank(long rank, String packId) throws IOException {
         if (rank > Integer.MAX_VALUE) {
-            throw new IOException("Resource root rank overflow");
+            throw PackCaptureException.hostFailure(
+                    packId,
+                    "Resource root rank overflow",
+                    null
+            );
         }
         return (int) rank;
     }
@@ -230,6 +352,77 @@ public final class PackResourceSnapshotter {
                 || path.equals("pack.png")
                 || path.startsWith("assets/")
                 || path.startsWith("data/");
+    }
+
+    private static PackCaptureException classify(
+            String packId,
+            String message,
+            SourceAccessException failure
+    ) {
+        String detail = message + ": " + failure.getMessage();
+        return failure.reason() == SourceAccessException.Reason.IO_ERROR
+                || failure.reason() == SourceAccessException.Reason.SOURCE_CLOSED
+                ? PackCaptureException.hostFailure(packId, detail, failure)
+                : PackCaptureException.ownerInput(packId, detail, failure);
+    }
+
+    private static void validatePackMetadata(
+            String packId,
+            ResourceSnapshot.LocatedResourceFile file
+    ) throws IOException {
+        JsonElement root;
+        try {
+            root = JsonParser.parseString(new String(
+                    file.readBytes(),
+                    java.nio.charset.StandardCharsets.UTF_8
+            ));
+        } catch (RuntimeException failure) {
+            throw PackCaptureException.ownerInput(
+                    packId,
+                    "pack.mcmeta is not valid JSON",
+                    failure
+            );
+        }
+        if (!root.isJsonObject()) {
+            throw PackCaptureException.ownerInput(
+                    packId,
+                    "pack.mcmeta must contain a JSON object",
+                    null
+            );
+        }
+        JsonObject object = root.getAsJsonObject();
+        JsonElement pack = object.get("pack");
+        if (pack == null || !pack.isJsonObject()) {
+            throw PackCaptureException.ownerInput(
+                    packId,
+                    "pack.mcmeta is missing the pack object",
+                    null
+            );
+        }
+        JsonObject metadata = pack.getAsJsonObject();
+        boolean validFormat = false;
+        if (metadata.has("pack_format")
+                && metadata.get("pack_format").isJsonPrimitive()
+                && metadata.getAsJsonPrimitive("pack_format").isNumber()) {
+            try {
+                metadata.get("pack_format").getAsBigDecimal().intValueExact();
+                validFormat = true;
+            } catch (ArithmeticException | NumberFormatException ignored) {
+            }
+        }
+        JsonElement description = metadata.get("description");
+        boolean validDescription = description != null
+                && (description.isJsonObject()
+                || description.isJsonArray()
+                || description.isJsonPrimitive()
+                && description.getAsJsonPrimitive().isString());
+        if (!validDescription || !validFormat) {
+            throw PackCaptureException.ownerInput(
+                    packId,
+                    "pack.mcmeta requires description and integer pack_format",
+                    null
+            );
+        }
     }
 
     private record RootDefinition(

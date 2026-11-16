@@ -205,7 +205,7 @@ find modules/train-parts/build/generated/kuayue-corepack/parcels \
   -exec basename {} \; | sort
 ```
 
-当前应为 31 个目录：21 个车型相关 parcel、9 个转向架 parcel 和 `shared`。C70 与 NX70 分别拥有自己的 parcel 和索引，不得再建立 `freight` 这类大分类 parcel。
+当前目录数、parcel 数和名称以生成的 `pack.json` 为准。corepack 只允许车厢版和转向架 parcel；轨道、餐食及其他不属于这两类的资源不得放进 corepack。
 
 检查非法根索引：
 

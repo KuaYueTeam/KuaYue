@@ -39,6 +39,16 @@ public final class BogeySizeTypeHandler implements TypeHandler<BogeySizeDefiniti
     }
 
     @Override
+    public boolean strictValidationImplemented() {
+        return true;
+    }
+
+    @Override
+    public void validate(BogeySizeDefinition definition, ValidationContext context) {
+        // The parsed record owns wheel-radius validation; claims cover the runtime identity.
+    }
+
+    @Override
     public List<RegistryClaim> claims(
             BogeySizeDefinition definition,
             ValidationContext context

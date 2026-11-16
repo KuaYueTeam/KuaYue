@@ -11,6 +11,7 @@ import lib.kasuga.registration.data_driven.context.JsonRegistryGroup;
 import lib.kasuga.registration.data_driven.context.RegBuildContext;
 import lib.kasuga.registration.data_driven.dedup.EffectiveId;
 import lib.kasuga.registration.data_driven.json.DataJson;
+import lib.kasuga.registration.data_driven.pipeline.BuildDiagnostic;
 import lib.kasuga.registration.data_driven.pipeline.DefinitionKey;
 import lib.kasuga.registration.data_driven.pipeline.HandlerCapability;
 import lib.kasuga.registration.data_driven.pipeline.RegistryClaim;
@@ -77,6 +78,11 @@ public final class TrackTypeHandler implements TypeHandler<TrackDefinition> {
     }
 
     @Override
+    public boolean strictValidationImplemented() {
+        return true;
+    }
+
+    @Override
     public void validate(TrackDefinition definition, ValidationContext context) {
         context.requireDefinition(
                 new DefinitionKey("registry_groups", definition.registryGroup()),
@@ -104,15 +110,54 @@ public final class TrackTypeHandler implements TypeHandler<TrackDefinition> {
                     "Use 'simple_track'."
             );
         }
+        for (var issue : JsonPropertyParser.getInstance().validateStrict(definition.properties())) {
+            context.error(
+                    BuildDiagnostic.Code.CONTENT_INVALID,
+                    "/properties" + issue.relativeJsonPointer(),
+                    issue.message(),
+                    "Fix the track block property according to the strict schema."
+            );
+        }
+        for (var issue : JsonItemParser.INSTANCE.validateStrict(definition.itemProperties())) {
+            context.error(
+                    BuildDiagnostic.Code.CONTENT_INVALID,
+                    "/item_properties" + issue.relativeJsonPointer(),
+                    issue.message(),
+                    "Fix the track item property according to the strict schema."
+            );
+        }
+        for (int index = 0; index < definition.material().sleepers().size(); index++) {
+            ResourceLocation sleeper = ResourceLocation.parse(
+                    definition.material().sleepers().get(index)
+            );
+            if (net.minecraft.core.registries.BuiltInRegistries.BLOCK.containsKey(sleeper)) {
+                continue;
+            }
+            boolean sameStartupDefinition = context.find(new DefinitionKey(
+                    "blocks",
+                    EffectiveId.of(context.hostModId(), sleeper.toString())
+            )).isPresent();
+            context.error(
+                    BuildDiagnostic.Code.MISSING_REFERENCE,
+                    "/material/sleepers/" + index,
+                    sameStartupDefinition
+                            ? "Sleeper '" + sleeper
+                            + "' is registered later in this startup and is not supported"
+                            : "Sleeper block '" + sleeper + "' is not registered",
+                    "Use an already registered sleeper block."
+            );
+        }
     }
 
     @Override
     public List<RegistryClaim> claims(TrackDefinition definition, ValidationContext context) {
         ResourceLocation id = ResourceLocation.parse(
                 EffectiveId.of(context.hostModId(), definition.id()));
+        ResourceLocation materialId = ResourceLocation.parse(definition.material().id());
         return List.of(
-                context.claim("minecraft:block", id),
-                context.claim("minecraft:item", id)
+                context.claimAt("minecraft:block", id, "/id"),
+                context.claimAt("minecraft:item", id, "/id"),
+                context.claimAt("create:track_material", materialId, "/material/id")
         );
     }
 

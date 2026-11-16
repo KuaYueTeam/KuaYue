@@ -2,6 +2,7 @@ package cn.kycraft.kuayue.packs;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +29,17 @@ public final class PackDiscovery {
             PackLimits limits,
             VersionComparator modComparator
     ) {
+        return discover(gameDirectory, environment, corepack, limits, modComparator, false);
+    }
+
+    public static PackDiscoveryResult discover(
+            Path gameDirectory,
+            PackRuntimeEnvironment environment,
+            CorePackDescriptor corepack,
+            PackLimits limits,
+            VersionComparator modComparator,
+            boolean corepackDisabled
+    ) {
         Objects.requireNonNull(gameDirectory, "gameDirectory");
         Objects.requireNonNull(environment, "environment");
         Objects.requireNonNull(limits, "limits");
@@ -39,6 +51,21 @@ public final class PackDiscovery {
         Path packsDirectory = gameDirectory.resolve("kuayue").resolve("packs");
 
         PackConfigStore.LoadResult configResult = PackConfigStore.load(configPath, limits);
+        if (corepackDisabled && !configResult.hasBlockingErrors()) {
+            PackConfig config = configResult.document().config();
+            LinkedHashMap<String, Boolean> enabled = new LinkedHashMap<>(config.enabled());
+            enabled.put(PackManifest.CORE_PACK_ID, false);
+            PackConfig disabled = new PackConfig(
+                    config.formatVersion(),
+                    enabled,
+                    config.order(),
+                    config.inventory()
+            );
+            configResult = new PackConfigStore.LoadResult(
+                    configResult.document().withConfig(disabled),
+                    configResult.diagnostics()
+            );
+        }
         PackCatalog catalog = scan(packsDirectory, limits);
         List<PackDiagnostic> diagnostics = new ArrayList<>();
         diagnostics.addAll(configResult.diagnostics());
@@ -75,7 +102,8 @@ public final class PackDiscovery {
                 environment,
                 null,
                 PackLimits.defaults(),
-                VersionComparator.semantic());
+                VersionComparator.semantic()
+        );
     }
 
     public static PackDiscoveryResult discover(
@@ -88,12 +116,14 @@ public final class PackDiscovery {
                 environment,
                 corepack,
                 PackLimits.defaults(),
-                VersionComparator.semantic());
+                VersionComparator.semantic()
+        );
     }
 
     private static java.util.Set<String> installedIds(PackCatalog catalog) {
-        return catalog.packs().stream()
-                .map(DiscoveredPack::packId)
+        return catalog.installations().stream()
+                .map(PackInstallation::packId)
+                .filter(Objects::nonNull)
                 .collect(java.util.stream.Collectors.toUnmodifiableSet());
     }
 }

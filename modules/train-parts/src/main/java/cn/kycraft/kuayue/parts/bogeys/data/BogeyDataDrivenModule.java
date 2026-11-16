@@ -34,6 +34,11 @@ public final class BogeyDataDrivenModule {
                 return properties;
             };
         });
+        JsonPropertyParser.getInstance().registerStrictCompiler(
+                "netherite_block",
+                value -> value != null && value.isJsonPrimitive()
+                        && value.getAsJsonPrimitive().isBoolean()
+        );
         TypeHandlerRegistry.register(new BogeySizeTypeHandler());
         TypeHandlerRegistry.register(new BogeyMotionTypeHandler());
         TypeHandlerRegistry.register(new BogeyModelTypeHandler());

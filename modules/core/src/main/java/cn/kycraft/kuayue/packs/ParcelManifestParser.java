@@ -7,7 +7,10 @@ import java.util.Set;
 
 final class ParcelManifestParser {
     private static final Set<String> KEYS = Set.of(
-            "format_version", "id", "name_key", "description_key", "icon", "indexes");
+            "format_version", "id", "name_key", "description_key", "icon", "indexes",
+            "creative_filter");
+    private static final Set<String> CREATIVE_FILTER_KEYS =
+            Set.of("tab", "icon_item", "item_tags", "items");
     private static final Set<String> REQUIRED_KEYS =
             Set.of("format_version", "id", "name_key", "indexes");
 
@@ -90,9 +93,72 @@ final class ParcelManifestParser {
             indexes.add(indexPath);
         }
 
+        CreativeFilter creativeFilter = parseCreativeFilter(root);
         return new ParcelManifest(
                 1, id, JsonProtocol.requireString(root, "name_key", ""),
-                description, icon, indexes);
+                description, icon, indexes, creativeFilter);
+    }
+
+    private CreativeFilter parseCreativeFilter(JsonValue root) {
+        if (!root.has("creative_filter")) return null;
+        JsonValue filter = JsonProtocol.requireObject(root, "creative_filter", "");
+        JsonProtocol.requireExactKeys(filter, CREATIVE_FILTER_KEYS, "/creative_filter");
+        JsonProtocol.requirePresent(filter, Set.of("tab"), "/creative_filter");
+        String tab = JsonProtocol.requireString(filter, "tab", "/creative_filter");
+        requireResourceLocation(tab, "/creative_filter/tab");
+        String iconItem = filter.has("icon_item")
+                ? JsonProtocol.requireString(filter, "icon_item", "/creative_filter")
+                : null;
+        if (iconItem != null) {
+            requireResourceLocation(iconItem, "/creative_filter/icon_item");
+        }
+        List<String> itemTags = parseSelectorList(filter, "item_tags");
+        List<String> items = parseSelectorList(filter, "items");
+        if (itemTags.isEmpty() && items.isEmpty()) {
+            throw JsonProtocol.invalid(
+                    "/creative_filter",
+                    "creative_filter requires item_tags or items"
+            );
+        }
+        return new CreativeFilter(tab, iconItem, itemTags, items);
+    }
+
+    private List<String> parseSelectorList(JsonValue filter, String field) {
+        if (!filter.has(field)) return List.of();
+        JsonValue array = JsonProtocol.requireArray(filter, field, "/creative_filter");
+        List<String> values = new ArrayList<>(array.size());
+        Set<String> unique = new LinkedHashSet<>();
+        for (int index = 0; index < array.size(); index++) {
+            JsonValue value = array.elements().get(index);
+            if (!value.isString() || value.asString().isEmpty()) {
+                throw JsonProtocol.invalid(
+                        "/creative_filter/" + field + "/" + index,
+                        "Selector entries must be non-empty strings"
+                );
+            }
+            String id = value.asString();
+            requireResourceLocation(id, "/creative_filter/" + field + "/" + index);
+            if (!unique.add(id)) {
+                throw JsonProtocol.invalid(
+                        "/creative_filter/" + field + "/" + index,
+                        "Duplicate selector: " + id
+                );
+            }
+            values.add(id);
+        }
+        if (values.isEmpty()) {
+            throw JsonProtocol.invalid(
+                    "/creative_filter/" + field,
+                    field + " must not be empty when present"
+            );
+        }
+        return List.copyOf(values);
+    }
+
+    private static void requireResourceLocation(String value, String pointer) {
+        if (!PackPathRules.isResourceLocation(value)) {
+            throw JsonProtocol.invalid(pointer, "Invalid resource location: " + value);
+        }
     }
 
     private String indexNamespace(String path) {

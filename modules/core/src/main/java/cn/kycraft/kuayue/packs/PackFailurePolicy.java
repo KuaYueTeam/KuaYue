@@ -18,7 +18,10 @@ public final class PackFailurePolicy {
      */
     public static boolean isFatalDiscoveryDiagnostic(PackDiagnostic diagnostic) {
         Objects.requireNonNull(diagnostic, "diagnostic");
-        return diagnostic.blocking() && diagnostic.stage() == PackStage.CONFIG;
+        return diagnostic.blocking()
+                && (diagnostic.stage() == PackStage.CONFIG
+                || diagnostic.stage() == PackStage.DISCOVERY
+                && diagnostic.ownerId() == null);
     }
 
     /**

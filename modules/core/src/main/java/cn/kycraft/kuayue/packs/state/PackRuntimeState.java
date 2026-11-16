@@ -2,10 +2,12 @@ package cn.kycraft.kuayue.packs.state;
 
 import cn.kycraft.kuayue.packs.PackConfig;
 import cn.kycraft.kuayue.packs.PackManifest;
+import lib.kasuga.registration.data_driven.pipeline.RegistryClaim;
 
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Collection;
+import java.util.List;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -15,11 +17,13 @@ import java.util.Set;
 public final class PackRuntimeState {
     private static volatile PackConfig config;
     private static volatile Set<String> registeredPackIds = Set.of();
+    private static volatile List<RegistryClaim> registrationClaims = List.of();
     private static volatile boolean registrationSelectionFinalized;
 
     public static synchronized void install(PackConfig snapshot) {
         config = Objects.requireNonNull(snapshot, "snapshot");
         registeredPackIds = Set.of();
+        registrationClaims = List.of();
         registrationSelectionFinalized = false;
     }
 
@@ -48,17 +52,31 @@ public final class PackRuntimeState {
         return registrationSelectionFinalized;
     }
 
+    public static List<RegistryClaim> registrationClaims() {
+        return registrationClaims;
+    }
+
     public static synchronized void updateRegistrationSelection(
             Collection<String> activePackIds
     ) {
+        updateRegistrationSelection(activePackIds, List.of());
+    }
+
+    public static synchronized void updateRegistrationSelection(
+            Collection<String> activePackIds,
+            Collection<RegistryClaim> claims
+    ) {
         Objects.requireNonNull(activePackIds, "activePackIds");
+        Objects.requireNonNull(claims, "claims");
         registeredPackIds = Set.copyOf(new LinkedHashSet<>(activePackIds));
+        registrationClaims = List.copyOf(claims);
         registrationSelectionFinalized = true;
     }
 
     public static synchronized void resetForTests() {
         config = null;
         registeredPackIds = Set.of();
+        registrationClaims = List.of();
         registrationSelectionFinalized = false;
     }
 

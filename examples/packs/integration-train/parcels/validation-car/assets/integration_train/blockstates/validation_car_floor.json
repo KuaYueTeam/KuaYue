@@ -1,13 +1,16 @@
 {
   "variants": {
-    "type=bottom": {
+    "facing=north": {
       "model": "integration_train:block/validation_car_floor_bottom"
     },
-    "type=top": {
-      "model": "integration_train:block/validation_car_floor_top"
+    "facing=east": {
+      "model": "integration_train:block/validation_car_floor_bottom"
     },
-    "type=double": {
-      "model": "minecraft:block/quartz_block"
+    "facing=south": {
+      "model": "integration_train:block/validation_car_floor_bottom"
+    },
+    "facing=west": {
+      "model": "integration_train:block/validation_car_floor_bottom"
     }
   }
 }

@@ -9,6 +9,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -30,13 +31,35 @@ import java.util.zip.ZipFile;
 
 final class PackScanner {
     private static final String PACK_MANIFEST_PATH = "pack.json";
+    private static final String PACK_ICON_PATH = PackIcon.FILE_NAME;
 
     PackCatalog scan(Path packsDirectory, PackLimits limits) {
-        if (!Files.exists(packsDirectory, LinkOption.NOFOLLOW_LINKS)) {
+        BasicFileAttributes rootAttributes;
+        try {
+            rootAttributes = Files.readAttributes(
+                    packsDirectory,
+                    BasicFileAttributes.class,
+                    LinkOption.NOFOLLOW_LINKS
+            );
+        } catch (NoSuchFileException missing) {
             return new PackCatalog(List.of(), List.of(), List.of());
+        } catch (IOException exception) {
+            return new PackCatalog(
+                    List.of(),
+                    List.of(),
+                    List.of(PackDiagnostic.error(
+                            PackDiagnosticCodes.IO_ERROR,
+                            PackStage.DISCOVERY,
+                            null,
+                            "packs-directory",
+                            "kuayue/packs",
+                            "",
+                            "Unable to inspect pack installation root: "
+                                    + exception.getMessage()
+                    ))
+            );
         }
-        if (Files.isSymbolicLink(packsDirectory)
-                || !Files.isDirectory(packsDirectory, LinkOption.NOFOLLOW_LINKS)) {
+        if (rootAttributes.isSymbolicLink() || !rootAttributes.isDirectory()) {
             PackDiagnostic diagnostic = PackDiagnostic.error(
                     PackDiagnosticCodes.UNSAFE_PATH,
                     PackStage.DISCOVERY,
@@ -67,22 +90,48 @@ final class PackScanner {
         List<PackScanOutcome> outcomes = new ArrayList<>();
         for (Path child : children) {
             String name = child.getFileName().toString();
-            if (Files.isSymbolicLink(child)) {
+            BasicFileAttributes attributes;
+            try {
+                attributes = Files.readAttributes(
+                        child,
+                        BasicFileAttributes.class,
+                        LinkOption.NOFOLLOW_LINKS
+                );
+            } catch (IOException exception) {
+                String owner = sourceId("directory", name);
+                outcomes.add(PackScanOutcome.failure(
+                        owner,
+                        PackSourceKind.DIRECTORY,
+                        name,
+                        PackDiagnostic.error(
+                                PackDiagnosticCodes.IO_ERROR,
+                                PackStage.DISCOVERY,
+                                owner,
+                                owner,
+                                "kuayue/packs/" + name,
+                                "",
+                                "Unable to inspect pack installation: "
+                                        + exception.getMessage()
+                        )
+                ));
+                continue;
+            }
+            if (attributes.isSymbolicLink()) {
                 outcomes.add(PackScanOutcome.failure(
                         sourceId("directory", name), PackSourceKind.DIRECTORY, name,
                         PackDiagnostic.error(
                                 PackDiagnosticCodes.UNSAFE_PATH,
                                 PackStage.DISCOVERY,
-                                null,
+                                sourceId("directory", name),
                                 sourceId("directory", name),
                                 "kuayue/packs/" + name,
                                 "",
                                 "Symbolic-link installations are not allowed")));
                 continue;
             }
-            if (Files.isDirectory(child, LinkOption.NOFOLLOW_LINKS)) {
+            if (attributes.isDirectory()) {
                 outcomes.add(scanDirectory(child, name, limits, false));
-            } else if (Files.isRegularFile(child, LinkOption.NOFOLLOW_LINKS)
+            } else if (attributes.isRegularFile()
                     && name.toLowerCase(Locale.ROOT).endsWith(".zip")) {
                 outcomes.add(scanZip(child, name, limits));
             }
@@ -207,8 +256,9 @@ final class PackScanner {
             return invalidOutcome(sourceId, PackSourceKind.DIRECTORY, containerName, diagnostics);
         }
 
+        byte[] manifestBytes = null;
         try {
-            byte[] manifestBytes = readFileBounded(
+            manifestBytes = readFileBounded(
                     files.get(PACK_MANIFEST_PATH), limits.jsonFileBytes());
             PackManifest manifest = parseManifest(manifestBytes, allowCorePack);
             return finishValidPack(
@@ -219,11 +269,25 @@ final class PackScanner {
                     files,
                     limits,
                     allowCorePack,
-                    path -> readFileBounded(files.get(path), limits.jsonFileBytes()));
+                    path -> readFileBounded(
+                            files.get(path),
+                            isJson(path) ? limits.jsonFileBytes() : limits.regularFileBytes()
+                    ));
         } catch (PackParseException exception) {
             diagnostics.add(parseDiagnostic(sourceId, manifestName(containerName),
                     exception, null));
-            return invalidOutcome(sourceId, PackSourceKind.DIRECTORY, containerName, diagnostics);
+            PackManifestIdentity identity =
+                    PackDiagnosticCodes.UNSUPPORTED_FORMAT.equals(exception.code())
+                            && manifestBytes != null
+                            ? manifestIdentity(manifestBytes)
+                            : PackManifestIdentity.EMPTY;
+            return invalidOutcome(
+                    sourceId,
+                    PackSourceKind.DIRECTORY,
+                    containerName,
+                    identity,
+                    diagnostics
+            );
         } catch (ScanFailure failure) {
             diagnostics.add(failure.diagnostic(
                     sourceId, "kuayue/packs/" + containerName, null));
@@ -246,6 +310,7 @@ final class PackScanner {
         List<PackDiagnostic> diagnostics = new ArrayList<>();
         Map<String, Long> sizes = new TreeMap<>();
         byte[] rootManifest = null;
+        byte[] identityManifest = null;
         try {
             detectZipSymlinks(zipPath);
             try (ZipFile zip = new ZipFile(zipPath.toFile(), StandardCharsets.UTF_8)) {
@@ -290,6 +355,7 @@ final class PackScanner {
                         "ZIP root must directly contain pack.json without a wrapper folder"));
                 return invalidOutcome(sourceId, PackSourceKind.ZIP, containerName, diagnostics);
             }
+            identityManifest = rootManifest;
             PackManifest manifest = parseManifest(rootManifest, false);
             return finishValidPack(
                     sourceId,
@@ -307,7 +373,12 @@ final class PackScanner {
                                     "Listed parcel manifest does not exist: " + path);
                         }
                         BoundedRead read = readStandaloneZipEntry(
-                                zipPath, path, limits.jsonFileBytes());
+                                zipPath,
+                                path,
+                                isJson(path)
+                                        ? limits.jsonFileBytes()
+                                        : limits.regularFileBytes()
+                        );
                         if (read.size() != expected) {
                             throw new ScanFailure(
                                     PackDiagnosticCodes.INVALID_ZIP,
@@ -317,7 +388,18 @@ final class PackScanner {
                     });
         } catch (PackParseException exception) {
             diagnostics.add(parseDiagnostic(sourceId, containerName, exception, null));
-            return invalidOutcome(sourceId, PackSourceKind.ZIP, containerName, diagnostics);
+            PackManifestIdentity identity =
+                    PackDiagnosticCodes.UNSUPPORTED_FORMAT.equals(exception.code())
+                            && identityManifest != null
+                            ? manifestIdentity(identityManifest)
+                            : PackManifestIdentity.EMPTY;
+            return invalidOutcome(
+                    sourceId,
+                    PackSourceKind.ZIP,
+                    containerName,
+                    identity,
+                    diagnostics
+            );
         } catch (ScanFailure failure) {
             diagnostics.add(failure.diagnostic(
                     sourceId, "kuayue/packs/" + containerName, null));
@@ -404,7 +486,7 @@ final class PackScanner {
             if (entry == null || entry.isDirectory()) {
                 throw new ScanFailure(
                         PackDiagnosticCodes.INVALID_MANIFEST,
-                        "Missing parcel manifest entry: " + path);
+                        "Missing pack entry: " + path);
             }
             return readZipEntry(zip, entry, maximum);
         }
@@ -438,7 +520,7 @@ final class PackScanner {
             Map<String, ?> files,
             PackLimits limits,
             boolean allowCorePack,
-            ManifestReader reader
+            PackFileReader reader
     ) throws IOException, ScanFailure {
         Map<String, ParcelManifest> parcels = new LinkedHashMap<>();
         Map<String, String> parcelRoots = new LinkedHashMap<>();
@@ -470,6 +552,22 @@ final class PackScanner {
             parcelRoots.put(parcelPath.substring(0, parcelPath.length() - "parcel.json".length()),
                     parcel.id());
         }
+        PackIcon icon = null;
+        if (files.containsKey(PACK_ICON_PATH)) {
+            byte[] iconBytes = reader.read(PACK_ICON_PATH);
+            if (iconBytes.length > limits.regularFileBytes()) {
+                throw new ScanFailure(
+                        PackDiagnosticCodes.LIMIT_EXCEEDED,
+                        "Pack icon exceeds its size limit");
+            }
+            icon = new PackIcon(iconBytes);
+        }
+        PackDisplayText displayText = readDisplayText(
+                manifest,
+                files.keySet(),
+                parcelRoots.keySet(),
+                reader
+        );
 
         List<PackFileEntry> inventory = new ArrayList<>();
         for (var entry : files.entrySet()) {
@@ -495,11 +593,90 @@ final class PackScanner {
             inventory.add(new PackFileEntry(physical, logical, size, rootKind, parcelId));
         }
         DiscoveredPack pack = new DiscoveredPack(
-                sourceId, sourceKind, containerName, manifest, parcels, inventory);
+                sourceId,
+                sourceKind,
+                containerName,
+                manifest,
+                parcels,
+                icon,
+                displayText,
+                inventory
+        );
         PackInstallation installation = new PackInstallation(
                 sourceId, sourceKind, containerName, manifest.id(), manifest.version(),
                 true, List.of());
         return new PackScanOutcome(installation, pack, List.of());
+    }
+
+    private PackDisplayText readDisplayText(
+            PackManifest manifest,
+            Set<String> files,
+            Set<String> parcelRoots,
+            PackFileReader reader
+    ) {
+        Set<String> ordered = new java.util.LinkedHashSet<>();
+        files.stream()
+                .filter(path -> parcelRoots.stream().noneMatch(path::startsWith))
+                .sorted()
+                .forEach(ordered::add);
+        for (String parcelManifest : manifest.parcels()) {
+            String parcelRoot = parcelManifest.substring(
+                    0,
+                    parcelManifest.length() - "parcel.json".length()
+            );
+            files.stream()
+                    .filter(path -> path.startsWith(parcelRoot))
+                    .sorted()
+                    .forEach(ordered::add);
+        }
+
+        Map<String, PackDisplayText.Translation> translations = new LinkedHashMap<>();
+        for (String path : ordered) {
+            String language = languageCode(path);
+            if (language == null) continue;
+            JsonValue root;
+            try {
+                root = StrictJsonEngine.parseObject(new String(
+                        reader.read(path),
+                        StandardCharsets.UTF_8
+                ));
+            } catch (IOException | ScanFailure | IllegalArgumentException ignored) {
+                continue;
+            }
+            JsonValue nameValue = root.has(manifest.nameKey())
+                    ? root.get(manifest.nameKey())
+                    : null;
+            if (nameValue == null || !nameValue.isString()) continue;
+            String name = nameValue.asString();
+            if (name.isBlank()) continue;
+            String description = null;
+            if (manifest.descriptionKey() != null && root.has(manifest.descriptionKey())) {
+                JsonValue descriptionValue = root.get(manifest.descriptionKey());
+                if (descriptionValue.isString() && !descriptionValue.asString().isBlank()) {
+                    description = descriptionValue.asString();
+                }
+            }
+            PackDisplayText.Translation previous = translations.get(language);
+            if (description == null && previous != null) {
+                description = previous.description();
+            }
+            translations.put(language, new PackDisplayText.Translation(name, description));
+        }
+        return translations.isEmpty()
+                ? PackDisplayText.empty()
+                : new PackDisplayText(translations);
+    }
+
+    private static String languageCode(String path) {
+        String[] parts = path.split("/");
+        if (parts.length < 4
+                || !parts[parts.length - 4].equals("assets")
+                || !parts[parts.length - 2].equals("lang")
+                || !parts[parts.length - 1].endsWith(".json")) {
+            return null;
+        }
+        String file = parts[parts.length - 1];
+        return file.substring(0, file.length() - ".json".length());
     }
 
     private long readDirectorySize(Object path) throws ScanFailure {
@@ -593,15 +770,55 @@ final class PackScanner {
             String containerName,
             List<PackDiagnostic> diagnostics
     ) {
+        return invalidOutcome(
+                sourceId,
+                sourceKind,
+                containerName,
+                PackManifestIdentity.EMPTY,
+                diagnostics
+        );
+    }
+
+    private PackScanOutcome invalidOutcome(
+            String sourceId,
+            PackSourceKind sourceKind,
+            String containerName,
+            PackManifestIdentity identity,
+            List<PackDiagnostic> diagnostics
+    ) {
         PackInstallation installation = new PackInstallation(
                 sourceId,
                 sourceKind,
                 containerName,
-                null,
-                null,
+                identity.packId(),
+                identity.version(),
                 false,
                 diagnostics.stream().map(PackDiagnostic::code).distinct().toList());
         return new PackScanOutcome(installation, null, diagnostics);
+    }
+
+    private static PackManifestIdentity manifestIdentity(byte[] bytes) {
+        try {
+            JsonValue root = StrictJsonEngine.parseObject(
+                    new String(bytes, StandardCharsets.UTF_8)
+            );
+            String id = root.has("id") && root.get("id").isString()
+                    ? root.get("id").asString()
+                    : null;
+            if (id == null || !PackPathRules.isPackId(id)) {
+                return PackManifestIdentity.EMPTY;
+            }
+            SemanticVersion version = null;
+            if (root.has("version") && root.get("version").isString()) {
+                try {
+                    version = SemanticVersion.parse(root.get("version").asString());
+                } catch (IllegalArgumentException ignored) {
+                }
+            }
+            return new PackManifestIdentity(id, version);
+        } catch (RuntimeException ignored) {
+            return PackManifestIdentity.EMPTY;
+        }
     }
 
     private PackDiagnostic parseDiagnostic(
@@ -686,8 +903,13 @@ final class PackScanner {
     private record BoundedRead(long size, byte[] bytes) {
     }
 
+    private record PackManifestIdentity(String packId, SemanticVersion version) {
+        private static final PackManifestIdentity EMPTY =
+                new PackManifestIdentity(null, null);
+    }
+
     @FunctionalInterface
-    private interface ManifestReader {
+    private interface PackFileReader {
         byte[] read(String path) throws IOException, ScanFailure;
     }
 

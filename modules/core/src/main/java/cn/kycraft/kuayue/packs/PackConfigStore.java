@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,22 +24,28 @@ public final class PackConfigStore {
     }
 
     public static LoadResult load(Path path, PackLimits limits) {
-        if (!Files.exists(path)) {
-            return new LoadResult(
-                    new PackConfigDocument("{}", PackConfig.defaults()), List.of());
-        }
         try {
-            if (!Files.isRegularFile(path) || Files.isSymbolicLink(path)) {
+            BasicFileAttributes attributes = Files.readAttributes(
+                    path,
+                    BasicFileAttributes.class,
+                    LinkOption.NOFOLLOW_LINKS
+            );
+            if (attributes.isSymbolicLink() || !attributes.isRegularFile()) {
                 return error(PackDiagnosticCodes.CONFIG_INVALID,
                         "Configuration path is not a regular file");
             }
-            long size = Files.size(path);
+            long size = attributes.size();
             if (size > limits.jsonFileBytes()) {
                 return error(PackDiagnosticCodes.LIMIT_EXCEEDED,
                         "Configuration exceeds the JSON size limit");
             }
             String json = Files.readString(path, StandardCharsets.UTF_8);
             return PackConfigCodec.parse(json);
+        } catch (NoSuchFileException missing) {
+            return new LoadResult(
+                    new PackConfigDocument("{}", PackConfig.defaults()),
+                    List.of()
+            );
         } catch (PackParseException exception) {
             return new LoadResult(
                     new PackConfigDocument("{}", PackConfig.defaults()),

@@ -14,8 +14,20 @@ public record ParcelManifest(
         String nameKey,
         String descriptionKey,
         String icon,
-        List<String> indexes
+        List<String> indexes,
+        CreativeFilter creativeFilter
 ) implements Serializable {
+    public ParcelManifest(
+            int formatVersion,
+            String id,
+            String nameKey,
+            String descriptionKey,
+            String icon,
+            List<String> indexes
+    ) {
+        this(formatVersion, id, nameKey, descriptionKey, icon, indexes, null);
+    }
+
     public ParcelManifest {
         if (formatVersion != 1) {
             throw new IllegalArgumentException("Unsupported parcel format: " + formatVersion);

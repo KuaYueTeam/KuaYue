@@ -20,14 +20,16 @@ parcel 是包内车型组织单位，拥有自己的 ID、名称键、可选图�
 
 ```text
 <game-dir>/kuayue/packs/<container>/
-└── pack.json
+├── pack.json
+└── icon.png                     # 可选，车包图标
 ```
 
 外部 ZIP 包：
 
 ```text
 <game-dir>/kuayue/packs/<name>.zip
-└── pack.json
+├── pack.json
+└── icon.png                     # 可选，车包图标
 ```
 
 ZIP 的 `pack.json` 必须直接位于压缩包根，不能多套一层 `<name>/`。容器目录名或 ZIP 文件名只用于定位安装物，不决定车包 ID。`pack.json.id` 相同且版本可以不同的两个安装物仍属于同一身份，不能同时生效。
@@ -119,9 +121,10 @@ ZIP 的 `pack.json` 必须直接位于压缩包根，不能多套一层 `<name>/
 
 - `id` 使用 `[a-z][a-z0-9_-]*`，外部包不能使用保留 ID `kuayue-core`；
 - `version` 必须是三段式 SemVer，例如 `1.2.3`；
-- `namespaces` 至少一项，parcel ID 与图标命名空间必须属于声明集合；
+- `namespaces` 至少一项，parcel ID 与 parcel 图标命名空间必须属于声明集合；
 - `dependencies.mods` 必须完整提供 `minecraft`、`neoforge`、`kuayue`、`kasuga_lib`、`create`；
 - `dependencies.packs` 只声明直接、必需的包依赖；
+- 车包图标固定为包根目录的 PNG 文件 `icon.png`，不是 `pack.json` 字段；文件可选，其他位置的同名文件不会作为车包图标；
 - `parcels` 至少一项，每项严格为 `parcels/<folder>/parcel.json`；
 - `save_compatibility` 可选，只能使用 `from_versions` 或 `minimum_version` 其中一种。
 
@@ -138,6 +141,11 @@ ZIP 的 `pack.json` 必须直接位于压缩包根，不能多套一层 `<name>/
   "name_key": "parcel.sample_train.demo.name",
   "description_key": "parcel.sample_train.demo.description",
   "icon": "sample_train:textures/pack_icon.png",
+  "creative_filter": {
+    "tab": "kuayue:train_panel_tab",
+    "icon_item": "sample_train:demo_floor",
+    "item_tags": ["sample_train:demo"]
+  },
   "indexes": [
     "data/sample_train/kasuga_lib/data_driven/demo.json"
   ]
@@ -151,6 +159,8 @@ parcels/demo/data/sample_train/kasuga_lib/data_driven/demo.json
 ```
 
 `indexes` 可以为空，适合只提供模型、贴图、语言或配方的 parcel。注册内容必须由索引的 `on_register` 显式列出；reload 内容由 `on_reload` 列出。parcel 根内存在但未被索引声明的数据驱动文件仍属于普通资源，不会成为该 parcel 的注册入口。
+
+`creative_filter` 可选，用于在指定创造模式标签页中提供当前 parcel 的筛选按钮。`tab` 必填，`icon_item` 可选，`item_tags` 与 `items` 至少提供一个；两个选择器同时存在时按并集匹配。按钮级联筛选当前标签页中匹配任一 item tag 或显式 item ID 的物品，筛选状态只影响当前创造模式界面。
 
 ## 6. 目录与 ZIP 映射
 
@@ -256,7 +266,7 @@ sample-train/
 modules/train-parts/src/main/resources/kuayue-packs/kuayue-core/
 ```
 
-`corepack.gradle` 读取显式列出的车型、转向架和 `bogeys/data-driven`，生成：
+`corepack.gradle` 读取显式列出的车厢版、转向架和对应共享定义，生成：
 
 ```text
 <train-parts JAR>/
@@ -266,15 +276,15 @@ modules/train-parts/src/main/resources/kuayue-packs/kuayue-core/
     └── parcels/<vehicle-or-bogey>/
 ```
 
-当前生成树有 21 个车型相关 parcel、9 个转向架 parcel 和 1 个 `shared` parcel。`cr200j` 的车厢与机车源进入同一个车型 parcel。`shared` 保存跨车型共享的转向架定义、运动、模型、注册组、货运注册组和 QJ 动画定义。
+当前 parcel 数量与名称以生成的 `pack.json` 为准。corepack 只组织车厢版和转向架；`shared` 只保存这两类内容跨 parcel 复用的定义、模型、动画和注册组。
 
 corepack 边界：
 
 | 内容 | 归属 |
 |---|---|
-| KuaYue 车型内容 | 对应车型 parcel |
+| KuaYue 车厢版内容 | 对应车厢版 parcel |
 | 具体转向架内容 | 对应 `bogey-*` parcel |
-| 跨车型共享转向架定义与动画 | `parcels/shared/` |
+| 车厢版或转向架跨 parcel 共享定义与动画 | `parcels/shared/` |
 | `resources/common/models/block/bogey/**` | runtime 普通资源，不进 corepack |
 | `tracks/`、`seat/`、`toilet/` | runtime 普通资源，不进 corepack |
 | provisions 餐食资源 | provisions 模块普通资源，不进 corepack |
@@ -287,7 +297,7 @@ kuayue-packs/kuayue-core/data/kuayue/kasuga_lib/data_driven/
 
 正确索引只在各 parcel 根内。C70 与 NX70 的块定义分别由 `c70`、`nx70` 索引加载，共用的 `freight_panels` 注册组放在 `shared` 索引；不得建立 `freight` 这类大类 parcel。
 
-corepack 关闭后，其注册与资源根不会进入有效集合，但 runtime 轨道、座椅、厕所、餐食和基础设施仍保留。若 runtime 轨道引用 corepack 的默认转向架，严格预检会记录缺失引用；相关消费者按自身回退行为处理。
+corepack 关闭后，其注册与资源根不会进入有效集合，但 runtime 轨道、座椅、厕所、餐食、其他非 corepack 资源和基础设施仍保留。若 runtime 轨道引用 corepack 的转向架，严格预检会记录缺失引用；相关消费者按自身回退行为处理。
 
 ## 11. 启动报告
 

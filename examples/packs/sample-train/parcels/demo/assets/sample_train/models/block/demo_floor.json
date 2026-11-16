@@ -1,8 +1,6 @@
 {
-  "parent": "minecraft:block/slab",
+  "parent": "minecraft:block/cube_all",
   "textures": {
-    "bottom": "minecraft:block/andesite",
-    "top": "minecraft:block/andesite",
-    "side": "minecraft:block/andesite"
+    "all": "minecraft:block/andesite"
   }
 }

@@ -21,6 +21,7 @@ parcel 以单个车型为单位。车厢、机车和同一车型的变体可以�
 ```text
 my-train-pack/
 ├── pack.json
+├── icon.png                     # 可选，车包图标
 ├── pack.mcmeta                  # 可选
 └── parcels/
     ├── shared/
@@ -84,6 +85,7 @@ my-train-pack/
 - `dependencies.mods` 必须声明全部五个宿主依赖；
 - `dependencies.packs` 只放直接且必需的依赖；
 - 只有引用默认车型或默认转向架时才依赖 `kuayue-core`；
+- 车包图标固定为包根目录的 PNG 文件 `icon.png`，不在 `pack.json` 中声明；文件可选，其他位置不会参与车包图标读取；
 - `parcels` 顺序决定包内并级对同一路径的覆盖优先级，后声明者更高；
 - 未列入 `parcels` 的 parcel 不会成为该包的注册根或资源根。
 
@@ -98,6 +100,11 @@ my-train-pack/
   "name_key": "parcel.mytrain.c22.name",
   "description_key": "parcel.mytrain.c22.description",
   "icon": "mytrain:textures/pack_icon.png",
+  "creative_filter": {
+    "tab": "kuayue:train_panel_tab",
+    "icon_item": "mytrain:c22_panel",
+    "items": ["mytrain:c22_panel", "mytrain:c22_floor"]
+  },
   "indexes": [
     "data/mytrain/kasuga_lib/data_driven/c22.json"
   ]
@@ -111,6 +118,8 @@ parcels/c22/data/mytrain/kasuga_lib/data_driven/c22.json
 ```
 
 `indexes` 可以为空，适合只提供模型、贴图、语言、配方或 tag 的 parcel。若要注册内容，索引文件必须由对应 parcel 显式声明；物理目录里未声明的数据驱动索引不会被当作注册入口。
+
+`creative_filter` 是可选字段，只生成客户端创造模式筛选元数据，不注册物品。`tab` 使用创造标签页 ID；`icon_item` 可选，用于筛选按钮图标；`item_tags` 和 `items` 至少提供一项，前者按 item tag、后者按显式 item ID 匹配，二者同时出现时取并集。选择器必须是合法 resource location 且不能重复。
 
 ## 5. 写索引和内容
 
@@ -248,10 +257,10 @@ Applied KuaYue pack registration session
 
 ```sh
 cd my-train-pack
-zip -r ../my-train-pack.zip pack.json pack.mcmeta parcels
+zip -r ../my-train-pack.zip pack.json icon.png pack.mcmeta parcels
 ```
 
-`pack.mcmeta` 省略时从命令中删除。检查：
+`icon.png` 或 `pack.mcmeta` 省略时从命令中对应删除。检查：
 
 ```sh
 unzip -l ../my-train-pack.zip | head
@@ -261,6 +270,7 @@ unzip -l ../my-train-pack.zip | head
 
 ```text
 pack.json
+icon.png
 parcels/
 ```
 
@@ -276,6 +286,7 @@ my-train-pack/pack.json
 
 - `pack.json`、每个 `parcel.json`、索引和内容 JSON 均通过语法与 Schema 校验；
 - parcel 以单个车型为单位，跨车型共享内容位于 `shared`；
+- 如提供车包图标，文件直接位于包根并命名为 `icon.png`；
 - 所有声明索引都存在，未声明数据文件没有被误认为注册入口；
 - 所有引用 ID 在当前有效包、显式直接依赖或 runtime 中可见；
 - factory 和字段属于当前 Schema 与 handler 支持范围；

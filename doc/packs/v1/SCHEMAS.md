@@ -29,6 +29,8 @@ Schema 负责静态 JSON 形状、字段枚举、基本类型和可由单文件�
 - parcel 清单路径；
 - 可选的存档兼容声明。
 
+车包图标不属于 `pack.json`。如提供，只认车包根目录的 PNG 文件 `icon.png`；该文件不会作为普通 Minecraft 资源暴露。Parcel 的 `icon` 字段含义不变。
+
 外部包不能声明保留 ID：
 
 ```text
@@ -61,6 +63,21 @@ data/<namespace>/kasuga_lib/data_driven/...json
 ```
 
 namespace 必须在同一包的 `pack.json.namespaces` 中声明。Schema 检查路径形状；运行时还检查 parcel ID 的 namespace、图标 namespace 和索引文件是否真实存在。
+
+可选的 `creative_filter` 描述创造模式筛选按钮：
+
+```json
+{
+  "creative_filter": {
+    "tab": "kuayue:train_panel_tab",
+    "icon_item": "sample_train:demo_floor",
+    "item_tags": ["sample_train:demo"],
+    "items": ["sample_train:demo_floor"]
+  }
+}
+```
+
+`tab` 必填，`icon_item` 可选，`item_tags` 与 `items` 至少出现一项且数组不能为空、不能重复。运行时会按标签页隐藏不适用按钮，并将匹配的 tag 与显式 item ID 取并集后筛选当前创造模式物品列表。
 
 parcel 按单个车型组织。`shared` 是跨车型共享内容的 parcel 名称，不是独立开关或保留 namespace。Schema 无法判断 parcel 是否按车型划分，作者必须遵守该结构规则。
 

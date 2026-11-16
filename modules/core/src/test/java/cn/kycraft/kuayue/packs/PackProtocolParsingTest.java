@@ -2,6 +2,7 @@ package cn.kycraft.kuayue.packs;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -57,6 +58,7 @@ class PackProtocolParsingTest {
         PackParseException namespaceError =
                 assertThrows(PackParseException.class, () -> PackManifest.parse(invalidNamespace));
         assertEquals("INVALID_NAMESPACE", namespaceError.code());
+
     }
 
     @Test
@@ -112,6 +114,36 @@ class PackProtocolParsingTest {
                 "\"save_compatibility\": {\"minimum_version\": \"0.2.0\"}",
                 "\"save_compatibility\": {\"minimum_version\": \"1.0.0\"}");
         assertThrows(PackParseException.class, () -> PackManifest.parse(tooNew));
+    }
+
+    @Test
+    void parsesCreativeFilterAndRejectsMissingSelectors() {
+        ParcelManifest parcel = ParcelManifest.parse("""
+                {
+                  "format_version": 1,
+                  "id": "example_railway:m1",
+                  "name_key": "parcel.name",
+                  "indexes": [],
+                  "creative_filter": {
+                    "tab": "kuayue:train_panel_tab",
+                    "icon_item": "kuayue:slab_bottom_m1",
+                    "item_tags": ["kuayue:creative/m1"]
+                  }
+                }
+                """, Set.of("example_railway", "kuayue"));
+
+        assertEquals("kuayue:train_panel_tab", parcel.creativeFilter().tab());
+        assertEquals(List.of("kuayue:creative/m1"), parcel.creativeFilter().itemTags());
+
+        assertThrows(IllegalArgumentException.class, () -> ParcelManifest.parse("""
+                {
+                  "format_version": 1,
+                  "id": "example_railway:m1",
+                  "name_key": "parcel.name",
+                  "indexes": [],
+                  "creative_filter": {"tab": "kuayue:train_panel_tab"}
+                }
+                """, Set.of("example_railway", "kuayue")));
     }
 
     private static String validPackJson() {

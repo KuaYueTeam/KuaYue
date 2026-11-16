@@ -1,6 +1,7 @@
 package cn.kycraft.kuayue.parts.bogeys.data;
 
 import cn.kycraft.kuayue.parts.KuaYueTrainPanelModule;
+import cn.kycraft.kuayue.packs.PackRuntimeIds;
 import cn.kycraft.kuayue.parts.bogeys.core.CommonBogeyBlock;
 import cn.kycraft.kuayue.parts.bogeys.core.CommonBogeyBlockEntity;
 import cn.kycraft.kuayue.parts.bogeys.core.KuaYueBogeyProxyComposition;
@@ -9,8 +10,6 @@ import lib.kasuga.registration.data_driven.context.RegBuildContext;
 import lib.kasuga.registration.minecraft.block_entity.BlockEntityReg;
 import lib.kasuga.registration.minecraft.block.BlockSupplier;
 import lib.kasuga.rendering.models.mc.proxies.BlockEntityProxyDefinitions;
-import net.minecraft.resources.ResourceLocation;
-
 import java.util.List;
 
 /**
@@ -34,7 +33,7 @@ final class BogeyRuntimeRegistration {
 
         BlockEntityReg<CommonBogeyBlockEntity> blockEntity =
                 new BlockEntityReg<CommonBogeyBlockEntity>(
-                "loco_bogey_entity",
+                PackRuntimeIds.BOGEY_BLOCK_ENTITY_ID.getPath(),
                 reg -> (pos, state) -> new CommonBogeyBlockEntity(reg.getEntry(), pos, state)
         );
         BlockSupplier[] validBlocks = registrations.stream()
@@ -43,7 +42,7 @@ final class BogeyRuntimeRegistration {
         blockEntity.validBlocks(validBlocks);
         blockEntity.onRegistered(type -> BlockEntityProxyDefinitions.register(
                 type,
-                ResourceLocation.fromNamespaceAndPath("kuayue", "loco_bogey"),
+                PackRuntimeIds.BOGEY_PROXY_ID,
                 KuaYueBogeyProxyComposition::create
         )).setParent(KuaYueTrainPanelModule.RUNTIME_REGISTRY_GROUP);
         CommonBogeyBlock.setGlobalBlockEntityType(blockEntity::getEntry);

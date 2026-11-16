@@ -44,6 +44,8 @@ class PackHistoryCompatibilityTest {
         assertEquals(PackHistoryCompatibility.Outcome.INCOMPATIBLE, missingPack.outcome());
         assertEquals(List.of(PackDiagnosticCodes.UNKNOWN_PACK_ID),
                 missingPack.diagnostics().stream().map(diagnostic -> diagnostic.code()).toList());
+        assertTrue(missingPack.diagnostics().getFirst().message().contains("0.2.0"));
+        assertTrue(missingPack.diagnostics().getFirst().message().contains("absent or disabled"));
 
         PackHistoryCompatibility.Result downgrade = PackHistoryCompatibility.compare(
                 known(pack("example-railway", "0.3.0")),

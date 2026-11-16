@@ -57,6 +57,18 @@ public final class PackHistorySavedData extends SavedData {
     public static PackHistorySavedData load(CompoundTag payload, HolderLookup.Provider registries) {
         Objects.requireNonNull(payload, "payload");
         Objects.requireNonNull(registries, "registries");
+        return parse(payload);
+    }
+
+    /**
+     * Parses a record without requiring a live world registry provider.
+     */
+    public static PackHistorySavedData loadPreflight(CompoundTag payload) {
+        Objects.requireNonNull(payload, "payload");
+        return parse(payload);
+    }
+
+    private static PackHistorySavedData parse(CompoundTag payload) {
         try {
             requireTag(payload, SCHEMA_VERSION_FIELD, Tag.TAG_INT);
             int schemaVersion = payload.getInt(SCHEMA_VERSION_FIELD);

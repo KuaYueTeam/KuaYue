@@ -12,6 +12,7 @@ import lib.kasuga.registration.data_driven.context.BuildContext;
 import lib.kasuga.registration.data_driven.context.JsonRegistryGroup;
 import lib.kasuga.registration.data_driven.context.RegBuildContext;
 import lib.kasuga.registration.data_driven.dedup.EffectiveId;
+import lib.kasuga.registration.data_driven.pipeline.BuildDiagnostic;
 import lib.kasuga.registration.data_driven.pipeline.DefinitionKey;
 import lib.kasuga.registration.data_driven.pipeline.HandlerCapability;
 import lib.kasuga.registration.data_driven.pipeline.RegistryClaim;
@@ -52,6 +53,11 @@ public final class BogeyBlockTypeHandler implements TypeHandler<BogeyBlockDefini
     }
 
     @Override
+    public boolean strictValidationImplemented() {
+        return true;
+    }
+
+    @Override
     public void validate(BogeyBlockDefinition definition, ValidationContext context) {
         context.requireDefinition(
                 new DefinitionKey(
@@ -67,11 +73,62 @@ public final class BogeyBlockTypeHandler implements TypeHandler<BogeyBlockDefini
                 ),
                 "/default_style"
         );
+        var style = context.find(new DefinitionKey(
+                BogeyDataDrivenTypes.STYLES,
+                EffectiveId.of(context.hostModId(), definition.defaultStyle())
+        )).orElse(null);
+        if (style != null && style.definition() instanceof BogeyStyleDefinition styleDefinition) {
+            ResourceLocation blockId = ResourceLocation.parse(
+                    EffectiveId.of(context.hostModId(), definition.id())
+            );
+            boolean declared = styleDefinition.variants().stream()
+                    .map(variant -> ResourceLocation.parse(
+                            EffectiveId.of(context.hostModId(), variant.block())
+                    ))
+                    .anyMatch(blockId::equals);
+            if (!declared) {
+                context.error(
+                        BuildDiagnostic.Code.CONTENT_INVALID,
+                        "/default_style",
+                        "Bogey style " + styleDefinition.id()
+                                + " does not declare this block in any variant",
+                        "Add a matching variant or change default_style."
+                );
+            }
+        }
         if (definition.registryGroup() != null) {
             context.requireDefinition(
                     new DefinitionKey("registry_groups", definition.registryGroup()),
                     "/registry_group"
             );
+        }
+        for (var issue : JsonPropertyParser.getInstance().validateStrict(definition.properties())) {
+            context.error(
+                    BuildDiagnostic.Code.CONTENT_INVALID,
+                    "/properties" + issue.relativeJsonPointer(),
+                    issue.message(),
+                    "Fix the bogey block property according to the strict schema."
+            );
+        }
+        String primary = definition.physics().primaryTrackType();
+        if (!supportedTrackType(primary)) {
+            context.error(
+                    BuildDiagnostic.Code.CONTENT_INVALID,
+                    "/physics/primary_track_type",
+                    "Unsupported track type '" + primary + "'",
+                    "Use 'standard' or 'create:standard'."
+            );
+        }
+        for (int index = 0; index < definition.physics().validTrackTypes().size(); index++) {
+            String type = definition.physics().validTrackTypes().get(index);
+            if (!supportedTrackType(type)) {
+                context.error(
+                        BuildDiagnostic.Code.CONTENT_INVALID,
+                        "/physics/valid_track_types/" + index,
+                        "Unsupported track type '" + type + "'",
+                        "Use 'standard' or 'create:standard'."
+                );
+            }
         }
     }
 
@@ -187,5 +244,9 @@ public final class BogeyBlockTypeHandler implements TypeHandler<BogeyBlockDefini
         throw new IllegalArgumentException(
                 "Unsupported track type '" + raw + "' for bogey block " + blockId
         );
+    }
+
+    private static boolean supportedTrackType(String raw) {
+        return "standard".equals(raw) || "create:standard".equals(raw);
     }
 }

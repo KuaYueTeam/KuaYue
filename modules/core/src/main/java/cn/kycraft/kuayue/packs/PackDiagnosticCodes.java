@@ -15,10 +15,12 @@ public final class PackDiagnosticCodes {
     public static final String VERSION_MISMATCH = "VERSION_MISMATCH";
     public static final String DEPENDENCY_CYCLE = "DEPENDENCY_CYCLE";
     public static final String SAVE_VERSION_INCOMPATIBLE = "SAVE_VERSION_INCOMPATIBLE";
+    public static final String SAVE_FORMAT_INCOMPATIBLE = "SAVE_FORMAT_INCOMPATIBLE";
     public static final String UNKNOWN_PACK_ID = "UNKNOWN_PACK_ID";
     public static final String RESOURCE_OVERRIDE = "RESOURCE_OVERRIDE";
     public static final String CONFIG_INVALID = "CONFIG_INVALID";
     public static final String IO_ERROR = "IO_ERROR";
+    public static final String CAPTURE_FAILED = "CAPTURE_FAILED";
 
     private PackDiagnosticCodes() {
     }

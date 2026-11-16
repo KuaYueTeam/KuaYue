@@ -313,15 +313,9 @@ core、调度、联锁、provisions 和其他模块不复制该前缀。内置�
 
 ### 12.1 parcel 粒度
 
-当前生成树为 31 个 parcel：
+corepack 只允许车厢版和转向架 parcel，具体数量与名称以生成的 `pack.json` 为准。新内容只能按明确的车型或转向架来源建立 parcel；禁止按 `carriages`、`locomotives` 或 `freight` 之类的范围建立大类 parcel。未明确属于车厢版或转向架的内容不得放入 corepack。
 
-- 21 个车型相关 parcel；
-- 9 个具体转向架 parcel；
-- 1 个 `shared` parcel。
-
-新车型内容按车型建立 parcel；同一车型的车厢、机车和变体可合并。禁止按 `carriages`、`locomotives` 或 `freight` 之类的车型大类建立 parcel。C70 与 NX70 各自拥有索引，共用的 `freight_panels` 注册组进入 `shared`。
-
-`shared` 保存跨车型共享的 `bogeys.json`、motions、models、groups 和 QJ 动画。只服务单一车型的内容仍留在车型 parcel，具体转向架资源留在对应 `bogey-*` parcel。
+`shared` 只保存车厢版或转向架跨 parcel 共享的 `bogeys.json`、motions、models、groups 和动画。只服务单一 parcel 的内容仍留在该 parcel，具体转向架资源留在对应 `bogey-*` parcel。
 
 ### 12.2 边界排除
 

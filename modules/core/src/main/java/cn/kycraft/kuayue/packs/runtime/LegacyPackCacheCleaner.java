@@ -2,7 +2,10 @@ package cn.kycraft.kuayue.packs.runtime;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
@@ -16,7 +19,9 @@ public final class LegacyPackCacheCleaner {
 
     public static void clear(Path cacheRoot) throws IOException {
         Objects.requireNonNull(cacheRoot, "cacheRoot");
-        if (!Files.exists(cacheRoot)) {
+        try {
+            Files.readAttributes(cacheRoot, BasicFileAttributes.class, LinkOption.NOFOLLOW_LINKS);
+        } catch (NoSuchFileException missing) {
             return;
         }
         ArrayList<Path> paths = new ArrayList<>();

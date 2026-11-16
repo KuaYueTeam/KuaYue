@@ -4,10 +4,14 @@ import cn.kycraft.kuayue.KuaYue;
 import cn.kycraft.kuayue.packs.PackDiagnostic;
 import cn.kycraft.kuayue.packs.PackManifest;
 import cn.kycraft.kuayue.packs.PackFailurePolicy;
+import cn.kycraft.kuayue.packs.PackRuntimeIds;
 import cn.kycraft.kuayue.packs.PackSeverity;
 import cn.kycraft.kuayue.packs.PackStage;
 import cn.kycraft.kuayue.packs.runtime.PackResourceSnapshotter;
 import cn.kycraft.kuayue.packs.state.PackRuntimeState;
+import com.simibubi.create.AllBogeyStyles;
+import com.simibubi.create.content.trains.bogey.BogeySizes;
+import com.simibubi.create.content.trains.track.TrackMaterial;
 import lib.kasuga.registration.data_driven.TypeHandlerRegistry;
 import lib.kasuga.registration.data_driven.builder.JsonTreeBuilder;
 import lib.kasuga.registration.data_driven.context.JsonRegistryGroup;
@@ -20,7 +24,9 @@ import lib.kasuga.registration.data_driven.pipeline.PreparedContent;
 import lib.kasuga.registration.data_driven.pipeline.RegistryClaim;
 import lib.kasuga.registration.data_driven.pipeline.RegistryClaimSnapshot;
 import lib.kasuga.registration.data_driven.pipeline.RegistrationTarget;
+import lib.kasuga.registration.data_driven.reload.ManagedReloadAllowlist;
 import lib.kasuga.registration.data_driven.source.ContentSource;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.IOException;
@@ -69,7 +75,8 @@ public final class KuaYueContentRegistrationProvider {
                     prepared = pipeline.prepare(
                             sources,
                             BuildOptions.STRICT,
-                            activeDependencies(activeRoots, snapshot.dependencies())
+                            activeDependencies(activeRoots, snapshot.dependencies()),
+                            Set.of(RUNTIME_OWNER_ID)
                     );
                 } finally {
                     closeSources(sources);
@@ -111,10 +118,29 @@ public final class KuaYueContentRegistrationProvider {
             BuildResult result = pipeline.build(prepared);
             if (!result.successful()) {
                 throw new IllegalStateException(
-                        "KuaYue pack registration build failed: " + result.diagnostics());
+                        "KuaYue pack registration build failed: " + result.diagnostics(),
+                        result.cause()
+                );
             }
+            Map<String, String> projectedSourcePackIds = new LinkedHashMap<>();
+            for (StartupPackSnapshot.ManagedPackRoot root : activeRoots) {
+                for (PackResourceSnapshotter.CapturedRoot captured : root.capture().roots()) {
+                    var descriptor = captured.source().descriptor();
+                    projectedSourcePackIds.put(
+                            descriptor.sourceId() + "/" + descriptor.rootId(),
+                            KuaYueMcPackProjection.childPackId(descriptor)
+                    );
+                }
+            }
+            ManagedReloadAllowlist.install(
+                    hostModId,
+                    prepared.sources(),
+                    projectedSourcePackIds,
+                    prepared.indexFiles(),
+                    prepared.reloadFiles()
+            );
             Set<String> activePackIds = activeIds(activeRoots);
-            PackRuntimeState.updateRegistrationSelection(activePackIds);
+            PackRuntimeState.updateRegistrationSelection(activePackIds, prepared.claims());
             List<BuildDiagnostic> reportDiagnostics = new ArrayList<>(rejectedDiagnostics);
             reportDiagnostics.addAll(prepared.diagnostics());
             try {
@@ -260,9 +286,21 @@ public final class KuaYueContentRegistrationProvider {
     private static Set<RegistryClaim.RegistryKey> reservedRegistryClaims() {
         Set<RegistryClaim.RegistryKey> reserved =
                 new LinkedHashSet<>(RegistryClaimSnapshot.collect(KuaYue.REGISTRY));
+        BuiltInRegistries.BLOCK.keySet().forEach(id ->
+                reserved.add(new RegistryClaim.RegistryKey("minecraft:block", id)));
+        BuiltInRegistries.ITEM.keySet().forEach(id ->
+                reserved.add(new RegistryClaim.RegistryKey("minecraft:item", id)));
+        BuiltInRegistries.BLOCK_ENTITY_TYPE.keySet().forEach(id ->
+                reserved.add(new RegistryClaim.RegistryKey("minecraft:block_entity_type", id)));
+        TrackMaterial.ALL.keySet().forEach(id ->
+                reserved.add(new RegistryClaim.RegistryKey("create:track_material", id)));
+        BogeySizes.all().keySet().forEach(id ->
+                reserved.add(new RegistryClaim.RegistryKey("create:bogey_size", id)));
+        AllBogeyStyles.BOGEY_STYLES.keySet().forEach(id ->
+                reserved.add(new RegistryClaim.RegistryKey("create:bogey_style", id)));
         reserved.add(new RegistryClaim.RegistryKey(
                 "minecraft:block_entity_type",
-                ResourceLocation.fromNamespaceAndPath("kuayue", "loco_bogey")
+                PackRuntimeIds.BOGEY_BLOCK_ENTITY_ID
         ));
         return Set.copyOf(reserved);
     }

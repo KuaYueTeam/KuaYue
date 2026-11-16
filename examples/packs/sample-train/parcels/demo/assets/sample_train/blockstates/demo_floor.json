@@ -1,13 +1,16 @@
 {
   "variants": {
-    "type=bottom": {
+    "facing=north": {
       "model": "sample_train:block/demo_floor"
     },
-    "type=top": {
-      "model": "sample_train:block/demo_floor_top"
+    "facing=east": {
+      "model": "sample_train:block/demo_floor"
     },
-    "type=double": {
-      "model": "minecraft:block/andesite"
+    "facing=south": {
+      "model": "sample_train:block/demo_floor"
+    },
+    "facing=west": {
+      "model": "sample_train:block/demo_floor"
     }
   }
 }

@@ -40,9 +40,24 @@ public final class BogeyModelTypeHandler implements TypeHandler<BogeyModelDefini
     }
 
     @Override
+    public boolean strictValidationImplemented() {
+        return true;
+    }
+
+    @Override
     public void validate(BogeyModelDefinition definition, ValidationContext context) {
         for (int index = 0; index < definition.parts().size(); index++) {
             BogeyModelDefinition.Part part = definition.parts().get(index);
+            ResourceLocation model = ResourceLocation.parse(part.model());
+            if (!context.resourceExists(ValidationContext.ResourceDomain.ASSETS, model)) {
+                context.error(
+                        lib.kasuga.registration.data_driven.pipeline.BuildDiagnostic.Code
+                                .MISSING_REFERENCE,
+                        "/parts/" + index + "/model",
+                        "Model asset '" + model + "' is not visible in the prepared source",
+                        "Add the model asset or declare its owner as a direct dependency."
+                );
+            }
             if (part.motion() != null) {
                 context.requireDefinition(
                         new DefinitionKey(

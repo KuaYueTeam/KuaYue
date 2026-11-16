@@ -13,6 +13,7 @@ import lib.kasuga.registration.data_driven.context.BuildContext;
 import lib.kasuga.registration.data_driven.context.JsonRegistryGroup;
 import lib.kasuga.registration.data_driven.context.RegBuildContext;
 import lib.kasuga.registration.data_driven.dedup.EffectiveId;
+import lib.kasuga.registration.data_driven.pipeline.BuildDiagnostic;
 import lib.kasuga.registration.data_driven.pipeline.DefinitionKey;
 import lib.kasuga.registration.data_driven.pipeline.HandlerCapability;
 import lib.kasuga.registration.data_driven.pipeline.RegistryClaim;
@@ -48,10 +49,45 @@ public final class BogeyStyleTypeHandler implements TypeHandler<BogeyStyleDefini
     }
 
     @Override
+    public boolean strictValidationImplemented() {
+        return true;
+    }
+
+    @Override
     public void validate(BogeyStyleDefinition definition, ValidationContext context) {
+        ResourceLocation styleId = ResourceLocation.parse(definition.id());
+        ResourceLocation cycleId = ResourceLocation.parse(definition.cycleGroup());
+        if (styleId.getPath().equals(cycleId.getPath())) {
+            context.error(
+                    BuildDiagnostic.Code.CONTENT_INVALID,
+                    "/cycle_group",
+                    "Bogey style path must differ from cycle path",
+                    "Choose a distinct cycle group path."
+            );
+        }
+        Set<ResourceLocation> configuredSizes = new java.util.LinkedHashSet<>();
+        Set<ResourceLocation> configuredBlocks = new java.util.LinkedHashSet<>();
         for (int index = 0; index < definition.variants().size(); index++) {
             BogeyStyleDefinition.Variant variant = definition.variants().get(index);
             String pointer = "/variants/" + index;
+            ResourceLocation sizeId = ResourceLocation.parse(variant.size());
+            if (!configuredSizes.add(sizeId)) {
+                context.error(
+                        BuildDiagnostic.Code.CONTENT_INVALID,
+                        pointer + "/size",
+                        "Bogey style configures size twice: " + sizeId,
+                        "Use each size at most once."
+                );
+            }
+            ResourceLocation blockId = ResourceLocation.parse(variant.block());
+            if (!configuredBlocks.add(blockId)) {
+                context.error(
+                        BuildDiagnostic.Code.CONTENT_INVALID,
+                        pointer + "/block",
+                        "Bogey style configures block twice: " + blockId,
+                        "Use each bogey block at most once per style."
+                );
+            }
             context.requireDefinition(
                     new DefinitionKey(
                             BogeyDataDrivenTypes.SIZES,
@@ -73,6 +109,31 @@ public final class BogeyStyleTypeHandler implements TypeHandler<BogeyStyleDefini
                     ),
                     pointer + "/model"
             );
+            var blockCandidate = context.find(
+                    new DefinitionKey(
+                            BogeyDataDrivenTypes.BLOCKS,
+                            EffectiveId.of(context.hostModId(), variant.block())
+                    )
+            ).orElse(null);
+            if (blockCandidate != null
+                    && blockCandidate.definition() instanceof BogeyBlockDefinition block) {
+                if (!ResourceLocation.parse(block.size()).equals(sizeId)) {
+                    context.error(
+                            BuildDiagnostic.Code.CONTENT_INVALID,
+                            pointer + "/size",
+                            "Variant size does not match block " + block.id() + " size",
+                            "Use the size declared by the referenced bogey block."
+                    );
+                }
+                if (!ResourceLocation.parse(block.defaultStyle()).equals(styleId)) {
+                    context.error(
+                            BuildDiagnostic.Code.CONTENT_INVALID,
+                            pointer + "/block",
+                            "Block " + block.id() + " belongs to another default style",
+                            "Use a block whose default_style is " + styleId + "."
+                    );
+                }
+            }
         }
         if (definition.registryGroup() != null) {
             context.requireDefinition(

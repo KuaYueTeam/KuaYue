@@ -13,6 +13,8 @@ public record DiscoveredPack(
         String containerName,
         PackManifest manifest,
         Map<String, ParcelManifest> parcels,
+        PackIcon icon,
+        PackDisplayText displayText,
         List<PackFileEntry> files
 ) implements Serializable {
     public DiscoveredPack {
@@ -21,6 +23,7 @@ public record DiscoveredPack(
         Objects.requireNonNull(containerName, "containerName");
         Objects.requireNonNull(manifest, "manifest");
         parcels = Collections.unmodifiableMap(new LinkedHashMap<>(parcels));
+        Objects.requireNonNull(displayText, "displayText");
         files = files.stream().sorted().toList();
     }
 

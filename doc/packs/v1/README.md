@@ -23,7 +23,8 @@ KuaYue 车包把内置车辆内容、外部车型内容与 Minecraft 普通资�
 │   ├── config.json
 │   ├── packs/
 │   │   ├── example/
-│   │   │   └── pack.json
+│   │   │   ├── pack.json
+│   │   │   └── icon.png           # 可选，车包图标
 │   │   └── example.zip
 │   └── reports/packs/startup.json
 └── world/
@@ -41,6 +42,7 @@ KuaYue 车包把内置车辆内容、外部车型内容与 Minecraft 普通资�
 ```text
 modules/train-parts/src/main/resources/kuayue-packs/kuayue-core/
 ├── pack.json
+├── icon.png
 ├── pack.mcmeta
 └── parcels/
     ├── shared/
@@ -52,9 +54,9 @@ modules/train-parts/src/main/resources/kuayue-packs/kuayue-core/
 
 `modules/train-parts/corepack.gradle` 从显式列出的车型和转向架源目录生成这份真实车包树，再由 `train-parts` 的 `processResources` 写入 JAR 的 `kuayue-packs/kuayue-core/`。`core` 和 `provisions` 模块不携带 corepack。
 
-corepack 的范围是 KuaYue 车型、对应转向架和跨车型共享的车型/转向架定义。轨道、座椅、厕所、餐食、调度、联锁、Java runtime 和通用资源不属于 corepack。`resources/common/models/block/bogey/**` 必须排除；只有从具体车型或转向架源目录明确选取的同名模型才属于对应车型或转向架 parcel。
+corepack 的范围是 KuaYue 的车厢版和转向架，以及它们明确的跨车型共享定义。轨道、餐食、座椅、厕所、调度、联锁、Java runtime 和其他资源不属于 corepack。`resources/common/models/block/bogey/**` 必须排除；只有从具体车厢版或转向架源目录明确选取的同名模型才属于对应 parcel。
 
-现有 corepack 树包含 21 个车型相关 parcel、9 个转向架 parcel 和 1 个 `shared` parcel。车型内容按车型组织，例如 `c22`、`c70`、`cr200j`、`df11`、`nx70` 和 `ss8`；同一车型的车厢、机车或变体可进入同一 parcel。`shared` 只放跨车型复用的定义和资源。
+corepack 树只组织车厢版和转向架 parcel。具体 parcel、来源目录和最终资源以后续 `content-ownership.json` 为准；轨道、餐食及其他未明确属于车厢版或转向架的内容不得放入 corepack。`shared` 只放车厢版或转向架跨 parcel 复用的定义和资源。
 
 corepack 根不得出现 `data/kuayue/kasuga_lib/data_driven/`。索引只能位于具体 parcel 的逻辑根下，例如：
 

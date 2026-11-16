@@ -3,23 +3,30 @@ package cn.kycraft.kuayue.packs.bootstrap;
 import cn.kycraft.kuayue.packs.CorePackDescriptor;
 import cn.kycraft.kuayue.packs.DiscoveredPack;
 import cn.kycraft.kuayue.packs.PackConfigStore;
+import cn.kycraft.kuayue.packs.PackDiagnostic;
+import cn.kycraft.kuayue.packs.PackDiagnosticCodes;
+import cn.kycraft.kuayue.packs.PackDisplayText;
 import cn.kycraft.kuayue.packs.PackDiscovery;
 import cn.kycraft.kuayue.packs.PackDiscoveryResult;
 import cn.kycraft.kuayue.packs.PackFailurePolicy;
+import cn.kycraft.kuayue.packs.PackIcon;
 import cn.kycraft.kuayue.packs.PackLimits;
 import cn.kycraft.kuayue.packs.PackManifest;
 import cn.kycraft.kuayue.packs.PackRuntimeEnvironment;
+import cn.kycraft.kuayue.packs.PackSeverity;
+import cn.kycraft.kuayue.packs.PackStage;
+import cn.kycraft.kuayue.packs.PackStartupReport;
 import cn.kycraft.kuayue.packs.ResolvedPack;
 import cn.kycraft.kuayue.packs.VersionComparator;
 import cn.kycraft.kuayue.packs.history.PackHistoryCompatibility;
 import cn.kycraft.kuayue.packs.history.PackHistoryGuard;
+import cn.kycraft.kuayue.packs.origin.PackOriginIndex;
+import cn.kycraft.kuayue.packs.origin.SystemOriginTags;
 import cn.kycraft.kuayue.packs.runtime.LegacyPackCacheCleaner;
+import cn.kycraft.kuayue.packs.runtime.PackCaptureException;
 import cn.kycraft.kuayue.packs.runtime.PackResourceSnapshotter;
 import cn.kycraft.kuayue.packs.state.PackRuntimeState;
 import lib.kasuga.core.resource.ResourceSystem;
-import lib.kasuga.core.resource.lifecycle.LogicalSide;
-import lib.kasuga.core.resource.lifecycle.ResourceEvent;
-import lib.kasuga.core.resource.routing.ResourceRouting;
 import lib.kasuga.core.resource.source.InputPolicy;
 import lib.kasuga.core.resource.source.ResourceSource;
 import lib.kasuga.core.resource.source.ResourceSourceDescriptor;
@@ -31,7 +38,7 @@ import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
-import net.neoforged.neoforge.event.server.ServerStoppingEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,11 +48,11 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -55,10 +62,11 @@ import java.util.concurrent.atomic.AtomicReference;
 public final class KuaYuePackBootstrap {
     private static final Logger LOGGER = LoggerFactory.getLogger("KuaYue/Packs");
     private static final String RUNTIME_OWNER_ID = "kuayue-runtime";
+    private static final String DISABLE_COREPACK_PROPERTY = "kuayue.packs.disableCorepack";
     private static final AtomicReference<StartupPackSnapshot> SNAPSHOT = new AtomicReference<>();
     private static final AtomicBoolean RESOURCES_INSTALLED = new AtomicBoolean();
-    private static final List<AutoCloseable> RESOURCE_REGISTRATIONS =
-            new CopyOnWriteArrayList<>();
+    private static volatile AutoCloseable resourceGroup;
+    private static volatile PackOriginIndex originIndex;
 
     private KuaYuePackBootstrap() {
     }
@@ -84,7 +92,8 @@ public final class KuaYuePackBootstrap {
                 environment,
                 corepack,
                 limits,
-                (left, right) -> new ComparableVersion(left).compareTo(new ComparableVersion(right))
+                (left, right) -> new ComparableVersion(left).compareTo(new ComparableVersion(right)),
+                Boolean.getBoolean(DISABLE_COREPACK_PROPERTY)
         );
 
         Path reportPath = gameDirectory.resolve("kuayue/reports/packs/startup.json");
@@ -123,84 +132,161 @@ public final class KuaYuePackBootstrap {
 
         Map<String, DiscoveredPack> discoveredById = new LinkedHashMap<>();
         discovery.catalog().packs().forEach(pack -> discoveredById.put(pack.packId(), pack));
-        List<StartupPackSnapshot.ManagedPackRoot> roots = new ArrayList<>();
+        Map<String, PackIcon> packIcons = new LinkedHashMap<>();
+        discovery.catalog().packs().stream()
+                .filter(pack -> pack.icon() != null)
+                .forEach(pack -> packIcons.put(pack.packId(), pack.icon()));
+        Map<String, PackDisplayText> packDisplayTexts = new LinkedHashMap<>();
+        discovery.catalog().packs().forEach(pack ->
+                packDisplayTexts.put(pack.packId(), pack.displayText()));
+        Map<String, StartupPackSnapshot.ManagedPackRoot> rootsById = new LinkedHashMap<>();
         Map<String, Set<String>> dependencies = new LinkedHashMap<>();
-        List<PackHistoryCompatibility.CurrentPack> historyPacks = new ArrayList<>();
+        List<PackDiagnostic> captureDiagnostics = new ArrayList<>();
+        Set<String> captureFailures = new LinkedHashSet<>();
         int nextRank = 1;
+        List<ResolvedPack> selectedPacks = discovery.selection().effectivePacks();
         try {
-            for (ResolvedPack resolved : discovery.selection().effectivePacks()) {
-                if (PackManifest.CORE_PACK_ID.equals(resolved.id())) {
-                    Path corepackRoot = findCorepackRoot(kuaYueContainer);
-                    DiscoveredPack corePack = PackDiscovery.scanCoreRoot(corepackRoot, limits);
-                    PackResourceSnapshotter.CapturedPack captured =
-                            PackResourceSnapshotter.capture(
-                                    corepackRoot,
-                                    corePack,
-                                    limits,
-                                    nextRank
-                            );
-                    roots.add(new StartupPackSnapshot.ManagedPackRoot(
-                            resolved.id(),
-                            resolved.version(),
-                            true,
-                            corepackRoot,
-                            captured,
-                            Set.copyOf(corePack.manifest().namespaces())
-                    ));
-                    nextRank = captured.nextRank();
-                    historyPacks.add(new PackHistoryCompatibility.CurrentPack(
-                            resolved.id(),
-                            resolved.version(),
-                            PackManifest.FORMAT_VERSION,
-                            null
-                    ));
-                    dependencies.put(resolved.id(), Set.of());
-                    continue;
+            for (ResolvedPack resolved : selectedPacks) {
+                boolean core = PackManifest.CORE_PACK_ID.equals(resolved.id());
+                Path installation;
+                DiscoveredPack pack;
+                if (core) {
+                    installation = findCorepackRoot(kuaYueContainer);
+                    pack = PackDiscovery.scanCoreRoot(installation, limits);
+                } else {
+                    pack = discoveredById.get(resolved.id());
+                    if (pack == null) {
+                        throw new IllegalStateException(
+                                "Effective pack is missing from catalog: " + resolved.id());
+                    }
+                    installation = PackResourceSnapshotter.installationPath(gameDirectory, pack);
                 }
-
-                DiscoveredPack pack = discoveredById.get(resolved.id());
-                if (pack == null) {
-                    throw new IllegalStateException(
-                            "Effective pack is missing from catalog: " + resolved.id());
+                if (pack.icon() != null) {
+                    packIcons.put(resolved.id(), pack.icon());
                 }
-                Path installation = PackResourceSnapshotter.installationPath(gameDirectory, pack);
-                PackResourceSnapshotter.CapturedPack captured =
-                        PackResourceSnapshotter.capture(
-                                installation,
-                                pack,
-                                limits,
-                                nextRank
-                        );
-                roots.add(new StartupPackSnapshot.ManagedPackRoot(
-                        resolved.id(),
-                        resolved.version(),
-                        false,
-                        installation,
-                        captured,
-                        Set.copyOf(pack.manifest().namespaces())
-                ));
-                nextRank = captured.nextRank();
-                historyPacks.add(PackHistoryCompatibility.CurrentPack.from(pack.manifest()));
                 dependencies.put(
                         resolved.id(),
-                        Set.copyOf(pack.manifest().dependencies().packs().keySet())
+                        core ? Set.of()
+                                : Set.copyOf(pack.manifest().dependencies().packs().keySet())
                 );
+                int firstRank = nextRank;
+                int rootCount = 1 + pack.manifest().parcels().size();
+                try {
+                    PackResourceSnapshotter.CapturedPack captured =
+                            PackResourceSnapshotter.capture(
+                                    installation,
+                                    pack,
+                                    limits,
+                                    firstRank
+                            );
+                    rootsById.put(resolved.id(), new StartupPackSnapshot.ManagedPackRoot(
+                            resolved.id(),
+                            pack.manifest().version(),
+                            core,
+                            pack.manifest(),
+                            pack.parcels(),
+                            installation,
+                            captured,
+                            Set.copyOf(pack.manifest().namespaces())
+                    ));
+                    nextRank = captured.nextRank();
+                } catch (PackCaptureException failure) {
+                    if (core || failure.kind() == PackCaptureException.Kind.HOST_FAILURE) {
+                        throw failure;
+                    }
+                    captureFailures.add(resolved.id());
+                    captureDiagnostics.add(new PackDiagnostic(
+                            PackDiagnosticCodes.CAPTURE_FAILED,
+                            PackSeverity.ERROR,
+                            PackStage.CONTENT,
+                            resolved.id(),
+                            pack.sourceId(),
+                            null,
+                            "pack.json",
+                            "",
+                            List.of(),
+                            failure.getMessage()
+                    ));
+                    nextRank = Math.addExact(firstRank, rootCount);
+                }
             }
         } catch (IOException | RuntimeException failure) {
             closeQuietly(runtimeRoot);
-            closeQuietly(roots);
+            closeQuietly(rootsById.values());
             throw new IllegalStateException("Unable to capture KuaYue pack resources", failure);
         }
+
+        if (!captureFailures.isEmpty()) {
+            Set<String> blocked = PackFailurePolicy.includeDependents(
+                    captureFailures,
+                    selectedPacks.stream().map(ResolvedPack::id).toList(),
+                    dependencies
+            );
+            for (String id : blocked) {
+                StartupPackSnapshot.ManagedPackRoot removed = rootsById.remove(id);
+                closeQuietly(removed);
+                dependencies.remove(id);
+            }
+        }
+        List<StartupPackSnapshot.ManagedPackRoot> roots = new ArrayList<>(rootsById.values());
+        List<PackHistoryCompatibility.CurrentPack> historyPacks = new ArrayList<>(
+                roots.stream()
+                        .map(root -> PackHistoryCompatibility.CurrentPack.from(root.manifest()))
+                        .toList()
+        );
         historyPacks.sort(Comparator.comparing(PackHistoryCompatibility.CurrentPack::id));
+        PackStartupReport finalReport = discovery.report();
+        if (!captureDiagnostics.isEmpty()) {
+            finalReport = finalReport.withRegistrationState(
+                    rootsById.keySet(),
+                    captureDiagnostics
+            );
+        }
+        try {
+            finalReport.write(reportPath);
+        } catch (IOException failure) {
+            closeQuietly(runtimeRoot);
+            closeQuietly(rootsById.values());
+            throw new IllegalStateException(
+                    "Unable to publish captured KuaYue pack report",
+                    failure
+            );
+        }
+        Map<String, PackManifest> knownManifests = new LinkedHashMap<>();
+        discovery.catalog().packs().forEach(pack ->
+                knownManifests.put(pack.packId(), pack.manifest()));
+        rootsById.values().forEach(root ->
+                knownManifests.put(root.id(), root.manifest()));
+        if (!knownManifests.containsKey(PackManifest.CORE_PACK_ID)) {
+            try {
+                DiscoveredPack installedCore = PackDiscovery.scanCoreRoot(
+                        findCorepackRoot(kuaYueContainer),
+                        limits
+                );
+                knownManifests.put(installedCore.packId(), installedCore.manifest());
+                if (installedCore.icon() != null) {
+                    packIcons.putIfAbsent(installedCore.packId(), installedCore.icon());
+                }
+            } catch (RuntimeException failure) {
+                LOGGER.warn(
+                        "Unable to inspect disabled corepack metadata for pack settings",
+                        failure
+                );
+            }
+        }
+        LOGGER.debug("Known pack settings manifests: {}", knownManifests.keySet());
 
         StartupPackSnapshot snapshot = new StartupPackSnapshot(
                 gameDirectory,
                 runtimeRoot,
                 discovery.configDocument().config(),
+                knownManifests,
+                packIcons,
+                packDisplayTexts,
                 roots,
                 dependencies,
                 historyPacks,
-                discovery.report()
+                finalReport
         );
         PackRuntimeState.install(snapshot.config());
         SNAPSHOT.set(snapshot);
@@ -209,9 +295,10 @@ public final class KuaYuePackBootstrap {
                 PackHistoryGuard::onServerAboutToStart
         );
         NeoForge.EVENT_BUS.addListener(LevelEvent.Load.class, PackHistoryGuard::onLevelLoad);
+        NeoForge.EVENT_BUS.addListener(LevelEvent.Save.class, PackHistoryGuard::onLevelSave);
         NeoForge.EVENT_BUS.addListener(
-                ServerStoppingEvent.class,
-                PackHistoryGuard::onServerStopping
+                ServerStoppedEvent.class,
+                PackHistoryGuard::onServerStopped
         );
         LOGGER.info(
                 "Frozen {} effective KuaYue packs; corepack={}",
@@ -246,43 +333,64 @@ public final class KuaYuePackBootstrap {
                 .forEach(root -> root.capture().roots().stream()
                         .map(PackResourceSnapshotter.CapturedRoot::source)
                         .forEach(sources::add));
+        SystemOriginTags.Result tagged = null;
+        AutoCloseable pending = null;
         try {
-            for (ResourceSource source : sources) {
-                ResourceSourceDescriptor descriptor = source.descriptor();
-                ResourceRouting routing = new ResourceRouting(List.of(
-                        new ResourceRouting.Binding(
-                                "binding-" + descriptor.rootId(),
-                                descriptor.sourceId(),
-                                "",
-                                List.of(new ResourceRouting.Output(
-                                        "minecraft",
-                                        ResourceRouting.MINECRAFT_ENTRY_POINT,
-                                        ResourceEvent.RESOURCE_RELOAD,
-                                        LogicalSide.BOTH,
-                                        ""
-                                ))
-                        )
-                ));
-                String registrationId = descriptor.sourceId() + "-" + descriptor.rootId();
-                RESOURCE_REGISTRATIONS.add(
-                        resourceSystem.getApprovedPacks().register(
-                                registrationId,
-                                List.of(source),
-                                routing
-                        )
-                );
+            PackOriginIndex currentOrigin = PackOriginIndex.current();
+            int nextRank = snapshot.resourceRoots().stream()
+                    .flatMap(root -> root.capture().roots().stream())
+                    .mapToInt(PackResourceSnapshotter.CapturedRoot::rank)
+                    .max()
+                    .orElse(0);
+            tagged = SystemOriginTags.create(
+                    currentOrigin,
+                    (long) nextRank + 1L,
+                    PackLimits.defaults()
+            );
+            sources.add(tagged.source());
+            pending = resourceSystem.getApprovedPacks().registerOrderedGroup(
+                    KuaYueMcPackProjection.create(List.copyOf(sources))
+            );
+            try {
+                tagged.source().close();
+            } catch (IOException closeFailure) {
+                try {
+                    pending.close();
+                } catch (Exception cleanup) {
+                    closeFailure.addSuppressed(cleanup);
+                }
+                pending = null;
+                throw closeFailure;
             }
+            tagged = null;
             resourceSystem.registerManagedCloseable(KuaYuePackBootstrap::closePackResources);
-        } catch (RuntimeException failure) {
-            closeQuietly(RESOURCE_REGISTRATIONS);
-            RESOURCE_REGISTRATIONS.clear();
+            resourceGroup = pending;
+            pending = null;
+            originIndex = currentOrigin;
+        } catch (IOException failure) {
+            cleanupFailedInstall(pending, failure);
+            if (tagged != null) cleanupFailedInstall(tagged.source(), failure);
             RESOURCES_INSTALLED.set(false);
+            closePackResources();
+            throw new IllegalStateException(
+                    "Unable to install KuaYue managed resource group",
+                    failure
+            );
+        } catch (RuntimeException failure) {
+            cleanupFailedInstall(pending, failure);
+            if (tagged != null) cleanupFailedInstall(tagged.source(), failure);
+            RESOURCES_INSTALLED.set(false);
+            closePackResources();
             throw failure;
         }
     }
 
     public static Optional<StartupPackSnapshot> snapshot() {
         return Optional.ofNullable(SNAPSHOT.get());
+    }
+
+    public static Optional<PackOriginIndex> originIndex() {
+        return Optional.ofNullable(originIndex);
     }
 
     private static RuntimeCapture captureRuntime(Path root, InputPolicy policy)
@@ -337,8 +445,10 @@ public final class KuaYuePackBootstrap {
     }
 
     private static void closePackResources() {
-        closeQuietly(RESOURCE_REGISTRATIONS);
-        RESOURCE_REGISTRATIONS.clear();
+        AutoCloseable group = resourceGroup;
+        resourceGroup = null;
+        closeQuietly(group);
+        originIndex = null;
         StartupPackSnapshot snapshot = SNAPSHOT.getAndSet(null);
         if (snapshot != null) {
             closeQuietly(snapshot.runtimeRoot());
@@ -355,6 +465,15 @@ public final class KuaYuePackBootstrap {
             closeable.close();
         } catch (Exception exception) {
             LOGGER.warn("KuaYue resource cleanup failed", exception);
+        }
+    }
+
+    private static void cleanupFailedInstall(AutoCloseable pending, Throwable primary) {
+        if (pending == null) return;
+        try {
+            pending.close();
+        } catch (Exception cleanup) {
+            primary.addSuppressed(cleanup);
         }
     }
 

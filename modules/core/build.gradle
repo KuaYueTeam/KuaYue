@@ -30,6 +30,7 @@ repositories {
     // Add here additional repositories if required by some of the dependencies below.
     maven { url = "https://maven.createmod.net" } // Create, Ponder, Flywheel
     maven { url = "https://maven.ithundxr.dev/snapshots" } // Registrate
+    maven { url = "https://maven.firstdark.dev/snapshots" } // LDLib2
 }
 
 base {
@@ -39,6 +40,10 @@ base {
 configurations {
     shadowLibrary
     implementation.extendsFrom shadowLibrary
+    ldlib2Runtime {
+        canBeConsumed = false
+        canBeResolved = true
+    }
 }
 
 sourceSets {
@@ -65,6 +70,11 @@ neoForge {
         minecraftVersion = project.parchment_minecraft_version
     }
     runs {
+        // Core has no embedded corepack. Standalone runs default to zero packs so clean
+        // checkouts do not depend on the ignored core/run/kuayue/config.json.
+        def coreRunCorepack = providers.gradleProperty("coreRunCorepack")
+                .map { it.toBoolean() }
+                .orElse(false)
         client {
             client()
 
@@ -91,6 +101,7 @@ neoForge {
         // applies to all the run configs above
         configureEach {
             systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'kuayue.packs.disableCorepack', (!coreRunCorepack.get()).toString()
 
             logLevel = org.slf4j.event.Level.DEBUG
         }
@@ -141,6 +152,8 @@ dependencies {
 
 
     implementation("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false }
+    implementation("com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:${ldlib2_version}:all") { transitive = false }
+    ldlib2Runtime("com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:${ldlib2_version}:all") { transitive = false }
     implementation("net.createmod.ponder:Ponder-NeoForge-${minecraft_version}:${ponder_version}")
     compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${minecraft_version}:${flywheel_version}")
     runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
@@ -154,6 +167,23 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+def ldlib2NestedDir = layout.buildDirectory.dir("ldlib2-nested")
+def ldlib2AllJar = file(configurations.getByName("ldlib2Runtime").files.find {
+    it.name.startsWith("ldlib2-neoforge-") && it.name.endsWith("-all.jar")
+})
+def extractLdlib2Nested = tasks.register("extractLdlib2Nested", Copy) {
+    from({ zipTree(ldlib2AllJar) }) {
+        include 'META-INF/jarjar/*.jar'
+        eachFile { it.path = it.name }
+        includeEmptyDirs = false
+    }
+    into(ldlib2NestedDir)
+}
+dependencies {
+    compileOnly(fileTree(ldlib2NestedDir) { include '*.jar' })
+}
+compileJava.dependsOn(extractLdlib2Nested)
+
 // This block of code expands all declared replace properties in the specified resource targets.
 // A missing property will result in an error. Properties are expanded using ${} Groovy notation.
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
@@ -166,6 +196,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_name               : mod_name,
             mod_license            : mod_license,
             mod_version            : mod_version,
+            ldlib2_version         : ldlib2_version,
             mod_authors            : mod_authors,
             mod_description        : mod_description
     ]

@@ -2,7 +2,11 @@ package cn.kycraft.kuayue.packs.runtime;
 
 import cn.kycraft.kuayue.packs.PackDiscovery;
 import cn.kycraft.kuayue.packs.PackLimits;
+import lib.kasuga.core.resource.lifecycle.LogicalSide;
+import lib.kasuga.core.resource.lifecycle.ResourceEvent;
+import lib.kasuga.core.resource.routing.ResourceRouting;
 import lib.kasuga.core.resource.source.ResourceSnapshot;
+import lib.kasuga.core.resource.view.ResourceCatalog;
 import lib.kasuga.registration.data_driven.source.ContentSource;
 import lib.kasuga.registration.data_driven.source.LogicalPath;
 import org.junit.jupiter.api.Test;
@@ -57,6 +61,18 @@ class PackResourceSnapshotterTest {
                 "{\"main\":\"main\"}"
         );
         write(
+                packRoot.resolve("assets/example/blockstates/override_block.json"),
+                "{\"variants\":{\"facing=north\":{\"model\":\"example:block/override_block\"}}}"
+        );
+        write(
+                packRoot.resolve("assets/example/models/block/override_block.json"),
+                "{\"parent\":\"minecraft:block/cube_all\"}"
+        );
+        write(
+                packRoot.resolve("assets/example/models/item/override_block.json"),
+                "{\"parent\":\"example:block/override_block\"}"
+        );
+        write(
                 packRoot.resolve("parcels/car/assets/example/lang/en_us.json"),
                 "{\"main\":\"parcel\"}"
         );
@@ -90,6 +106,45 @@ class PackResourceSnapshotterTest {
             assertEquals("example:car", captured.roots().get(1).parcelId());
 
             PackResourceSnapshotter.CapturedRoot parcel = captured.roots().get(1);
+            try (ResourceSnapshot main = captured.roots().getFirst().source().capture()) {
+                assertEquals(
+                        "{\"parent\":\"minecraft:block/cube_all\"}",
+                        readText(main, "assets/example/models/block/override_block.json")
+                );
+                assertEquals(
+                        "{\"parent\":\"example:block/override_block\"}",
+                        readText(main, "assets/example/models/item/override_block.json")
+                );
+                assertTrue(main.files().stream().anyMatch(file ->
+                        file.descriptor().logicalPath().equals(
+                                "assets/example/lang/en_us.json")));
+                ResourceRouting routing = new ResourceRouting(List.of(
+                        new ResourceRouting.Binding(
+                                "minecraft",
+                                "sample",
+                                "",
+                                List.of(new ResourceRouting.Output(
+                                        "minecraft",
+                                        ResourceRouting.MINECRAFT_ENTRY_POINT,
+                                        ResourceEvent.RESOURCE_RELOAD,
+                                        LogicalSide.CLIENT,
+                                        ""
+                                ))
+                        )
+                ));
+                List<String> targets = routing.route(
+                        new ResourceCatalog("client", 1, List.of(main)),
+                        ResourceEvent.RESOURCE_RELOAD,
+                        LogicalSide.CLIENT
+                ).stream().map(ResourceRouting.Route::targetPath).toList();
+                assertTrue(targets.contains(
+                        "assets/example/models/block/override_block.json"
+                ));
+                assertTrue(targets.contains(
+                        "assets/example/models/item/override_block.json"
+                ));
+                assertTrue(targets.contains("assets/example/lang/en_us.json"));
+            }
             try (ContentSource source = parcel.contentSource()) {
                 assertEquals(List.of("data/example/kasuga_lib/data_driven/car.json"),
                         source.indexes().stream()

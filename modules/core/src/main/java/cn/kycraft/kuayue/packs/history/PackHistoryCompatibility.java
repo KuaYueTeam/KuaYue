@@ -4,6 +4,7 @@ import cn.kycraft.kuayue.packs.PackDiagnostic;
 import cn.kycraft.kuayue.packs.PackDiagnosticCodes;
 import cn.kycraft.kuayue.packs.PackManifest;
 import cn.kycraft.kuayue.packs.PackPathRules;
+import cn.kycraft.kuayue.packs.PackSeverity;
 import cn.kycraft.kuayue.packs.PackStage;
 import cn.kycraft.kuayue.packs.SaveCompatibility;
 import cn.kycraft.kuayue.packs.SemanticVersion;
@@ -66,8 +67,27 @@ public final class PackHistoryCompatibility {
                 diagnostics.add(error(
                         PackDiagnosticCodes.UNKNOWN_PACK_ID,
                         historical.id(),
-                        "Pack '" + historical.id()
-                                + "' was present in the world history but is not enabled now"));
+                        "Pack '" + historical.id() + "' version "
+                                + historical.version() + " (format "
+                                + historical.formatVersion()
+                                + ") was present in the world history but is absent "
+                                + "or disabled now"));
+                continue;
+            }
+            if (historical.formatVersion() != active.formatVersion()) {
+                diagnostics.add(new PackDiagnostic(
+                        PackDiagnosticCodes.SAVE_FORMAT_INCOMPATIBLE,
+                        PackSeverity.ERROR,
+                        PackStage.COMPATIBILITY,
+                        historical.id(),
+                        PackHistoryState.DATA_NAME,
+                        null,
+                        "data/" + PackHistoryState.DATA_NAME + ".dat",
+                        null,
+                        List.of(),
+                        "Pack '" + historical.id() + "' format changed from "
+                                + historical.formatVersion() + " to " + active.formatVersion()
+                ));
                 continue;
             }
 
