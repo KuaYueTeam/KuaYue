@@ -3,5 +3,7 @@
   "id": "kuayue:hxd3d",
   "name_key": "parcel.kuayue.hxd3d.name",
   "description_key": "parcel.kuayue.hxd3d.description",
-  "indexes": []
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/hxd3d.json"
+  ]
 }

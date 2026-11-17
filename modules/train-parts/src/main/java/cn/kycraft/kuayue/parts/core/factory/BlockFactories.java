@@ -3,9 +3,12 @@ package cn.kycraft.kuayue.parts.core.factory;
 import cn.kycraft.kuayue.parts.core.panel.AirVentBlock;
 import cn.kycraft.kuayue.parts.core.panel.FreightC70EndFaceBlock;
 import cn.kycraft.kuayue.parts.core.panel.FreightNX70EndFaceBlock;
+import cn.kycraft.kuayue.parts.core.panel.FullShapeDirectionalBlock;
+import cn.kycraft.kuayue.parts.core.panel.HeightSlabBlock;
 import cn.kycraft.kuayue.parts.core.panel.HingeSlabBlock;
 import cn.kycraft.kuayue.parts.core.panel.LadderBlock;
 import cn.kycraft.kuayue.parts.core.panel.LevelPanelBlock;
+import cn.kycraft.kuayue.parts.core.panel.SingleArmPantographBlock;
 import cn.kycraft.kuayue.parts.core.panel.SkirtBlock;
 import cn.kycraft.kuayue.parts.core.panel.SlabBlock;
 import cn.kycraft.kuayue.parts.core.panel.TrainHingePanelBlock;
@@ -23,9 +26,13 @@ import cn.kycraft.kuayue.parts.core.panel.window.TrainOpenableWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainSmallWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainUnOpenableSmallWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainUnOpenableWindowBlock;
+import cn.kycraft.kuayue.parts.locomotives.hxd3d.HXD3DCowCatcherBlock;
 import io.micronaut.context.annotation.Context;
+import lib.kasuga.registration.minecraft.block.BlockReg;
 import lib.kasuga.registration.factory.FactoryRegistry;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
@@ -56,6 +63,8 @@ public class BlockFactories {
 
     public static FactoryRegistry.BlockFactory SLAB = (id, params) -> new SlabReg<>(id, p -> new SlabBlock(p, false));
     public static FactoryRegistry.BlockFactory SLAB_TOP = (id, params) -> new SlabReg<>(id, p -> new SlabBlock(p, true));
+    public static FactoryRegistry.BlockFactory HEIGHT_SLAB = (id, params) ->
+            blockWithDefaultItem(id, HeightSlabBlock::new);
 
     public static FactoryRegistry.BlockFactory LADDER = (id, params) -> new SlabReg<>(id, p -> {
         boolean isMeter = FactoryParams.getBooleanOr(params, "is_meter", false);
@@ -157,10 +166,28 @@ public class BlockFactories {
         return new MeterCarriageEndFaceBlock(p, doorType, outside);
     });
 
+    public static FactoryRegistry.BlockFactory FULL_SHAPE_DIRECTIONAL = (id, params) ->
+            blockWithDefaultItem(id, FullShapeDirectionalBlock::new);
+
+    public static FactoryRegistry.BlockFactory HXD3D_COWCATCHER = (id, params) ->
+            blockWithDefaultItem(id, HXD3DCowCatcherBlock::new);
+
+    public static FactoryRegistry.BlockFactory SINGLE_ARM_PANTOGRAPH = (id, params) ->
+            blockWithDefaultItem(id, SingleArmPantographBlock::new);
+
+    private static BlockReg<Block> blockWithDefaultItem(
+            String id,
+            java.util.function.Function<BlockBehaviour.Properties, ? extends Block> supplier
+    ) {
+        return BlockReg.<Block>of(id, properties -> supplier.apply(properties))
+                .withDefaultBlockItem(id);
+    }
+
     static {
         FactoryRegistry.register("train_panel", TRAIN_PANEL, true);
         FactoryRegistry.register("slab", SLAB, true);
         FactoryRegistry.register("slab_top", SLAB_TOP, true);
+        FactoryRegistry.register("height_slab", HEIGHT_SLAB, true);
         FactoryRegistry.register("ladder", LADDER, true);
         FactoryRegistry.register("train_small_window", TRAIN_SMALL_WINDOW, true);
         FactoryRegistry.register("train_openable_window", TRAIN_OPENABLE_WINDOW, true);
@@ -177,5 +204,8 @@ public class BlockFactories {
         FactoryRegistry.register("double_rotate_door", DOUBLE_ROTATE_DOOR, true);
         FactoryRegistry.register("freight_end_face", FREIGHT_END_FACE, true);
         FactoryRegistry.register("meter_carriage_end_face", METER_CARRIAGE_END_FACE, true);
+        FactoryRegistry.register("full_shape_directional", FULL_SHAPE_DIRECTIONAL, true);
+        FactoryRegistry.register("hxd3d_cowcatcher", HXD3D_COWCATCHER, true);
+        FactoryRegistry.register("single_arm_pantograph", SINGLE_ARM_PANTOGRAPH, true);
     }
 }

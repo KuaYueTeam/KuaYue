@@ -1,0 +1,6 @@
+{
+  "on_register": [
+    "locomotives/hxd3d/groups.json",
+    "locomotives/hxd3d/blocks.json"
+  ]
+}
