@@ -1,0 +1,167 @@
+{
+  "blocks": [
+    {
+      "id": "kuayue:df5_end_face_1",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_end_face_2",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_cowcatcher",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_fuel_tank",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_floor",
+      "type": "slab",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_center_floor",
+      "type": "slab",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_transit_floor",
+      "type": "hinge_slab",
+      "params": {"is_carport": false},
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_chimney",
+      "type": "df5_chimney",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_carport_cabin",
+      "type": "hinge_slab",
+      "params": {"is_carport": false},
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_cooling_fan",
+      "type": "slab_top",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_handrail",
+      "type": "train_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_panel_bottom",
+      "type": "train_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_panel_top",
+      "type": "train_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_carport_1",
+      "type": "train_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_carport_2",
+      "type": "train_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_carport_3",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_carport_4",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_carport_5",
+      "type": "train_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_carport_grille",
+      "type": "train_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_air_intake",
+      "type": "train_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_air_intake_2",
+      "type": "train_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_air_intake_3",
+      "type": "train_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_radiator_grid",
+      "type": "train_panel",
+      "params": {"begin_x": 0, "begin_y": 0, "end_x": 1, "end_y": 2},
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_engine_access_door",
+      "type": "train_door",
+      "params": {"begin_x": 0, "begin_y": 0, "end_x": 1, "end_y": 1},
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_equip_door_1",
+      "type": "train_door",
+      "params": {"begin_x": 0, "begin_y": 0, "end_x": 1, "end_y": 1},
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_equip_door_2",
+      "type": "train_door",
+      "params": {"begin_x": 0, "begin_y": 0, "end_x": 1, "end_y": 1},
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_cabin_door",
+      "type": "train_door",
+      "params": {"begin_x": 0, "begin_y": 0, "end_x": 1, "end_y": 1},
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_head_end_face",
+      "type": "train_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_head_end_face_2",
+      "type": "train_panel",
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_head_panel",
+      "type": "train_panel",
+      "params": {"begin_x": 0, "begin_y": 0, "end_x": 1, "end_y": 2},
+      "registry_group": "kuayue:df5_panels"
+    },
+    {
+      "id": "kuayue:df5_cowcatcher_ladder",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:df5_panels"
+    }
+  ]
+}

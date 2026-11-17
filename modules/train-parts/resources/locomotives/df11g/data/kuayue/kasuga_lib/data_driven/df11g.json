@@ -1,0 +1,6 @@
+{
+  "on_register": [
+    "locomotives/df11g/groups.json",
+    "locomotives/df11g/blocks.json"
+  ]
+}

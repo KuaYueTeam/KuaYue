@@ -3,5 +3,7 @@
   "id": "kuayue:df5",
   "name_key": "parcel.kuayue.df5.name",
   "description_key": "parcel.kuayue.df5.description",
-  "indexes": []
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/df5.json"
+  ]
 }

@@ -3,5 +3,7 @@
   "id": "kuayue:ss3",
   "name_key": "parcel.kuayue.ss3.name",
   "description_key": "parcel.kuayue.ss3.description",
-  "indexes": []
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/ss3.json"
+  ]
 }

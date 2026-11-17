@@ -3,5 +3,7 @@
   "id": "kuayue:df11g",
   "name_key": "parcel.kuayue.df11g.name",
   "description_key": "parcel.kuayue.df11g.description",
-  "indexes": []
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/df11g.json"
+  ]
 }

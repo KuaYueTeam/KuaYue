@@ -3,5 +3,7 @@
   "id": "kuayue:ss8",
   "name_key": "parcel.kuayue.ss8.name",
   "description_key": "parcel.kuayue.ss8.description",
-  "indexes": []
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/ss8.json"
+  ]
 }

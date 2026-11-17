@@ -1,0 +1,16 @@
+{
+  "registry_groups": [
+    {
+      "id": "kuayue:df11_panels",
+      "properties": {
+        "no_occlusion": true,
+        "strength": [1.5, 3.0],
+        "map_color": "blue"
+      },
+      "item_properties": {
+        "tab": "kuayue:train_panel_tab",
+        "stacks_to": 8
+      }
+    }
+  ]
+}

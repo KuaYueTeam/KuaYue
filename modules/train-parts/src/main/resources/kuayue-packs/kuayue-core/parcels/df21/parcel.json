@@ -3,5 +3,7 @@
   "id": "kuayue:df21",
   "name_key": "parcel.kuayue.df21.name",
   "description_key": "parcel.kuayue.df21.description",
-  "indexes": []
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/df21.json"
+  ]
 }

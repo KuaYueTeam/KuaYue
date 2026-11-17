@@ -4,6 +4,7 @@ import cn.kycraft.kuayue.parts.core.panel.AirVentBlock;
 import cn.kycraft.kuayue.parts.core.panel.FreightC70EndFaceBlock;
 import cn.kycraft.kuayue.parts.core.panel.FreightNX70EndFaceBlock;
 import cn.kycraft.kuayue.parts.core.panel.FullShapeDirectionalBlock;
+import cn.kycraft.kuayue.parts.core.panel.HeadBlock;
 import cn.kycraft.kuayue.parts.core.panel.HeightSlabBlock;
 import cn.kycraft.kuayue.parts.core.panel.HingeSlabBlock;
 import cn.kycraft.kuayue.parts.core.panel.LadderBlock;
@@ -18,6 +19,7 @@ import cn.kycraft.kuayue.parts.core.panel.custom_rendered.CustomRenderedDoorBloc
 import cn.kycraft.kuayue.parts.core.panel.custom_rendered.CustomRenderedEndFaceBlock;
 import cn.kycraft.kuayue.parts.core.panel.custom_rendered.DoubleRotateDoorBlock;
 import cn.kycraft.kuayue.parts.core.panel.custom_rendered.MeterCarriageEndFaceBlock;
+import cn.kycraft.kuayue.parts.core.panel.door.TrainDoorBlock;
 import cn.kycraft.kuayue.parts.core.panel.registration.PanelReg;
 import cn.kycraft.kuayue.parts.core.panel.registration.SkirtReg;
 import cn.kycraft.kuayue.parts.core.panel.registration.SlabReg;
@@ -26,7 +28,10 @@ import cn.kycraft.kuayue.parts.core.panel.window.TrainOpenableWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainSmallWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainUnOpenableSmallWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainUnOpenableWindowBlock;
+import cn.kycraft.kuayue.parts.locomotives.df11.DF11GChimneyBlock;
+import cn.kycraft.kuayue.parts.locomotives.df5.DF5ChimneyBlock;
 import cn.kycraft.kuayue.parts.locomotives.hxd3d.HXD3DCowCatcherBlock;
+import cn.kycraft.kuayue.parts.locomotives.jy.JY290ACBlock;
 import io.micronaut.context.annotation.Context;
 import lib.kasuga.registration.minecraft.block.BlockReg;
 import lib.kasuga.registration.factory.FactoryRegistry;
@@ -35,6 +40,8 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.function.Function;
 
 @Context
 public class BlockFactories {
@@ -112,6 +119,11 @@ public class BlockFactories {
             new PanelReg<>(id, TrainUnOpenableSmallWindowBlock::new);
 
     public static FactoryRegistry.BlockFactory TRAIN_UNOPENABLE_WINDOW = (id, params) -> new PanelReg<>(id, p -> {
+        if (params != null && (params.has("begin_x") || params.has("end_x"))) {
+            int beginX = FactoryParams.getIntOr(params, "begin_x", -1);
+            int endX = FactoryParams.getIntOr(params, "end_x", 1);
+            return new TrainUnOpenableWindowBlock(p, beginX, endX);
+        }
         int wide = FactoryParams.getIntOr(params, "wide", 1);
         int beginY = FactoryParams.getIntOr(params, "begin_y", 0);
         int endY = FactoryParams.getIntOr(params, "end_y", 1);
@@ -175,9 +187,34 @@ public class BlockFactories {
     public static FactoryRegistry.BlockFactory SINGLE_ARM_PANTOGRAPH = (id, params) ->
             blockWithDefaultItem(id, SingleArmPantographBlock::new);
 
+    public static FactoryRegistry.BlockFactory HEAD = (id, params) ->
+            blockWithDefaultItem(id, HeadBlock::new);
+
+    public static FactoryRegistry.BlockFactory CHIMNEY = (id, params) ->
+            new SlabReg<>(id, p -> new DF11GChimneyBlock(p, false));
+
+    public static FactoryRegistry.BlockFactory DF5_CHIMNEY = (id, params) ->
+            new SlabReg<>(id, p -> new DF5ChimneyBlock(p, false));
+
+    public static FactoryRegistry.BlockFactory TRAIN_DOOR = (id, params) -> new PanelReg<>(id, p ->
+            new TrainDoorBlock(
+                    p,
+                    new Vec2(
+                            FactoryParams.getFloatOr(params, "begin_x", 0f),
+                            FactoryParams.getFloatOr(params, "begin_y", 0f)
+                    ),
+                    new Vec2(
+                            FactoryParams.getFloatOr(params, "end_x", 1f),
+                            FactoryParams.getFloatOr(params, "end_y", 1f)
+                    )
+            ));
+
+    public static FactoryRegistry.BlockFactory JY290_AC = (id, params) ->
+            blockWithDefaultItem(id, JY290ACBlock::new);
+
     private static BlockReg<Block> blockWithDefaultItem(
             String id,
-            java.util.function.Function<BlockBehaviour.Properties, ? extends Block> supplier
+            Function<BlockBehaviour.Properties, ? extends Block> supplier
     ) {
         return BlockReg.<Block>of(id, properties -> supplier.apply(properties))
                 .withDefaultBlockItem(id);
@@ -207,5 +244,10 @@ public class BlockFactories {
         FactoryRegistry.register("full_shape_directional", FULL_SHAPE_DIRECTIONAL, true);
         FactoryRegistry.register("hxd3d_cowcatcher", HXD3D_COWCATCHER, true);
         FactoryRegistry.register("single_arm_pantograph", SINGLE_ARM_PANTOGRAPH, true);
+        FactoryRegistry.register("head", HEAD, true);
+        FactoryRegistry.register("chimney", CHIMNEY, true);
+        FactoryRegistry.register("df5_chimney", DF5_CHIMNEY, true);
+        FactoryRegistry.register("train_door", TRAIN_DOOR, true);
+        FactoryRegistry.register("jy290_ac", JY290_AC, true);
     }
 }

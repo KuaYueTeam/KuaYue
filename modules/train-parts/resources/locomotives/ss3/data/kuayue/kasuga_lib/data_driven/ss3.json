@@ -1,0 +1,6 @@
+{
+  "on_register": [
+    "locomotives/ss3/groups.json",
+    "locomotives/ss3/blocks.json"
+  ]
+}

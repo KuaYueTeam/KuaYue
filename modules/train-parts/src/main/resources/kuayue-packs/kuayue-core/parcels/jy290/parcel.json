@@ -3,5 +3,7 @@
   "id": "kuayue:jy290",
   "name_key": "parcel.kuayue.jy290.name",
   "description_key": "parcel.kuayue.jy290.description",
-  "indexes": []
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/jy290.json"
+  ]
 }

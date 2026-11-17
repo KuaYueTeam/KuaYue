@@ -1,0 +1,110 @@
+{
+  "blocks": [
+    {
+      "id": "kuayue:head_df21",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:df21_panels"
+    },
+    {
+      "id": "kuayue:head_early_df21",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:df21_panels"
+    },
+    {
+      "id": "kuayue:exhaust_fan_df21",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:df21_panels"
+    },
+    {
+      "id": "kuayue:dynamic_carport_df21",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:df21_panels"
+    },
+    {
+      "id": "kuayue:dynamic_transition_carport_df21",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:df21_panels"
+    },
+    {
+      "id": "kuayue:dynamic_radiator_df21",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:df21_panels"
+    },
+    {
+      "id": "kuayue:general_carport_df21",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:df21_panels"
+    },
+    {
+      "id": "kuayue:general_slab_df21",
+      "type": "slab",
+      "registry_group": "kuayue:df21_panels"
+    },
+    {
+      "id": "kuayue:door_cabin_df21",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:df21/door/df21_cabin_door_bottom_left",
+          "kuayue:df21/door/df21_cabin_door_upper_left"
+        ],
+        "right_models": [
+          "kuayue:df21/door/df21_cabin_door_bottom_right",
+          "kuayue:df21/door/df21_cabin_door_upper_right"
+        ],
+        "offset": [0, 0, 0],
+        "open_offset": [0, 0, 0],
+        "render_shape": "entityblock_animated",
+        "is_slide_door": false
+      },
+      "registry_group": "kuayue:df21_panels"
+    },
+    {
+      "id": "kuayue:door_equip_df21",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:df21/door/df21_equip_door_bottom_left",
+          "kuayue:df21/door/df21_equip_door_upper_left"
+        ],
+        "right_models": [
+          "kuayue:df21/door/df21_equip_door_bottom_right",
+          "kuayue:df21/door/df21_equip_door_upper_right"
+        ],
+        "offset": [0, 0, 0],
+        "open_offset": [0, 0, 0],
+        "render_shape": "entityblock_animated",
+        "is_slide_door": false
+      },
+      "registry_group": "kuayue:df21_panels"
+    },
+    {
+      "id": "kuayue:window_equip_df21",
+      "type": "train_unopenable_window",
+      "params": {"begin_x": -1, "end_x": 2},
+      "registry_group": "kuayue:df21_panels"
+    },
+    {
+      "id": "kuayue:equip_middle_early_df21",
+      "type": "train_unopenable_window",
+      "params": {"wide": 1, "begin_y": 0, "end_y": 2},
+      "registry_group": "kuayue:df21_panels"
+    },
+    {
+      "id": "kuayue:general_bottom_slab_df21",
+      "type": "train_hinge_panel",
+      "params": {"begin_x": 0, "begin_y": 0, "end_x": 1, "end_y": 1},
+      "registry_group": "kuayue:df21_panels"
+    },
+    {
+      "id": "kuayue:fuel_tank_df21",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:df21_panels"
+    }
+  ]
+}
