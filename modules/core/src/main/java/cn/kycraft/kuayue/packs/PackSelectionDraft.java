@@ -12,6 +12,7 @@ import java.util.TreeSet;
 /** Pure next-start pack selection draft used by the settings screen. */
 public final class PackSelectionDraft {
     private final PackConfig baseline;
+    private final Set<String> knownIds;
     private final Set<String> selectableIds;
     private final Set<String> lockedIds;
     private final List<String> allOrder;
@@ -33,6 +34,7 @@ public final class PackSelectionDraft {
             Set<String> lockedIds
     ) {
         this.baseline = Objects.requireNonNull(baseline, "baseline");
+        this.knownIds = Set.copyOf(knownIds);
         this.selectableIds = Set.copyOf(selectableIds);
         this.lockedIds = Set.copyOf(lockedIds);
         TreeSet<String> universe = new TreeSet<>(knownIds);
@@ -43,7 +45,9 @@ public final class PackSelectionDraft {
         order.addAll(universe);
         allOrder = new ArrayList<>(order);
         for (String id : allOrder) {
-            if (baseline.isRequestedEnabled(id)) selected.add(id);
+            if (knownIds.contains(id) && baseline.isRequestedEnabled(id)) {
+                selected.add(id);
+            }
         }
     }
 

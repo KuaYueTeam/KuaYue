@@ -12,6 +12,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PackSelectionDraftTest {
     @Test
+    void staleConfigIdsAreNotShownAsSelectedPacks() {
+        PackConfig baseline = new PackConfig(
+                PackConfig.FORMAT_VERSION,
+                Map.of("kuayue-core", true, "alpha", true),
+                List.of("kuayue-core", "alpha"),
+                List.of()
+        );
+        PackSelectionDraft draft = new PackSelectionDraft(
+                baseline,
+                Set.of("alpha"),
+                Set.of("alpha")
+        );
+
+        assertEquals(List.of("alpha"), draft.selectedIds());
+        assertEquals(List.of("alpha"), draft.selectedIdsByPriority());
+    }
+
+    @Test
     void requiredPackCannotBeRemovedOrMoved() {
         PackConfig baseline = new PackConfig(
                 PackConfig.FORMAT_VERSION,
@@ -76,7 +94,7 @@ class PackSelectionDraftTest {
         );
         PackSelectionDraft draft = new PackSelectionDraft(
                 baseline,
-                Set.of("alpha", "off", "beta"),
+                Set.of("base", "alpha", "off", "beta"),
                 Set.of("alpha", "beta")
         );
 
@@ -101,7 +119,7 @@ class PackSelectionDraftTest {
         );
         PackSelectionDraft draft = new PackSelectionDraft(
                 baseline,
-                Set.of("alpha", "off", "beta"),
+                Set.of("base", "alpha", "off", "beta"),
                 Set.of("alpha", "beta")
         );
 
