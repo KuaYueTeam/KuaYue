@@ -65,7 +65,5 @@
     "kuayue.bogey.style.andesite_loco": "Andesite Loco Bogey",
     "kuayue.bogey.style.carriage": "Carriage Bogey",
     "kuayue.bogey.style.meter_carriage": "Meter-gauge Carriage Bogey",
-    "kuayue.bogey.style.andesite_carriage": "Andesite Carriage Bogey",
-    "pack.kuayue_core.name": "KuaYue Core Pack",
-    "pack.kuayue_core.description": "The default vehicle collection provided by KuaYue."
+    "kuayue.bogey.style.andesite_carriage": "Andesite Carriage Bogey"
 }

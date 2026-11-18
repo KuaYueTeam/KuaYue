@@ -38,14 +38,12 @@ public record PackStartupReport(
     public static PackStartupReport create(
             PackRuntimeEnvironment environment,
             PackConfig config,
-            CorePackDescriptor corepack,
             PackCatalog catalog,
             PackSelection selection,
             List<PackDiagnostic> diagnostics
     ) {
         Objects.requireNonNull(environment, "environment");
         Objects.requireNonNull(config, "config");
-        Objects.requireNonNull(corepack, "corepack");
         Objects.requireNonNull(catalog, "catalog");
         Objects.requireNonNull(selection, "selection");
 
@@ -54,7 +52,6 @@ public record PackStartupReport(
             effectiveById.put(pack.id(), pack);
         }
         List<PackInstallationStatus> installations = new ArrayList<>();
-        boolean coreListed = false;
         for (PackInstallation installation : catalog.installations()) {
             String packId = installation.packId();
             boolean requested = packId != null && config.isRequestedEnabled(packId);
@@ -69,20 +66,6 @@ public record PackStartupReport(
                     effective,
                     installation.valid(),
                     installation.diagnosticCodes()));
-            coreListed |= PackManifest.CORE_PACK_ID.equals(packId);
-        }
-        if (!coreListed) {
-            boolean coreRequested = config.isRequestedEnabled(PackManifest.CORE_PACK_ID);
-            installations.add(new PackInstallationStatus(
-                    "core",
-                    PackSourceKind.CORE,
-                    "built-in",
-                    PackManifest.CORE_PACK_ID,
-                    corepack.version(),
-                    coreRequested,
-                    effectiveById.containsKey(PackManifest.CORE_PACK_ID),
-                    true,
-                    List.of()));
         }
         installations.sort((left, right) -> {
             String leftId = left.packId() == null ? "" : left.packId();

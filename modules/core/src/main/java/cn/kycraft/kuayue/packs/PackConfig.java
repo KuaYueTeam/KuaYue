@@ -44,23 +44,51 @@ public record PackConfig(
     }
 
     public ConfigCompletion complete(Set<String> installedExternalIds) {
+        return complete(installedExternalIds, Set.of(), Set.of());
+    }
+
+    public ConfigCompletion complete(
+            Set<String> installedExternalIds,
+            Set<String> builtInIds,
+            Set<String> requiredIds
+    ) {
         Objects.requireNonNull(installedExternalIds, "installedExternalIds");
+        Objects.requireNonNull(builtInIds, "builtInIds");
+        Objects.requireNonNull(requiredIds, "requiredIds");
         TreeSet<String> sortedInstalled = new TreeSet<>();
         for (String id : installedExternalIds) {
             validateConfigId(id, "installed");
-            if (!PackManifest.CORE_PACK_ID.equals(id)) {
-                sortedInstalled.add(id);
+            sortedInstalled.add(id);
+        }
+        TreeSet<String> sortedBuiltIn = new TreeSet<>();
+        for (String id : builtInIds) {
+            validateConfigId(id, "built-in");
+            sortedBuiltIn.add(id);
+        }
+        TreeSet<String> sortedRequired = new TreeSet<>();
+        for (String id : requiredIds) {
+            validateConfigId(id, "required");
+            if (!sortedBuiltIn.contains(id)) {
+                throw new IllegalArgumentException(
+                        "Required pack is not a built-in pack: " + id);
             }
+            sortedRequired.add(id);
         }
 
         LinkedHashMap<String, Boolean> completedEnabled = new LinkedHashMap<>(enabled);
-        completedEnabled.putIfAbsent(PackManifest.CORE_PACK_ID, true);
+        sortedBuiltIn.forEach(id -> completedEnabled.putIfAbsent(id, true));
+        sortedRequired.forEach(id -> completedEnabled.put(id, true));
 
-        LinkedHashSet<String> completedOrder = new LinkedHashSet<>(order);
-        completedOrder.add(PackManifest.CORE_PACK_ID);
+        LinkedHashSet<String> completedOrder = new LinkedHashSet<>(sortedRequired);
+        order.stream()
+                .filter(id -> !sortedRequired.contains(id))
+                .forEach(completedOrder::add);
+        completedOrder.addAll(sortedBuiltIn);
         completedOrder.addAll(sortedInstalled);
 
-        List<String> completedInventory = List.copyOf(sortedInstalled);
+        TreeSet<String> externalOnly = new TreeSet<>(sortedInstalled);
+        externalOnly.removeAll(sortedBuiltIn);
+        List<String> completedInventory = List.copyOf(externalOnly);
         PackConfig completed = new PackConfig(
                 FORMAT_VERSION,
                 completedEnabled,
@@ -68,7 +96,7 @@ public record PackConfig(
                 completedInventory);
 
         Set<String> installed = new TreeSet<>(sortedInstalled);
-        installed.add(PackManifest.CORE_PACK_ID);
+        installed.addAll(sortedBuiltIn);
         List<PackDiagnostic> diagnostics = new ArrayList<>();
         for (String id : completedEnabled.keySet()) {
             if (!installed.contains(id)) {
@@ -99,7 +127,7 @@ public record PackConfig(
     }
 
     public boolean isRequestedEnabled(String id) {
-        return enabled.getOrDefault(id, PackManifest.CORE_PACK_ID.equals(id));
+        return enabled.getOrDefault(id, false);
     }
 
     private static List<String> immutableIds(List<String> values, String name) {

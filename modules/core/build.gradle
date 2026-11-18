@@ -70,11 +70,6 @@ neoForge {
         minecraftVersion = project.parchment_minecraft_version
     }
     runs {
-        // Core has no embedded corepack. Standalone runs default to zero packs so clean
-        // checkouts do not depend on the ignored core/run/kuayue/config.json.
-        def coreRunCorepack = providers.gradleProperty("coreRunCorepack")
-                .map { it.toBoolean() }
-                .orElse(false)
         client {
             client()
 
@@ -101,7 +96,6 @@ neoForge {
         // applies to all the run configs above
         configureEach {
             systemProperty 'forge.logging.markers', 'REGISTRIES'
-            systemProperty 'kuayue.packs.disableCorepack', (!coreRunCorepack.get()).toString()
 
             logLevel = org.slf4j.event.Level.DEBUG
         }

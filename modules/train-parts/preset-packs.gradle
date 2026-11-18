@@ -1,0 +1,323 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+
+def presetSourceRoot = file("resources/packs")
+def runtimeSources = ["common", "tracks", "seat", "toilet"]
+def resourceRoot = file("resources")
+def presetOutput = layout.buildDirectory.dir("generated/kuayue-preset-packs")
+def runtimeOutput = layout.buildDirectory.dir("generated/kuayue-runtime-resources")
+def runtimeInput = layout.buildDirectory.dir("tmp/kuayue-runtime-input")
+
+def copyTree = { File source, File destination, Boolean includeModuleToml ->
+    if (!source.isDirectory()) {
+        return
+    }
+    Files.walk(source.toPath()).withCloseable { paths ->
+        paths.filter { Files.isRegularFile(it) }
+                .sorted()
+                .forEach { path ->
+                    String relative = source.toPath().relativize(path).toString().replace('\\', '/')
+                    if ((!includeModuleToml && relative == "module.toml")
+                            || relative.endsWith("/.DS_Store")
+                            || relative == ".DS_Store") {
+                        return
+                    }
+                    File target = new File(destination, relative)
+                    Files.createDirectories(target.parentFile.toPath())
+                    Files.copy(path, target.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                }
+    }
+}
+
+def copyDataWithoutTags = { File source, File destination ->
+    File dataRoot = new File(source, "data")
+    if (!dataRoot.isDirectory()) {
+        return
+    }
+    Files.walk(dataRoot.toPath()).withCloseable { paths ->
+        paths.filter { Files.isRegularFile(it) }
+                .sorted()
+                .forEach { path ->
+                    String relative = dataRoot.toPath().relativize(path).toString().replace('\\', '/')
+                    List<String> segments = relative.split("/").toList()
+                    if (segments.contains("tags") || relative.endsWith("/.DS_Store")) {
+                        return
+                    }
+                    File target = new File(new File(destination, "data"), relative)
+                    Files.createDirectories(target.parentFile.toPath())
+                    Files.copy(path, target.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                }
+    }
+}
+
+def deepMerge = { Map target, Map source ->
+    source.each { key, value ->
+        if (!target.containsKey(key)) {
+            target[key] = value
+        } else if (target[key] instanceof Map && value instanceof Map) {
+            deepMerge(target[key], value)
+        } else if (target[key] instanceof List && value instanceof List) {
+            target[key].addAll(value)
+        } else {
+            target[key] = value
+        }
+    }
+}
+
+def addJsonGroup = { Map<String, List<File>> groups, String target, File input ->
+    groups.computeIfAbsent(target, { [] }).add(input)
+}
+
+def collectLanguages = { File source, Map<String, List<File>> groups ->
+    new File(source, "lang").listFiles()
+            ?.findAll { it.isFile() && it.name.endsWith(".json") }
+            ?.sort { it.name }
+            ?.each { File input ->
+                addJsonGroup(groups, "assets/kuayue/lang/${input.name}", input)
+            }
+}
+
+def collectTags = { File source, Map<String, List<File>> groups ->
+    File tagRoot = new File(source, "tags")
+    if (tagRoot.isDirectory()) {
+        Files.walk(tagRoot.toPath()).withCloseable { paths ->
+            paths.filter { Files.isRegularFile(it) && it.fileName.toString().endsWith(".json") }
+                    .sorted()
+                    .forEach { path ->
+                        String relative = tagRoot.toPath().relativize(path).toString().replace('\\', '/')
+                        addJsonGroup(groups, "data/kuayue/tags/${relative}", path.toFile())
+                    }
+        }
+    }
+    File dataRoot = new File(source, "data")
+    if (dataRoot.isDirectory()) {
+        Files.walk(dataRoot.toPath()).withCloseable { paths ->
+            paths.filter {
+                Files.isRegularFile(it)
+                        && it.fileName.toString().endsWith(".json")
+                        && it.toString().replace('\\', '/').contains("/tags/")
+            }.sorted().forEach { path ->
+                String relative = dataRoot.toPath().relativize(path).toString().replace('\\', '/')
+                addJsonGroup(groups, "data/${relative}", path.toFile())
+            }
+        }
+    }
+}
+
+def writeMergedGroups = { Map<String, List<File>> groups, File destination ->
+    JsonSlurper json = new JsonSlurper()
+    groups.entrySet().sort { it.key }.each { entry ->
+        Map merged = [:]
+        entry.value.each { File input ->
+            deepMerge(merged, (Map) json.parse(input))
+        }
+        File target = new File(destination, entry.key)
+        Files.createDirectories(target.parentFile.toPath())
+        target.setText(JsonOutput.prettyPrint(JsonOutput.toJson(merged)) + System.lineSeparator(), "UTF-8")
+    }
+}
+
+def generatePresetPacks = tasks.register("generateKuaYuePresetPacks") {
+    group = "resources"
+    description = "Builds every KuaYue preset pack from resources/packs."
+    notCompatibleWithConfigurationCache(
+            "The generated preset pack task uses legacy Gradle script closures."
+    )
+    inputs.dir(presetSourceRoot)
+    outputs.dir(presetOutput)
+
+    doLast {
+        File output = presetOutput.get().asFile
+        delete output
+        Files.createDirectories(output.toPath())
+
+        List<File> packDirectories = presetSourceRoot.listFiles()
+                ?.findAll { it.isDirectory() }
+                ?.sort { it.name }
+        if (!packDirectories) {
+            throw new GradleException("No preset packs found in ${presetSourceRoot}")
+        }
+
+        JsonSlurper json = new JsonSlurper()
+        Set<String> packIds = new LinkedHashSet<>()
+        Set<String> parcelIds = new LinkedHashSet<>()
+
+        packDirectories.each { File packDirectory ->
+            File manifestFile = new File(packDirectory, "pack.json")
+            File metadataFile = new File(packDirectory, "pack.mcmeta")
+            File iconFile = new File(packDirectory, "icon.png")
+            if (!manifestFile.isFile()) {
+                throw new GradleException("Preset pack is missing pack.json: ${packDirectory}")
+            }
+            if (!metadataFile.isFile()) {
+                throw new GradleException("Preset pack is missing pack.mcmeta: ${packDirectory}")
+            }
+            if (!iconFile.isFile()) {
+                throw new GradleException("Preset pack is missing icon.png: ${packDirectory}")
+            }
+
+            Map manifest = (Map) json.parse(manifestFile)
+            String packId = manifest.id?.toString()
+            if (!packId || packId != packDirectory.name) {
+                throw new GradleException(
+                        "Preset pack directory must match pack.json id: ${packDirectory.name} != ${packId}")
+            }
+            if (!packIds.add(packId)) {
+                throw new GradleException("Duplicate preset pack id: ${packId}")
+            }
+
+            File packOutput = new File(output, packId)
+            Files.createDirectories(packOutput.toPath())
+            Files.copy(manifestFile.toPath(), new File(packOutput, "pack.json").toPath(),
+                    StandardCopyOption.REPLACE_EXISTING)
+            Files.copy(metadataFile.toPath(), new File(packOutput, "pack.mcmeta").toPath(),
+                    StandardCopyOption.REPLACE_EXISTING)
+            Files.copy(iconFile.toPath(), new File(packOutput, "icon.png").toPath(),
+                    StandardCopyOption.REPLACE_EXISTING)
+
+            Map<String, List<File>> mergedLanguage = [:]
+            Map<String, List<File>> mergedTags = [:]
+
+            [
+                    "blockstates": "assets/kuayue/blockstates",
+                    "models"     : "assets/kuayue/models",
+                    "sounds"     : "assets/kuayue/sounds",
+                    "textures"   : "assets/kuayue/textures",
+                    "assets"     : "assets",
+                    "recipes"    : "data/kuayue/recipes",
+                    "loots"      : "data/kuayue/loot_tables",
+                    "scripts"    : "scripts",
+            ].each { category, destination ->
+                copyTree(new File(packDirectory, category), new File(packOutput, destination), false)
+            }
+            copyDataWithoutTags(packDirectory, packOutput)
+            collectLanguages(packDirectory, mergedLanguage)
+            collectLanguages(new File(packDirectory, "assets/kuayue"), mergedLanguage)
+            collectTags(packDirectory, mergedTags)
+
+            Object parcelEntries = manifest.parcels
+            if (!(parcelEntries instanceof List) || parcelEntries.isEmpty()) {
+                throw new GradleException("Preset pack ${packId} must declare at least one parcel")
+            }
+            Set<String> declaredParcelDirectories = new LinkedHashSet<>()
+            parcelEntries.each { Object entry ->
+                String parcelManifestPath = entry?.toString()
+                if (!parcelManifestPath?.matches("parcels/[a-z0-9_.-]+/parcel\\.json")) {
+                    throw new GradleException(
+                            "Invalid parcel path in ${packId}: ${parcelManifestPath}")
+                }
+                String parcelDirectory = parcelManifestPath.substring(
+                        0, parcelManifestPath.length() - "/parcel.json".length())
+                declaredParcelDirectories.add(parcelDirectory)
+
+                File sourceParcel = new File(packDirectory, parcelDirectory)
+                File outputParcel = new File(packOutput, parcelDirectory)
+                File parcelManifestFile = new File(sourceParcel, "parcel.json")
+                if (!parcelManifestFile.isFile()) {
+                    throw new GradleException(
+                            "Missing parcel.json for ${packId}: ${parcelManifestPath}")
+                }
+                Files.createDirectories(outputParcel.toPath())
+                Files.copy(parcelManifestFile.toPath(),
+                        new File(outputParcel, "parcel.json").toPath(),
+                        StandardCopyOption.REPLACE_EXISTING)
+
+                Map parcelManifest = (Map) json.parse(parcelManifestFile)
+                String parcelId = parcelManifest.id?.toString()
+                if (!parcelId || !parcelIds.add(parcelId)) {
+                    throw new GradleException(
+                            "Missing or duplicate parcel id in ${packId}: ${parcelId}")
+                }
+
+                [
+                        "blockstates": "assets/kuayue/blockstates",
+                        "models"     : "assets/kuayue/models",
+                        "sounds"     : "assets/kuayue/sounds",
+                        "textures"   : "assets/kuayue/textures",
+                        "assets"     : "assets",
+                        "recipes"    : "data/kuayue/recipes",
+                        "loots"      : "data/kuayue/loot_tables",
+                        "scripts"    : "scripts",
+                ].each { category, destination ->
+                    copyTree(new File(sourceParcel, category),
+                            new File(outputParcel, destination), false)
+                }
+                copyDataWithoutTags(sourceParcel, outputParcel)
+                collectLanguages(sourceParcel, mergedLanguage)
+                collectTags(sourceParcel, mergedTags)
+
+                List<Object> indexes = parcelManifest.indexes instanceof List
+                        ? (List<Object>) parcelManifest.indexes : List.of()
+                indexes.each { Object index ->
+                    String indexPath = index?.toString()
+                    if (!indexPath || !new File(outputParcel, indexPath).isFile()) {
+                        throw new GradleException(
+                                "Parcel ${parcelId} in ${packId} declares missing index ${indexPath}")
+                    }
+                }
+            }
+
+            File parcelsRoot = new File(packDirectory, "parcels")
+            List<String> actualParcelDirectories = parcelsRoot.listFiles()
+                    ?.findAll { it.isDirectory() }
+                    ?.collect { "parcels/${it.name}" }
+                    ?.sort() ?: List.of()
+            if (declaredParcelDirectories != new LinkedHashSet<>(actualParcelDirectories)) {
+                throw new GradleException(
+                        "Preset pack ${packId} parcel directories do not match pack.json: "
+                                + "declared=${declaredParcelDirectories}, actual=${actualParcelDirectories}")
+            }
+
+            writeMergedGroups(mergedLanguage, packOutput)
+            writeMergedGroups(mergedTags, packOutput)
+        }
+    }
+}
+
+def stageRuntime = tasks.register("stageKuaYueRuntimeResources") {
+    group = "resources"
+    description = "Stages resources that stay outside the rolling-stock preset packs."
+    inputs.dir(resourceRoot)
+    outputs.dir(runtimeInput)
+
+    doLast {
+        File staging = runtimeInput.get().asFile
+        delete staging
+        Files.createDirectories(staging.toPath())
+        runtimeSources.each { String name ->
+            copyTree(new File(resourceRoot, name), new File(staging, name), true)
+        }
+    }
+}
+
+def generateRuntime = tasks.register("generateKuaYueRuntimeResources", JavaExec) {
+    group = "resources"
+    description = "Compiles resources that stay outside the rolling-stock preset packs."
+    dependsOn stageRuntime
+    inputs.dir(runtimeInput)
+    outputs.dir(runtimeOutput)
+    classpath = configurations.resourceCompilerDependency
+    mainClass = "lib.kasuga.resource.ResourceCompilerMain"
+    args(
+            runtimeInput.get().asFile.absolutePath,
+            runtimeOutput.get().asFile.absolutePath,
+            project.property("mod_id")
+    )
+    doFirst {
+        delete runtimeOutput
+    }
+}
+
+tasks.named("processResources") {
+    notCompatibleWithConfigurationCache(
+            "Depends on generated preset pack tasks that use legacy Gradle script closures."
+    )
+    dependsOn generatePresetPacks, generateRuntime
+    from(presetOutput) {
+        into "kuayue-packs"
+    }
+    from(runtimeOutput)
+}

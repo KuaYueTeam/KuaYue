@@ -11,13 +11,14 @@ import java.util.Set;
 final class PackManifestParser {
     private static final Set<String> PACK_KEYS = Set.of(
             "format_version", "id", "version", "namespaces", "name_key",
-            "description_key", "dependencies", "parcels", "save_compatibility");
+            "description_key", "required", "dependencies", "parcels",
+            "save_compatibility");
     private static final Set<String> REQUIRED_PACK_KEYS = Set.of(
             "format_version", "id", "version", "namespaces", "name_key",
             "dependencies", "parcels");
     private static final Set<String> DEPENDENCY_KEYS = Set.of("mods", "packs");
 
-    PackManifest parse(String json, boolean allowCorePack) {
+    PackManifest parse(String json) {
         JsonValue root;
         try {
             root = StrictJsonEngine.parseObject(json);
@@ -27,7 +28,7 @@ final class PackManifestParser {
                     "Invalid pack manifest JSON: " + exception.getMessage(), exception);
         }
         try {
-            return parse(root, allowCorePack);
+            return parse(root);
         } catch (PackParseException exception) {
             throw exception;
         } catch (IllegalArgumentException exception) {
@@ -37,7 +38,7 @@ final class PackManifestParser {
         }
     }
 
-    private PackManifest parse(JsonValue root, boolean allowCorePack) {
+    private PackManifest parse(JsonValue root) {
         JsonProtocol.requireExactKeys(root, PACK_KEYS, "");
         JsonProtocol.requirePresent(root, REQUIRED_PACK_KEYS, "");
 
@@ -48,9 +49,8 @@ final class PackManifestParser {
                     "Unsupported pack format_version: " + formatVersion);
         }
         String id = JsonProtocol.requireString(root, "id", "");
-        if (!PackPathRules.isPackId(id)
-                || (!allowCorePack && PackManifest.CORE_PACK_ID.equals(id))) {
-            throw JsonProtocol.invalid("/id", "Invalid external pack ID: " + id);
+        if (!PackPathRules.isPackId(id)) {
+            throw JsonProtocol.invalid("/id", "Invalid pack ID: " + id);
         }
         SemanticVersion version;
         try {
@@ -110,7 +110,9 @@ final class PackManifestParser {
         return new PackManifest(
                 formatVersion, id, version, namespaces,
                 JsonProtocol.requireString(root, "name_key", ""),
-                description, dependencies, parcels, compatibility);
+                description,
+                JsonProtocol.optionalBoolean(root, "required", ""),
+                dependencies, parcels, compatibility);
     }
 
     private PackManifest.Dependencies parseDependencies(JsonValue root, String packId) {

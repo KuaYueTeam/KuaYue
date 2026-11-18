@@ -13,6 +13,7 @@ import java.util.TreeSet;
 public final class PackSelectionDraft {
     private final PackConfig baseline;
     private final Set<String> selectableIds;
+    private final Set<String> lockedIds;
     private final List<String> allOrder;
     private final Set<String> selected = new LinkedHashSet<>();
     private final Set<String> touched = new LinkedHashSet<>();
@@ -22,15 +23,23 @@ public final class PackSelectionDraft {
             Set<String> knownIds,
             Set<String> selectableIds
     ) {
+        this(baseline, knownIds, selectableIds, Set.of());
+    }
+
+    public PackSelectionDraft(
+            PackConfig baseline,
+            Set<String> knownIds,
+            Set<String> selectableIds,
+            Set<String> lockedIds
+    ) {
         this.baseline = Objects.requireNonNull(baseline, "baseline");
         this.selectableIds = Set.copyOf(selectableIds);
+        this.lockedIds = Set.copyOf(lockedIds);
         TreeSet<String> universe = new TreeSet<>(knownIds);
         universe.addAll(baseline.inventory());
         universe.addAll(baseline.enabled().keySet());
         universe.addAll(baseline.order());
-        universe.add(PackManifest.CORE_PACK_ID);
         LinkedHashSet<String> order = new LinkedHashSet<>(baseline.order());
-        order.add(PackManifest.CORE_PACK_ID);
         order.addAll(universe);
         allOrder = new ArrayList<>(order);
         for (String id : allOrder) {
@@ -70,6 +79,9 @@ public final class PackSelectionDraft {
     }
 
     public void remove(String id) {
+        if (lockedIds.contains(id)) {
+            return;
+        }
         if (selected.remove(id)) {
             touched.add(id);
         }
@@ -78,6 +90,9 @@ public final class PackSelectionDraft {
     public void move(String id, int delta) {
         if (delta != -1 && delta != 1) {
             throw new IllegalArgumentException("delta must be -1 or 1");
+        }
+        if (lockedIds.contains(id)) {
+            return;
         }
         List<String> visible = selectedIds();
         int index = visible.indexOf(id);

@@ -19,12 +19,12 @@ public record PackManifest(
         List<String> namespaces,
         String nameKey,
         String descriptionKey,
+        boolean required,
         Dependencies dependencies,
         List<String> parcels,
         SaveCompatibility saveCompatibility
 ) implements Serializable {
     public static final int FORMAT_VERSION = 1;
-    public static final String CORE_PACK_ID = "kuayue-core";
     public static final Set<String> HOST_MODS =
             Set.of("minecraft", "neoforge", "kuayue", "kasuga_lib", "create");
 
@@ -67,11 +67,7 @@ public record PackManifest(
     }
 
     public static PackManifest parse(String json) {
-        return new PackManifestParser().parse(json, false);
-    }
-
-    public static PackManifest parseCore(String json) {
-        return new PackManifestParser().parse(json, true);
+        return new PackManifestParser().parse(json);
     }
 
     public record Dependencies(

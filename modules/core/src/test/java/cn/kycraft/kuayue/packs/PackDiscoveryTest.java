@@ -27,12 +27,16 @@ class PackDiscoveryTest {
 
     @Test
     void directoryPackLoadsOnlyTheRootIconPng() throws Exception {
-        Path root = temporaryDirectory.resolve("directory-pack");
+        Path catalogRoot = temporaryDirectory.resolve("catalog");
+        Path root = catalogRoot.resolve("directory-pack");
         writePack(root);
         Files.createDirectories(root.resolve("parcels/demo/assets/kuayue"));
         Files.write(root.resolve("parcels/demo/assets/kuayue/icon.png"), new byte[]{1});
 
-        DiscoveredPack pack = PackDiscovery.scanCoreRoot(root, PackLimits.defaults());
+        DiscoveredPack pack = PackDiscovery.scan(
+                catalogRoot,
+                PackLimits.defaults()
+        ).packs().getFirst();
 
         assertArrayEquals(ICON_BYTES, pack.icon().bytes());
     }
@@ -55,19 +59,39 @@ class PackDiscoveryTest {
     }
 
     @Test
-    void runtimeOverrideDisablesCorepackBeforeDependencyResolution() throws Exception {
+    void embeddedPacksDefaultEnabledAndRequiredPackCannotBeDisabled() throws Exception {
+        Path embeddedRoot = temporaryDirectory.resolve("embedded");
+        writePack(
+                embeddedRoot.resolve("running-gear"),
+                "running-gear",
+                "running_gear",
+                true
+        );
+        writePack(
+                embeddedRoot.resolve("passenger"),
+                "passenger",
+                "passenger",
+                false
+        );
         Path configPath = temporaryDirectory.resolve("kuayue/config.json");
         Files.createDirectories(configPath.getParent());
         Files.writeString(configPath, """
                 {
                   "packs": {
                     "format_version": 1,
-                    "enabled": {"kuayue-core": true},
-                    "order": ["kuayue-core"],
+                    "enabled": {
+                      "running-gear": false,
+                      "passenger": false
+                    },
+                    "order": ["passenger", "running-gear"],
                     "inventory": []
                   }
                 }
                 """);
+        PackCatalog embedded = PackDiscovery.scan(
+                embeddedRoot,
+                PackLimits.defaults()
+        );
         PackRuntimeEnvironment environment = new PackRuntimeEnvironment(Map.of(
                 "minecraft", "1.21.1",
                 "neoforge", "21.1.203",
@@ -79,14 +103,16 @@ class PackDiscoveryTest {
         PackDiscoveryResult result = PackDiscovery.discover(
                 temporaryDirectory,
                 environment,
-                CorePackDescriptor.forVersion("2.0.0"),
+                embedded,
                 PackLimits.defaults(),
-                VersionComparator.semantic(),
-                true
+                VersionComparator.semantic()
         );
 
-        assertFalse(result.configDocument().config().isRequestedEnabled(PackManifest.CORE_PACK_ID));
-        assertTrue(result.selection().effectivePacks().isEmpty());
+        assertTrue(result.configDocument().config().isRequestedEnabled("running-gear"));
+        assertFalse(result.configDocument().config().isRequestedEnabled("passenger"));
+        assertEquals(List.of("running-gear"), result.selection().effectivePacks().stream()
+                .map(ResolvedPack::id)
+                .toList());
     }
 
     @Test
@@ -108,10 +134,9 @@ class PackDiscoveryTest {
                   "packs": {
                     "format_version": 1,
                     "enabled": {
-                      "kuayue-core": false,
                       "contrib-alpha": true
                     },
-                    "order": ["kuayue-core", "contrib-alpha"],
+                    "order": ["contrib-alpha"],
                     "inventory": []
                   }
                 }
@@ -126,10 +151,9 @@ class PackDiscoveryTest {
                         "kasuga_lib", "1.0.0",
                         "create", "6.0.6"
                 )),
-                CorePackDescriptor.forVersion("2.0.0"),
+                new PackCatalog(List.of(), List.of(), List.of()),
                 PackLimits.defaults(),
-                VersionComparator.semantic(),
-                true
+                VersionComparator.semantic()
         );
 
         assertEquals(2, result.catalog().installations().size());
@@ -153,7 +177,7 @@ class PackDiscoveryTest {
         assertEquals(
                 List.of("directory:contrib-alpha", "zip:contrib-alpha.zip"),
                 KuaYueSettingsService.unavailableInstallations(
-                        java.util.Set.of(PackManifest.CORE_PACK_ID),
+                        java.util.Set.of("known-pack"),
                         result.report()
                 ).stream().map(PackInstallationStatus::sourceId).toList()
         );
@@ -181,10 +205,9 @@ class PackDiscoveryTest {
                   "packs": {
                     "format_version": 1,
                     "enabled": {
-                      "kuayue-core": false,
                       "format-v2": true
                     },
-                    "order": ["kuayue-core", "format-v2"],
+                    "order": ["format-v2"],
                     "inventory": []
                   }
                 }
@@ -199,10 +222,9 @@ class PackDiscoveryTest {
                         "kasuga_lib", "1.0.0",
                         "create", "6.0.6"
                 )),
-                CorePackDescriptor.forVersion("2.0.0"),
+                new PackCatalog(List.of(), List.of(), List.of()),
                 PackLimits.defaults(),
-                VersionComparator.semantic(),
-                true
+                VersionComparator.semantic()
         );
 
         PackInstallation installation = result.catalog().installations().stream()
@@ -270,13 +292,25 @@ class PackDiscoveryTest {
     }
 
     private static void writePack(Path root) throws Exception {
-        writePack(root, "kuayue-core", "kuayue");
+        writePack(root, "example-pack", "kuayue");
     }
 
     private static void writePack(Path root, String packId, String namespace)
             throws Exception {
+        writePack(root, packId, namespace, false);
+    }
+
+    private static void writePack(
+            Path root,
+            String packId,
+            String namespace,
+            boolean required
+    ) throws Exception {
         Files.createDirectories(root.resolve("parcels/demo"));
-        Files.writeString(root.resolve("pack.json"), packJson(packId, namespace));
+        Files.writeString(
+                root.resolve("pack.json"),
+                packJson(packId, namespace, required)
+        );
         Files.writeString(
                 root.resolve("parcels/demo/parcel.json"),
                 parcelJson(namespace)
@@ -306,11 +340,20 @@ class PackDiscoveryTest {
     }
 
     private static String packJson(String packId, String namespace) {
+        return packJson(packId, namespace, false);
+    }
+
+    private static String packJson(
+            String packId,
+            String namespace,
+            boolean required
+    ) {
         return """
                 {
                   "format_version": 1,
                   "id": "%s",
                   "version": "2.0.0",
+                  "required": %s,
                   "namespaces": ["%s"],
                   "name_key": "pack.example.name",
                   "dependencies": {
@@ -325,7 +368,7 @@ class PackDiscoveryTest {
                   },
                   "parcels": ["parcels/demo/parcel.json"]
                 }
-                """.formatted(packId, namespace);
+                """.formatted(packId, required, namespace);
     }
 
     private static String parcelJson(String namespace) {

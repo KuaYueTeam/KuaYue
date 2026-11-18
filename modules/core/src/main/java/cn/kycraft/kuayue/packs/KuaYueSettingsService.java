@@ -31,14 +31,20 @@ public final class KuaYueSettingsService {
             return new LoadResult(null, loaded.diagnostics());
         }
         Set<String> known = Set.copyOf(knownManifests.keySet());
+        Set<String> required = Set.copyOf(knownManifests.entrySet().stream()
+                .filter(entry -> entry.getValue().required())
+                .map(Map.Entry::getKey)
+                .toList());
         Set<String> selectable = Set.copyOf(knownManifests.entrySet().stream()
                 .filter(entry -> entry.getValue().formatVersion() == PackManifest.FORMAT_VERSION)
+                .filter(entry -> !entry.getValue().required())
                 .map(Map.Entry::getKey)
                 .toList());
         PackSelectionDraft draft = new PackSelectionDraft(
                 loaded.document().config(),
                 known,
-                selectable
+                selectable,
+                required
         );
         try {
             return new LoadResult(

@@ -2,7 +2,6 @@ package cn.kycraft.kuayue.packs.bootstrap;
 
 import cn.kycraft.kuayue.KuaYue;
 import cn.kycraft.kuayue.packs.PackDiagnostic;
-import cn.kycraft.kuayue.packs.PackManifest;
 import cn.kycraft.kuayue.packs.PackFailurePolicy;
 import cn.kycraft.kuayue.packs.PackRuntimeIds;
 import cn.kycraft.kuayue.packs.PackSeverity;
@@ -65,6 +64,12 @@ public final class KuaYueContentRegistrationProvider {
         );
         List<StartupPackSnapshot.ManagedPackRoot> activeRoots =
                 new ArrayList<>(snapshot.resourceRoots());
+        Set<String> protectedOwners = new LinkedHashSet<>();
+        protectedOwners.add(RUNTIME_OWNER_ID);
+        snapshot.resourceRoots().stream()
+                .filter(root -> root.manifest().required())
+                .map(StartupPackSnapshot.ManagedPackRoot::id)
+                .forEach(protectedOwners::add);
         List<BuildDiagnostic> rejectedDiagnostics = new ArrayList<>();
         PreparedContent prepared;
         try {
@@ -75,24 +80,27 @@ public final class KuaYueContentRegistrationProvider {
                     prepared = pipeline.prepare(
                             sources,
                             BuildOptions.STRICT,
-                            activeDependencies(activeRoots, snapshot.dependencies()),
+                            activeDependencies(
+                                    activeRoots,
+                                    snapshot.dependencies(),
+                                    protectedOwners
+                            ),
                             Set.of(RUNTIME_OWNER_ID)
                     );
                 } finally {
                     closeSources(sources);
                 }
 
-                Set<String> rejected = blockingOwners(prepared);
+                Set<String> rejected = blockingOwners(prepared, protectedOwners);
                 if (rejected.isEmpty()) {
                     break;
                 }
                 Set<String> blocked = PackFailurePolicy.includeDependents(
                         rejected, activeIds(activeRoots), snapshot.dependencies());
-                if (blocked.contains(PackManifest.CORE_PACK_ID)
-                        || blocked.contains(RUNTIME_OWNER_ID)
+                if (blocked.stream().anyMatch(protectedOwners::contains)
                         || !activeIds(activeRoots).containsAll(blocked)) {
                     throw new IllegalStateException(
-                            "KuaYue runtime or corepack failed strict preflight: "
+                            "KuaYue runtime or required preset failed strict preflight: "
                                     + prepared.diagnostics());
                 }
 
@@ -190,14 +198,15 @@ public final class KuaYueContentRegistrationProvider {
 
     private static Map<String, Set<String>> activeDependencies(
             List<StartupPackSnapshot.ManagedPackRoot> roots,
-            Map<String, Set<String>> dependencies
+            Map<String, Set<String>> dependencies,
+            Set<String> protectedOwners
     ) {
         Map<String, Set<String>> active = new LinkedHashMap<>();
-        active.put(RUNTIME_OWNER_ID, roots.stream()
-                .anyMatch(root -> root.corepack()
-                        && PackManifest.CORE_PACK_ID.equals(root.id()))
-                ? Set.of(PackManifest.CORE_PACK_ID)
-                : Set.of());
+        Set<String> runtimeDependencies = roots.stream()
+                .map(StartupPackSnapshot.ManagedPackRoot::id)
+                .filter(protectedOwners::contains)
+                .collect(java.util.stream.Collectors.toUnmodifiableSet());
+        active.put(RUNTIME_OWNER_ID, runtimeDependencies);
         for (StartupPackSnapshot.ManagedPackRoot root : roots) {
             active.put(root.id(), Set.copyOf(
                     dependencies.getOrDefault(root.id(), Set.of())));
@@ -205,7 +214,10 @@ public final class KuaYueContentRegistrationProvider {
         return Map.copyOf(active);
     }
 
-    static Set<String> blockingOwners(PreparedContent prepared) {
+    static Set<String> blockingOwners(
+            PreparedContent prepared,
+            Set<String> protectedOwners
+    ) {
         Map<String, String> ownerBySourceId = new LinkedHashMap<>();
         prepared.sources().forEach(source ->
                 ownerBySourceId.put(source.sourceId(), source.ownerId()));
@@ -220,7 +232,7 @@ public final class KuaYueContentRegistrationProvider {
                 owner = ownerBySourceId.get(diagnostic.sourceId());
             }
             if (diagnostic.code() == BuildDiagnostic.Code.CLAIM_CONFLICT) {
-                if (owner != null && !isProtectedOwner(owner)) {
+                if (owner != null && !protectedOwners.contains(owner)) {
                     owners.add(owner);
                 }
                 continue;
@@ -242,19 +254,15 @@ public final class KuaYueContentRegistrationProvider {
         claimOwners.values().stream()
                 .filter(claimants -> claimants.size() > 1)
                 .forEach(claimants -> {
-                    if (claimants.stream().anyMatch(KuaYueContentRegistrationProvider::isProtectedOwner)) {
+                    if (claimants.stream().anyMatch(protectedOwners::contains)) {
                         claimants.stream()
-                                .filter(owner -> !isProtectedOwner(owner))
+                                .filter(owner -> !protectedOwners.contains(owner))
                                 .forEach(owners::add);
                     } else {
                         owners.addAll(claimants);
                     }
                 });
         return Set.copyOf(owners);
-    }
-
-    private static boolean isProtectedOwner(String owner) {
-        return PackManifest.CORE_PACK_ID.equals(owner) || RUNTIME_OWNER_ID.equals(owner);
     }
 
     private static Set<String> activeIds(

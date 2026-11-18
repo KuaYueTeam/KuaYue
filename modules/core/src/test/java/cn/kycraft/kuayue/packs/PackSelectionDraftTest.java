@@ -12,21 +12,43 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PackSelectionDraftTest {
     @Test
+    void requiredPackCannotBeRemovedOrMoved() {
+        PackConfig baseline = new PackConfig(
+                PackConfig.FORMAT_VERSION,
+                Map.of("base", true, "alpha", true),
+                List.of("base", "alpha"),
+                List.of()
+        );
+        PackSelectionDraft draft = new PackSelectionDraft(
+                baseline,
+                Set.of("base", "alpha"),
+                Set.of("alpha"),
+                Set.of("base")
+        );
+
+        draft.remove("base");
+        draft.moveByPriority("base", 1);
+
+        assertEquals(List.of("base", "alpha"), draft.selectedIds());
+        assertEquals(baseline, draft.toConfig());
+    }
+
+    @Test
     void editsOnlyPendingSelectionAndPreservesUnknownOrderSlots() {
         PackConfig baseline = new PackConfig(
                 PackConfig.FORMAT_VERSION,
                 Map.of(
-                        PackManifest.CORE_PACK_ID, true,
+                        "base", true,
                         "alpha", true,
                         "missing", true
                 ),
-                List.of("alpha", "off", "missing", PackManifest.CORE_PACK_ID),
+                List.of("alpha", "off", "missing", "base"),
                 List.of("alpha", "off")
         );
         PackSelectionDraft draft = new PackSelectionDraft(
                 baseline,
                 Set.of("alpha", "off", "beta", "missing"),
-                Set.of("alpha", "off", "beta", PackManifest.CORE_PACK_ID)
+                Set.of("alpha", "off", "beta")
         );
 
         draft.remove("missing");
@@ -45,24 +67,24 @@ class PackSelectionDraftTest {
         PackConfig baseline = new PackConfig(
                 PackConfig.FORMAT_VERSION,
                 Map.of(
-                        PackManifest.CORE_PACK_ID, true,
+                        "base", true,
                         "alpha", true,
                         "beta", true
                 ),
-                List.of("alpha", "off", "beta", PackManifest.CORE_PACK_ID),
+                List.of("alpha", "off", "beta", "base"),
                 List.of()
         );
         PackSelectionDraft draft = new PackSelectionDraft(
                 baseline,
                 Set.of("alpha", "off", "beta"),
-                Set.of("alpha", "beta", PackManifest.CORE_PACK_ID)
+                Set.of("alpha", "beta")
         );
 
         draft.move("beta", -1);
 
-        assertEquals(List.of("beta", "off", "alpha", PackManifest.CORE_PACK_ID),
+        assertEquals(List.of("beta", "off", "alpha", "base"),
                 draft.toConfig().order());
-        assertEquals(List.of("beta", "alpha", PackManifest.CORE_PACK_ID), draft.selectedIds());
+        assertEquals(List.of("beta", "alpha", "base"), draft.selectedIds());
     }
 
     @Test
@@ -70,32 +92,32 @@ class PackSelectionDraftTest {
         PackConfig baseline = new PackConfig(
                 PackConfig.FORMAT_VERSION,
                 Map.of(
-                        PackManifest.CORE_PACK_ID, true,
+                        "base", true,
                         "alpha", true,
                         "beta", true
                 ),
-                List.of("alpha", "off", "beta", PackManifest.CORE_PACK_ID),
+                List.of("alpha", "off", "beta", "base"),
                 List.of()
         );
         PackSelectionDraft draft = new PackSelectionDraft(
                 baseline,
                 Set.of("alpha", "off", "beta"),
-                Set.of("alpha", "beta", PackManifest.CORE_PACK_ID)
+                Set.of("alpha", "beta")
         );
 
         assertEquals(
-                List.of(PackManifest.CORE_PACK_ID, "beta", "alpha"),
+                List.of("base", "beta", "alpha"),
                 draft.selectedIdsByPriority()
         );
 
         draft.moveByPriority("alpha", -1);
 
         assertEquals(
-                List.of("beta", "off", "alpha", PackManifest.CORE_PACK_ID),
+                List.of("beta", "off", "alpha", "base"),
                 draft.toConfig().order()
         );
         assertEquals(
-                List.of(PackManifest.CORE_PACK_ID, "alpha", "beta"),
+                List.of("base", "alpha", "beta"),
                 draft.selectedIdsByPriority()
         );
     }

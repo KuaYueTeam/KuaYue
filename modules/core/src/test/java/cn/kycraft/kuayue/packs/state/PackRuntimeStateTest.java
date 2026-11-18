@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PackRuntimeStateTest {
@@ -19,31 +18,29 @@ class PackRuntimeStateTest {
     }
 
     @Test
-    void defaultsToEnabledBeforeInitialization() {
-        assertTrue(PackRuntimeState.corepackEnabled());
-    }
-
-    @Test
-    void freezesExplicitCorepackDisable() {
+    void freezesPackConfigurationBeforeRegistrationSelection() {
         PackRuntimeState.install(new PackConfig(
                 PackConfig.FORMAT_VERSION,
-                Map.of("kuayue-core", false),
-                List.of("kuayue-core"),
+                Map.of("running-gear", true, "passenger", false),
+                List.of("running-gear", "passenger"),
                 List.of()
         ));
-        assertFalse(PackRuntimeState.corepackEnabled());
-        assertFalse(PackRuntimeState.isRegistrationSelectionFinalized());
+        assertTrue(PackRuntimeState.current().orElseThrow()
+                .isRequestedEnabled("running-gear"));
+        assertTrue(!PackRuntimeState.current().orElseThrow()
+                .isRequestedEnabled("passenger"));
+        assertTrue(!PackRuntimeState.isRegistrationSelectionFinalized());
     }
 
     @Test
     void registrationSelectionTracksRejectedPacks() {
         PackRuntimeState.install(
                 PackConfig.defaults(),
-                List.of("kuayue-core", "broken")
+                List.of("running-gear", "broken")
         );
-        PackRuntimeState.updateRegistrationSelection(Set.of("kuayue-core"));
+        PackRuntimeState.updateRegistrationSelection(Set.of("running-gear"));
 
-        assertEquals(Set.of("kuayue-core"), PackRuntimeState.registeredPackIds());
+        assertEquals(Set.of("running-gear"), PackRuntimeState.registeredPackIds());
         assertTrue(PackRuntimeState.isRegistrationSelectionFinalized());
     }
 }

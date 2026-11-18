@@ -1,0 +1,9 @@
+{
+  "format_version": 1,
+  "id": "kuayue:freight",
+  "name_key": "parcel.kuayue.freight.name",
+  "description_key": "parcel.kuayue.freight.description",
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/freight.json"
+  ]
+}

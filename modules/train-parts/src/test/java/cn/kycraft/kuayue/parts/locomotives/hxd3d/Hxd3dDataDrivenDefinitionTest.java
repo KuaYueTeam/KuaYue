@@ -17,7 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class Hxd3dDataDrivenDefinitionTest {
-    private static final Path ROOT = Path.of("resources/locomotives/hxd3d");
+    private static final Path ROOT = Path.of(
+            "resources/packs/kuayue-preset-hxd/parcels/hxd3d"
+    );
     private static final Path INDEX = ROOT.resolve(
             "data/kuayue/kasuga_lib/data_driven/hxd3d.json"
     );

@@ -21,16 +21,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BogeyModelDataDrivenSchemaTest {
     private static final Path CONTENT = Path.of(
-            "resources/bogeys/data-driven/data/kuayue/bogeys/bogeys.json"
+            "resources/packs/kuayue-preset-running-gear/parcels/shared/"
+                    + "data/kuayue/bogeys/bogeys.json"
     );
     private static final Path MODELS = Path.of(
-            "resources/bogeys/data-driven/data/kuayue/bogeys/models.json"
+            "resources/packs/kuayue-preset-running-gear/parcels/shared/"
+                    + "data/kuayue/bogeys/models.json"
     );
     private static final Path MOTIONS = Path.of(
-            "resources/bogeys/data-driven/data/kuayue/bogeys/motions.json"
+            "resources/packs/kuayue-preset-running-gear/parcels/shared/"
+                    + "data/kuayue/bogeys/motions.json"
     );
     private static final Path QJ_CLIP = Path.of(
-            "resources/bogeys/data-driven/data/kuayue/animation_clips/qj_mechanism.json"
+            "resources/packs/kuayue-preset-running-gear/parcels/shared/"
+                    + "data/kuayue/animation_clips/qj_mechanism.json"
     );
 
     @Test

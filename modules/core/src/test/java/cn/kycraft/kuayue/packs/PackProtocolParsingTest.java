@@ -22,6 +22,7 @@ class PackProtocolParsingTest {
         assertEquals(Set.of("minecraft", "neoforge", "kuayue", "kasuga_lib", "create"),
                 manifest.dependencies().mods().keySet());
         assertEquals(1, manifest.parcels().size());
+        assertFalse(manifest.required());
 
         ParcelManifest parcel = ParcelManifest.parse(validParcelJson(), manifest.namespaces());
         assertEquals("example_railway:m1", parcel.id());
@@ -71,12 +72,16 @@ class PackProtocolParsingTest {
         assertThrows(IllegalArgumentException.class, () -> SemanticVersion.parse("1.0"));
         assertThrows(IllegalArgumentException.class, () -> SemanticVersion.parse("01.0.0"));
 
-        String reserved = validPackJson().replace(
-                "\"id\": \"example-railway\"",
-                "\"id\": \"kuayue-core\"");
-        PackParseException error =
-                assertThrows(PackParseException.class, () -> PackManifest.parse(reserved));
-        assertEquals("INVALID_MANIFEST", error.code());
+        String required = validPackJson().replace(
+                "\"format_version\": 1,",
+                "\"format_version\": 1, \"required\": true,");
+        assertTrue(PackManifest.parse(required).required());
+
+        String invalidRequired = validPackJson().replace(
+                "\"format_version\": 1,",
+                "\"format_version\": 1, \"required\": \"yes\",");
+        assertThrows(PackParseException.class,
+                () -> PackManifest.parse(invalidRequired));
     }
 
     @Test

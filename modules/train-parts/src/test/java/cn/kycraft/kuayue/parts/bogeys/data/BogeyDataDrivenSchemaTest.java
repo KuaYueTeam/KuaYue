@@ -23,13 +23,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BogeyDataDrivenSchemaTest {
     private static final Path DATA = Path.of(
-            "resources/bogeys/data-driven/data/kuayue/kasuga_lib/data_driven/bogeys.json"
+            "resources/packs/kuayue-preset-running-gear/parcels/shared/"
+                    + "data/kuayue/kasuga_lib/data_driven/bogeys.json"
     );
     private static final Path CONTENT = Path.of(
-            "resources/bogeys/data-driven/data/kuayue/bogeys/bogeys.json"
+            "resources/packs/kuayue-preset-running-gear/parcels/shared/"
+                    + "data/kuayue/bogeys/bogeys.json"
     );
     private static final Path GROUPS = Path.of(
-            "resources/bogeys/data-driven/data/kuayue/bogeys/groups.json"
+            "resources/packs/kuayue-preset-running-gear/parcels/shared/"
+                    + "data/kuayue/bogeys/groups.json"
     );
 
     @Test

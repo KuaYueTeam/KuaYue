@@ -15,13 +15,11 @@ final class PackDependencyResolver {
     PackSelection resolve(
             PackConfig config,
             PackCatalog catalog,
-            CorePackDescriptor corepack,
             PackRuntimeEnvironment environment,
             VersionComparator modComparator
     ) {
         Objects.requireNonNull(config, "config");
         Objects.requireNonNull(catalog, "catalog");
-        Objects.requireNonNull(corepack, "corepack");
         Objects.requireNonNull(environment, "environment");
         Objects.requireNonNull(modComparator, "modComparator");
 
@@ -42,16 +40,9 @@ final class PackDependencyResolver {
                 requested.add(entry.getKey());
             }
         }
-        if (config.isRequestedEnabled(PackManifest.CORE_PACK_ID)) {
-            requested.add(PackManifest.CORE_PACK_ID);
-        }
-
         Set<String> blocked = new TreeSet<>();
         List<PackDiagnostic> diagnostics = new ArrayList<>();
         for (String packId : requested) {
-            if (PackManifest.CORE_PACK_ID.equals(packId)) {
-                continue;
-            }
             DiscoveredPack pack = packs.get(packId);
             if (pack == null) {
                 if (invalidInstalledIds.contains(packId)) {
@@ -86,7 +77,7 @@ final class PackDependencyResolver {
             validateHostDependencies(
                     pack, environment, modComparator, blocked, diagnostics);
             validatePackDependencies(
-                    pack, config, packs, invalidInstalledIds, corepack, blocked, diagnostics);
+                    pack, config, packs, invalidInstalledIds, blocked, diagnostics);
         }
 
         Set<String> cycleNodes = findCycleNodes(requested, packs);
@@ -109,8 +100,7 @@ final class PackDependencyResolver {
         do {
             changed = false;
             for (String packId : requested) {
-                if (PackManifest.CORE_PACK_ID.equals(packId)
-                        || blocked.contains(packId) || !packs.containsKey(packId)) {
+                if (blocked.contains(packId) || !packs.containsKey(packId)) {
                     continue;
                 }
                 List<String> blockedDependencies = packs.get(packId)
@@ -141,11 +131,6 @@ final class PackDependencyResolver {
         orderedCandidates.addAll(requested);
         for (String packId : orderedCandidates) {
             if (!requested.contains(packId) || blocked.contains(packId)) {
-                continue;
-            }
-            if (PackManifest.CORE_PACK_ID.equals(packId)) {
-                effective.add(new ResolvedPack(
-                        packId, corepack.version(), PackSourceKind.CORE, "core"));
                 continue;
             }
             DiscoveredPack pack = packs.get(packId);
@@ -199,38 +184,32 @@ final class PackDependencyResolver {
             PackConfig config,
             Map<String, DiscoveredPack> packs,
             Set<String> invalidInstalledIds,
-            CorePackDescriptor corepack,
             Set<String> blocked,
             List<PackDiagnostic> diagnostics
     ) {
         for (var dependency : owner.manifest().dependencies().packs().entrySet()) {
             String dependencyId = dependency.getKey();
             String pointer = "/dependencies/packs/" + JsonProtocol.escape(dependencyId);
-            SemanticVersion actualVersion;
-            if (PackManifest.CORE_PACK_ID.equals(dependencyId)) {
-                actualVersion = corepack.version();
-            } else {
-                DiscoveredPack dependencyPack = packs.get(dependencyId);
-                if (dependencyPack == null) {
-                    blocked.add(owner.packId());
-                    String missingCode = invalidInstalledIds.contains(dependencyId)
-                            ? PackDiagnosticCodes.DEPENDENCY_INVALID
-                            : PackDiagnosticCodes.DEPENDENCY_MISSING;
-                    diagnostics.add(new PackDiagnostic(
-                            missingCode,
-                            PackSeverity.ERROR,
-                            PackStage.DEPENDENCY,
-                            owner.packId(),
-                            owner.sourceId(),
-                            null,
-                            "pack.json",
-                            pointer,
-                            List.of(dependencyId),
-                            "Required dependency is not loadable: " + dependencyId));
-                    continue;
-                }
-                actualVersion = dependencyPack.manifest().version();
+            DiscoveredPack dependencyPack = packs.get(dependencyId);
+            if (dependencyPack == null) {
+                blocked.add(owner.packId());
+                String missingCode = invalidInstalledIds.contains(dependencyId)
+                        ? PackDiagnosticCodes.DEPENDENCY_INVALID
+                        : PackDiagnosticCodes.DEPENDENCY_MISSING;
+                diagnostics.add(new PackDiagnostic(
+                        missingCode,
+                        PackSeverity.ERROR,
+                        PackStage.DEPENDENCY,
+                        owner.packId(),
+                        owner.sourceId(),
+                        null,
+                        "pack.json",
+                        pointer,
+                        List.of(dependencyId),
+                        "Required dependency is not loadable: " + dependencyId));
+                continue;
             }
+            SemanticVersion actualVersion = dependencyPack.manifest().version();
             if (!config.isRequestedEnabled(dependencyId)) {
                 blocked.add(owner.packId());
                 diagnostics.add(new PackDiagnostic(

@@ -14,7 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BogeyProxyConfigTest {
 
-    private static final Path BOGEY_RESOURCES = Path.of("resources/bogeys");
+    private static final Path BOGEY_RESOURCES = Path.of(
+            "resources/packs/kuayue-preset-running-gear/parcels"
+    );
     private static final Path PROXY_CONFIG = Path.of("resources/common/models/model_proxy.json");
 
     @Test

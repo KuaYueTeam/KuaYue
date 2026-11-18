@@ -1,7 +1,7 @@
 package cn.kycraft.kuayue.packs.bootstrap;
 
-import cn.kycraft.kuayue.packs.CorePackDescriptor;
 import cn.kycraft.kuayue.packs.DiscoveredPack;
+import cn.kycraft.kuayue.packs.PackCatalog;
 import cn.kycraft.kuayue.packs.PackConfigStore;
 import cn.kycraft.kuayue.packs.PackDiagnostic;
 import cn.kycraft.kuayue.packs.PackDiagnosticCodes;
@@ -62,7 +62,6 @@ import java.util.concurrent.atomic.AtomicReference;
 public final class KuaYuePackBootstrap {
     private static final Logger LOGGER = LoggerFactory.getLogger("KuaYue/Packs");
     private static final String RUNTIME_OWNER_ID = "kuayue-runtime";
-    private static final String DISABLE_COREPACK_PROPERTY = "kuayue.packs.disableCorepack";
     private static final AtomicReference<StartupPackSnapshot> SNAPSHOT = new AtomicReference<>();
     private static final AtomicBoolean RESOURCES_INSTALLED = new AtomicBoolean();
     private static volatile AutoCloseable resourceGroup;
@@ -85,15 +84,16 @@ public final class KuaYuePackBootstrap {
                 .getFile().getSecureJar().getRootPath();
         PackLimits limits = PackLimits.defaults();
         InputPolicy inputPolicy = inputPolicy(limits);
-        CorePackDescriptor corepack = CorePackDescriptor.forVersion(
-                kuaYueContainer.getModInfo().getVersion().toString());
+        Path embeddedPacksRoot = findEmbeddedPacksRoot(kuaYueContainer);
+        PackCatalog embeddedCatalog = embeddedPacksRoot == null
+                ? new PackCatalog(List.of(), List.of(), List.of())
+                : PackDiscovery.scan(embeddedPacksRoot, limits);
         PackDiscoveryResult discovery = PackDiscovery.discover(
                 gameDirectory,
                 environment,
-                corepack,
+                embeddedCatalog,
                 limits,
-                (left, right) -> new ComparableVersion(left).compareTo(new ComparableVersion(right)),
-                Boolean.getBoolean(DISABLE_COREPACK_PROPERTY)
+                (left, right) -> new ComparableVersion(left).compareTo(new ComparableVersion(right))
         );
 
         Path reportPath = gameDirectory.resolve("kuayue/reports/packs/startup.json");
@@ -132,6 +132,9 @@ public final class KuaYuePackBootstrap {
 
         Map<String, DiscoveredPack> discoveredById = new LinkedHashMap<>();
         discovery.catalog().packs().forEach(pack -> discoveredById.put(pack.packId(), pack));
+        Set<String> embeddedIds = embeddedCatalog.packs().stream()
+                .map(DiscoveredPack::packId)
+                .collect(java.util.stream.Collectors.toUnmodifiableSet());
         Map<String, PackIcon> packIcons = new LinkedHashMap<>();
         discovery.catalog().packs().stream()
                 .filter(pack -> pack.icon() != null)
@@ -147,18 +150,20 @@ public final class KuaYuePackBootstrap {
         List<ResolvedPack> selectedPacks = discovery.selection().effectivePacks();
         try {
             for (ResolvedPack resolved : selectedPacks) {
-                boolean core = PackManifest.CORE_PACK_ID.equals(resolved.id());
+                boolean embedded = embeddedIds.contains(resolved.id());
                 Path installation;
-                DiscoveredPack pack;
-                if (core) {
-                    installation = findCorepackRoot(kuaYueContainer);
-                    pack = PackDiscovery.scanCoreRoot(installation, limits);
-                } else {
-                    pack = discoveredById.get(resolved.id());
-                    if (pack == null) {
+                DiscoveredPack pack = discoveredById.get(resolved.id());
+                if (pack == null) {
+                    throw new IllegalStateException(
+                            "Effective pack is missing from catalog: " + resolved.id());
+                }
+                if (embedded) {
+                    if (embeddedPacksRoot == null) {
                         throw new IllegalStateException(
-                                "Effective pack is missing from catalog: " + resolved.id());
+                                "Embedded pack root disappeared while loading " + resolved.id());
                     }
+                    installation = embeddedPacksRoot.resolve(pack.containerName());
+                } else {
                     installation = PackResourceSnapshotter.installationPath(gameDirectory, pack);
                 }
                 if (pack.icon() != null) {
@@ -166,8 +171,7 @@ public final class KuaYuePackBootstrap {
                 }
                 dependencies.put(
                         resolved.id(),
-                        core ? Set.of()
-                                : Set.copyOf(pack.manifest().dependencies().packs().keySet())
+                        Set.copyOf(pack.manifest().dependencies().packs().keySet())
                 );
                 int firstRank = nextRank;
                 int rootCount = 1 + pack.manifest().parcels().size();
@@ -182,7 +186,7 @@ public final class KuaYuePackBootstrap {
                     rootsById.put(resolved.id(), new StartupPackSnapshot.ManagedPackRoot(
                             resolved.id(),
                             pack.manifest().version(),
-                            core,
+                            embedded,
                             pack.manifest(),
                             pack.parcels(),
                             installation,
@@ -191,7 +195,7 @@ public final class KuaYuePackBootstrap {
                     ));
                     nextRank = captured.nextRank();
                 } catch (PackCaptureException failure) {
-                    if (core || failure.kind() == PackCaptureException.Kind.HOST_FAILURE) {
+                    if (embedded || failure.kind() == PackCaptureException.Kind.HOST_FAILURE) {
                         throw failure;
                     }
                     captureFailures.add(resolved.id());
@@ -257,23 +261,6 @@ public final class KuaYuePackBootstrap {
                 knownManifests.put(pack.packId(), pack.manifest()));
         rootsById.values().forEach(root ->
                 knownManifests.put(root.id(), root.manifest()));
-        if (!knownManifests.containsKey(PackManifest.CORE_PACK_ID)) {
-            try {
-                DiscoveredPack installedCore = PackDiscovery.scanCoreRoot(
-                        findCorepackRoot(kuaYueContainer),
-                        limits
-                );
-                knownManifests.put(installedCore.packId(), installedCore.manifest());
-                if (installedCore.icon() != null) {
-                    packIcons.putIfAbsent(installedCore.packId(), installedCore.icon());
-                }
-            } catch (RuntimeException failure) {
-                LOGGER.warn(
-                        "Unable to inspect disabled corepack metadata for pack settings",
-                        failure
-                );
-            }
-        }
         LOGGER.debug("Known pack settings manifests: {}", knownManifests.keySet());
 
         StartupPackSnapshot snapshot = new StartupPackSnapshot(
@@ -301,9 +288,9 @@ public final class KuaYuePackBootstrap {
                 PackHistoryGuard::onServerStopped
         );
         LOGGER.info(
-                "Frozen {} effective KuaYue packs; corepack={}",
+                "Frozen {} effective KuaYue packs: {}",
                 roots.size(),
-                PackRuntimeState.corepackEnabled()
+                roots.stream().map(StartupPackSnapshot.ManagedPackRoot::id).toList()
         );
         return snapshot;
     }
@@ -425,23 +412,20 @@ public final class KuaYuePackBootstrap {
         );
     }
 
-    private static Path findCorepackRoot(ModContainer kuaYueContainer) {
+    private static Path findEmbeddedPacksRoot(ModContainer kuaYueContainer) {
         Path root = ModList.get().getModFiles().stream()
                 .filter(file -> file.getMods().stream()
                         .anyMatch(mod -> mod.getModId().equals("kuayue")))
-                .map(file -> file.getFile().findResource("kuayue-packs", "kuayue-core"))
+                .map(file -> file.getFile().findResource("kuayue-packs"))
                 .filter(java.nio.file.Files::isDirectory)
                 .findFirst()
                 .orElse(null);
-        if (root == null) {
-            root = kuaYueContainer.getModInfo().getOwningFile()
-                    .getFile().findResource("kuayue-packs", "kuayue-core");
+        if (root != null) {
+            return root;
         }
-        if (!java.nio.file.Files.isDirectory(root)) {
-            throw new IllegalStateException(
-                    "Embedded KuaYue corepack was not found at kuayue-packs/kuayue-core");
-        }
-        return root;
+        Path fallback = kuaYueContainer.getModInfo().getOwningFile()
+                .getFile().findResource("kuayue-packs");
+        return java.nio.file.Files.isDirectory(fallback) ? fallback : null;
     }
 
     private static void closePackResources() {

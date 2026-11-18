@@ -130,7 +130,7 @@ final class PackScanner {
                 continue;
             }
             if (attributes.isDirectory()) {
-                outcomes.add(scanDirectory(child, name, limits, false));
+                outcomes.add(scanDirectory(child, name, limits));
             } else if (attributes.isRegularFile()
                     && name.toLowerCase(Locale.ROOT).endsWith(".zip")) {
                 outcomes.add(scanZip(child, name, limits));
@@ -139,33 +139,10 @@ final class PackScanner {
         return finishCatalog(outcomes);
     }
 
-    DiscoveredPack scanCoreRoot(Path root, PackLimits limits) {
-        if (!Files.isDirectory(root, LinkOption.NOFOLLOW_LINKS)) {
-            throw new IllegalStateException("Corepack root is not a directory: " + root);
-        }
-        PackScanOutcome outcome = scanDirectory(
-                root,
-                PackManifest.CORE_PACK_ID,
-                limits,
-                true
-        );
-        if (outcome.pack() == null) {
-            throw new IllegalStateException(
-                    "Invalid KuaYue corepack at " + root + ": " + outcome.diagnostics());
-        }
-        if (!PackManifest.CORE_PACK_ID.equals(outcome.pack().packId())) {
-            throw new IllegalStateException(
-                    "Embedded corepack must use ID " + PackManifest.CORE_PACK_ID
-                            + ", got " + outcome.pack().packId());
-        }
-        return outcome.pack();
-    }
-
     PackScanOutcome scanDirectory(
             Path root,
             String containerName,
-            PackLimits limits,
-            boolean allowCorePack
+            PackLimits limits
     ) {
         String sourceId = sourceId("directory", containerName);
         Map<String, Path> files = new TreeMap<>();
@@ -260,7 +237,7 @@ final class PackScanner {
         try {
             manifestBytes = readFileBounded(
                     files.get(PACK_MANIFEST_PATH), limits.jsonFileBytes());
-            PackManifest manifest = parseManifest(manifestBytes, allowCorePack);
+            PackManifest manifest = parseManifest(manifestBytes);
             return finishValidPack(
                     sourceId,
                     PackSourceKind.DIRECTORY,
@@ -268,7 +245,6 @@ final class PackScanner {
                     manifest,
                     files,
                     limits,
-                    allowCorePack,
                     path -> readFileBounded(
                             files.get(path),
                             isJson(path) ? limits.jsonFileBytes() : limits.regularFileBytes()
@@ -356,7 +332,7 @@ final class PackScanner {
                 return invalidOutcome(sourceId, PackSourceKind.ZIP, containerName, diagnostics);
             }
             identityManifest = rootManifest;
-            PackManifest manifest = parseManifest(rootManifest, false);
+            PackManifest manifest = parseManifest(rootManifest);
             return finishValidPack(
                     sourceId,
                     PackSourceKind.ZIP,
@@ -364,7 +340,6 @@ final class PackScanner {
                     manifest,
                     sizes,
                     limits,
-                    false,
                     path -> {
                         Long expected = sizes.get(path);
                         if (expected == null) {
@@ -519,7 +494,6 @@ final class PackScanner {
             PackManifest manifest,
             Map<String, ?> files,
             PackLimits limits,
-            boolean allowCorePack,
             PackFileReader reader
     ) throws IOException, ScanFailure {
         Map<String, ParcelManifest> parcels = new LinkedHashMap<>();
@@ -882,9 +856,9 @@ final class PackScanner {
         return path.toLowerCase(Locale.ROOT).endsWith(".json");
     }
 
-    private static PackManifest parseManifest(byte[] bytes, boolean allowCorePack) {
+    private static PackManifest parseManifest(byte[] bytes) {
         String json = new String(bytes, StandardCharsets.UTF_8);
-        return allowCorePack ? PackManifest.parseCore(json) : PackManifest.parse(json);
+        return PackManifest.parse(json);
     }
 
     private static String parent(String path) {

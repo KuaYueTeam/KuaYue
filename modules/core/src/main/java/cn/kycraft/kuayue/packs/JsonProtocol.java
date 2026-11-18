@@ -39,6 +39,17 @@ final class JsonProtocol {
         return requireString(parent, name, pointer);
     }
 
+    static boolean optionalBoolean(JsonValue parent, String name, String pointer) {
+        if (!parent.has(name)) {
+            return false;
+        }
+        JsonValue element = parent.get(name);
+        if (element == null || !element.isBoolean()) {
+            throw invalid(pointer + "/" + name, "Field must be a boolean: " + name);
+        }
+        return element.asBoolean();
+    }
+
     static int requireInteger(JsonValue parent, String name, String pointer) {
         JsonValue element = parent.get(name);
         if (element == null || !element.isNumber()) {

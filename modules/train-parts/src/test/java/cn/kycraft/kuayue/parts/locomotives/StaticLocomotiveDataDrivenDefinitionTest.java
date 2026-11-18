@@ -31,7 +31,7 @@ class StaticLocomotiveDataDrivenDefinitionTest {
     void eachMigratedLocomotiveIndexesOnlyItsOwnDataDrivenDefinitions() throws IOException {
         for (Map.Entry<String, Integer> entry : EXPECTED_COUNTS.entrySet()) {
             String model = entry.getKey();
-            Path root = Path.of("resources/locomotives").resolve(model);
+            Path root = modelRoot(model);
             JsonObject index = readJson(root.resolve(
                     "data/kuayue/kasuga_lib/data_driven/" + model + ".json"
             ));
@@ -85,17 +85,23 @@ class StaticLocomotiveDataDrivenDefinitionTest {
     @Test
     void eachTakenOverParcelPointsAtItsDataDrivenIndex() throws IOException {
         for (String model : EXPECTED_COUNTS.keySet()) {
-            JsonObject parcel = readJson(Path.of(
-                    "src/main/resources/kuayue-packs/kuayue-core/parcels",
-                    model,
-                    "parcel.json"
-            ));
+            JsonObject parcel = readJson(modelRoot(model).resolve("parcel.json"));
             assertEquals(
                     List.of("data/kuayue/kasuga_lib/data_driven/" + model + ".json"),
                     strings(parcel.getAsJsonArray("indexes")),
                     model
             );
         }
+    }
+
+    private static Path modelRoot(String model) {
+        String preset = switch (model) {
+            case "df5", "df11", "df11g", "df21" -> "kuayue-preset-df";
+            case "ss3", "ss8" -> "kuayue-preset-ss";
+            case "jy290" -> "kuayue-preset-industrial";
+            default -> throw new IllegalArgumentException("Unknown locomotive: " + model);
+        };
+        return Path.of("resources/packs", preset, "parcels", model);
     }
 
     private static Set<String> blockstateIds(Path root) throws IOException {

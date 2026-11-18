@@ -56,7 +56,7 @@ public record StartupPackSnapshot(
     }
 
     public List<ManagedPackRoot> externalResourceRoots() {
-        return resourceRoots.stream().filter(root -> !root.corepack()).toList();
+        return resourceRoots.stream().filter(root -> !root.embedded()).toList();
     }
 
     public Map<String, PackManifest> knownManifests() {
@@ -112,7 +112,7 @@ public record StartupPackSnapshot(
     public record ManagedPackRoot(
             String id,
             SemanticVersion version,
-            boolean corepack,
+            boolean embedded,
             PackManifest manifest,
             Map<String, ParcelManifest> parcels,
             Path installationPath,

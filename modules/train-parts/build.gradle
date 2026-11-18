@@ -39,7 +39,7 @@ base {
 
 configurations {}
 
-apply from: "corepack.gradle"
+apply from: "preset-packs.gradle"
 
 tasks.named("compileResources") {
     enabled = false

@@ -1,7 +1,6 @@
 package cn.kycraft.kuayue.packs.state;
 
 import cn.kycraft.kuayue.packs.PackConfig;
-import cn.kycraft.kuayue.packs.PackManifest;
 import lib.kasuga.registration.data_driven.pipeline.RegistryClaim;
 
 import java.util.Objects;
@@ -37,11 +36,6 @@ public final class PackRuntimeState {
 
     public static Optional<PackConfig> current() {
         return Optional.ofNullable(config);
-    }
-
-    public static boolean corepackEnabled() {
-        PackConfig current = config;
-        return current == null || current.isRequestedEnabled(PackManifest.CORE_PACK_ID);
     }
 
     public static Set<String> registeredPackIds() {
