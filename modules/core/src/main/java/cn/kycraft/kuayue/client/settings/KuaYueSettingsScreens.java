@@ -27,14 +27,15 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ScrollerView;
 import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvents;
 import com.lowdragmc.lowdraglib2.gui.ui.style.StylesheetManager;
-import com.lowdragmc.lowdraglib2.gui.util.UISoundUtils;
 import com.lowdragmc.lowdraglib2.math.Size;
 import com.mojang.blaze3d.platform.NativeImage;
 import dev.vfyjxf.taffy.style.AlignContent;
 import dev.vfyjxf.taffy.style.AlignItems;
 import dev.vfyjxf.taffy.style.FlexDirection;
+import dev.vfyjxf.taffy.style.TaffyPosition;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.network.chat.Component;
@@ -57,10 +58,39 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class KuaYueSettingsScreens {
     private static final ResourceLocation DEFAULT_FONT =
             ResourceLocation.withDefaultNamespace("default");
+    private static final ResourceLocation SELECT_SPRITE =
+            ResourceLocation.withDefaultNamespace("transferable_list/select");
+    private static final ResourceLocation SELECT_HIGHLIGHTED_SPRITE =
+            ResourceLocation.withDefaultNamespace("transferable_list/select_highlighted");
+    private static final ResourceLocation UNSELECT_SPRITE =
+            ResourceLocation.withDefaultNamespace("transferable_list/unselect");
+    private static final ResourceLocation UNSELECT_HIGHLIGHTED_SPRITE =
+            ResourceLocation.withDefaultNamespace("transferable_list/unselect_highlighted");
+    private static final ResourceLocation MOVE_UP_SPRITE =
+            ResourceLocation.withDefaultNamespace("transferable_list/move_up");
+    private static final ResourceLocation MOVE_UP_HIGHLIGHTED_SPRITE =
+            ResourceLocation.withDefaultNamespace("transferable_list/move_up_highlighted");
+    private static final ResourceLocation MOVE_DOWN_SPRITE =
+            ResourceLocation.withDefaultNamespace("transferable_list/move_down");
+    private static final ResourceLocation MOVE_DOWN_HIGHLIGHTED_SPRITE =
+            ResourceLocation.withDefaultNamespace("transferable_list/move_down_highlighted");
     private static final AtomicInteger NEXT_ICON_ID = new AtomicInteger();
     private static final IGuiTexture TRANSPARENT = new ColorRectTexture(0x00000000);
     private static final IGuiTexture PANEL_BACKGROUND = new ColorRectTexture(0x78000000);
-    private static final IGuiTexture ROW_HOVER = new ColorRectTexture(0x30FFFFFF);
+    private static final int ICON_HOVER_COLOR = 0xA0909090;
+    private static final IGuiTexture SELECTED_ROW_FILL =
+            new ColorRectTexture(0xFF000000);
+    private static final IGuiTexture SELECTED_ROW_BORDER =
+            (graphics, mouseX, mouseY, x, y, width, height, partialTicks) -> {
+                int left = Math.round(x);
+                int top = Math.round(y);
+                int right = left + Math.max(1, Math.round(width));
+                int bottom = top + Math.max(1, Math.round(height));
+                graphics.fill(left, top, right, top + 1, 0xFFFFFFFF);
+                graphics.fill(left, bottom - 1, right, bottom, 0xFFFFFFFF);
+                graphics.fill(left, top + 1, left + 1, bottom - 1, 0xFFFFFFFF);
+                graphics.fill(right - 1, top + 1, right, bottom - 1, 0xFFFFFFFF);
+            };
     private static final IGuiTexture RULE =
             new ColorRectTexture(0x556A6A6A);
 
@@ -135,10 +165,20 @@ public final class KuaYueSettingsScreens {
         return button;
     }
 
-    private static Button textButton(String text) {
-        Button button = new Button().setText(text, false);
-        button.textStyle(style -> style.font(DEFAULT_FONT));
-        return button;
+    private static void drawIconSprite(GuiGraphics graphics, ResourceLocation sprite, float x, float y) {
+        graphics.blitSprite(sprite, Math.round(x), Math.round(y), 36, 36);
+    }
+
+    private static boolean isInside(
+            float mouseX,
+            float mouseY,
+            float x,
+            float y,
+            float width,
+            float height
+    ) {
+        return mouseX >= x && mouseX < x + width
+                && mouseY >= y && mouseY < y + height;
     }
 
     private static final class MainScreen extends SettingsScreen {
@@ -187,6 +227,8 @@ public final class KuaYueSettingsScreens {
         private final List<PackInstallationStatus> unavailableInstallations;
         private final Map<String, ManagedIcon> packIcons = new LinkedHashMap<>();
         private final Set<String> failedPackIcons = new HashSet<>();
+        private String selectedPackId;
+        private MoveHint activeMoveHint;
 
         private PackScreen(StartupPackSnapshot snapshot, Screen parent) {
             super(
@@ -214,7 +256,6 @@ public final class KuaYueSettingsScreens {
 
         private void buildContents() {
             UIElement root = modularUI.ui.rootElement;
-            root.layout(layout -> layout.paddingAll(8).gapAll(6));
             root.clearAllChildren();
 
             UIElement heading = new UIElement()
@@ -237,7 +278,8 @@ public final class KuaYueSettingsScreens {
 
             UIElement columns = new UIElement()
                     .layout(layout -> layout.flex(1).widthPercent(100)
-                            .flexDirection(FlexDirection.ROW).gapAll(10));
+                            .paddingLeftPercent(8).paddingRightPercent(8)
+                            .flexDirection(FlexDirection.ROW).gapAllPercent(5));
             available = list();
             selected = list();
             columns.addChildren(column("kuayue.settings.available", available),
@@ -281,20 +323,16 @@ public final class KuaYueSettingsScreens {
         private UIElement column(String title, ScrollerView list) {
             UIElement panel = new UIElement()
                     .style(style -> style.backgroundTexture(PANEL_BACKGROUND))
-                    .layout(layout -> layout.flex(1).gapAll(4).paddingAll(8));
+                    .layout(layout -> layout.flex(1).gapAll(2).paddingAll(2));
             UIElement header = new UIElement()
-                    .layout(layout -> layout.widthPercent(100).height(21).gapAll(2));
+                    .layout(layout -> layout.widthPercent(100).height(15).gapAll(2));
             header.addChildren(
                     styledLabel(
                             Component.translatable(title),
                             9f,
                             0xFFFFFFFF,
                             Horizontal.CENTER
-                    ).layout(layout -> layout.widthPercent(100).height(15)),
-                    new UIElement()
-                            .style(style -> style.backgroundTexture(RULE))
-                            .layout(layout -> layout.widthPercent(100).height(1))
-                            .setAllowHitTest(false)
+                    ).layout(layout -> layout.widthPercent(100).height(15))
             );
             panel.addChildren(header, list);
             return panel;
@@ -309,13 +347,14 @@ public final class KuaYueSettingsScreens {
             list.layout(layout -> layout.flex(1));
             list.viewPort.style(style -> style.backgroundTexture(TRANSPARENT));
             list.viewContainer.layout(layout ->
-                    layout.widthPercent(100).gapAll(2));
+                    layout.widthPercent(100).gapAll(4));
             return list;
         }
 
         private void rebuildLists() {
             if (available == null || selected == null || draft == null) return;
             modularUI.clearFocus();
+            activeMoveHint = null;
             available.clearAllScrollViewChildren();
             selected.clearAllScrollViewChildren();
             for (PackInstallationStatus installation : unavailableInstallations) {
@@ -382,7 +421,7 @@ public final class KuaYueSettingsScreens {
             return row;
         }
 
-        private UIElement row(String id, boolean isSelected) {
+        private UIElement row(String id, boolean enabled) {
             PackManifest manifest = session.knownManifests().get(id);
             String name = id;
             String description = "";
@@ -415,12 +454,10 @@ public final class KuaYueSettingsScreens {
                 }
             }
 
-            String detail = description.isBlank()
-                    ? id
-                    : description + (description.contains(id) ? "" : " · " + id);
+            String detail = description;
             Label nameLabel = styledLabel(
                     Component.literal(name),
-                    10f,
+                    8f,
                     0xFFFFFFFF,
                     Horizontal.LEFT
             );
@@ -433,56 +470,179 @@ public final class KuaYueSettingsScreens {
                     Horizontal.LEFT
             );
             detailLabel.textStyle(style -> style.textWrap(TextWrap.WRAP).lineSpacing(1f));
-            detailLabel.layout(layout -> layout.widthPercent(100).height(20));
+            detailLabel.style(style -> style.overflowVisible(false));
+            detailLabel.layout(layout -> layout.widthPercent(100).height(18));
             UIElement textBlock = new UIElement()
                     .layout(layout -> layout.flex(1).gapAll(1))
                     .setAllowHitTest(false);
             textBlock.addChildren(nameLabel, detailLabel);
 
+            boolean rowSelected = id.equals(selectedPackId);
+            List<String> selectedIds = enabled ? draft.selectedIdsByPriority() : List.of();
+            int priorityIndex = selectedIds.indexOf(id);
+            boolean canMoveUp = priorityIndex > 0;
+            boolean canMoveDown = priorityIndex >= 0 && priorityIndex < selectedIds.size() - 1;
+            IGuiTexture normalIcon = packIcon(id, manifest);
+            IGuiTexture renderedIcon =
+                    (graphics, mouseX, mouseY, x, y, width, height, partialTicks) -> {
+                        graphics.flush();
+                        normalIcon.draw(
+                                graphics, mouseX, mouseY, x, y, width, height, partialTicks);
+                        graphics.flush();
+
+                        boolean iconHovered = isInside(
+                                mouseX, mouseY, x, y, width, height);
+                        if (rowSelected || iconHovered) {
+                            graphics.fill(
+                                    Math.round(x),
+                                    Math.round(y),
+                                    Math.round(x + width),
+                                    Math.round(y + height),
+                                    ICON_HOVER_COLOR
+                            );
+                            graphics.flush();
+                        }
+
+                        if (iconHovered) {
+                            if (enabled) {
+                                ResourceLocation unselect = mouseX < x + 18
+                                        ? UNSELECT_HIGHLIGHTED_SPRITE
+                                        : UNSELECT_SPRITE;
+                                drawIconSprite(graphics, unselect, x, y);
+                                if (canMoveUp) {
+                                    boolean highlighted = mouseX >= x + 18 && mouseY < y + 18;
+                                    drawIconSprite(
+                                            graphics,
+                                            highlighted
+                                                    ? MOVE_UP_HIGHLIGHTED_SPRITE
+                                                    : MOVE_UP_SPRITE,
+                                            x,
+                                            y
+                                    );
+                                }
+                                if (canMoveDown) {
+                                    boolean highlighted = mouseX >= x + 18 && mouseY >= y + 18;
+                                    drawIconSprite(
+                                            graphics,
+                                            highlighted
+                                                    ? MOVE_DOWN_HIGHLIGHTED_SPRITE
+                                                    : MOVE_DOWN_SPRITE,
+                                            x,
+                                            y
+                                    );
+                                }
+                            } else {
+                                drawIconSprite(graphics, SELECT_HIGHLIGHTED_SPRITE, x, y);
+                            }
+                        }
+
+                        MoveHint hint = activeMoveHint;
+                        if (hint != null && hint.targetId().equals(id)) {
+                            drawIconSprite(
+                                    graphics,
+                                    hint.targetUp()
+                                            ? MOVE_UP_HIGHLIGHTED_SPRITE
+                                            : MOVE_DOWN_HIGHLIGHTED_SPRITE,
+                                    x,
+                                    y
+                            );
+                        }
+                    };
             UIElement icon = new UIElement()
-                    .style(style -> style.backgroundTexture(packIcon(id, manifest)))
-                    .layout(layout -> layout.width(36).height(36))
-                    .setAllowHitTest(false);
+                    .style(style -> style.backgroundTexture(renderedIcon))
+                    .layout(layout -> layout.width(36).height(36));
+
+            if (enabled) {
+                Button unselect = iconButton(() -> draft.remove(id));
+                unselect.layout(layout -> layout.left(0).top(0).width(18).height(36));
+                icon.addChild(unselect);
+
+                if (canMoveUp) {
+                    Button up = iconButton(() -> draft.moveByPriority(id, -1));
+                    up.layout(layout -> layout.left(18).top(0).width(18).height(18));
+                    icon.addChild(up);
+                    bindMoveHint(up, id, -1);
+                }
+                if (canMoveDown) {
+                    Button down = iconButton(() -> draft.moveByPriority(id, 1));
+                    down.layout(layout -> layout.left(18).bottom(0).width(18).height(18));
+                    icon.addChild(down);
+                    bindMoveHint(down, id, 1);
+                }
+            } else {
+                Button select = iconButton(() -> draft.add(id));
+                select.layout(layout -> layout.left(0).top(0).width(36).height(36));
+                icon.addChild(select);
+            }
             UIElement row = new UIElement()
-                    .style(style -> style.backgroundTexture(TRANSPARENT))
-                    .layout(layout -> layout.widthPercent(100).height(46).paddingAll(4)
-                            .flexDirection(FlexDirection.ROW).gapAll(8)
+                    .style(style -> style.backgroundTexture(
+                            rowSelected ? SELECTED_ROW_FILL : TRANSPARENT))
+                    .layout(layout -> layout.widthPercent(100).height(36)
+                            .flexDirection(FlexDirection.ROW).gapAll(2)
                             .alignItems(AlignItems.CENTER));
             row.addChildren(icon, textBlock);
-
-            if (isSelected) {
-                Button up = moveButton("▲", () -> draft.moveByPriority(id, -1));
-                Button down = moveButton("▼", () -> draft.moveByPriority(id, 1));
-                UIElement reorder = new UIElement()
-                        .layout(layout -> layout.width(18).height(38).gapAll(2)
-                                .flexDirection(FlexDirection.COLUMN)
-                                .justifyContent(AlignContent.CENTER));
-                reorder.addChildren(up, down);
-                row.addChild(reorder);
+            if (rowSelected) {
+                row.addChild(new UIElement()
+                        .style(style -> style.backgroundTexture(SELECTED_ROW_BORDER).zIndex(3))
+                        .layout(layout -> layout.positionType(TaffyPosition.ABSOLUTE)
+                                .widthPercent(100).heightPercent(100))
+                        .setAllowHitTest(false));
             }
 
-            row.addEventListener(UIEvents.MOUSE_ENTER, event ->
-                    row.style(style -> style.backgroundTexture(ROW_HOVER)));
-            row.addEventListener(UIEvents.MOUSE_LEAVE, event ->
-                    row.style(style -> style.backgroundTexture(TRANSPARENT)));
             row.addEventListener(UIEvents.CLICK, event -> {
                 if (event.button != 0) return;
-                UISoundUtils.playButtonClickSound();
-                if (isSelected) draft.remove(id); else draft.add(id);
+                selectedPackId = id;
                 rebuildLists();
             });
             return row;
         }
 
-        private Button moveButton(String text, Runnable move) {
-            Button button = textButton(text);
-            button.textStyle(style -> style.font(DEFAULT_FONT).fontSize(8f));
-            button.buttonStyle(style -> style.baseTexture(TRANSPARENT)
-                    .hoverTexture(ROW_HOVER)
-                    .pressedTexture(new ColorRectTexture(0x55FFFFFF)));
-            button.layout(layout -> layout.width(18).height(18));
+        private void bindMoveHint(Button button, String packId, int direction) {
+            button.addEventListener(UIEvents.MOUSE_ENTER, event ->
+                    showMoveHint(packId, direction));
+            button.addEventListener(UIEvents.MOUSE_LEAVE, event ->
+                    clearMoveHint(packId, direction));
+        }
+
+        private void showMoveHint(String packId, int direction) {
+            List<String> priority = draft.selectedIdsByPriority();
+            int sourceIndex = priority.indexOf(packId);
+            int targetIndex = sourceIndex + direction;
+            if (sourceIndex < 0 || targetIndex < 0 || targetIndex >= priority.size()) {
+                activeMoveHint = null;
+            } else {
+                activeMoveHint = new MoveHint(
+                        packId,
+                        direction,
+                        priority.get(targetIndex)
+                );
+            }
+        }
+
+        private void clearMoveHint(String packId, int direction) {
+            MoveHint hint = activeMoveHint;
+            if (hint != null
+                    && hint.sourceId().equals(packId)
+                    && hint.direction() == direction) {
+                activeMoveHint = null;
+            }
+        }
+
+        private record MoveHint(String sourceId, int direction, String targetId) {
+            private boolean targetUp() {
+                return direction > 0;
+            }
+        }
+
+        private Button iconButton(Runnable action) {
+            Button button = new Button().noText();
+            button.buttonStyle(style -> style
+                    .baseTexture(TRANSPARENT)
+                    .hoverTexture(TRANSPARENT)
+                    .pressedTexture(TRANSPARENT));
+            button.layout(layout -> layout.positionType(TaffyPosition.ABSOLUTE));
             button.setOnClick(event -> {
-                move.run();
+                action.run();
                 rebuildLists();
             });
             button.addEventListener(UIEvents.CLICK, event -> event.stopPropagation());
