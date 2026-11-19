@@ -1,5 +1,6 @@
 package cn.kycraft.kuayue.parts.bogeys.data;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lib.kasuga.registration.data_driven.json.DataJson;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BogeyDataDrivenSchemaTest {
-    private static final Path DATA = Path.of(
+    private static final Path INDEX = Path.of(
             "resources/packs/kuayue-preset-running-gear/parcels/shared/"
                     + "data/kuayue/kasuga_lib/data_driven/bogeys.json"
     );
@@ -36,32 +37,47 @@ class BogeyDataDrivenSchemaTest {
     );
 
     @Test
-    void documentPreservesEveryExistingSizeBlockAndStyleVariant() throws IOException {
-        JsonObject index = readJson(DATA);
-        assertEquals(
-                List.of(
-                        "bogeys/groups.json",
-                        "bogeys/bogeys.json",
-                        "bogeys/motions.json",
-                        "bogeys/models.json"
-                ),
-                index.getAsJsonArray("on_register").asList().stream()
-                        .map(JsonElement::getAsString)
-                        .toList()
-        );
+    void documentAggregatesEveryShiftedBogeyDefinition() throws IOException {
+        JsonObject index = readJson(INDEX);
+        List<String> registered = index.getAsJsonArray("on_register").asList().stream()
+                .map(JsonElement::getAsString)
+                .toList();
+        assertTrue(registered.containsAll(List.of(
+                "bogeys/groups.json",
+                "bogeys/bogeys.json",
+                "bogeys/motions.json",
+                "bogeys/models.json"
+        )));
 
-        BogeyDefinitionFile file = new BogeyDefinitionParser().parseFile(readJson(CONTENT));
-        assertEquals(53, file.sizes().size());
-        assertEquals(53, file.blocks().size());
-        assertEquals(7, file.styles().size());
-        assertEquals(53, file.styles().stream().mapToInt(style -> style.variants().size()).sum());
+        BogeyPackTestData data = BogeyPackTestData.load();
+        assertEquals(53, data.sizes.size());
+        assertEquals(53, data.blocks.size());
+        assertEquals(53, data.models.size());
+        assertEquals(7, data.styles.size());
+        assertFalse(data.styleVariants.isEmpty());
 
-        Map<String, Long> variantCounts = file.styles().stream().collect(Collectors.toMap(
-                BogeyStyleDefinition::id,
-                style -> (long) style.variants().size(),
-                (left, right) -> left,
-                LinkedHashMap::new
-        ));
+        List<BogeyStyleDefinition.Variant> variants = data.allVariants();
+        assertEquals(53, variants.size());
+        assertEquals(53, variants.stream()
+                .map(BogeyStyleDefinition.Variant::size)
+                .collect(Collectors.toSet())
+                .size());
+        assertEquals(53, variants.stream()
+                .map(BogeyStyleDefinition.Variant::block)
+                .collect(Collectors.toSet())
+                .size());
+        assertEquals(53, variants.stream()
+                .map(BogeyStyleDefinition.Variant::model)
+                .collect(Collectors.toSet())
+                .size());
+
+        Map<String, Long> variantCounts = data.variantsByStyle().entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> (long) entry.getValue().size(),
+                        (left, right) -> left,
+                        LinkedHashMap::new
+                ));
         assertEquals(Map.of(
                 "kuayue:carriage", 8L,
                 "kuayue:meter_carriage", 5L,
@@ -84,19 +100,19 @@ class BogeyDataDrivenSchemaTest {
 
     @Test
     void styleVariantsAreOneToOneAndMatchBlockDefaults() throws IOException {
-        BogeyDefinitionFile file = new BogeyDefinitionParser().parseFile(readJson(CONTENT));
-        Map<String, BogeyBlockDefinition> blocks = file.blocks().stream()
+        BogeyPackTestData data = BogeyPackTestData.load();
+        Map<String, BogeyBlockDefinition> blocks = data.blocks.stream()
                 .collect(Collectors.toMap(BogeyBlockDefinition::id, Function.identity()));
         Map<String, String> blockStyles = new LinkedHashMap<>();
 
-        for (BogeyStyleDefinition style : file.styles()) {
+        for (BogeyStyleDefinition style : data.styles) {
             for (BogeyStyleDefinition.Variant variant : style.variants()) {
-                assertFalse(blockStyles.containsKey(variant.block()));
-                blockStyles.put(variant.block(), style.id());
-                BogeyBlockDefinition block = blocks.get(variant.block());
-                assertEquals(style.id(), block.defaultStyle());
-                assertEquals(block.size(), variant.size());
-                assertTrue(variant.model().startsWith("kuayue:bogey/"));
+                assertVariant(blocks, blockStyles, style.id(), variant);
+            }
+        }
+        for (BogeyStyleVariantsDefinition contribution : data.styleVariants) {
+            for (BogeyStyleDefinition.Variant variant : contribution.variants()) {
+                assertVariant(blocks, blockStyles, contribution.style(), variant);
             }
         }
 
@@ -107,18 +123,18 @@ class BogeyDataDrivenSchemaTest {
 
     @Test
     void physicalParametersMatchTheLegacyRegistrationTables() throws IOException {
-        BogeyDefinitionFile file = new BogeyDefinitionParser().parseFile(readJson(CONTENT));
-        Map<String, BogeySizeDefinition> sizes = file.sizes().stream()
+        BogeyPackTestData data = BogeyPackTestData.load();
+        Map<String, BogeySizeDefinition> sizes = data.sizes.stream()
                 .collect(Collectors.toMap(BogeySizeDefinition::id, Function.identity()));
 
-        assertEquals(21, file.blocks().stream()
+        assertEquals(21, data.blocks.stream()
                 .filter(block -> block.registryGroup().equals("kuayue:carriage_bogeys"))
                 .count());
-        assertEquals(32, file.blocks().stream()
+        assertEquals(32, data.blocks.stream()
                 .filter(block -> block.registryGroup().equals("kuayue:loco_bogeys"))
                 .count());
 
-        for (BogeyBlockDefinition block : file.blocks()) {
+        for (BogeyBlockDefinition block : data.blocks) {
             BogeyBlockDefinition.Physics physics = block.physics();
             assertEquals(0.4575f, sizes.get(block.size()).wheelRadius());
             assertEquals("standard", physics.primaryTrackType());
@@ -138,7 +154,7 @@ class BogeyDataDrivenSchemaTest {
 
     @Test
     void everyBlockHasItsExistingBlockstateResource() throws IOException {
-        BogeyDefinitionFile file = new BogeyDefinitionParser().parseFile(readJson(CONTENT));
+        BogeyPackTestData data = BogeyPackTestData.load();
         Set<String> blockstateNames = new HashSet<>();
         try (var paths = Files.walk(Path.of("resources"))) {
             paths.filter(Files::isRegularFile)
@@ -150,7 +166,7 @@ class BogeyDataDrivenSchemaTest {
                     .forEach(blockstateNames::add);
         }
 
-        Set<String> missing = file.blocks().stream()
+        Set<String> missing = data.blocks.stream()
                 .map(block -> block.id().substring(block.id().indexOf(':') + 1))
                 .filter(id -> !blockstateNames.contains(id))
                 .collect(Collectors.toSet());
@@ -158,11 +174,11 @@ class BogeyDataDrivenSchemaTest {
     }
 
     @Test
-    void parserRejectsUnknownFieldsAndBrokenCrossReferences() throws IOException {
+    void parserRejectsInvalidFieldsButAllowsPartialDocuments() throws IOException {
         BogeyDefinitionParser parser = new BogeyDefinitionParser();
         JsonObject document = readJson(CONTENT);
         JsonObject unknownTopLevel = document.deepCopy();
-        unknownTopLevel.addProperty("bogey_motions", "not-a-list");
+        unknownTopLevel.addProperty("bogey_style_variants", "not-a-list");
         assertThrows(IllegalArgumentException.class, () -> parser.parseFile(unknownTopLevel));
 
         JsonObject unknownBlockField = document.getAsJsonArray("bogey_blocks")
@@ -172,12 +188,12 @@ class BogeyDataDrivenSchemaTest {
         unknownBlockField.addProperty("default_styles", "kuayue:carriage");
         assertThrows(IllegalArgumentException.class, () -> parser.parseBlock(unknownBlockField));
 
-        JsonObject wrongDefaultStyle = document.deepCopy();
-        wrongDefaultStyle.getAsJsonArray("bogey_blocks")
+        JsonObject externalStyle = document.deepCopy();
+        externalStyle.getAsJsonArray("bogey_blocks")
                 .get(0)
                 .getAsJsonObject()
                 .addProperty("default_style", "kuayue:loco");
-        assertThrows(IllegalArgumentException.class, () -> parser.parseFile(wrongDefaultStyle));
+        assertEquals(25, parser.parseFile(externalStyle).blocks().size());
 
         JsonObject bareId = document.deepCopy();
         bareId.getAsJsonArray("bogey_blocks")
@@ -185,6 +201,29 @@ class BogeyDataDrivenSchemaTest {
                 .getAsJsonObject()
                 .addProperty("id", "pk209p_bogey");
         assertThrows(RuntimeException.class, () -> parser.parseFile(bareId));
+
+        JsonObject emptyContribution = new JsonObject();
+        emptyContribution.addProperty("id", "kuayue:empty");
+        emptyContribution.addProperty("style", "kuayue:loco");
+        emptyContribution.add("variants", new JsonArray());
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> parser.parseStyleVariants(emptyContribution)
+        );
+    }
+
+    private static void assertVariant(
+            Map<String, BogeyBlockDefinition> blocks,
+            Map<String, String> blockStyles,
+            String style,
+            BogeyStyleDefinition.Variant variant
+    ) {
+        assertFalse(blockStyles.containsKey(variant.block()));
+        blockStyles.put(variant.block(), style);
+        BogeyBlockDefinition block = blocks.get(variant.block());
+        assertEquals(style, block.defaultStyle());
+        assertEquals(block.size(), variant.size());
+        assertTrue(variant.model().startsWith("kuayue:bogey/"));
     }
 
     private static JsonObject readJson(Path path) throws IOException {

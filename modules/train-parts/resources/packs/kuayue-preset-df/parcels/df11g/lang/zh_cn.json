@@ -40,5 +40,9 @@
   "tech_tree.kuayue.group.head_df11g_blueprint.description": "设计并试制DF11G以获取DF11G总体设计图",
   "tech_tree.kuayue.group.head_df11g_blueprint.name": "DF11G总体设计图",
   "tech_tree.kuayue.group.head_df11g_circuit_blueprint.description": "研发DF11G电路板",
-  "tech_tree.kuayue.group.head_df11g_circuit_blueprint.name": "DF11G电路板设计图"
+  "tech_tree.kuayue.group.head_df11g_circuit_blueprint.name": "DF11G电路板设计图",
+  "msg.bogey.style.changed.block.kuayue.df11g_bogey": "当前转向架: 东风11G",
+  "msg.bogey.style.changed.block.kuayue.df11g_backward_bogey": "当前转向架: 东风11G(反向)",
+  "msg.bogey.style.changed.block.kuayue.df11g_bogey_a": "当前转向架: 东风11G",
+  "msg.bogey.style.changed.block.kuayue.df11g_backward_bogey_a": "当前转向架: 东风11G(反向)"
 }

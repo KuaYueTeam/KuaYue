@@ -3,5 +3,7 @@
   "id": "kuayue:dfh21",
   "name_key": "parcel.kuayue.dfh21.name",
   "description_key": "parcel.kuayue.dfh21.description",
-  "indexes": []
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/dfh21.json"
+  ]
 }

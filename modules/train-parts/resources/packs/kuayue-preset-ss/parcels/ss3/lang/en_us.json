@@ -19,5 +19,9 @@
   "container.kuayue.inventory.loco.button.ss3": "SS3",
   "item.kuayue.head_ss3_blueprint": "SS3 Blueprint",
   "tech_tree.kuayue.group.head_ss3_blueprint.description": "Design and prototype SS3. Be able to obtain the design drawings of SS3.",
-  "tech_tree.kuayue.group.head_ss3_blueprint.name": "SS3 Blueprint"
+  "tech_tree.kuayue.group.head_ss3_blueprint.name": "SS3 Blueprint",
+  "msg.bogey.style.changed.block.kuayue.ss3_bogey": "current bogey: SS3",
+  "msg.bogey.style.changed.block.kuayue.ss3_backward_bogey": "current bogey: SS3(Backward)",
+  "msg.bogey.style.changed.block.kuayue.ss3_bogey_a": "current bogey: SS3",
+  "msg.bogey.style.changed.block.kuayue.ss3_backward_bogey_a": "current bogey: SS3(Backward)"
 }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,11 +36,16 @@ class StaticLocomotiveDataDrivenDefinitionTest {
             JsonObject index = readJson(root.resolve(
                     "data/kuayue/kasuga_lib/data_driven/" + model + ".json"
             ));
+            List<String> expectedIndexes = new ArrayList<>(List.of(
+                    "locomotives/" + model + "/groups.json",
+                    "locomotives/" + model + "/blocks.json"
+            ));
+            Path bogeyData = root.resolve("data/kuayue/bogeys/" + model + ".json");
+            if (Files.isRegularFile(bogeyData)) {
+                expectedIndexes.add("bogeys/" + model + ".json");
+            }
             assertEquals(
-                    List.of(
-                            "locomotives/" + model + "/groups.json",
-                            "locomotives/" + model + "/blocks.json"
-                    ),
+                    expectedIndexes,
                     strings(index.getAsJsonArray("on_register")),
                     model
             );

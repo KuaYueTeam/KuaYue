@@ -18,5 +18,9 @@
   "tech_tree.kuayue.group.head_hxd3d_blueprint.description": "Design and prototype Head HXD3D. Be able to obtain the design drawings of Head HXD3D.",
   "tech_tree.kuayue.group.head_hxd3d_blueprint.name": "Head HXD3D Blueprint",
   "tech_tree.kuayue.group.head_hxd3d_circuit_blueprint.description": "Develop the circuit board for the Head HXD3D",
-  "tech_tree.kuayue.group.head_hxd3d_circuit_blueprint.name": "Head HXD3D Circuit Blueprint"
+  "tech_tree.kuayue.group.head_hxd3d_circuit_blueprint.name": "Head HXD3D Circuit Blueprint",
+  "msg.bogey.style.changed.block.kuayue.hxd3d_bogey": "current bogey: HXD3D",
+  "msg.bogey.style.changed.block.kuayue.hxd3d_backward_bogey": "current bogey: HXD3D(Backward)",
+  "msg.bogey.style.changed.block.kuayue.hxd3d_bogey_a": "current bogey: HXD3D",
+  "msg.bogey.style.changed.block.kuayue.hxd3d_backward_bogey_a": "current bogey: HXD3D(Backward)"
 }

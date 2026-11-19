@@ -14,5 +14,7 @@
   "container.kuayue.inventory.loco.button.jy290": "JY290",
   "item.kuayue.head_jy290_blueprint": "金鹰290总体设计图",
   "tech_tree.kuayue.group.head_jy290_blueprint.description": "设计并试制JY290以获取JY290总体设计图",
-  "tech_tree.kuayue.group.head_jy290_blueprint.name": "JY290总体设计图"
+  "tech_tree.kuayue.group.head_jy290_blueprint.name": "JY290总体设计图",
+  "msg.bogey.style.changed.block.kuayue.jy290_bogey": "当前转向架: 金鹰290",
+  "msg.bogey.style.changed.block.kuayue.jy290_backward_bogey": "当前转向架: 金鹰290(反向)"
 }

@@ -40,5 +40,9 @@
   "tech_tree.kuayue.group.head_df11g_blueprint.description": "Design and prototype DF11G. Be able to obtain the design drawings of DF11G.",
   "tech_tree.kuayue.group.head_df11g_blueprint.name": "DF11G Blueprint",
   "tech_tree.kuayue.group.head_df11g_circuit_blueprint.description": "Develop the circuit board for the DF11G",
-  "tech_tree.kuayue.group.head_df11g_circuit_blueprint.name": "DF11G Circuit Blueprint"
+  "tech_tree.kuayue.group.head_df11g_circuit_blueprint.name": "DF11G Circuit Blueprint",
+  "msg.bogey.style.changed.block.kuayue.df11g_bogey": "current bogey: DF11G",
+  "msg.bogey.style.changed.block.kuayue.df11g_backward_bogey": "current bogey: DF11G(Backward)",
+  "msg.bogey.style.changed.block.kuayue.df11g_bogey_a": "current bogey: DF11G",
+  "msg.bogey.style.changed.block.kuayue.df11g_backward_bogey_a": "current bogey: DF11G(Backward)"
 }

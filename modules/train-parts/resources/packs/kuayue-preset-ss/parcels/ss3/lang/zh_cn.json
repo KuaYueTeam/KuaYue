@@ -19,5 +19,9 @@
   "container.kuayue.inventory.loco.button.ss3": "SS3",
   "item.kuayue.head_ss3_blueprint": "SS3总体设计图",
   "tech_tree.kuayue.group.head_ss3_blueprint.description": "设计并试制SS3以获取SS3总体设计图",
-  "tech_tree.kuayue.group.head_ss3_blueprint.name": "SS3总体设计图"
+  "tech_tree.kuayue.group.head_ss3_blueprint.name": "SS3总体设计图",
+  "msg.bogey.style.changed.block.kuayue.ss3_bogey": "当前转向架: 韶山3",
+  "msg.bogey.style.changed.block.kuayue.ss3_backward_bogey": "当前转向架: 韶山3(反向)",
+  "msg.bogey.style.changed.block.kuayue.ss3_bogey_a": "当前转向架: 韶山3",
+  "msg.bogey.style.changed.block.kuayue.ss3_backward_bogey_a": "当前转向架: 韶山3(反向)"
 }

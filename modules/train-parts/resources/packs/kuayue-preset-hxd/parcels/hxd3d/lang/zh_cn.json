@@ -18,5 +18,9 @@
   "tech_tree.kuayue.group.head_hxd3d_blueprint.description": "设计并试制HXD3D车头以获取HXD3D车头总体设计图",
   "tech_tree.kuayue.group.head_hxd3d_blueprint.name": "HXD3D车头总体设计图",
   "tech_tree.kuayue.group.head_hxd3d_circuit_blueprint.description": "研发HXD3D车头电路板",
-  "tech_tree.kuayue.group.head_hxd3d_circuit_blueprint.name": "HXD3D车头电路板设计图"
+  "tech_tree.kuayue.group.head_hxd3d_circuit_blueprint.name": "HXD3D车头电路板设计图",
+  "msg.bogey.style.changed.block.kuayue.hxd3d_bogey": "当前转向架: 和谐电3D",
+  "msg.bogey.style.changed.block.kuayue.hxd3d_backward_bogey": "当前转向架: 和谐电3D(反向)",
+  "msg.bogey.style.changed.block.kuayue.hxd3d_bogey_a": "当前转向架: 和谐电3D",
+  "msg.bogey.style.changed.block.kuayue.hxd3d_backward_bogey_a": "当前转向架: 和谐电3D(反向)"
 }

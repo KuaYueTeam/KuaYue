@@ -18,5 +18,7 @@
   "tech_tree.kuayue.group.head_df21_blueprint.description": "Design and prototype DF21. Be able to obtain the design drawings of DF21.",
   "tech_tree.kuayue.group.head_df21_blueprint.name": "DF21 Blueprint",
   "tech_tree.kuayue.group.head_df21_circuit_blueprint.description": "Develop the circuit board for the DF21",
-  "tech_tree.kuayue.group.head_df21_circuit_blueprint.name": "DF21 Circuit Blueprint"
+  "tech_tree.kuayue.group.head_df21_circuit_blueprint.name": "DF21 Circuit Blueprint",
+  "msg.bogey.style.changed.block.kuayue.df21_bogey": "current bogey: DF21",
+  "msg.bogey.style.changed.block.kuayue.df21_backward_bogey": "current bogey: DF21(Backward)"
 }

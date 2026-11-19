@@ -5,9 +5,7 @@ import com.google.gson.JsonObject;
 import lib.kasuga.registration.data_driven.json.DataJson;
 
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -16,7 +14,12 @@ import java.util.function.Function;
  */
 public final class BogeyDefinitionParser {
     private static final Set<String> FILE_FIELDS = Set.of(
-            "bogey_sizes", "bogey_blocks", "bogey_styles"
+            "bogey_sizes",
+            "bogey_motions",
+            "bogey_models",
+            "bogey_blocks",
+            "bogey_styles",
+            "bogey_style_variants"
     );
     private static final Set<String> SIZE_FIELDS = Set.of("id", "wheel_radius");
     private static final Set<String> MOTION_FIELDS = Set.of(
@@ -43,6 +46,9 @@ public final class BogeyDefinitionParser {
             "id", "cycle_group", "registry_group", "translation_key", "variants"
     );
     private static final Set<String> VARIANT_FIELDS = Set.of("size", "block", "model");
+    private static final Set<String> STYLE_VARIANTS_FIELDS = Set.of(
+            "id", "style", "variants"
+    );
 
     /**
      * Parses one {@code bogey_sizes} entry.
@@ -151,19 +157,37 @@ public final class BogeyDefinitionParser {
      */
     public BogeyStyleDefinition parseStyle(JsonObject json) {
         rejectUnknownFields(json, STYLE_FIELDS, "bogey_styles[]");
-        for (JsonElement variant : requireArray(json, "variants", "bogey_styles[]")) {
+        validateVariants(json, "bogey_styles[]");
+        return DataJson.GSON.fromJson(json, BogeyStyleDefinition.class);
+    }
+
+    /**
+     * Parses one {@code bogey_style_variants} entry.
+     */
+    public BogeyStyleVariantsDefinition parseStyleVariants(JsonObject json) {
+        rejectUnknownFields(json, STYLE_VARIANTS_FIELDS, "bogey_style_variants[]");
+        if (requireArray(json, "variants", "bogey_style_variants[]").isEmpty()) {
+            throw new IllegalArgumentException(
+                    "bogey_style_variants[].variants must not be empty"
+            );
+        }
+        validateVariants(json, "bogey_style_variants[]");
+        return DataJson.GSON.fromJson(json, BogeyStyleVariantsDefinition.class);
+    }
+
+    private static void validateVariants(JsonObject json, String path) {
+        for (JsonElement variant : requireArray(json, "variants", path)) {
             if (!variant.isJsonObject()) {
                 throw new IllegalArgumentException(
-                        "bogey_styles[].variants[] entries must be JSON objects"
+                        path + ".variants[] entries must be JSON objects"
                 );
             }
             rejectUnknownFields(
                     variant.getAsJsonObject(),
                     VARIANT_FIELDS,
-                    "bogey_styles[].variants[]"
+                    path + ".variants[]"
             );
         }
-        return DataJson.GSON.fromJson(json, BogeyStyleDefinition.class);
     }
 
     /**
@@ -174,66 +198,34 @@ public final class BogeyDefinitionParser {
         BogeyDefinitionFile file = new BogeyDefinitionFile(
                 parseEntries(root, "bogey_sizes", this::parseSize),
                 parseEntries(root, "bogey_blocks", this::parseBlock),
-                parseEntries(root, "bogey_styles", this::parseStyle)
+                parseEntries(root, "bogey_styles", this::parseStyle),
+                parseEntries(root, "bogey_style_variants", this::parseStyleVariants)
         );
-        Set<String> sizeIds = uniqueIds(
+        uniqueIds(
                 file.sizes().stream().map(BogeySizeDefinition::id).toList(),
                 "bogey_sizes[].id"
         );
-        Set<String> blockIds = uniqueIds(
+        uniqueIds(
                 file.blocks().stream().map(BogeyBlockDefinition::id).toList(),
                 "bogey_blocks[].id"
         );
-        Set<String> styleIds = uniqueIds(
+        uniqueIds(
                 file.styles().stream().map(BogeyStyleDefinition::id).toList(),
                 "bogey_styles[].id"
         );
-
-        Map<String, BogeyBlockDefinition> blocksById = new LinkedHashMap<>();
-        for (BogeyBlockDefinition block : file.blocks()) {
-            requireReference(sizeIds, block.size(), "bogey block " + block.id() + " size");
-            requireReference(styleIds, block.defaultStyle(),
-                    "bogey block " + block.id() + " default style");
-            blocksById.put(block.id(), block);
-        }
-
-        Set<String> styledBlocks = new HashSet<>();
+        uniqueIds(
+                file.styleVariants().stream()
+                        .map(BogeyStyleVariantsDefinition::id)
+                        .toList(),
+                "bogey_style_variants[].id"
+        );
         for (BogeyStyleDefinition style : file.styles()) {
-            Set<String> styleSizes = new HashSet<>();
-            for (BogeyStyleDefinition.Variant variant : style.variants()) {
-                requireReference(sizeIds, variant.size(), "style " + style.id() + " size");
-                requireReference(blockIds, variant.block(), "style " + style.id() + " block");
-                if (!styleSizes.add(variant.size())) {
-                    throw new IllegalArgumentException(
-                            "style " + style.id() + " configures size twice: " + variant.size()
-                    );
-                }
-                if (!styledBlocks.add(variant.block())) {
-                    throw new IllegalArgumentException(
-                            "bogey block appears in more than one style variant: " + variant.block()
-                    );
-                }
-                BogeyBlockDefinition block = blocksById.get(variant.block());
-                if (!block.size().equals(variant.size())) {
-                    throw new IllegalArgumentException(
-                            "style " + style.id() + " size " + variant.size()
-                                    + " does not match block " + block.id() + " size "
-                                    + block.size()
-                    );
-                }
-                if (!block.defaultStyle().equals(style.id())) {
-                    throw new IllegalArgumentException(
-                            "block " + block.id() + " default style is "
-                                    + block.defaultStyle() + ", not " + style.id()
-                    );
-                }
-            }
+            uniqueVariants(style.variants(), "style " + style.id());
         }
-        if (!styledBlocks.equals(blockIds)) {
-            Set<String> missing = new HashSet<>(blockIds);
-            missing.removeAll(styledBlocks);
-            throw new IllegalArgumentException(
-                    "bogey blocks are missing from style variants: " + missing
+        for (BogeyStyleVariantsDefinition contribution : file.styleVariants()) {
+            uniqueVariants(
+                    contribution.variants(),
+                    "bogey style contribution " + contribution.id()
             );
         }
         return file;
@@ -312,6 +304,26 @@ public final class BogeyDefinitionParser {
             }
         }
         return Set.copyOf(result);
+    }
+
+    private static void uniqueVariants(
+            List<BogeyStyleDefinition.Variant> variants,
+            String description
+    ) {
+        Set<String> sizes = new HashSet<>();
+        Set<String> blocks = new HashSet<>();
+        for (BogeyStyleDefinition.Variant variant : variants) {
+            if (!sizes.add(variant.size())) {
+                throw new IllegalArgumentException(
+                        description + " configures size twice: " + variant.size()
+                );
+            }
+            if (!blocks.add(variant.block())) {
+                throw new IllegalArgumentException(
+                        description + " configures block twice: " + variant.block()
+                );
+            }
+        }
     }
 
     private static void requireReference(Set<String> ids, String id, String description) {

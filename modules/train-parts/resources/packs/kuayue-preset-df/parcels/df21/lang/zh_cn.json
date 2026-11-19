@@ -18,5 +18,7 @@
   "tech_tree.kuayue.group.head_df21_blueprint.description": "设计并试制DF21以获取DF21总体设计图",
   "tech_tree.kuayue.group.head_df21_blueprint.name": "DF21总体设计图",
   "tech_tree.kuayue.group.head_df21_circuit_blueprint.description": "研发DF21车头电路板",
-  "tech_tree.kuayue.group.head_df21_circuit_blueprint.name": "DF21车头电路板设计图"
+  "tech_tree.kuayue.group.head_df21_circuit_blueprint.name": "DF21车头电路板设计图",
+  "msg.bogey.style.changed.block.kuayue.df21_bogey": "当前转向架: 东风21",
+  "msg.bogey.style.changed.block.kuayue.df21_backward_bogey": "当前转向架: 东风21(反向)"
 }

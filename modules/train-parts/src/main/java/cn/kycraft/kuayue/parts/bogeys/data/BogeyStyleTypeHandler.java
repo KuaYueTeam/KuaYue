@@ -1,13 +1,6 @@
 package cn.kycraft.kuayue.parts.bogeys.data;
 
-import cn.kycraft.kuayue.parts.bogeys.core.BogeyModelPlan;
-import cn.kycraft.kuayue.parts.bogeys.core.KuaYueBogeyModels;
-import cn.kycraft.kuayue.parts.bogeys.core.KuaYueBogeyRenderers;
 import com.google.gson.JsonObject;
-import com.simibubi.create.content.trains.bogey.BogeyStyle;
-import lib.kasuga.create.registration.bogey.BogeyBlockReg;
-import lib.kasuga.create.registration.bogey.BogeyGroupReg;
-import lib.kasuga.create.registration.bogey.BogeySizeReg;
 import lib.kasuga.registration.data_driven.TypeHandler;
 import lib.kasuga.registration.data_driven.context.BuildContext;
 import lib.kasuga.registration.data_driven.context.JsonRegistryGroup;
@@ -20,7 +13,6 @@ import lib.kasuga.registration.data_driven.pipeline.RegistryClaim;
 import lib.kasuga.registration.data_driven.validation.ValidationContext;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -182,20 +174,11 @@ public final class BogeyStyleTypeHandler implements TypeHandler<BogeyStyleDefini
             );
         }
 
-        BogeyGroupReg group = new BogeyGroupReg(styleId.getPath(), cycleId.getPath())
-                .translationKey(definition.translationKey())
-                .withProperty(ResourceLocation.class, id -> {
-                    if (id.getPath().equals(styleId.getPath())) {
-                        return styleId;
-                    }
-                    if (id.getPath().equals(cycleId.getPath())) {
-                        return cycleId;
-                    }
-                    return id;
-                })
-                .setParent(parent);
-
-        List<CompiledVariant> variants = new ArrayList<>();
+        BogeyStyleRegistration registration = BogeyStyleRegistration.create(
+                definition,
+                styleId,
+                parent
+        );
         Set<ResourceLocation> configuredSizes = new java.util.LinkedHashSet<>();
         for (BogeyStyleDefinition.Variant variant : definition.variants()) {
             ResourceLocation sizeId = ResourceLocation.parse(variant.size());
@@ -204,51 +187,18 @@ public final class BogeyStyleTypeHandler implements TypeHandler<BogeyStyleDefini
                         "Bogey style " + styleId + " configures size twice: " + sizeId
                 );
             }
-            BogeySizeReg size = context.getMeta(BogeyDataDrivenTypes.SIZE_REG, variant.size());
-            BogeyBlockReg<cn.kycraft.kuayue.parts.bogeys.core.CommonBogeyBlock> block =
-                    context.getMeta(BogeyDataDrivenTypes.BLOCK_REG, variant.block());
-            BogeyBlockDefinition blockDefinition =
-                    context.getMeta(BogeyDataDrivenTypes.BLOCK_DEFINITION, variant.block());
-            if (size == null) {
-                throw new IllegalArgumentException(
-                        "Style " + styleId + " references unknown size " + variant.size()
-                );
-            }
-            if (block == null || blockDefinition == null) {
-                throw new IllegalArgumentException(
-                        "Style " + styleId + " references unknown block " + variant.block()
-                );
-            }
-            if (block.getSizeReg() != size) {
-                throw new IllegalArgumentException(
-                        "Style " + styleId + " size " + variant.size()
-                                + " does not match block " + variant.block()
-                );
-            }
-            if (!blockDefinition.defaultStyle().equals(styleId.toString())) {
-                throw new IllegalArgumentException(
-                        "Block " + variant.block() + " default style is "
-                                + blockDefinition.defaultStyle() + ", not " + styleId
-                );
-            }
-
-            BogeyModelPlan model = context.getMeta(
-                    BogeyDataDrivenTypes.MODEL_PLAN,
-                    variant.model()
+            registration.addVariant(
+                    variant,
+                    context,
+                    "base style " + definition.id()
             );
-            if (model == null) {
-                throw new IllegalArgumentException(
-                        "Style " + styleId + " references unknown model " + variant.model()
-                );
-            }
-            KuaYueBogeyRenderers.Binding renderer = KuaYueBogeyRenderers.bind(sizeId, size);
-            group.bogey(size, block, renderer.handle());
-            variants.add(new CompiledVariant(size, model));
         }
 
-        group.onCommitted(style -> registerModels(style, variants));
-        context.putReg(getTypeName(), definition.id(), group);
-        context.putMeta(BogeyDataDrivenTypes.STYLE_REG, definition.id(), group);
+        context.putMeta(
+                BogeyDataDrivenTypes.STYLE_ACCUMULATOR,
+                definition.id(),
+                registration
+        );
         context.putMeta(BogeyDataDrivenTypes.STYLE_DEFINITION, definition.id(), definition);
     }
 
@@ -257,19 +207,4 @@ public final class BogeyStyleTypeHandler implements TypeHandler<BogeyStyleDefini
         return EffectiveId.of(modId, definition.id());
     }
 
-    private static void registerModels(BogeyStyle style, List<CompiledVariant> variants) {
-        for (CompiledVariant variant : variants) {
-            KuaYueBogeyModels.register(
-                    style,
-                    variant.size().getEntry(),
-                    variant.model()
-            );
-        }
-    }
-
-    private record CompiledVariant(
-            BogeySizeReg size,
-            BogeyModelPlan model
-    ) {
-    }
 }

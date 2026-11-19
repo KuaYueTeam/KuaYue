@@ -23,5 +23,9 @@
   "tech_tree.kuayue.group.head_ss8_blueprint.description": "设计并试制SS8车头以获取SS8车头总体设计图",
   "tech_tree.kuayue.group.head_ss8_blueprint.name": "SS8车头总体设计图",
   "tech_tree.kuayue.group.head_ss8_circuit_blueprint.description": "研发SS8车头电路板",
-  "tech_tree.kuayue.group.head_ss8_circuit_blueprint.name": "SS8车头电路板设计图"
+  "tech_tree.kuayue.group.head_ss8_circuit_blueprint.name": "SS8车头电路板设计图",
+  "msg.bogey.style.changed.block.kuayue.ss8_bogey": "当前转向架: 韶山8",
+  "msg.bogey.style.changed.block.kuayue.ss8_backward_bogey": "当前转向架: 韶山8(反向)",
+  "msg.bogey.style.changed.block.kuayue.ss8_bogey_a": "当前转向架: 韶山8",
+  "msg.bogey.style.changed.block.kuayue.ss8_backward_bogey_a": "当前转向架: 韶山8(反向)"
 }

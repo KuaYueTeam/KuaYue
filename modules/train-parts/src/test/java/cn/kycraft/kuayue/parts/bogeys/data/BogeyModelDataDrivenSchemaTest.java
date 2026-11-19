@@ -20,15 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BogeyModelDataDrivenSchemaTest {
-    private static final Path CONTENT = Path.of(
-            "resources/packs/kuayue-preset-running-gear/parcels/shared/"
-                    + "data/kuayue/bogeys/bogeys.json"
-    );
-    private static final Path MODELS = Path.of(
+    private static final Path SHARED_MODELS = Path.of(
             "resources/packs/kuayue-preset-running-gear/parcels/shared/"
                     + "data/kuayue/bogeys/models.json"
     );
-    private static final Path MOTIONS = Path.of(
+    private static final Path SHARED_MOTIONS = Path.of(
             "resources/packs/kuayue-preset-running-gear/parcels/shared/"
                     + "data/kuayue/bogeys/motions.json"
     );
@@ -39,46 +35,36 @@ class BogeyModelDataDrivenSchemaTest {
 
     @Test
     void allStyleVariantsReferenceCompiledModelsAndMotionProfiles() throws IOException {
-        BogeyDefinitionParser parser = new BogeyDefinitionParser();
-        List<BogeyMotionDefinition> motions = parser.parseMotionFile(readJson(MOTIONS));
-        Set<String> motionIds = motions.stream()
-                .map(BogeyMotionDefinition::id)
-                .collect(Collectors.toSet());
-        List<BogeyModelDefinition> models = parser.parseModelFile(
-                readJson(MODELS),
-                motionIds
-        );
-        BogeyDefinitionFile content = parser.parseFile(readJson(CONTENT));
+        BogeyPackTestData data = BogeyPackTestData.load();
 
-        assertEquals(9, motions.size());
-        assertEquals(53, models.size());
-        assertEquals(241, models.stream().mapToInt(model -> model.parts().size()).sum());
+        assertEquals(9, data.motions.size());
+        assertEquals(53, data.models.size());
+        assertEquals(241, data.models.stream()
+                .mapToInt(model -> model.parts().size())
+                .sum());
         assertEquals(
                 Map.of("wheel_spin", 7L, "rod_rotation", 1L, "formula", 1L),
-                motions.stream().collect(Collectors.groupingBy(
+                data.motions.stream().collect(Collectors.groupingBy(
                         BogeyMotionDefinition::type,
                         Collectors.counting()
                 ))
         );
 
-        Set<String> modelIds = models.stream()
+        Set<String> modelIds = data.models.stream()
                 .map(BogeyModelDefinition::id)
                 .collect(Collectors.toSet());
-        Set<String> referencedModels = content.styles().stream()
-                .flatMap(style -> style.variants().stream())
+        Set<String> referencedModels = data.allVariants().stream()
                 .map(BogeyStyleDefinition.Variant::model)
                 .collect(Collectors.toSet());
         assertEquals(modelIds, referencedModels);
         assertEquals(53, referencedModels.size());
-        assertTrue(models.stream().allMatch(model -> model.yOffset() == -1.5078125f));
+        assertTrue(data.models.stream().allMatch(model -> model.yOffset() == -1.5078125f));
     }
 
     @Test
     void motionGoldenValuesPreserveWheelRodAndQjSemantics() throws IOException {
-        BogeyDefinitionParser parser = new BogeyDefinitionParser();
-        Map<String, BogeyMotionDefinition> motions = parser.parseMotionFile(
-                readJson(MOTIONS)
-        ).stream().collect(Collectors.toMap(BogeyMotionDefinition::id, Function.identity()));
+        Map<String, BogeyMotionDefinition> motions = BogeyPackTestData.load().motions.stream()
+                .collect(Collectors.toMap(BogeyMotionDefinition::id, Function.identity()));
 
         assertEquals(3.256f, motions.get(
                 "kuayue:motion/wheel_spin/scale_3.256_sign_-1"
@@ -105,12 +91,13 @@ class BogeyModelDataDrivenSchemaTest {
 
     @Test
     void everyDeclaredModelFileExistsAndQjModelKeepsAllParts() throws IOException {
+        BogeyPackTestData data = BogeyPackTestData.load();
         BogeyDefinitionParser parser = new BogeyDefinitionParser();
-        Set<String> motionIds = parser.parseMotionFile(readJson(MOTIONS)).stream()
+        Set<String> motionIds = parser.parseMotionFile(readJson(SHARED_MOTIONS)).stream()
                 .map(BogeyMotionDefinition::id)
                 .collect(Collectors.toSet());
-        List<BogeyModelDefinition> models = parser.parseModelFile(
-                readJson(MODELS),
+        List<BogeyModelDefinition> sharedModels = parser.parseModelFile(
+                readJson(SHARED_MODELS),
                 motionIds
         );
 
@@ -124,7 +111,7 @@ class BogeyModelDataDrivenSchemaTest {
                     ));
         }
 
-        Set<String> missing = models.stream()
+        Set<String> missing = data.models.stream()
                 .flatMap(model -> model.parts().stream())
                 .map(BogeyModelDefinition.Part::model)
                 .map(id -> id.substring(id.indexOf(':') + 1))
@@ -132,7 +119,7 @@ class BogeyModelDataDrivenSchemaTest {
                 .collect(Collectors.toSet());
         assertTrue(missing.isEmpty(), () -> "Missing model resources: " + missing);
 
-        BogeyModelDefinition qjMain = models.stream()
+        BogeyModelDefinition qjMain = sharedModels.stream()
                 .filter(model -> model.id().equals("kuayue:bogey/qj_main"))
                 .findFirst()
                 .orElseThrow();
@@ -146,7 +133,7 @@ class BogeyModelDataDrivenSchemaTest {
     @Test
     void parserRejectsUnknownFieldsAndMissingCrossReferences() throws IOException {
         BogeyDefinitionParser parser = new BogeyDefinitionParser();
-        JsonObject motionsDocument = readJson(MOTIONS);
+        JsonObject motionsDocument = readJson(SHARED_MOTIONS);
         JsonObject unknownMotion = motionsDocument.getAsJsonArray("bogey_motions")
                 .get(0)
                 .getAsJsonObject()
@@ -159,7 +146,7 @@ class BogeyModelDataDrivenSchemaTest {
         missingClip.addProperty("type", "formula");
         assertThrows(IllegalArgumentException.class, () -> parser.parseMotion(missingClip));
 
-        JsonObject modelsDocument = readJson(MODELS);
+        JsonObject modelsDocument = readJson(SHARED_MODELS);
         JsonObject unknownPart = modelsDocument.getAsJsonArray("bogey_models")
                 .get(0)
                 .getAsJsonObject()
@@ -182,14 +169,7 @@ class BogeyModelDataDrivenSchemaTest {
 
     @Test
     void localOperationsPreserveTheLegacyOrder() throws IOException {
-        BogeyDefinitionParser parser = new BogeyDefinitionParser();
-        Set<String> motionIds = parser.parseMotionFile(readJson(MOTIONS)).stream()
-                .map(BogeyMotionDefinition::id)
-                .collect(Collectors.toSet());
-        BogeyModelDefinition backwardAndesite = parser.parseModelFile(
-                readJson(MODELS),
-                motionIds
-        ).stream()
+        BogeyModelDefinition backwardAndesite = BogeyPackTestData.load().models.stream()
                 .filter(model -> model.id().equals(
                         "kuayue:bogey/pk209p_backward_a"
                 ))

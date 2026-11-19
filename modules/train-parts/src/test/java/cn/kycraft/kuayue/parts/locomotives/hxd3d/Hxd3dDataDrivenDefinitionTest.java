@@ -52,7 +52,8 @@ class Hxd3dDataDrivenDefinitionTest {
         assertEquals(
                 List.of(
                         "locomotives/hxd3d/groups.json",
-                        "locomotives/hxd3d/blocks.json"
+                        "locomotives/hxd3d/blocks.json",
+                        "bogeys/hxd3d.json"
                 ),
                 strings(index.getAsJsonArray("on_register"))
         );

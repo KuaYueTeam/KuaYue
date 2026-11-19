@@ -33,5 +33,7 @@
   "container.kuayue.inventory.loco.button.df5": "DF5",
   "item.kuayue.head_df5_blueprint": "DF5 Blueprint",
   "tech_tree.kuayue.group.head_df5_blueprint.description": "Design and prototype DF5. Be able to obtain the design drawings of DF5.",
-  "tech_tree.kuayue.group.head_df5_blueprint.name": "DF5 Blueprint"
+  "tech_tree.kuayue.group.head_df5_blueprint.name": "DF5 Blueprint",
+  "msg.bogey.style.changed.block.kuayue.df5_bogey": "current bogey: DF5",
+  "msg.bogey.style.changed.block.kuayue.df5_backward_bogey": "current bogey: DF5(Backward)"
 }

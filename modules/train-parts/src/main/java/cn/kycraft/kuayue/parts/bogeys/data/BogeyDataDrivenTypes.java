@@ -9,6 +9,7 @@ public final class BogeyDataDrivenTypes {
     public static final String MODELS = "bogey_models";
     public static final String BLOCKS = "bogey_blocks";
     public static final String STYLES = "bogey_styles";
+    public static final String STYLE_VARIANTS = "bogey_style_variants";
 
     public static final String SIZE_REG = "bogey_size_regs";
     public static final String MOTION_PROFILE = "bogey_motion_profiles";
@@ -19,6 +20,7 @@ public final class BogeyDataDrivenTypes {
     public static final String BLOCK_DEFINITION = "bogey_block_definitions";
     public static final String STYLE_REG = "bogey_style_regs";
     public static final String STYLE_DEFINITION = "bogey_style_definitions";
+    public static final String STYLE_ACCUMULATOR = "bogey_style_accumulators";
     public static final String RUNTIME = "bogey_runtime";
     public static final String BLOCK_REGISTRATIONS = "block_registrations";
     public static final String BLOCK_ENTITY = "block_entity";

@@ -23,5 +23,9 @@
   "tech_tree.kuayue.group.head_ss8_blueprint.description": "Design and prototype Head SS8. Be able to obtain the design drawings of Head SS8.",
   "tech_tree.kuayue.group.head_ss8_blueprint.name": "Head SS8 Blueprint",
   "tech_tree.kuayue.group.head_ss8_circuit_blueprint.description": "Develop the circuit board for the Head SS8",
-  "tech_tree.kuayue.group.head_ss8_circuit_blueprint.name": "Head SS8 Circuit Blueprint"
+  "tech_tree.kuayue.group.head_ss8_circuit_blueprint.name": "Head SS8 Circuit Blueprint",
+  "msg.bogey.style.changed.block.kuayue.ss8_bogey": "current bogey: SS8",
+  "msg.bogey.style.changed.block.kuayue.ss8_backward_bogey": "current bogey: SS8(Backward)",
+  "msg.bogey.style.changed.block.kuayue.ss8_bogey_a": "current bogey: SS8",
+  "msg.bogey.style.changed.block.kuayue.ss8_backward_bogey_a": "current bogey: SS8(Backward)"
 }

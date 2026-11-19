@@ -44,5 +44,6 @@ public final class BogeyDataDrivenModule {
         TypeHandlerRegistry.register(new BogeyModelTypeHandler());
         TypeHandlerRegistry.register(new BogeyBlockTypeHandler());
         TypeHandlerRegistry.register(new BogeyStyleTypeHandler());
+        TypeHandlerRegistry.register(new BogeyStyleVariantsTypeHandler());
     }
 }

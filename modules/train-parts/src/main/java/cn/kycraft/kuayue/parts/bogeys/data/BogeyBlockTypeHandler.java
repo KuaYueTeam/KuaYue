@@ -81,11 +81,11 @@ public final class BogeyBlockTypeHandler implements TypeHandler<BogeyBlockDefini
             ResourceLocation blockId = ResourceLocation.parse(
                     EffectiveId.of(context.hostModId(), definition.id())
             );
-            boolean declared = styleDefinition.variants().stream()
-                    .map(variant -> ResourceLocation.parse(
-                            EffectiveId.of(context.hostModId(), variant.block())
-                    ))
-                    .anyMatch(blockId::equals);
+            boolean declared = BogeyStyleVariantsTypeHandler.declaresBlock(
+                    context,
+                    styleDefinition.id(),
+                    blockId
+            );
             if (!declared) {
                 context.error(
                         BuildDiagnostic.Code.CONTENT_INVALID,
