@@ -5,11 +5,15 @@ import com.google.gson.JsonObject;
 import lib.kasuga.registration.data_driven.TypeHandler;
 import lib.kasuga.registration.data_driven.context.BuildContext;
 import lib.kasuga.registration.data_driven.dedup.EffectiveId;
+import lib.kasuga.registration.data_driven.pipeline.DefinitionKey;
+import lib.kasuga.registration.data_driven.pipeline.HandlerCapability;
+import lib.kasuga.registration.data_driven.validation.ValidationContext;
 import lib.kasuga.rendering.models.uml.math.Transform;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Compiles ordered model part and transform definitions from {@code bogey_models}.
@@ -25,6 +29,45 @@ public final class BogeyModelTypeHandler implements TypeHandler<BogeyModelDefini
     @Override
     public int getPhase() {
         return 30;
+    }
+
+    @Override
+    public Set<HandlerCapability> capabilities() {
+        return Set.of(
+                HandlerCapability.STRICT_PREFLIGHT,
+                HandlerCapability.NON_REGISTRATION
+        );
+    }
+
+    @Override
+    public boolean strictValidationImplemented() {
+        return true;
+    }
+
+    @Override
+    public void validate(BogeyModelDefinition definition, ValidationContext context) {
+        for (int index = 0; index < definition.parts().size(); index++) {
+            BogeyModelDefinition.Part part = definition.parts().get(index);
+            ResourceLocation model = ResourceLocation.parse(part.model());
+            if (!context.resourceExists(ValidationContext.ResourceDomain.ASSETS, model)) {
+                context.error(
+                        lib.kasuga.registration.data_driven.pipeline.BuildDiagnostic.Code
+                                .MISSING_REFERENCE,
+                        "/parts/" + index + "/model",
+                        "Model asset '" + model + "' is not visible in the prepared source",
+                        "Add the model asset or declare its owner as a direct dependency."
+                );
+            }
+            if (part.motion() != null) {
+                context.requireDefinition(
+                        new DefinitionKey(
+                                BogeyDataDrivenTypes.MOTIONS,
+                                EffectiveId.of(context.hostModId(), part.motion())
+                        ),
+                        "/parts/" + index + "/motion"
+                );
+            }
+        }
     }
 
     @Override

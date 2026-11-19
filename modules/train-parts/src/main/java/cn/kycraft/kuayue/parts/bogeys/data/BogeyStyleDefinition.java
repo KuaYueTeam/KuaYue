@@ -34,9 +34,6 @@ public record BogeyStyleDefinition(
                 "bogey_styles[].translation_key"
         );
         variants = variants == null ? List.of() : List.copyOf(variants);
-        if (variants.isEmpty()) {
-            throw new IllegalArgumentException("bogey_styles[].variants must not be empty");
-        }
     }
 
     /**

@@ -5,7 +5,13 @@
     "compatibilityLevel": "JAVA_21",
     "mixins": [
         "BogeyStyleMessageMixin",
-        "BucketItemMixin"
+        "BucketItemMixin",
+        "ConfigurationInitializationMixin"
+    ],
+    "client": [
+        "client.CreativeModeInventoryScreenAccessor",
+        "client.CreativeModeInventoryScreenMixin",
+        "client.WorldOpenPackHistoryMixin"
     ],
     "injectors": {
         "defaultRequire": 1

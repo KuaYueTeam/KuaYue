@@ -18,7 +18,7 @@ public class CustomRenderedRegistry {
                     .strength(1.5f, 3f)
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.METAL)))
-            .setParent(KuaYueTrainPanelModule.REGISTRY_GROUP);
+            .setParent(KuaYueTrainPanelModule.RUNTIME_REGISTRY_GROUP);
 
     public static final BlockEntityReg<CustomRenderedDoorEntity> CUSTOM_RENDERED_DOOR_ENTITY =
             BlockEntityReg.of("custom_rendered_door_entity", CustomRenderedDoorEntity::new)

@@ -58,7 +58,8 @@ class QjFormulaAnimationTest {
 
     private static AnimationClip qjClip() throws IOException {
         Path path = Path.of(
-                "resources/bogeys/data-driven/data/kuayue/animation_clips/qj_mechanism.json"
+                "resources/packs/kuayue-preset-running-gear/parcels/shared/"
+                        + "data/kuayue/animation_clips/qj_mechanism.json"
         );
         JsonElement root = JsonParser.parseString(Files.readString(path));
         AnimationClipLoader.DecodedFile decoded = AnimationClipLoader.decodeFile(root);

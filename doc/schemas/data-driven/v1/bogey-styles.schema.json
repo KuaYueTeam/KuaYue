@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/bogey-styles.schema.json",
+  "title": "转向架样式内容文件",
+  "description": "BogeyStyleTypeHandler / BogeyStyleDefinition",
+  "type": "object",
+  "properties": {
+    "bogey_styles": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/bogeyStyle"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "bogey_styles"
+  ]
+}

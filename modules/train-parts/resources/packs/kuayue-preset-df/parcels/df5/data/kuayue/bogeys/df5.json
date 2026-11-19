@@ -1,0 +1,204 @@
+{
+  "bogey_sizes": [
+    {
+      "id": "kuayue:df5",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:df5_backward",
+      "wheel_radius": 0.4575
+    }
+  ],
+  "bogey_blocks": [
+    {
+      "id": "kuayue:df5_bogey",
+      "size": "kuayue:df5",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:df5_backward_bogey",
+      "size": "kuayue:df5_backward",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    }
+  ],
+  "bogey_models": [
+    {
+      "id": "kuayue:bogey/df5",
+      "y_offset": -1.5078125,
+      "parts": [
+        {
+          "id": "part_00",
+          "model": "kuayue:models/block/bogey/df5/df5_frame.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                1,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "id": "part_01",
+          "model": "kuayue:models/block/bogey/df5/df5_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.878,
+                0
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        },
+        {
+          "id": "part_02",
+          "model": "kuayue:models/block/bogey/df5/df5_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.878,
+                -1.995
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        },
+        {
+          "id": "part_03",
+          "model": "kuayue:models/block/bogey/df5/df5_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.878,
+                1.995
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:bogey/df5_backward",
+      "y_offset": -1.5078125,
+      "parts": [
+        {
+          "id": "part_00",
+          "model": "kuayue:models/block/bogey/df5/df5_frame.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                1,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "id": "part_01",
+          "model": "kuayue:models/block/bogey/df5/df5_wheel.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                0.878,
+                0
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        },
+        {
+          "id": "part_02",
+          "model": "kuayue:models/block/bogey/df5/df5_wheel.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                0.878,
+                -1.995
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        },
+        {
+          "id": "part_03",
+          "model": "kuayue:models/block/bogey/df5/df5_wheel.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                0.878,
+                1.995
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        }
+      ]
+    }
+  ],
+  "bogey_style_variants": [
+    {
+      "id": "kuayue:df5_loco",
+      "style": "kuayue:loco",
+      "variants": [
+        {
+          "size": "kuayue:df5",
+          "block": "kuayue:df5_bogey",
+          "model": "kuayue:bogey/df5"
+        },
+        {
+          "size": "kuayue:df5_backward",
+          "block": "kuayue:df5_backward_bogey",
+          "model": "kuayue:bogey/df5_backward"
+        }
+      ]
+    }
+  ]
+}

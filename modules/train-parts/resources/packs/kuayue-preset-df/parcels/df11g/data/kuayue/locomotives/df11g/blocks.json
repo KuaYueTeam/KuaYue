@@ -1,0 +1,225 @@
+{
+  "blocks": [
+    {
+      "id": "kuayue:door_cabin_df11g",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:df11g/door/door_cabin_bottom_df11g_right",
+          "kuayue:df11g/door/door_cabin_upper_df11g_right"
+        ],
+        "right_models": [
+          "kuayue:df11g/door/door_cabin_bottom_df11g_left",
+          "kuayue:df11g/door/door_cabin_upper_df11g_left"
+        ],
+        "offset": [0, 0, 0],
+        "open_offset": [0, 0, 0],
+        "render_shape": "entityblock_animated",
+        "is_slide_door": false
+      },
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:door_equip_room_df11g",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:df11g/door/door_equip_room_bottom_df11g_right",
+          "kuayue:df11g/door/door_equip_room_upper_df11g_right"
+        ],
+        "right_models": [
+          "kuayue:df11g/door/door_equip_room_bottom_df11g_left",
+          "kuayue:df11g/door/door_equip_room_upper_df11g_left"
+        ],
+        "offset": [-0.1875, 0, 0],
+        "open_offset": [0, 0, 0],
+        "render_shape": "model",
+        "is_slide_door": false
+      },
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:end_face_df11g",
+      "type": "custom_rendered_end_face",
+      "params": {
+        "door_type": "no_door",
+        "frame_model": "df11g/df11g_end_face"
+      },
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:cowcatcher_df11g",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:head_df11g_2",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_tank",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:floor_df11g",
+      "type": "slab",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_carport",
+      "type": "slab_top",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_carport_center",
+      "type": "slab",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_carport_center_cooling_blind",
+      "type": "hinge_slab",
+      "params": {"is_carport": false},
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_carport_center_fan_blind",
+      "type": "slab",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_carport_eh",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_carport_eh_ad",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_carport_eh_blind",
+      "type": "slab_top",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_carport_filter_blind",
+      "type": "slab_top",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_carport_kua",
+      "type": "slab_top",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_carport_yue",
+      "type": "slab_top",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_chimney",
+      "type": "chimney",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:panel_kuayue_df11g",
+      "type": "train_panel",
+      "params": {"begin_x": -1, "begin_y": 0, "end_x": 2, "end_y": 1},
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:panel_top_df11g",
+      "type": "train_panel",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:panel_bottom_df11g",
+      "type": "train_panel",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:road_sign_df11g",
+      "type": "train_panel",
+      "params": {"begin_x": -1, "begin_y": 0, "end_x": 2, "end_y": 1},
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:window_equip_room_df11g_1",
+      "type": "train_panel",
+      "params": {"begin_x": 0, "begin_y": 0, "end_x": 1, "end_y": 2},
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:window_equip_room_df11g_2",
+      "type": "train_panel",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:window_pr_df11g",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:louver_equip_room_df11g_2_top",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:louver_equip_room_df11g_2_bottom",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:louver_equip_room_df11g_1",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_panel_bottom_eh_blind",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_panel_upper_ph_blind",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_panel_bottom_ph_blind",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_panel_bottom_blind",
+      "type": "train_panel",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_panel_upper_blind",
+      "type": "train_panel",
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_panel_bottom_cooling_blind",
+      "type": "train_unopenable_window",
+      "params": {"wide": 2},
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_windows_ph_eh",
+      "type": "train_unopenable_window",
+      "params": {"wide": 2},
+      "registry_group": "kuayue:df11g_panels"
+    },
+    {
+      "id": "kuayue:df11g_panel_upper_cooling_blind",
+      "type": "train_unopenable_window",
+      "params": {"wide": 2},
+      "registry_group": "kuayue:df11g_panels"
+    }
+  ]
+}

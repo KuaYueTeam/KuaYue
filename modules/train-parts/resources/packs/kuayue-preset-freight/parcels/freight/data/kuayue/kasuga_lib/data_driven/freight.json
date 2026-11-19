@@ -1,0 +1,5 @@
+{
+  "on_register": [
+    "carriages/freight/groups.json"
+  ]
+}

@@ -11,8 +11,13 @@ import lib.kasuga.registration.data_driven.context.JsonRegistryGroup;
 import lib.kasuga.registration.data_driven.context.RegBuildContext;
 import lib.kasuga.registration.data_driven.dedup.EffectiveId;
 import lib.kasuga.registration.data_driven.json.DataJson;
+import lib.kasuga.registration.data_driven.pipeline.BuildDiagnostic;
+import lib.kasuga.registration.data_driven.pipeline.DefinitionKey;
+import lib.kasuga.registration.data_driven.pipeline.HandlerCapability;
+import lib.kasuga.registration.data_driven.pipeline.RegistryClaim;
 import lib.kasuga.registration.data_driven.property.JsonItemParser;
 import lib.kasuga.registration.data_driven.property.JsonPropertyParser;
+import lib.kasuga.registration.data_driven.validation.ValidationContext;
 import lib.kasuga.registration.core.CreativeTabModifiers;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -23,6 +28,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -61,6 +67,98 @@ public final class TrackTypeHandler implements TypeHandler<TrackDefinition> {
     @Override
     public int getPhase() {
         return PHASE_CONTENT;
+    }
+
+    @Override
+    public Set<HandlerCapability> capabilities() {
+        return Set.of(
+                HandlerCapability.STRICT_PREFLIGHT,
+                HandlerCapability.REGISTRY_CLAIMS
+        );
+    }
+
+    @Override
+    public boolean strictValidationImplemented() {
+        return true;
+    }
+
+    @Override
+    public void validate(TrackDefinition definition, ValidationContext context) {
+        context.requireDefinition(
+                new DefinitionKey("registry_groups", definition.registryGroup()),
+                "/registry_group"
+        );
+        DefinitionKey defaultBogey = new DefinitionKey(
+                "bogey_blocks",
+                EffectiveId.of(context.hostModId(), definition.defaultBogey())
+        );
+        if (context.find(defaultBogey).isEmpty()) {
+            context.warning(
+                    lib.kasuga.registration.data_driven.pipeline.BuildDiagnostic.Code.MISSING_REFERENCE,
+                    "/default_bogey",
+                    "Referenced default bogey " + defaultBogey + " is unavailable",
+                    "The track will fall back to Create's small bogey at runtime."
+            );
+        } else {
+            context.requireDefinition(defaultBogey, "/default_bogey");
+        }
+        if (!"simple_track".equals(definition.type())) {
+            context.error(
+                    lib.kasuga.registration.data_driven.pipeline.BuildDiagnostic.Code.CONTENT_INVALID,
+                    "/type",
+                    "Unsupported track type: " + definition.type(),
+                    "Use 'simple_track'."
+            );
+        }
+        for (var issue : JsonPropertyParser.getInstance().validateStrict(definition.properties())) {
+            context.error(
+                    BuildDiagnostic.Code.CONTENT_INVALID,
+                    "/properties" + issue.relativeJsonPointer(),
+                    issue.message(),
+                    "Fix the track block property according to the strict schema."
+            );
+        }
+        for (var issue : JsonItemParser.INSTANCE.validateStrict(definition.itemProperties())) {
+            context.error(
+                    BuildDiagnostic.Code.CONTENT_INVALID,
+                    "/item_properties" + issue.relativeJsonPointer(),
+                    issue.message(),
+                    "Fix the track item property according to the strict schema."
+            );
+        }
+        for (int index = 0; index < definition.material().sleepers().size(); index++) {
+            ResourceLocation sleeper = ResourceLocation.parse(
+                    definition.material().sleepers().get(index)
+            );
+            if (net.minecraft.core.registries.BuiltInRegistries.BLOCK.containsKey(sleeper)) {
+                continue;
+            }
+            boolean sameStartupDefinition = context.find(new DefinitionKey(
+                    "blocks",
+                    EffectiveId.of(context.hostModId(), sleeper.toString())
+            )).isPresent();
+            context.error(
+                    BuildDiagnostic.Code.MISSING_REFERENCE,
+                    "/material/sleepers/" + index,
+                    sameStartupDefinition
+                            ? "Sleeper '" + sleeper
+                            + "' is registered later in this startup and is not supported"
+                            : "Sleeper block '" + sleeper + "' is not registered",
+                    "Use an already registered sleeper block."
+            );
+        }
+    }
+
+    @Override
+    public List<RegistryClaim> claims(TrackDefinition definition, ValidationContext context) {
+        ResourceLocation id = ResourceLocation.parse(
+                EffectiveId.of(context.hostModId(), definition.id()));
+        ResourceLocation materialId = ResourceLocation.parse(definition.material().id());
+        return List.of(
+                context.claimAt("minecraft:block", id, "/id"),
+                context.claimAt("minecraft:item", id, "/id"),
+                context.claimAt("create:track_material", materialId, "/material/id")
+        );
     }
 
     /**

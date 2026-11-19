@@ -25,7 +25,7 @@ public final class TrackDataDrivenModule {
             .icon(() -> AllBlocks.RAILWAY_CASING.asStack())
             .displayItems((params, output) -> {
             })
-            .setParent(KuaYueTrainPanelModule.REGISTRY_GROUP);
+            .setParent(KuaYueTrainPanelModule.RUNTIME_REGISTRY_GROUP);
 
     /**
      * Registers the {@code tracks} handler before Kasuga processes the mod's JSON index.

@@ -1,0 +1,121 @@
+{
+  "blocks": [
+    {
+      "id": "kuayue:ss8_windows_small",
+      "type": "train_unopenable_window",
+      "params": {"wide": 1},
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_cowcatcher",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_carport",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_carport_ad",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_carport_fan",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_carport_link",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_floor",
+      "type": "slab",
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_windows_big",
+      "type": "train_hinge_panel",
+      "params": {"begin_x": -1, "begin_y": 0, "end_x": 2, "end_y": 1},
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_panel_bottom_ad",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_panel_upper_ad",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_panel_bottom",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_panel_upper",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_head",
+      "type": "head",
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_transformer",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_roof",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_carport_center",
+      "type": "slab_top",
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_sandbox_front",
+      "type": "hinge_slab",
+      "params": {"is_carport": false},
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:ss8_door",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:ss8/ss8_door_bottom_lh",
+          "kuayue:ss8/ss8_door_upper_lh"
+        ],
+        "right_models": [
+          "kuayue:ss8/ss8_door_bottom",
+          "kuayue:ss8/ss8_door_upper"
+        ],
+        "offset": [0, 0, 0],
+        "open_offset": [0, 0, 0],
+        "render_shape": "entityblock_animated",
+        "is_slide_door": false
+      },
+      "registry_group": "kuayue:ss8_panels"
+    },
+    {
+      "id": "kuayue:240km_monument",
+      "type": "train_panel",
+      "registry_group": "kuayue:ss8_panels"
+    }
+  ]
+}

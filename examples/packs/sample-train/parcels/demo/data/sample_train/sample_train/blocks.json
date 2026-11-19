@@ -1,0 +1,22 @@
+{
+  "registry_groups": [
+    {
+      "id": "sample_train:demo",
+      "properties": {
+        "no_occlusion": true,
+        "strength": [1.0, 1.0],
+        "sound_type": "stone"
+      },
+      "item_properties": {
+        "tab": "kuayue:train_panel_tab"
+      }
+    }
+  ],
+  "blocks": [
+    {
+      "id": "sample_train:demo_floor",
+      "type": "slab",
+      "registry_group": "sample_train:demo"
+    }
+  ]
+}

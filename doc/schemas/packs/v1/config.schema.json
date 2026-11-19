@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/packs/v1/config.schema.json",
+  "title": "KuaYue instance pack configuration",
+  "description": "Validates <game-dir>/kuayue/config.json. A missing file or object without packs uses runtime defaults.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "packs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format_version"
+      ],
+      "properties": {
+        "format_version": {
+          "const": 1
+        },
+        "enabled": {
+          "type": "object",
+          "description": "Requested optional pack switches. Built-in presets default to true and external packs default to false. Required built-in packs are enabled by the runtime and must not appear here.",
+          "propertyNames": {
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "additionalProperties": {
+            "type": "boolean"
+          }
+        },
+        "order": {
+          "type": "array",
+          "description": "Normal optional-pack resource priority from lowest to highest. Required built-in packs are fixed at the lowest priority and must not appear here.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          }
+        },
+        "inventory": {
+          "type": "array",
+          "description": "Derived list of installed external pack IDs. Built-in presets are omitted.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          }
+        }
+      }
+    }
+  },
+  "$comment": "Missing configs enable all optional built-in presets. Required built-ins are enabled automatically and are excluded from enabled and order. The game rewrites inventory from installed external pack IDs only. order is low priority to high priority."
+}

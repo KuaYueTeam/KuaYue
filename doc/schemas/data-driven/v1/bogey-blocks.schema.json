@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/bogey-blocks.schema.json",
+  "title": "转向架方块内容文件",
+  "description": "BogeyBlockTypeHandler / BogeyBlockDefinition",
+  "type": "object",
+  "properties": {
+    "bogey_blocks": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/bogeyBlock"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "bogey_blocks"
+  ]
+}

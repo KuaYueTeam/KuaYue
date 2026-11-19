@@ -1,0 +1,26 @@
+{
+  "format_version": 1,
+  "id": "kuayue-preset-emu",
+  "version": "2.0.0",
+  "required": false,
+  "namespaces": [
+    "kuayue"
+  ],
+  "name_key": "pack.kuayue_preset_emu.name",
+  "description_key": "pack.kuayue_preset_emu.description",
+  "dependencies": {
+    "mods": {
+      "minecraft": "1.21.1",
+      "neoforge": "21.1.203",
+      "kuayue": "2.0.0",
+      "kasuga_lib": "1.0.0",
+      "create": "6.0.6"
+    },
+    "packs": {
+      "kuayue-preset-running-gear": "*"
+    }
+  },
+  "parcels": [
+    "parcels/cr200j/parcel.json"
+  ]
+}

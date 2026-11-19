@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/items.schema.json",
+  "title": "独立物品内容文件",
+  "description": "ItemTypeHandler / ItemDef",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/item"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "items"
+  ]
+}

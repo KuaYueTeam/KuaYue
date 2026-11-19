@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/tracks.schema.json",
+  "title": "轨道内容文件",
+  "description": "TrackTypeHandler / TrackDefinitionParser / TrackDefinition",
+  "type": "object",
+  "properties": {
+    "registry_groups": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/registryGroup"
+      }
+    },
+    "tracks": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/track"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "tracks"
+  ]
+}

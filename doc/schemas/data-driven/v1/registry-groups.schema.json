@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/registry-groups.schema.json",
+  "title": "注册组内容文件",
+  "description": "RegistryGroupHandler / RegistryGroupDef",
+  "type": "object",
+  "properties": {
+    "registry_groups": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/registryGroup"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "registry_groups"
+  ]
+}

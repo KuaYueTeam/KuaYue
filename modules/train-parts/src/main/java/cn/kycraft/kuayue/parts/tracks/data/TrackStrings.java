@@ -25,20 +25,17 @@ final class TrackStrings {
     }
 
     /**
-     * Requires a syntactically valid namespaced or unnamespaced resource location.
-     *
-     * @param value value to validate
-     * @param field schema field name used in the error message
-     * @return the validated resource location string
-     * @throws IllegalArgumentException when the value is not a valid resource location
+     * Requires a syntactically valid namespace-qualified resource location.
      */
     static String requireId(String value, String field) {
         requireText(value, field);
         String[] parts = value.split(":", -1);
-        if (parts.length > 2 || parts.length == 0
+        if (parts.length != 2
                 || !parts[0].matches("[a-z0-9_.-]+")
-                || (parts.length == 2 && !parts[1].matches("[a-z0-9_./-]+"))) {
-            throw new IllegalArgumentException(field + " is not a valid resource location: " + value);
+                || !parts[1].matches("[a-z0-9_./-]+")) {
+            throw new IllegalArgumentException(
+                    field + " must be a namespace-qualified resource location: " + value
+            );
         }
         return value;
     }

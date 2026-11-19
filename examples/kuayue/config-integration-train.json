@@ -1,0 +1,16 @@
+{
+  "packs": {
+    "format_version": 1,
+    "enabled": {
+      "kuayue-core": true,
+      "integration-train": true
+    },
+    "order": [
+      "kuayue-core",
+      "integration-train"
+    ],
+    "inventory": [
+      "integration-train"
+    ]
+  }
+}

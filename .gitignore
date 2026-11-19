@@ -28,3 +28,6 @@ run-data
 repo
 
 compiled
+
+# Local planning documents
+/plan_detailed*/
