@@ -1,0 +1,243 @@
+{
+  "version": "1.0.0",
+  "id": "kuayue:overhead_line_blueprint_group",
+  "name": "tech_tree.kuayue.group.overhead_line_blueprint.name",
+  "description": "tech_tree.kuayue.group.overhead_line_blueprint.description",
+  "icon":"kuayue:overhead_line_support_a1",
+  "on_unlock": {
+    "description": "tech_tree.kuayue.group.overhead_line_blueprint.unlock"
+  },
+  "initial_visibility": false,
+  "root_node": "node_basic_materials",
+
+  "nodes": {
+    "node_basic_materials": {
+      "next_nodes": [
+        "node_insulator",
+        "node_overhead_line_wire",
+        "node_basic_pillars"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.overhead_line_blueprint.basic_materials.name",
+      "description": "tech_tree.kuayue.group.overhead_line_blueprint.basic_materials.description",
+      "type": "plain",
+      "logo": "kuayue:weathering_resistant_steel_board",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:weathering_resistant_steel_board": 1,
+        "kuayue:weathering_resistant_steel_pole": 1,
+        "kuayue:plastic_board": 1,
+        "kuayue:plastic_pole": 1
+      },
+      "blueprint": {},
+      "item": {
+        "create:experience_nugget": 32
+      }
+    },
+    "node_insulator": {
+      "next_nodes": [
+        "node_overhead_line_end_weight",
+        "node_overhead_line_insulators",
+        "node_overhead_line_support_a",
+        "node_overhead_line_support_b"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.overhead_line_blueprint.insulator.name",
+      "description": "tech_tree.kuayue.group.overhead_line_blueprint.insulator.description",
+      "type": "plain",
+      "logo": "kuayue:insulator",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:insulator": 16
+      },
+      "blueprint": {},
+      "item": {
+        "create:experience_nugget": 32
+      }
+    },
+    "node_overhead_line_insulators": {
+      "next_nodes": [],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.overhead_line_blueprint.insulators.name",
+      "description": "tech_tree.kuayue.group.overhead_line_blueprint.insulators.description",
+      "type": "plain",
+      "logo": "kuayue:overhead_line_insulator_a",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:overhead_line_insulator_a": 1,
+        "kuayue:overhead_line_insulator_b": 1
+      },
+      "blueprint": {},
+      "item": {
+        "create:experience_nugget": 32
+      }
+    },
+    "node_overhead_line_end_weight": {
+      "next_nodes": [],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.overhead_line_blueprint.overhead_line_end_weight.name",
+      "description": "tech_tree.kuayue.group.overhead_line_blueprint.overhead_line_end_weight.description",
+      "type": "plain",
+      "logo": "kuayue:overhead_line_end_weight",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:overhead_line_end_weight": 1
+      },
+      "blueprint": {},
+      "item": {
+        "create:experience_nugget": 32
+      }
+    },
+    "node_overhead_line_support_a": {
+      "next_nodes": [
+        "node_overhead_line_support_c"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.overhead_line_blueprint.overhead_line_support_a.name",
+      "description": "tech_tree.kuayue.group.overhead_line_blueprint.overhead_line_support_a.description",
+      "type": "plain",
+      "logo": "kuayue:overhead_line_support_a1",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:overhead_line_support_a1": 1,
+        "kuayue:overhead_line_support_a2": 1
+      },
+      "blueprint": {},
+      "item": {
+        "create:experience_nugget": 32
+      }
+    },
+    "node_overhead_line_support_b": {
+      "next_nodes": [],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.overhead_line_blueprint.overhead_line_support_b.name",
+      "description": "tech_tree.kuayue.group.overhead_line_blueprint.overhead_line_support_b.description",
+      "type": "plain",
+      "logo": "kuayue:overhead_line_support_b",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:overhead_line_support_b": 1,
+        "kuayue:overhead_line_support_b2": 1
+      },
+      "blueprint": {},
+      "item": {
+        "create:experience_nugget": 32
+      }
+    },
+    "node_overhead_line_support_c":{
+        "next_nodes":[],
+        "next_groups":[],
+        "name":"tech_tree.kuayue.group.overhead_line_blueprint.overhead_line_support_c.name",
+        "description":"tech_tree.kuayue.group.overhead_line_blueprint.overhead_line_support_c.description",
+        "type":"plain",
+        "logo":"kuayue:overhead_line_support_c",
+        "exp":0,
+        "level":0,
+        "item_consume":{
+            "kuayue:overhead_line_support_c": 1
+        },
+        "blueprint":{},
+        "item":{
+          "create:experience_nugget": 32
+        }
+    },
+    "node_overhead_line_wire": {
+      "next_nodes": [
+        "node_electronic_wire"
+      ],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.overhead_line_blueprint.overhead_line_wire.name",
+      "description": "tech_tree.kuayue.group.overhead_line_blueprint.overhead_line_wire.description",
+      "type": "plain",
+      "logo": "kuayue:overhead_line_wire",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:overhead_line_wire": 2
+      },
+      "blueprint": {},
+      "item": {
+        "create:experience_nugget": 32
+      }
+    },
+    "node_electronic_wire": {
+      "next_nodes": [],
+      "next_groups": [],
+      "name": "tech_tree.kuayue.group.overhead_line_blueprint.electronic_wire.name",
+      "description": "tech_tree.kuayue.group.overhead_line_blueprint.electronic_wire.description",
+      "type": "plain",
+      "logo": "kuayue:electronic_wire",
+      "exp": 0,
+      "level": 0,
+      "item_consume": {
+        "kuayue:electronic_wire": 2
+      },
+      "blueprint": {},
+      "item": {
+        "create:experience_nugget": 32
+      }
+    },
+    "node_basic_pillars":{
+        "next_nodes":[
+            "node_overhead_pillar_concrete",
+            "node_overhead_square_pillar_steel"
+        ],
+        "next_groups":[],
+        "name":"tech_tree.kuayue.group.overhead_line_blueprint.basic_pillars.name",
+        "description":"tech_tree.kuayue.group.overhead_line_blueprint.basic_pillars.description",
+        "type":"plain",
+        "logo":"kuayue:overhead_pillar_steel",
+        "exp":0,
+        "level":0,
+        "item_consume":{
+            "kuayue:overhead_pillar_steel": 1,
+            "kuayue:overhead_square_pillar_concrete_punching": 1
+        },
+        "blueprint":{},
+        "item":{
+          "create:experience_nugget": 32
+        }
+    },
+    "node_overhead_pillar_concrete":{
+        "next_nodes":[],
+        "next_groups":[],
+        "name":"tech_tree.kuayue.group.overhead_line_blueprint.overhead_pillar_concrete.name",
+        "description":"tech_tree.kuayue.group.overhead_line_blueprint.overhead_pillar_concrete.description",
+        "type":"plain",
+        "logo":"kuayue:overhead_pillar_concrete",
+        "exp":0,
+        "level":0,
+        "item_consume":{
+            "kuayue:overhead_pillar_concrete": 1,
+            "kuayue:overhead_truss_concrete": 1
+        },
+        "blueprint":{},
+        "item":{
+          "create:experience_nugget": 32
+        }
+    },
+    "node_overhead_square_pillar_steel":{
+        "next_nodes":[],
+        "next_groups":[],
+        "name":"tech_tree.kuayue.group.overhead_line_blueprint.overhead_square_pillar_steel.name",
+        "description":"tech_tree.kuayue.group.overhead_line_blueprint.overhead_square_pillar_steel.description",
+        "type":"plain",
+        "logo":"kuayue:overhead_square_pillar_steel",
+        "exp":0,
+        "level":0,
+        "item_consume":{
+            "kuayue:overhead_square_pillar_steel": 1
+        },
+        "blueprint":{},
+        "item":{
+          "create:experience_nugget": 32
+        }
+    }
+  }
+}
