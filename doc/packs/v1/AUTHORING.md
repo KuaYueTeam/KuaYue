@@ -355,4 +355,4 @@ my-train-pack/pack.json
 - 关闭全部非必选预设包时，自包含包仍能启动且只引用 running-gear 或自身内容；
 - 存档语义变化时更新版本或提供 `save_compatibility`；
 - 包内没有符号链接、绝对路径、运行缓存、日志或整份存档；
-- 内置 `resources/packs/<owner>/` 之外的历史车型目录、runtime tracks、seat、toilet 和 provisions 资源没有被误打包。
+- 内置 `resources/packs/<owner>/` 之外的历史车型目录、runtime seat、toilet 和 provisions 资源没有被误打包。

@@ -110,7 +110,8 @@ class PresetPackSourceLayoutTest {
                 );
             }
         }
-        assertEquals(32, parcelCount);
+        assertEquals(33, parcelCount);
+        assertFalse(Files.exists(PACKS.getParent().resolve("tracks")));
         assertFalse(Files.exists(Path.of("src/main/resources/kuayue-packs")));
     }
 
@@ -233,7 +234,7 @@ class PresetPackSourceLayoutTest {
         Set<Path> roots = new HashSet<>();
         roots.add(pack);
         roots.add(CORE_RESOURCES);
-        for (String category : Set.of("common", "seat", "toilet", "tracks")) {
+        for (String category : Set.of("common", "seat", "toilet")) {
             roots.add(PACKS.getParent().resolve(category));
         }
 

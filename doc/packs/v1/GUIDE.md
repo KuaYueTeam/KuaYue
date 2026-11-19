@@ -263,11 +263,11 @@ sample-train/
 
 内置内容位于 `modules/train-parts/resources/packs/`，由 `preset-packs.gradle` 生成到 `build/generated/kuayue-preset-packs/`，最终进入 JAR 的 `kuayue-packs/<pack-id>/`。
 
-当前共 10 个包、32 个 parcel：
+当前共 10 个包、33 个 parcel：
 
 | 包 | 车型/内容 |
 |---|---|
-| `kuayue-preset-running-gear` | 必选；共享注册、通用转向架和 Create 样式壳 |
+| `kuayue-preset-running-gear` | 必选；共享注册、通用转向架、轨道系统和 Create 样式壳 |
 | `kuayue-preset-df` | DF5、DF11、DF11G、DF21 |
 | `kuayue-preset-hxd` | HXD3D |
 | `kuayue-preset-ss` | SS3、SS8 |

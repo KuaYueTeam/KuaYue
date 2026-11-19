@@ -21,10 +21,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TrackDataDrivenSchemaTest {
 
     private static final Path DATA = Path.of(
-            "resources/tracks/data/kuayue/kasuga_lib/data_driven/tracks.json"
+            "resources/packs/kuayue-preset-running-gear/parcels/tracks/"
+                    + "data/kuayue/kasuga_lib/data_driven/tracks.json"
     );
     private static final Path CONTENT = Path.of(
-            "resources/tracks/data/kuayue/tracks/tracks.json"
+            "resources/packs/kuayue-preset-running-gear/parcels/tracks/"
+                    + "data/kuayue/tracks/tracks.json"
     );
 
     @Test
