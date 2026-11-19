@@ -10,6 +10,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -30,29 +31,42 @@ public final class CreativeFilterController {
     ) {
         State state = state(screen);
         state.buttons.clear();
+        state.buttonsByTab.clear();
+        state.offsetsByTab.clear();
+
         ResourceLocation tab = tabId(screen);
         if (tab == null) return;
-        List<CreativeFilterCatalog.Entry> entries = catalog.allEntries();
-        if (entries.isEmpty()) return;
-        int x = preferredX(screen);
-        int y = screen.getGuiTop() + 18;
-        if (entries.size() > 5 && screen.width - x < 84) {
-            x = screen.getGuiLeft() - 86;
-        }
-        for (CreativeFilterCatalog.Entry entry : entries) {
-            if (y + 20 > screen.height - 8) break;
+        state.tab = tab;
+
+        for (CreativeFilterCatalog.Entry entry : catalog.allEntries()) {
             CreativeFilterButton button = new CreativeFilterButton(
-                    x,
-                    y,
+                    0,
+                    0,
                     entry,
-                    entry.equals(state.selected),
                     () -> select(screen, entry)
             );
             state.buttons.add(button);
+            state.buttonsByTab
+                    .computeIfAbsent(entry.tab(), ignored -> new ArrayList<>())
+                    .add(button);
             addListener.accept(button);
-            button.setVisible(entry.tab().equals(tab));
-            y += 22;
         }
+
+        state.pageUp = new CreativeFilterScrollButton(
+                0,
+                0,
+                CreativeFilterScrollButton.Direction.UP,
+                () -> scroll(screen, -1)
+        );
+        state.pageDown = new CreativeFilterScrollButton(
+                0,
+                0,
+                CreativeFilterScrollButton.Direction.DOWN,
+                () -> scroll(screen, 1)
+        );
+        addListener.accept(state.pageUp);
+        addListener.accept(state.pageDown);
+        layout(screen, state, tab);
     }
 
     public static void refreshCatalog() {
@@ -76,10 +90,7 @@ public final class CreativeFilterController {
             state.tab = tab;
             state.selected = null;
         }
-        state.buttons.forEach(button -> {
-            button.setVisible(java.util.Objects.equals(tab, button.entryTab()));
-            button.setSelected(button.matches(state.selected));
-        });
+        layout(screen, state, tab);
         if (state.selected != null) {
             refreshCurrent(screen);
         }
@@ -107,7 +118,7 @@ public final class CreativeFilterController {
     ) {
         State state = state(screen);
         state.selected = entry.equals(state.selected) ? null : entry;
-        state.buttons.forEach(button -> button.setSelected(entry.equals(state.selected)));
+        layout(screen, state, state.tab);
         refreshCurrent(screen);
     }
 
@@ -129,12 +140,6 @@ public final class CreativeFilterController {
         screen.getMenu().scrollTo(0.0F);
     }
 
-    private static int preferredX(CreativeModeInventoryScreen screen) {
-        int right = screen.getGuiLeft() + screen.getXSize() + 6;
-        int preferred = right + 82 <= screen.width ? right : screen.getGuiLeft() - 88;
-        return Math.max(4, Math.min(preferred, screen.width - 86));
-    }
-
     private static void refreshCurrent(CreativeModeInventoryScreen screen) {
         CreativeModeTab tab = CreativeModeInventoryScreenAccessor.kuayue$selectedTab();
         ((CreativeModeInventoryScreenAccessor) screen)
@@ -152,6 +157,67 @@ public final class CreativeFilterController {
                 .orElse(null);
     }
 
+    private static void scroll(CreativeModeInventoryScreen screen, int direction) {
+        State state = STATES.get(screen);
+        if (state == null || state.tab == null) return;
+        List<CreativeFilterButton> buttons =
+                state.buttonsByTab.getOrDefault(state.tab, List.of());
+        int maximum = Math.max(0, buttons.size() - 5);
+        int offset = state.offsetsByTab.getOrDefault(state.tab, 0);
+        state.offsetsByTab.put(
+                state.tab,
+                Math.max(0, Math.min(maximum, offset + direction))
+        );
+        layout(screen, state, state.tab);
+    }
+
+    private static void layout(
+            CreativeModeInventoryScreen screen,
+            State state,
+            ResourceLocation tab
+    ) {
+        state.buttons.forEach(button -> button.setVisible(false));
+        if (tab == null || state.pageUp == null || state.pageDown == null) {
+            hidePageButtons(state);
+            return;
+        }
+
+        List<CreativeFilterButton> buttons =
+                state.buttonsByTab.getOrDefault(tab, List.of());
+        int maximum = Math.max(0, buttons.size() - 5);
+        int offset = Math.max(
+                0,
+                Math.min(maximum, state.offsetsByTab.getOrDefault(tab, 0))
+        );
+        state.offsetsByTab.put(tab, offset);
+
+        int collapsedX = screen.getGuiLeft() - CreativeFilterButton.SIZE - 2;
+        int firstY = screen.getGuiTop() + 14;
+        for (int index = 0; index < buttons.size(); index++) {
+            CreativeFilterButton button = buttons.get(index);
+            boolean selected = button.matches(state.selected);
+            button.setSelected(selected);
+            button.setX(collapsedX - (selected ? CreativeFilterButton.SIZE : 0));
+            button.setY(firstY + (index - offset) * 22);
+            button.setVisible(index >= offset && index < offset + 5);
+        }
+
+        boolean overflowing = buttons.size() > 5;
+        state.pageUp.visible = overflowing;
+        state.pageDown.visible = overflowing;
+        state.pageUp.active = overflowing && offset > 0;
+        state.pageDown.active = overflowing && offset < maximum;
+        state.pageUp.setX(collapsedX);
+        state.pageDown.setX(collapsedX);
+        state.pageUp.setY(screen.getGuiTop() - 8);
+        state.pageDown.setY(firstY + 5 * 22);
+    }
+
+    private static void hidePageButtons(State state) {
+        if (state.pageUp != null) state.pageUp.visible = false;
+        if (state.pageDown != null) state.pageDown.visible = false;
+    }
+
     private static State state(CreativeModeInventoryScreen screen) {
         return STATES.computeIfAbsent(screen, ignored -> new State());
     }
@@ -160,5 +226,10 @@ public final class CreativeFilterController {
         private ResourceLocation tab;
         private CreativeFilterCatalog.Entry selected;
         private final List<CreativeFilterButton> buttons = new ArrayList<>();
+        private final Map<ResourceLocation, List<CreativeFilterButton>> buttonsByTab =
+                new HashMap<>();
+        private final Map<ResourceLocation, Integer> offsetsByTab = new HashMap<>();
+        private CreativeFilterScrollButton pageUp;
+        private CreativeFilterScrollButton pageDown;
     }
 }
