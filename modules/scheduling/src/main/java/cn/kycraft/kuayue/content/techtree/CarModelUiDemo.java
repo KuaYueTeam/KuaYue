@@ -2,15 +2,21 @@ package cn.kycraft.kuayue.content.techtree;
 
 import lib.kasuga.rendering.models.mc.Constants;
 import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.core.BlockPos;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- * TEMPORARY entry point for the table model, wired to sneak-use of the table.
+ * Mounts the blueprint model on a table; driven by sneak-use of the block.
  *
- * <p>Exists only so the scene can be inspected before the real integration; delete this class and its call
- * site once {@link CarModelUi} is hosted for real.</p>
+ * <p>The title/description panel that used to be mounted per table is gone: the table surface now carries
+ * the tech tree board ({@link TechTreeTableSurface}), which is always on the table, so there is no second
+ * overlay to keep in sync with it. What is left is the model toggle the sneak-use entry point drives.</p>
+ *
+ * <p>Still temporary: this is the entry point for the blueprint scene until it is wired to a real UI
+ * action.</p>
  */
 final class CarModelUiDemo {
 
@@ -18,70 +24,26 @@ final class CarModelUiDemo {
     private record Mounted(CarModelUi ui, Renderable renderable) {
     }
 
-    /** Second probe: same surface, opposite lay-flat sign, shifted sideways. */
-    private static final Map<net.minecraft.core.BlockPos, Mounted> PROBES = new HashMap<>();
-
     /** Tables currently showing the model. */
-    private static final java.util.Set<net.minecraft.core.BlockPos> MODEL = new java.util.HashSet<>();
-    /** Title/description/buttons, mounted per table and independent of the model toggle. */
-    private static final Map<net.minecraft.core.BlockPos, Mounted> OVERLAYS = new HashMap<>();
+    private static final java.util.Set<BlockPos> MODEL = new java.util.HashSet<>();
 
     private CarModelUiDemo() {
     }
 
     static void toggle(BlueprintTableBlockEntity table) {
-        var pos = table.getBlockPos().immutable();
+        BlockPos pos = table.getBlockPos().immutable();
         if (MODEL.contains(pos)) {
             hide(pos);
-            TechTreeSystem.LOGGER.info("Car model demo hidden on {}", pos);
+            TechTreeSystem.logInfo("Blueprint model hidden on {}", pos);
             return;
         }
-        show(table);
-    }
-
-    private static void show(BlueprintTableBlockEntity table) {
-        var pos = table.getBlockPos().immutable();
-        ensureOverlay(table);
         BlueprintBlockRenderer.bind(pos, BlueprintPreview.DEFAULT, table.yaw());
         MODEL.add(pos);
-        TechTreeSystem.LOGGER.info("Car model demo shown on {} for {}", pos, BlueprintPreview.DEFAULT);
+        TechTreeSystem.logInfo("Blueprint model shown on {} for {}", pos, BlueprintPreview.DEFAULT);
     }
 
-    /** Mounts the overlay on the next client tick, from {@code setPlacedBy}. */
-    static void scheduleOverlay(net.minecraft.core.BlockPos pos) {
-        net.minecraft.client.Minecraft.getInstance().execute(() -> {
-            var level = net.minecraft.client.Minecraft.getInstance().level;
-            if (level != null && level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
-                ensureOverlay(table);
-            }
-        });
-    }
-
-    /** Mounts the title/description/buttons once per table; independent of the model toggle. */
-    static void ensureOverlay(BlueprintTableBlockEntity table) {
-        var pos = table.getBlockPos().immutable();
-        if (OVERLAYS.containsKey(pos)) return;
-        CarModelUi ui = CarModelUi.of();
-        Renderable renderable = ui.attach(CarModelUi.tableTopTransform(table));
-        OVERLAYS.put(pos, new Mounted(ui, renderable));
-
-    }
-
-    private static void removeOverlay(net.minecraft.core.BlockPos pos) {
-        Mounted mounted = OVERLAYS.remove(pos);
-        if (mounted != null) {
-            if (Constants.UI_BACKEND != null) Constants.UI_BACKEND.removeRenderable(mounted.renderable());
-            mounted.ui().close();
-        }
-        Mounted probe = PROBES.remove(pos);
-        if (probe != null) {
-            if (Constants.UI_BACKEND != null) Constants.UI_BACKEND.removeRenderable(probe.renderable());
-            probe.ui().close();
-        }
-    }
-
-    /** Removes the model of one table; the overlay stays. */
-    static void hide(net.minecraft.core.BlockPos pos) {
+    /** Removes the model of one table. */
+    static void hide(BlockPos pos) {
         MODEL.remove(pos);
         BlueprintBlockRenderer.unbind(pos);
     }
@@ -92,47 +54,21 @@ final class CarModelUiDemo {
      * <p>{@code onRemove} is not guaranteed to run before the block entity is gone, so the mounts are
      * validated against the level each tick instead of relying on that callback alone.</p>
      */
-    /**
-     * Mounts the panel on every blueprint table already in the level.
-     *
-     * <p>Called on join and whenever a chunk loads, so the surface is present without the player having to
-     * interact with the block first.</p>
-     */
-    static void mountExistingOverlays() {
-        var minecraft = net.minecraft.client.Minecraft.getInstance();
-        var level = minecraft.level;
-        if (level == null || minecraft.player == null) return;
-        int radius = 64;
-        var origin = minecraft.player.blockPosition();
-        for (var pos : net.minecraft.core.BlockPos.betweenClosed(
-                origin.offset(-radius, -radius, -radius), origin.offset(radius, radius, radius))) {
-            if (level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
-                ensureOverlay(table);
-            }
-        }
-    }
-
     static void pruneStale() {
-        var minecraft = net.minecraft.client.Minecraft.getInstance();
-        var level = minecraft.level;
+        var level = net.minecraft.client.Minecraft.getInstance().level;
         if (level == null) return;
-        for (var pos : java.util.List.copyOf(MODEL)) {
+        for (BlockPos pos : List.copyOf(MODEL)) {
             if (!(level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity)) hide(pos);
-        }
-        for (var pos : java.util.List.copyOf(OVERLAYS.keySet())) {
-            if (!(level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity)) removeOverlay(pos);
         }
     }
 
     static void closeAll() {
-        for (var pos : java.util.List.copyOf(MODEL)) hide(pos);
-        for (var pos : java.util.List.copyOf(OVERLAYS.keySet())) removeOverlay(pos);
+        for (BlockPos pos : List.copyOf(MODEL)) hide(pos);
         BlueprintBlockRenderer.closeAll();
     }
 
-    /** Drops the overlay of one table, e.g. when the table is broken. */
-    static void hideOverlay(net.minecraft.core.BlockPos pos) {
-        removeOverlay(pos);
+    /** Drops the model of one table, e.g. when the table is broken. */
+    static void hideOverlay(BlockPos pos) {
         hide(pos);
     }
 }

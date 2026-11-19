@@ -83,6 +83,12 @@ neoForge {
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+
+            // A/B diagnostic: -PnoTechTree makes the run client skip every tech-tree client hook, so the
+            // blueprint table renders as a plain block. Off by default.
+            if (project.hasProperty('noTechTree')) {
+                systemProperty 'kuayue.disableTechTree', 'true'
+            }
         }
 
         server {

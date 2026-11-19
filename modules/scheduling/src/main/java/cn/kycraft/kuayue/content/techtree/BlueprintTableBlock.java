@@ -62,8 +62,22 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
             table.setYaw(yawOf(state.getValue(FACING)));
         }
         if (level.isClientSide) {
-            // Mount the overlay as soon as the table exists, so the text never depends on using the block.
-            CarModelUiDemo.scheduleOverlay(pos);
+            // The board is permanent furniture: mount it as soon as the table exists instead of waiting for
+            // an interaction.
+            mountBoard(level, pos);
+        }
+    }
+
+    /**
+     * Mounts the board on a table that was just loaded rather than placed.
+     *
+     * <p>{@code setPlacedBy} only runs for a player placement; a table in a saved chunk needs the same
+     * mount, which the client tick does once the block entity is actually in the level.</p>
+     */
+    static void mountBoard(Level level, BlockPos pos) {
+        if (!level.isClientSide) return;
+        if (level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
+            TechTreeTableSurface.mount(table);
         }
     }
 
@@ -87,24 +101,33 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
         return new BlueprintTableBlockEntity(pos, state);
     }
 
+    /**
+     * Right click opens the tech tree board flat on the table top.
+     *
+     * <p>Client half only: the board is a view of data the client already holds, so nothing is exchanged
+     * with the server to open it. The handshake is the one the world UI backend expects — the surface is
+     * registered, then the invisible pointer screen takes the cursor so the plates can be hit; Escape
+     * hands the cursor back to mouse-look.</p>
+     *
+     * <p>Sneak-right-click still toggles the blueprint model, which is the temporary entry point of
+     * {@link CarModelUiDemo}.</p>
+     */
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
                                                BlockHitResult hit) {
         if (level.isClientSide) {
             if (level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
-                // The overlay is permanent; only the model is toggled.
-                CarModelUiDemo.ensureOverlay(table);
                 if (player.isShiftKeyDown()) {
                     // TEMPORARY entry point for the standalone car scene, replaced by the real integration.
                     CarModelUiDemo.toggle(table);
+                } else {
+                    TechTreeTableSurface.focusTable(table);
                 }
             }
             return InteractionResult.SUCCESS;
         }
-        if (!player.isShiftKeyDown()
-                && player instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
-            TechTreeMenuHost.openTable(serverPlayer, pos);
-        }
+        // Nothing to do on the server: the snapshot comes back over the RPC the client sends once the
+        // surface is mounted, and the tree has no container to open.
         return InteractionResult.CONSUME;
     }
 
@@ -117,7 +140,7 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
             // them down explicitly; otherwise they stay hanging where the table used to be.
             CarModelUiDemo.hide(pos.immutable());
             CarModelUiDemo.hideOverlay(pos.immutable());
-            TechTreeBoard.close();
+            TechTreeTableSurface.forget(pos.immutable());
         }
     }
 }

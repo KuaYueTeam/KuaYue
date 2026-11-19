@@ -95,40 +95,16 @@ public final class TechTreeBoard {
      * <p>The client has no tree data until the server answers, so opening the UI directly left an empty
      * board forever. The snapshot request therefore comes first, and the host opens on its completion.</p>
      */
+    /**
+     * Opens the board on a table.
+     *
+     * <p>The world-space host used by this class was the first attempt at painting the tree on the table
+     * top; it has been superseded by {@link TechTreeTableSurface}, which owns the pointer screen and the
+     * in-place repaint. This entry point is kept so old call sites keep compiling, and delegates.</p>
+     */
     public static void openFor(BlueprintTableBlockEntity table, boolean worldBoard) {
         if (table == null) return;
-        if (!ClientTreeState.groups().isEmpty()) {
-            if (worldBoard) open(table); else TechTreeScreen.open(table);
-            return;
-        }
-        TechTreeRpc.open().run(new TechTreeRpc.OpenPayload(false)).whenComplete((snapshot, error) -> {
-            if (error != null) {
-                TechTreeSystem.LOGGER.warn("Tech tree snapshot request failed", error);
-                return;
-            }
-            ClientTreeState.apply(snapshot);
-            uiOpen = true;
-            net.minecraft.client.Minecraft.getInstance().execute(() -> {
-                if (worldBoard) open(table); else TechTreeScreen.open(table);
-            });
-        });
-    }
-
-    /** Builds (or focuses) the board for a table and shows the world pointer. Client thread only. */
-    public static void open(BlueprintTableBlockEntity table) {
-        if (Constants.UI_BACKEND == null) return;
-        ResourceLocation group = resolveGroup(table.selectedGroup());
-        if (board == null) {
-            board = new BoardRenderable();
-        }
-        if (group != null && !group.equals(currentGroup)) {
-            currentGroup = group;
-            rebuild(group);
-        }
-        uiOpen = true;
-        Constants.UI_BACKEND.addRenderable(board, tableTransform(table, null));
-        // No openPointer() here: it installs a WorldUiInputScreen that swallows mouse look and every later
-        // right-click, which left the table unusable after the first use.
+        TechTreeTableSurface.focusTable(table);
     }
 
     /** Binds by position only; used by the container-menu path where the block entity is not at hand. */

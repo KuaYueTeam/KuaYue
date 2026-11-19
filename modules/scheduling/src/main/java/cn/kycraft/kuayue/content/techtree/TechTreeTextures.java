@@ -59,6 +59,14 @@ final class TechTreeTextures {
         return nodePlate(false, true);
     }
 
+    /**
+     * 7x7 state dot from the 1.0 label sheet: white when the node is unlocked, red when a predecessor is
+     * still missing (1.0 {@code TechTreeLabel.finishDotMask}, {@code (25,25)-(32,32)}).
+     */
+    static IGuiTexture stateDot(boolean required) {
+        return slice(25, 25, 32, 32);
+    }
+
     /** Completion stamp drawn behind the finished description block. */
     static IGuiTexture completedStamp() {
         return slice(0, 96, 32, 128);
@@ -70,8 +78,21 @@ final class TechTreeTextures {
     }
 
     /** Confirm button, light state. */
+    /**
+     * Confirm button, top half of the 1.0 two-state sprite.
+     *
+     * <p>NeoKuayue draws the confirm button as a 16x32 strip at {@code (80,64)-(96,96)} with the hover
+     * state at {@code (96,64)-(112,96)}; each state is a 16x16 frame in the upper half and a 16x16
+     * shadow/border strip below it. The board has no hover state to spend, so the upper frame is what is
+     * painted and the hit area is what lights up.</p>
+     */
     static IGuiTexture confirm() {
-        return slice(48, 64, 64, 80);
+        return slice(80, 64, 96, 80);
+    }
+
+    /** Confirm button, hover frame of the same 1.0 strip. */
+    static IGuiTexture confirmHover() {
+        return slice(96, 64, 112, 80);
     }
 
     /** Back arrow used by the detail pane. */

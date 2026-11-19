@@ -5,6 +5,7 @@ import cn.kycraft.kuayue.content.techtree.CheckResult;
 import cn.kycraft.kuayue.content.techtree.ClientTreeState;
 import cn.kycraft.kuayue.content.techtree.ServerCheck;
 import cn.kycraft.kuayue.content.techtree.ServerUnlock;
+import cn.kycraft.kuayue.content.techtree.TechTreeServerSessions;
 import cn.kycraft.kuayue.content.techtree.TreeSnapshot;
 import lib.kasuga.core.networking.rpc.RpcApi;
 import net.minecraft.network.FriendlyByteBuf;
@@ -41,6 +42,7 @@ public final class TechTreeRpc {
         CAN_UNLOCK.register(parent);
         UNLOCK_NODE.register(parent);
         UNLOCK_GROUP.register(parent);
+        CLOSE.register(parent);
     }
 
     public static OpenRequest open() {
@@ -119,6 +121,7 @@ public final class TechTreeRpc {
         @Override
         public TreeSnapshot handleInstant(OpenPayload request, IPayloadContext context) {
             if (context.player() instanceof net.minecraft.server.level.ServerPlayer player) {
+                TechTreeServerSessions.open(player);
                 return TreeSnapshot.build(player);
             }
             throw new IllegalStateException("Tech tree open requested without a server player");
@@ -241,5 +244,44 @@ public final class TechTreeRpc {
         public CompletableFuture<TreeSnapshot> request(String group) {
             return run(new UnlockGroupPayload(group));
         }
+    }
+
+    /** {@code client -> server}: "I closed the table". */
+    public static final class CloseRequest extends RpcApi.WithOutResponse<ClosePayload, CloseRequest> {
+        public CloseRequest() {
+            super("tech_tree/close");
+            executeOnServer();
+            runOnMainThread();
+        }
+
+        @Override
+        protected StreamCodec<FriendlyByteBuf, ClosePayload> getRequestPayloadCodec() {
+            return ClosePayload.CODEC;
+        }
+
+        @Override
+        public void handleInstant(ClosePayload request, IPayloadContext context) {
+            // Kept as an explicit endpoint rather than dropped: it is the only authoritative edge the
+            // server would need if it ever expires a player's board state (open-for-M hours, spectator
+            // fade). Sending it costs one packet per close.
+            if (context.player() instanceof net.minecraft.server.level.ServerPlayer player) {
+                TechTreeServerSessions.close(player);
+            }
+        }
+
+        public void send() {
+            call(new ClosePayload(), null);
+        }
+    }
+
+    public record ClosePayload() {
+        public static final StreamCodec<FriendlyByteBuf, ClosePayload> CODEC =
+                StreamCodec.unit(new ClosePayload());
+    }
+
+    private static final CloseRequest CLOSE = new CloseRequest();
+
+    public static CloseRequest close() {
+        return CLOSE;
     }
 }

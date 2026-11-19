@@ -18,10 +18,39 @@ public final class ClientTreeState {
 
     public static void apply(TreeSnapshot next) {
         snapshot = next;
+        lastSnapshotFingerprint = next.contentFingerprint();
         if (selectedGroup == null || !next.groups.containsKey(selectedGroup)) {
             selectedGroup = next.groups.keySet().stream().findFirst().orElse(null);
         }
     }
+
+    /**
+     * Applies a snapshot only when it actually differs from the held one.
+     *
+     * <p>The throttled refresh asks for the tree every {@code REFRESH_TICKS} ticks; without this the
+     * board repainted on every answer even when nothing had changed, which rebuilt every plate element
+     * and re-registered its click handler for no reason.</p>
+     *
+     * @return {@code true} when the new snapshot replaced the old one
+     */
+    public static boolean applyIfChanged(TreeSnapshot next) {
+        if (next == null) return false;
+        if (lastSnapshotFingerprint == next.contentFingerprint()) return false;
+        apply(next);
+        return true;
+    }
+
+    /** Drops everything held for the session, on world exit. */
+    public static void reset() {
+        snapshot = new TreeSnapshot();
+        selectedGroup = null;
+        checkedNode = null;
+        lastCheck = CheckResult.empty();
+        lastSnapshotFingerprint = 0L;
+    }
+
+    /** Hash of the snapshot content, stored next to it so a refresh can skip identical answers. */
+    private static volatile long lastSnapshotFingerprint;
 
     public static TreeSnapshot snapshot() {
         return snapshot;

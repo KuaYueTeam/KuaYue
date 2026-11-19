@@ -27,14 +27,6 @@ final class CarModelUi implements net.minecraft.client.gui.layouts.LayoutElement
     /** Compact panel: a tall one overflowed the tabletop and its rows landed on the model. */
     static final int HEIGHT = 96;
 
-    /** Row bands, in panel pixels. */
-    private static final float TITLE_TOP = -8f;
-    private static final float BODY_TOP = 0f;
-    private static final float BUTTON_TOP = 44f;
-    private static final float BUTTON_W = 80f;
-    private static final float BUTTON_H = 18f;
-    private static final float BUTTON_GAP = 90f;
-
     /** World size of one GUI pixel. */
     private static final float PIXEL = 0.0045f;
 
@@ -42,8 +34,6 @@ final class CarModelUi implements net.minecraft.client.gui.layouts.LayoutElement
     private static final float OFFSET_X = 0f;
     private static final float OFFSET_Z = -0.125f;
 
-
-    private static final int INK = 0xFFFFFFFF;
 
     private final ModularUI ui;
     private final UIElement root;
@@ -54,82 +44,19 @@ final class CarModelUi implements net.minecraft.client.gui.layouts.LayoutElement
     /** Layout tree is built on first render; rendering before that throws inside taffy. */
     private boolean initialised;
 
+    /**
+     * The table surface is now the tech tree board ({@link TechTreeTableSurface}), so this panel has no
+     * content of its own.
+     *
+     * <p>It is kept only as the renderable/mount plumbing the world-UI backend needs (identity-keyed
+     * input surface, Yoga init on first draw); the placeholder title, paragraph and A/B buttons that used
+     * to live here were test text and are gone.</p>
+     */
     private CarModelUi() {
         root = new UIElement();
         root.setId("car_model_ui");
         root.layout(l -> l.setWidth(WIDTH).setHeight(HEIGHT));
-
-        root.addChild(label("这是标题", 8f, TITLE_TOP, 0xFFFFF030));
-        root.addChild(paragraph("介绍介绍介绍介绍介绍介绍介绍介绍", 8f, BODY_TOP, WIDTH - 16, INK));
-        root.addChild(button("按钮A", 8f, BUTTON_TOP));
-        root.addChild(button("按钮B", 8f + BUTTON_GAP, BUTTON_TOP));
-
         ui = ModularUI.of(UI.of(root));
-    }
-
-    /** Clickable button; the label is centred over the button box. */
-    private static UIElement button(String caption, float x, float y) {
-        UIElement holder = new UIElement();
-        holder.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, x)
-                .setPosition(YogaEdge.TOP, y)
-                .setWidth(BUTTON_W).setHeight(BUTTON_H));
-
-        var button = new com.lowdragmc.lowdraglib2.gui.ui.elements.Button();
-        button.setText(Component.literal(caption));
-        button.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, 0f)
-                .setPosition(YogaEdge.TOP, 0f)
-                .setWidth(BUTTON_W).setHeight(BUTTON_H));
-        button.setOnClick(event -> {
-            TechTreeSystem.LOGGER.info("Blueprint table button {} pressed", caption);
-            event.stopPropagation();
-        });
-        holder.addChild(button);
-        return holder;
-    }
-
-    /**
-     * Wrapping paragraph bounded by {@code maxWidth}.
-     *
-     * <p>Wrapping needs {@code adaptiveWidth(false)} plus an explicit width, otherwise the label sizes itself to
-     * the whole string and overflows the panel.</p>
-     */
-    private static UIElement paragraph(String caption, float x, float y, float maxWidth, int colour) {
-        UIElement holder = new UIElement();
-        holder.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, x)
-                .setPosition(YogaEdge.TOP, y)
-                .setWidth(maxWidth).setHeight(HEIGHT - 16));
-
-        Label label = new Label();
-        label.setText(Component.literal(caption));
-        label.textStyle(s -> s.textColor(colour)
-                .adaptiveWidth(false)
-                .adaptiveHeight(true)
-                .textWrap(com.lowdragmc.lowdraglib2.gui.ui.data.TextWrap.WRAP));
-        label.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, 0f)
-                .setPosition(YogaEdge.TOP, 0f)
-                .setWidth(maxWidth));
-        holder.addChild(label);
-        return holder;
-    }
-
-    /** A label inside a positioned container; the container is what Yoga places. */
-    private static UIElement label(String caption, float x, float y, int colour) {
-        UIElement holder = new UIElement();
-        // Tall enough for a glyph row; a tight box clipped the text away entirely.
-        holder.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                .setPosition(YogaEdge.LEFT, x)
-                .setPosition(YogaEdge.TOP, y)
-                .setWidth(WIDTH - 16).setHeight(24));
-
-        Label label = new Label();
-        label.setText(Component.literal(caption));
-        label.textStyle(s -> s.textColor(colour).adaptiveWidth(true).adaptiveHeight(true));
-        holder.addChild(label);
-        return holder;
     }
 
     static CarModelUi of() {

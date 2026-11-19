@@ -57,6 +57,37 @@ public final class TreeSnapshot {
                 return read(registry);
             });
 
+    /**
+     * Content hash of this snapshot: every view plus the player's progress.
+     *
+     * <p>Cheap enough for the client refresh (one pass over the nodes, no item stacks — those cannot
+     * change without the view changing) and stable across two decodes of the same bytes, which is what
+     * {@link ClientTreeState#applyIfChanged} compares.</p>
+     */
+    public long contentFingerprint() {
+        long hash = 1125899906842597L;
+        for (Map.Entry<NodeLocation, NodeView> entry : nodes.entrySet()) {
+            NodeView node = entry.getValue();
+            hash = 31 * hash + entry.getKey().hashCode();
+            hash = 31 * hash + node.nameKey().hashCode();
+            hash = 31 * hash + node.type().ordinal();
+            hash = 31 * hash + node.next().hashCode();
+            hash = 31 * hash + node.prev().hashCode();
+            hash = 31 * hash + (node.hidden() ? 1 : 0);
+            hash = 31 * hash + node.exp() * 31L + node.level();
+        }
+        for (Map.Entry<ResourceLocation, GroupView> entry : groups.entrySet()) {
+            hash = 31 * hash + entry.getKey().hashCode();
+            hash = 31 * hash + entry.getValue().totalNodes();
+            hash = 31 * hash + entry.getValue().incoming().hashCode();
+        }
+        hash = 31 * hash + progress.unlocked.hashCode();
+        hash = 31 * hash + progress.unlockedGroups.hashCode();
+        hash = 31 * hash + progress.visibleGroups.hashCode();
+        hash = 31 * hash + progress.visibleNodes.hashCode();
+        return hash;
+    }
+
     /** Builds the snapshot for the given player from the linked server-side graph. */
     public static TreeSnapshot build(ServerPlayer player) {
         TreeSnapshot snapshot = new TreeSnapshot();
