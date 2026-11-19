@@ -6,7 +6,7 @@
     ],
     "textures": {
         "19": "kuayue:block/ss3/ss3_panel_upper",
-        "particle": "kuayue:block/ss3//ss3_panel_upper"
+        "particle": "kuayue:block/ss3/ss3_panel_upper"
     },
     "elements": [
         {

@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "kuayue:item/cr_logo"
+        "layer0": "kuayue:item/logo/cr_logo"
     }
 }
