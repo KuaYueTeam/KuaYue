@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,10 +52,18 @@ public record PackStartupReport(
         for (ResolvedPack pack : selection.effectivePacks()) {
             effectiveById.put(pack.id(), pack);
         }
+        Set<String> requiredIds = new HashSet<>();
+        for (DiscoveredPack pack : catalog.packs()) {
+            if (pack.manifest().required()) {
+                requiredIds.add(pack.packId());
+            }
+        }
         List<PackInstallationStatus> installations = new ArrayList<>();
         for (PackInstallation installation : catalog.installations()) {
             String packId = installation.packId();
-            boolean requested = packId != null && config.isRequestedEnabled(packId);
+            boolean requested = packId != null
+                    && (config.isRequestedEnabled(packId)
+                    || requiredIds.contains(packId));
             boolean effective = packId != null && effectiveById.containsKey(packId);
             installations.add(new PackInstallationStatus(
                     installation.sourceId(),

@@ -40,6 +40,11 @@ final class PackDependencyResolver {
                 requested.add(entry.getKey());
             }
         }
+        Set<String> requiredIds = packs.values().stream()
+                .filter(pack -> pack.manifest().required())
+                .map(DiscoveredPack::packId)
+                .collect(java.util.stream.Collectors.toUnmodifiableSet());
+        requested.addAll(requiredIds);
         Set<String> blocked = new TreeSet<>();
         List<PackDiagnostic> diagnostics = new ArrayList<>();
         for (String packId : requested) {
@@ -77,7 +82,7 @@ final class PackDependencyResolver {
             validateHostDependencies(
                     pack, environment, modComparator, blocked, diagnostics);
             validatePackDependencies(
-                    pack, config, packs, invalidInstalledIds, blocked, diagnostics);
+                    pack, requested, packs, invalidInstalledIds, blocked, diagnostics);
         }
 
         Set<String> cycleNodes = findCycleNodes(requested, packs);
@@ -127,7 +132,8 @@ final class PackDependencyResolver {
         } while (changed);
 
         List<ResolvedPack> effective = new ArrayList<>();
-        LinkedHashSet<String> orderedCandidates = new LinkedHashSet<>(config.order());
+        LinkedHashSet<String> orderedCandidates = new LinkedHashSet<>(requiredIds);
+        orderedCandidates.addAll(config.order());
         orderedCandidates.addAll(requested);
         for (String packId : orderedCandidates) {
             if (!requested.contains(packId) || blocked.contains(packId)) {
@@ -181,7 +187,7 @@ final class PackDependencyResolver {
 
     private void validatePackDependencies(
             DiscoveredPack owner,
-            PackConfig config,
+            Set<String> requested,
             Map<String, DiscoveredPack> packs,
             Set<String> invalidInstalledIds,
             Set<String> blocked,
@@ -210,7 +216,7 @@ final class PackDependencyResolver {
                 continue;
             }
             SemanticVersion actualVersion = dependencyPack.manifest().version();
-            if (!config.isRequestedEnabled(dependencyId)) {
+            if (!requested.contains(dependencyId)) {
                 blocked.add(owner.packId());
                 diagnostics.add(new PackDiagnostic(
                         PackDiagnosticCodes.DEPENDENCY_DISABLED,

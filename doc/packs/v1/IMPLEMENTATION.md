@@ -1,21 +1,23 @@
 # KuaYue 车包系统 v1 实现与原理
 
-更新日期：2026-11-13
+更新日期：2026-11-19
 
 ## 1. 实现范围
 
-v1 实现目录包、ZIP 包、内置 corepack、实例配置、依赖与排序、启动时一次捕获、严格注册预检、registry claims、统一 finalizer、普通资源投影、启动报告和世界包集记录。
+v1 实现目录包、ZIP 包、10 个内置预设包、实例配置、依赖与排序、启动时一次捕获、严格注册预检、registry claims、统一 finalizer、普通资源投影、启动报告和世界包集记录。
 
-当前不包含游戏内车包管理界面、Blockbench 导出、运行时启停包、热注册、自动下载、多人自动分发和通用脚本包。调试入口是：
+客户端设置页提供已安装预设包的启用、禁用和顺序编辑，保存后写入：
 
 ```text
 <game-dir>/kuayue/config.json
 ```
 
+修改在下次完整启动时生效。当前不包含 Blockbench 导出、运行时启停包、热注册、自动下载、多人自动分发和通用脚本包。
+
 ## 2. 启动生命周期
 
 ```text
-PackDiscovery 扫描 kuayue/packs/ 和内置 corepack
+PackDiscovery 扫描 kuayue/packs/ 和内置 kuayue-preset-* 预设包
   → 读取并补全 config.json
   → 解析清单、parcel、namespace 与依赖
   → 检查宿主版本、pack 版本和依赖环
@@ -49,9 +51,9 @@ PackDiscovery 扫描 kuayue/packs/ 和内置 corepack
 
 | 字段 | 行为 |
 |---|---|
-| `enabled` | 请求开关；外部包缺省关闭，`kuayue-core` 缺省开启 |
-| `order` | 普通资源 rank 与有效包顺序，低到高 |
-| `inventory` | 启动时从外部扫描结果重算 |
+| `enabled` | 可调整包请求开关；内置预设包缺省开启，外部包缺省关闭 |
+| `order` | 可调整包的资源 rank 与有效包顺序，低到高 |
+| `inventory` | 启动时从外部扫描结果重算，不包含内置预设包 |
 
 缺失配置使用默认值。已有配置损坏、版本不支持或 `packs` 字段非法时，bootstrap 写出报告后中止启动，不覆盖损坏输入。合法配置经补全后原子重写；运行时解析器保留 `packs` 之外的顶层字段。
 
@@ -61,10 +63,11 @@ PackDiscovery 扫描 kuayue/packs/ 和内置 corepack
 2. 检查必需 pack 依赖的安装、启用和版本；
 3. 找出依赖环；
 4. 把失败包及其所有依赖者加入阻断集合；
-5. 按 `order` 生成有效包的升序集合；
-6. 未列入 `order` 的已安装包按稳定 ID 补入。
+5. 自动加入 required 包并固定为最低优先级；
+6. 按 `order` 生成其余有效包的升序集合；
+7. 未列入 `order` 的可选已安装包按稳定 ID 补入。
 
-依赖关系基于 pack ID，不基于 namespace。`mods.kuayue` 存在不等于依赖 `kuayue-core`。
+依赖关系基于 pack ID，不基于 namespace。`mods.kuayue` 存在不等于依赖任何预设包。`kuayue-preset-running-gear` 标记 `required: true`，运行时和设置页都会锁定它；配置补全会剔除它的 `enabled/order` 条目；其余预设包依赖它。
 
 ## 4. 目录包与 ZIP 包
 
@@ -200,8 +203,8 @@ provider 不仅依赖原始诊断的 owner，还会重建 `registryKey → owner
 
 - 任意阻塞诊断归因到 owner 时，移除该 owner；
 - 同一 registry key 有多个外部 owner 时，移除全部相关 owner；
-- corepack 或 runtime 与外部 owner 冲突时，只移除外部 owner；
-- corepack 或 runtime 自身出现阻塞失败时，中止本次启动；
+- 必选预设包或 runtime 与外部 owner 冲突时，只移除外部 owner；
+- 必选预设包或 runtime 自身出现阻塞失败时，中止本次启动；
 - owner 被移除后，所有直接或间接依赖它的包一起移除。
 
 失败集合确定后，provider 从活动根列表中删除整包，关闭本次消费 source，再重新 prepare 和检查 claims。循环直到没有可隔离的阻塞 owner。一个 parcel 错误不会只关闭该 parcel，也不会留下该包其余 parcel 的部分注册。
@@ -287,63 +290,68 @@ KuaYue 不生成第二份权威资源目录，也不使用可变安装路径作�
 
 排错时仍要同时检查注册日志、报告和实际 pack discovery，但被拒绝的包不会仅因初始 `Frozen` 集合进入 Approved 资源栈。
 
-## 12. 内置 corepack
+## 12. 内置预设包构建
 
-corepack 只在 `train-parts`：
-
-```text
-modules/train-parts/corepack.gradle
-modules/train-parts/src/main/resources/kuayue-packs/kuayue-core/
-```
-
-构建任务 `generateKuaYueCorepack` 读取 `modules/train-parts/resources/` 中显式映射的车型和转向架目录，生成：
+内置内容只在 `train-parts`：
 
 ```text
-modules/train-parts/build/generated/kuayue-corepack/
+modules/train-parts/resources/packs/<pack-id>/
+modules/train-parts/preset-packs.gradle
 ```
 
-`processResources` 把它写入：
+`generateKuaYuePresetPacks` 逐包执行：
+
+1. 校验目录名等于 `pack.json.id`；
+2. 要求根目录存在 `pack.json`、`pack.mcmeta`、`icon.png`；
+3. 校验 `pack.json.parcels` 与实际 parcel 目录一致；
+4. 把旧式 `blockstates`、`models`、`sounds`、`textures`、`recipes`、`loots`、`scripts` 和 data 文件映射为标准 `assets/`、`data/`；
+5. 合并多 parcel 的语言与 tag；
+6. 检查每个 parcel 声明的 data-driven index 实际存在；
+7. 输出到 `build/generated/kuayue-preset-packs/<pack-id>/`。
+
+`generateKuaYueRuntimeResources` 单独处理：
+
+```text
+resources/common/
+resources/tracks/
+resources/seat/
+resources/toilet/
+```
+
+`processResources` 把 preset 输出放在：
 
 ```text
 train-parts JAR/
-└── kuayue-packs/kuayue-core/
+└── kuayue-packs/<pack-id>/
 ```
 
-core、调度、联锁、provisions 和其他模块不复制该前缀。内置包从 `train-parts` mod file 定位，不安装到 `<game-dir>/kuayue/packs/`。
+并把 runtime 编译结果放在 JAR 普通资源根。`core`、scheduling、provisions 和其他模块不复制预设包目录。
 
-### 12.1 parcel 粒度
+### 12.1 当前包与 parcel
 
-corepack 只允许车厢版和转向架 parcel，具体数量与名称以生成的 `pack.json` 为准。新内容只能按明确的车型或转向架来源建立 parcel；禁止按 `carriages`、`locomotives` 或 `freight` 之类的范围建立大类 parcel。未明确属于车厢版或转向架的内容不得放入 corepack。
+当前有 10 个包、32 个 parcel。车型包各自声明具体车型，`running-gear` 单独拥有：
 
-`shared` 只保存车厢版或转向架跨 parcel 共享的 `bogeys.json`、motions、models、groups 和动画。只服务单一 parcel 的内容仍留在该 parcel，具体转向架资源留在对应 `bogey-*` parcel。
+- `shared`：共享 sizes、blocks、styles、variants、motions、models、groups 和动画；
+- `bogey-*`：CW2、MKZ、PK209P、QJ、SW160、SW220K、TKZ1、TKZ2、ZK6 等没有独立整车车型包的通用转向架。
 
-### 12.2 边界排除
+DF5、DF11G、DF21、HXD3D、SS3、SS8、JY290、DFH21 的专用转向架资源留在各自车型 parcel，并通过 `bogey_style_variants` 向 running-gear 的样式贡献 variant。C70/NX70 等没有专用转向架定义的车型直接使用 running-gear 或外部定义。
 
-corepack 明确排除：
+### 12.2 索引规则
+
+注册入口位于具体 parcel：
 
 ```text
-resources/common/**
-resources/common/models/block/bogey/**
-resources/tracks/**
-resources/seat/**
-resources/toilet/**
-provisions 模块资源
+packs/<pack-id>/parcels/<parcel>/data/kuayue/kasuga_lib/data_driven/<entry>.json
 ```
 
-`common`、`tracks`、`seat`、`toilet` 由 `generateKuaYueRuntimeResources` 编译后放在 train-parts JAR 普通根。车型或具体转向架目录中显式选中的模型仍属于对应 parcel；排除规则只针对独立 runtime 源目录。
-
-corepack 根不得有：
+例如：
 
 ```text
-data/kuayue/kasuga_lib/data_driven/
+packs/kuayue-preset-ss/parcels/ss3/data/kuayue/kasuga_lib/data_driven/ss3.json
+packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driven/bogeys.json
 ```
 
-正确位置：
-
-```text
-parcels/<vehicle>/data/kuayue/kasuga_lib/data_driven/<vehicle>.json
-parcels/shared/data/kuayue/kasuga_lib/data_driven/bogeys.json
-```
+车型 parcel 的 `on_register` 同时引用车体数据与自己的 `bogeys/<vehicle>.json`。基础样式及其通用 variants 留在 running-gear，依赖方向始终是车型包指向必选包。
 
 ## 13. 无物化缓存
 
@@ -366,7 +374,7 @@ parcels/shared/data/kuayue/kasuga_lib/data_driven/bogeys.json
 | 启动捕获失败 | 关闭已捕获 runtime/包根并中止启动 |
 | 外部 STRICT 内容失败 | 拒绝整包及其依赖者，独立包继续准备 |
 | 注册 claim 冲突 | 按外部全部拒绝或 protected owner 优先策略处理 |
-| corepack/runtime 严格预检失败 | 中止启动 |
+| required preset/runtime 严格预检失败 | 中止启动 |
 | apply/finalizer 失败 | 本次构建失败，无部分回滚承诺 |
 | 世界包集不兼容 | 阻止加载该世界 |
 
@@ -392,24 +400,27 @@ packs[] = { id, version, format_version }
 
 同版本内容变化、资源变化和顺序变化不会由版本号自动识别。多人服务端和客户端的一致性由部署方保证。
 
-## 16. 当前验证证据
+## 16. 当前验证入口
 
-2026-11-13 当前工作树的隔离服务端结果：
+资源与 schema 修改后至少执行：
 
-| 场景 | 结果 |
-|---|---|
-| 默认 corepack | 启动成功；`Frozen 1 ... corepack=true`；`Prepared 395 definitions across 33 pack sources and 525 registry claims`；`Applied`；`Done` |
-| 默认资源层 | 发现 `kasuga/kuayue-core-main/kuayue-core/main` 和 31 个 parcel 层 |
-| corepack 关闭 + integration-train | 启动成功；`Prepared 8 definitions across 3 pack sources and 12 registry claims`；发现 `kasuga/integration-train-parcel-validation-car/...`；`Done` |
-| integration-train ZIP | 启动成功；同样记录 8 个定义、3 个来源和 12 个 claims；`effective_packs[].source_kind=zip`；`Done` |
-| 外部包注入 `UNKNOWN_TYPE` | 先记录拒绝该包，再以 1 个 runtime source、6 个定义和 10 个 claims 成功完成 `Applied`；`startup.json` 将包标为无效且不进入 `effective_packs`；本次日志未发现该包的 `kasuga/...` 资源层 |
-| 旧 cache 目录 | `/tmp/kuayue-v2-final-core/kuayue/cache` 下文件数为 0 |
-| `PackResourceSnapshotterTest` | main/parcel 分层、rank、声明索引过滤和原目录修改后固定字节读取通过 |
+```sh
+./gradlew :modules:train-parts:generateKuaYuePresetPacks \
+  :modules:train-parts:generateKuaYueRuntimeResources --no-daemon
 
-这些数量是当前内容快照的日志证据，不是 API 常量。以下仍需独立验收：
+./gradlew :modules:train-parts:test --no-daemon
 
-- corepack 启用、禁用和重排；
-- provider 拒绝后 Approved 资源层是否必然同步移除；
-- 生产 JAR 分模块时的显式 runtime roots；
-- 客户端模型、纹理、动画和多人一致性；
-- 所有 handler 注册副作用是否都已有 claims/finalizer 映射。
+./gradlew :modules:train-parts:jar --no-daemon
+```
+
+静态检查应确认：
+
+- 10 个 `pack.json` 的目录名与 ID 一致；
+- `pack.json.parcels` 与 `parcels/*/parcel.json` 完全一致；
+- 32 个 parcel 的索引文件全部存在；
+- 所有非必选预设包依赖 `kuayue-preset-running-gear`；
+- required 包只有 running-gear；
+- `bogey_style_variants` 的 style、size、block、model 和默认样式一致；
+- 生成 JAR 的 `kuayue-packs/` 包含当前全部预设包。
+
+具体定义数、claims 数和资源层数量随内容增长而变，日志中的数字不是兼容性常量。

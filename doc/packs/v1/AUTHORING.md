@@ -8,13 +8,13 @@
 - 三段式 SemVer，例如 `1.0.0`；
 - 内容 namespace，例如 `mytrain`；
 - 每个车型一个 parcel ID，例如 `mytrain:c22`；
-- 是否依赖 `kuayue-core` 或其他直接依赖；
+- 是否依赖 `kuayue-preset-running-gear` 或其他直接依赖；
 - 需要注册的方块、物品、轨道和转向架 ID；
 - 目标 Minecraft、NeoForge、KuaYue、KasugaLib、Create 版本。
 
-车包 ID 使用 `[a-z][a-z0-9_-]*`。Minecraft namespace 使用小写字母、数字、`_`、`.`、`-`。外部包不能使用保留 ID `kuayue-core`。
+车包 ID 使用 `[a-z][a-z0-9_-]*`。Minecraft namespace 使用小写字母、数字、`_`、`.`、`-`。
 
-parcel 以单个车型为单位。车厢、机车和同一车型的变体可以放在同一个车型 parcel；多个车型共用且不属于某一车型的转向架定义、运动、模型和动画放入 `shared`。禁止创建 `parcels/carriages/`、`parcels/locomotives/` 之类的大类目录。
+parcel 以单个车型为单位。车厢、机车、同一车型的变体及其专用转向架放在同一个车型 parcel；多个车型共用且不属于某一车型的转向架定义、运动、模型和动画放入 `shared` 或明确的通用 `bogey-*` parcel。禁止创建 `parcels/carriages/`、`parcels/locomotives/` 之类的大类目录。
 
 ## 2. 建立目录
 
@@ -46,9 +46,51 @@ my-train-pack/
         └── assets/mytrain/models/block/bogey/mytrain/
 ```
 
-只有确实被多个车型共用时才建立 `shared`。只服务单一车型的资源必须留在该车型 parcel。具体转向架按类型建立 parcel，例如 `bogey-sw220k`；不要把所有转向架塞进一个 `bogey` parcel。
+只有确实被多个车型共用时才建立 `shared`。只服务单一车型的转向架不得单独拆出，应留在该车型 parcel。没有特定车型归属的通用转向架可按类型建立 `bogey-*` parcel；不要把所有通用转向架塞进一个 `bogey` parcel。
 
 仓库中的 [sample-train](../../../examples/packs/sample-train/) 是可直接加载的最小目录包。[integration-train](../../../examples/packs/integration-train/) 额外演示 blockstate、模型、语言、配方、loot table 和 tag。
+
+### 内置预设源布局
+
+内置包使用便于按所有权维护的源布局：
+
+```text
+modules/train-parts/resources/packs/<pack-id>/
+├── pack.json
+├── icon.png
+├── pack.mcmeta
+├── assets/kuayue/lang/
+└── parcels/<vehicle>/
+    ├── parcel.json
+    ├── blockstates/
+    ├── models/
+    ├── textures/
+    └── data/kuayue/
+```
+
+`preset-packs.gradle` 会把 `blockstates`、`models`、`sounds`、`textures`、`recipes`、`loots` 和 data 规范化到标准 `assets/`、`data/` 路径，并合并各 parcel 的语言和 tag。外部发布包可以直接使用标准布局，也可以复用这一源布局在发布前运行同样的生成步骤。
+
+车型专用转向架应和车型定义放在同一 parcel。跨车型基础样式由必选 `kuayue-preset-running-gear` 提供，车型 parcel 使用：
+
+```json
+{
+  "bogey_style_variants": [
+    {
+      "id": "mytrain:c22_loco",
+      "style": "kuayue:loco",
+      "variants": [
+        {
+          "size": "mytrain:c22",
+          "block": "mytrain:c22_bogey",
+          "model": "mytrain:bogey/c22"
+        }
+      ]
+    }
+  ]
+}
+```
+
+贡献目标必须可见。当前实现下，车型包应声明对 `kuayue-preset-running-gear` 的直接依赖。
 
 ## 3. 写 `pack.json`
 
@@ -69,7 +111,7 @@ my-train-pack/
       "create": "[6.0.0,7.0.0)"
     },
     "packs": {
-      "kuayue-core": "*"
+      "kuayue-preset-running-gear": "*"
     }
   },
   "parcels": [
@@ -84,7 +126,8 @@ my-train-pack/
 
 - `dependencies.mods` 必须声明全部五个宿主依赖；
 - `dependencies.packs` 只放直接且必需的依赖；
-- 只有引用默认车型或默认转向架时才依赖 `kuayue-core`；
+- 只有引用基础 Create style、共享转向架定义或运行基础资源时才依赖 `kuayue-preset-running-gear`；
+- 外部包不要声明 `required: true`；该字段只由内置 catalog 使用；
 - 车包图标固定为包根目录的 PNG 文件 `icon.png`，不在 `pack.json` 中声明；文件可选，其他位置不会参与车包图标读取；
 - `parcels` 顺序决定包内并级对同一路径的覆盖优先级，后声明者更高；
 - 未列入 `parcels` 的 parcel 不会成为该包的注册根或资源根。
@@ -199,7 +242,7 @@ assets/mytrain/lang/en_us.json
 
 ## 7. 用 `config.json` 调试
 
-建立隔离运行目录：
+可以在客户端设置页调整已安装包的下次启动选择。命令行调试时可建立隔离运行目录：
 
 ```sh
 rm -rf /tmp/kuayue-pack-dev
@@ -216,11 +259,27 @@ printf 'eula=true\n' > /tmp/kuayue-pack-dev/eula.txt
   "packs": {
     "format_version": 1,
     "enabled": {
-      "kuayue-core": true,
+      "kuayue-preset-df": false,
+      "kuayue-preset-hxd": false,
+      "kuayue-preset-ss": false,
+      "kuayue-preset-emu": false,
+      "kuayue-preset-meter-gauge": false,
+      "kuayue-preset-passenger-22": false,
+      "kuayue-preset-passenger-25": false,
+      "kuayue-preset-freight": false,
+      "kuayue-preset-industrial": false,
       "my-train-pack": true
     },
     "order": [
-      "kuayue-core",
+      "kuayue-preset-df",
+      "kuayue-preset-hxd",
+      "kuayue-preset-ss",
+      "kuayue-preset-emu",
+      "kuayue-preset-meter-gauge",
+      "kuayue-preset-passenger-22",
+      "kuayue-preset-passenger-25",
+      "kuayue-preset-freight",
+      "kuayue-preset-industrial",
       "my-train-pack"
     ],
     "inventory": []
@@ -238,7 +297,7 @@ KUAYUE_RUN_DIR=/tmp/kuayue-pack-dev \
 日志应依次出现包含以下关键词的行：
 
 ```text
-Frozen 2 effective KuaYue packs; corepack=true
+Frozen 2 effective KuaYue packs: [kuayue-preset-running-gear, my-train-pack]
 Prepared ... definitions across ... pack sources and ... registry claims
 Applied KuaYue pack registration session
 ```
@@ -293,7 +352,7 @@ my-train-pack/pack.json
 - 方块、物品、模型、纹理、语言和其他资源齐全；
 - 目录包和 ZIP 包各完成一次隔离启动；
 - `startup.json` 无阻塞诊断，目标包出现在 `effective_packs`；
-- 关闭 corepack 时，自包含包仍能启动且不引用默认车型；
+- 关闭全部非必选预设包时，自包含包仍能启动且只引用 running-gear 或自身内容；
 - 存档语义变化时更新版本或提供 `save_compatibility`；
 - 包内没有符号链接、绝对路径、运行缓存、日志或整份存档；
-- corepack 专用目录、`resources/common/models/block/bogey/**`、tracks、seat、toilet 和 provisions runtime 资源没有被误打包。
+- 内置 `resources/packs/<owner>/` 之外的历史车型目录、runtime tracks、seat、toilet 和 provisions 资源没有被误打包。

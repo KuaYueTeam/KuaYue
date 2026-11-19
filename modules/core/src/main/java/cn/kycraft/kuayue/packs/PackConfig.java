@@ -75,15 +75,17 @@ public record PackConfig(
             sortedRequired.add(id);
         }
 
-        LinkedHashMap<String, Boolean> completedEnabled = new LinkedHashMap<>(enabled);
-        sortedBuiltIn.forEach(id -> completedEnabled.putIfAbsent(id, true));
-        sortedRequired.forEach(id -> completedEnabled.put(id, true));
+        PackConfig configured = withoutRequired(sortedRequired);
+        LinkedHashMap<String, Boolean> completedEnabled =
+                new LinkedHashMap<>(configured.enabled());
+        sortedBuiltIn.stream()
+                .filter(id -> !sortedRequired.contains(id))
+                .forEach(id -> completedEnabled.putIfAbsent(id, true));
 
-        LinkedHashSet<String> completedOrder = new LinkedHashSet<>(sortedRequired);
-        order.stream()
+        LinkedHashSet<String> completedOrder = new LinkedHashSet<>(configured.order());
+        sortedBuiltIn.stream()
                 .filter(id -> !sortedRequired.contains(id))
                 .forEach(completedOrder::add);
-        completedOrder.addAll(sortedBuiltIn);
         completedOrder.addAll(sortedInstalled);
 
         TreeSet<String> externalOnly = new TreeSet<>(sortedInstalled);
@@ -128,6 +130,25 @@ public record PackConfig(
 
     public boolean isRequestedEnabled(String id) {
         return enabled.getOrDefault(id, false);
+    }
+
+    /**
+     * Returns the persisted configuration without entries managed by the pack catalog.
+     */
+    PackConfig withoutRequired(Set<String> requiredIds) {
+        Objects.requireNonNull(requiredIds, "requiredIds");
+        LinkedHashMap<String, Boolean> configuredEnabled = new LinkedHashMap<>();
+        enabled.forEach((id, value) -> {
+            if (!requiredIds.contains(id)) {
+                configuredEnabled.put(id, value);
+            }
+        });
+        return new PackConfig(
+                formatVersion,
+                configuredEnabled,
+                order.stream().filter(id -> !requiredIds.contains(id)).toList(),
+                inventory
+        );
     }
 
     private static List<String> immutableIds(List<String> values, String name) {

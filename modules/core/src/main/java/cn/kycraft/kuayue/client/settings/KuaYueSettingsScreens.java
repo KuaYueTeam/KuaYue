@@ -3,11 +3,15 @@ package cn.kycraft.kuayue.client.settings;
 import cn.kycraft.kuayue.packs.KuaYueSettingsService;
 import cn.kycraft.kuayue.packs.PackIcon;
 import cn.kycraft.kuayue.packs.PackDiagnostic;
+import cn.kycraft.kuayue.packs.PackDisplayText;
 import cn.kycraft.kuayue.packs.PackInstallationStatus;
 import cn.kycraft.kuayue.packs.PackLimits;
 import cn.kycraft.kuayue.packs.PackManifest;
 import cn.kycraft.kuayue.packs.PackSelectionDraft;
+import cn.kycraft.kuayue.packs.PackDependencyCheck;
 import cn.kycraft.kuayue.packs.ParcelManifest;
+import cn.kycraft.kuayue.packs.VersionComparator;
+import cn.kycraft.kuayue.packs.VersionRange;
 import cn.kycraft.kuayue.packs.bootstrap.KuaYuePackBootstrap;
 import cn.kycraft.kuayue.packs.bootstrap.StartupPackSnapshot;
 import com.lowdragmc.lowdraglib2.gui.texture.IGuiTexture;
@@ -42,11 +46,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.apache.maven.artifact.versioning.ComparableVersion;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -78,6 +84,10 @@ public final class KuaYueSettingsScreens {
     private static final IGuiTexture TRANSPARENT = new ColorRectTexture(0x00000000);
     private static final IGuiTexture PANEL_BACKGROUND = new ColorRectTexture(0x78000000);
     private static final int ICON_HOVER_COLOR = 0xA0909090;
+    private static final VersionComparator MOD_VERSION_COMPARATOR =
+            (left, right) -> new ComparableVersion(left).compareTo(new ComparableVersion(right));
+    private static final IGuiTexture MISSING_DEPENDENCY_BARRIER =
+            new ItemStackTexture(new ItemStack(Items.BARRIER));
     private static final IGuiTexture SELECTED_ROW_FILL =
             new ColorRectTexture(0xFF000000);
     private static final IGuiTexture SELECTED_ROW_BORDER =
@@ -278,7 +288,7 @@ public final class KuaYueSettingsScreens {
 
             UIElement columns = new UIElement()
                     .layout(layout -> layout.flex(1).widthPercent(100)
-                            .paddingLeftPercent(8).paddingRightPercent(8)
+                            .paddingLeftPercent(5).paddingRightPercent(5)
                             .flexDirection(FlexDirection.ROW).gapAllPercent(5));
             available = list();
             selected = list();
@@ -307,7 +317,11 @@ public final class KuaYueSettingsScreens {
             apply.textStyle(style -> style.font(DEFAULT_FONT).fontSize(9f));
             cancel.textStyle(style -> style.font(DEFAULT_FONT).fontSize(9f));
             apply.setActive(session != null && draft != null);
-            footer.addChildren(
+            UIElement footerActions = new UIElement()
+                    .layout(layout -> layout.widthPercent(80).height(14)
+                            .flexDirection(FlexDirection.ROW).gapAll(12)
+                            .alignItems(AlignItems.CENTER));
+            footerActions.addChildren(
                     openFolder.setOnClick(event -> openPacksFolder())
                             .layout(layout -> layout.flex(1).height(14)),
                     apply.setOnClick(event -> save())
@@ -316,6 +330,7 @@ public final class KuaYueSettingsScreens {
                             MainScreenAccess.open(snapshot, parent)))
                             .layout(layout -> layout.flex(1).height(14))
             );
+            footer.addChild(footerActions);
             root.addChildren(heading, columns, error, footer);
             rebuildLists();
         }
@@ -427,6 +442,34 @@ public final class KuaYueSettingsScreens {
             String description = "";
             var displayText = snapshot.packDisplayText(id);
             String language = Minecraft.getInstance().getLanguageManager().getSelected();
+            Set<String> enabledIds = Set.copyOf(draft.selectedIds());
+            boolean locked = draft.isLocked(id);
+            Set<String> enabledDependents = enabled && !locked
+                    ? PackDependencyCheck.enabledDependents(
+                            id,
+                            session.knownManifests(),
+                            enabledIds
+                    )
+                    : Set.of();
+            List<String> dependentIds = draft.selectedIdsByPriority().stream()
+                    .filter(enabledDependents::contains)
+                    .toList();
+            List<Component> dependentTooltip = dependentIds.isEmpty()
+                    ? List.of()
+                    : dependentTooltip(dependentIds, language);
+            PackDependencyCheck.Result dependencyCheck = enabled
+                    ? new PackDependencyCheck.Result(List.of(), List.of())
+                    : PackDependencyCheck.check(
+                            manifest,
+                            session.knownManifests(),
+                            enabledIds,
+                            snapshot.report().environment(),
+                            MOD_VERSION_COMPARATOR
+                    );
+            boolean missingDependencies = !dependencyCheck.satisfied();
+            List<Component> missingDependencyTooltip = missingDependencies
+                    ? dependencyTooltip(dependencyCheck, language)
+                    : List.of();
             if (displayText != null) {
                 String localizedName = displayText.name(language);
                 String localizedDescription = displayText.description(language);
@@ -469,7 +512,10 @@ public final class KuaYueSettingsScreens {
                     0xFFB0B0B0,
                     Horizontal.LEFT
             );
-            detailLabel.textStyle(style -> style.textWrap(TextWrap.WRAP).lineSpacing(1f));
+            detailLabel.textStyle(style -> style
+                    .textWrap(TextWrap.WRAP)
+                    .lineSpacing(1f)
+                    .textAlignVertical(Vertical.TOP));
             detailLabel.style(style -> style.overflowVisible(false));
             detailLabel.layout(layout -> layout.widthPercent(100).height(18));
             UIElement textBlock = new UIElement()
@@ -478,10 +524,8 @@ public final class KuaYueSettingsScreens {
             textBlock.addChildren(nameLabel, detailLabel);
 
             boolean rowSelected = id.equals(selectedPackId);
-            List<String> selectedIds = enabled ? draft.selectedIdsByPriority() : List.of();
-            int priorityIndex = selectedIds.indexOf(id);
-            boolean canMoveUp = priorityIndex > 0;
-            boolean canMoveDown = priorityIndex >= 0 && priorityIndex < selectedIds.size() - 1;
+            boolean canMoveUp = !locked && draft.canMoveByPriority(id, -1);
+            boolean canMoveDown = !locked && draft.canMoveByPriority(id, 1);
             IGuiTexture normalIcon = packIcon(id, manifest);
             IGuiTexture renderedIcon =
                     (graphics, mouseX, mouseY, x, y, width, height, partialTicks) -> {
@@ -492,7 +536,19 @@ public final class KuaYueSettingsScreens {
 
                         boolean iconHovered = isInside(
                                 mouseX, mouseY, x, y, width, height);
-                        if (rowSelected || iconHovered) {
+                        boolean hoverActive = iconHovered && !locked;
+                        if (missingDependencies) {
+                            graphics.fill(
+                                    Math.round(x),
+                                    Math.round(y),
+                                    Math.round(x + width),
+                                    Math.round(y + height),
+                                    0xA0000000
+                            );
+                            graphics.flush();
+                        }
+
+                        if (rowSelected || hoverActive) {
                             graphics.fill(
                                     Math.round(x),
                                     Math.round(y),
@@ -503,7 +559,7 @@ public final class KuaYueSettingsScreens {
                             graphics.flush();
                         }
 
-                        if (iconHovered) {
+                        if (hoverActive) {
                             if (enabled) {
                                 ResourceLocation unselect = mouseX < x + 18
                                         ? UNSELECT_HIGHLIGHTED_SPRITE
@@ -531,7 +587,7 @@ public final class KuaYueSettingsScreens {
                                             y
                                     );
                                 }
-                            } else {
+                            } else if (!missingDependencies) {
                                 drawIconSprite(graphics, SELECT_HIGHLIGHTED_SPRITE, x, y);
                             }
                         }
@@ -547,15 +603,36 @@ public final class KuaYueSettingsScreens {
                                     y
                             );
                         }
+
+                        if (missingDependencies) {
+                            float barrierSize = 18f;
+                            MISSING_DEPENDENCY_BARRIER.draw(
+                                    graphics,
+                                    mouseX,
+                                    mouseY,
+                                    x + (width - barrierSize) / 2f,
+                                    y + (height - barrierSize) / 2f,
+                                    barrierSize,
+                                    barrierSize,
+                                    partialTicks
+                            );
+                        }
                     };
             UIElement icon = new UIElement()
                     .style(style -> style.backgroundTexture(renderedIcon))
                     .layout(layout -> layout.width(36).height(36));
 
             if (enabled) {
-                Button unselect = iconButton(() -> draft.remove(id));
-                unselect.layout(layout -> layout.left(0).top(0).width(18).height(36));
-                icon.addChild(unselect);
+                if (!locked) {
+                    Button unselect = iconButton(() ->
+                            draft.removeWithEnabledDependents(id, session.knownManifests()));
+                    if (!dependentTooltip.isEmpty()) {
+                        unselect.style(style ->
+                                style.tooltips(dependentTooltip.toArray(Component[]::new)));
+                    }
+                    unselect.layout(layout -> layout.left(0).top(0).width(18).height(36));
+                    icon.addChild(unselect);
+                }
 
                 if (canMoveUp) {
                     Button up = iconButton(() -> draft.moveByPriority(id, -1));
@@ -569,14 +646,19 @@ public final class KuaYueSettingsScreens {
                     icon.addChild(down);
                     bindMoveHint(down, id, 1);
                 }
-            } else {
+            } else if (!missingDependencies) {
                 Button select = iconButton(() -> draft.add(id));
                 select.layout(layout -> layout.left(0).top(0).width(36).height(36));
                 icon.addChild(select);
             }
             UIElement row = new UIElement()
-                    .style(style -> style.backgroundTexture(
-                            rowSelected ? SELECTED_ROW_FILL : TRANSPARENT))
+                    .style(style -> {
+                        style.backgroundTexture(
+                                rowSelected ? SELECTED_ROW_FILL : TRANSPARENT);
+                        if (!missingDependencyTooltip.isEmpty()) {
+                            style.tooltips(missingDependencyTooltip.toArray(Component[]::new));
+                        }
+                    })
                     .layout(layout -> layout.widthPercent(100).height(36)
                             .flexDirection(FlexDirection.ROW).gapAll(2)
                             .alignItems(AlignItems.CENTER));
@@ -632,6 +714,65 @@ public final class KuaYueSettingsScreens {
             private boolean targetUp() {
                 return direction > 0;
             }
+        }
+
+        private List<Component> dependentTooltip(List<String> packIds, String language) {
+            List<Component> lines = new ArrayList<>();
+            lines.add(Component.translatable(
+                    "kuayue.settings.dependencies.enabled_dependents"));
+            for (String packId : packIds) {
+                lines.add(Component.literal(packDisplayName(packId, language)));
+            }
+            return List.copyOf(lines);
+        }
+
+        private List<Component> dependencyTooltip(
+                PackDependencyCheck.Result result,
+                String language
+        ) {
+            List<Component> lines = new ArrayList<>();
+            lines.add(Component.translatable("kuayue.settings.dependencies.missing"));
+            for (PackDependencyCheck.MissingDependency dependency : result.missingPacks()) {
+                lines.add(Component.translatable(
+                        "kuayue.settings.dependencies.pack",
+                        packDisplayName(dependency.id(), language),
+                        versionRequirement(dependency.requirement())
+                ));
+            }
+            for (PackDependencyCheck.MissingDependency dependency : result.missingMods()) {
+                lines.add(Component.translatable(
+                        "kuayue.settings.dependencies.mod",
+                        dependency.id(),
+                        versionRequirement(dependency.requirement())
+                ));
+            }
+            return List.copyOf(lines);
+        }
+
+        private static String versionRequirement(VersionRange range) {
+            return switch (range.kind()) {
+                case WILDCARD -> "*";
+                case EXACT -> "=" + range.lower();
+                case HALF_OPEN -> ">=" + range.lower() + ", <" + range.upper();
+            };
+        }
+
+        private String packDisplayName(String packId, String language) {
+            PackDisplayText displayText = snapshot.packDisplayText(packId);
+            if (displayText != null) {
+                String localized = displayText.name(language);
+                if (localized != null) {
+                    return localized;
+                }
+            }
+            PackManifest manifest = session.knownManifests().get(packId);
+            if (manifest != null) {
+                String translated = Component.translatable(manifest.nameKey()).getString();
+                if (!manifest.nameKey().equals(translated)) {
+                    return translated;
+                }
+            }
+            return packId;
         }
 
         private Button iconButton(Runnable action) {

@@ -54,6 +54,12 @@
         "$ref": "#/$defs/bogeyStyle"
       }
     },
+    "bogey_style_variants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/bogeyStyleContribution"
+      }
+    },
     "tracks": {
       "type": "array",
       "items": {
@@ -480,7 +486,13 @@
         "wide": {
           "type": "integer"
         },
+        "begin_x": {
+          "type": "integer"
+        },
         "begin_y": {
+          "type": "integer"
+        },
+        "end_x": {
           "type": "integer"
         },
         "end_y": {
@@ -791,6 +803,7 @@
             "train_panel",
             "slab",
             "slab_top",
+            "height_slab",
             "ladder",
             "train_small_window",
             "train_openable_window",
@@ -807,6 +820,14 @@
             "double_rotate_door",
             "freight_end_face",
             "meter_carriage_end_face",
+            "full_shape_directional",
+            "hxd3d_cowcatcher",
+            "single_arm_pantograph",
+            "head",
+            "chimney",
+            "df5_chimney",
+            "train_door",
+            "jy290_ac",
             "diet_box",
             "drink",
             "placement_food",
@@ -931,6 +952,31 @@
             "properties": {
               "type": {
                 "const": "air_vent"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/emptyParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "height_slab",
+                  "full_shape_directional",
+                  "hxd3d_cowcatcher",
+                  "single_arm_pantograph",
+                  "head",
+                  "chimney",
+                  "df5_chimney",
+                  "jy290_ac"
+                ]
               }
             }
           },
@@ -1149,6 +1195,22 @@
             "properties": {
               "params": {
                 "$ref": "#/$defs/meterCarriageEndFaceParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "train_door"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/panelBoundsParams"
               }
             }
           }
@@ -1557,7 +1619,6 @@
         },
         "variants": {
           "type": "array",
-          "minItems": 1,
           "items": {
             "$ref": "#/$defs/bogeyStyleVariant"
           }
@@ -1567,6 +1628,30 @@
         "id",
         "cycle_group",
         "translation_key",
+        "variants"
+      ],
+      "additionalProperties": false
+    },
+    "bogeyStyleContribution": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "style": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "variants": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/bogeyStyleVariant"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "style",
         "variants"
       ],
       "additionalProperties": false

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://kuayue.example/schemas/data-driven/v1/bogeys.schema.json",
   "title": "转向架复合内容文件",
-  "description": "当前 bogeys.json 在同一文件内包含 bogey_sizes、bogey_blocks、bogey_styles。",
+  "description": "转向架复合内容文件，可按阶段组合 sizes、motions、models、blocks、styles 与跨包 style variants。",
   "type": "object",
   "properties": {
     "bogey_sizes": {
@@ -17,10 +17,28 @@
         "$ref": "content.schema.json#/$defs/bogeyBlock"
       }
     },
+    "bogey_motions": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/bogeyMotion"
+      }
+    },
+    "bogey_models": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/bogeyModel"
+      }
+    },
     "bogey_styles": {
       "type": "array",
       "items": {
         "$ref": "content.schema.json#/$defs/bogeyStyle"
+      }
+    },
+    "bogey_style_variants": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/bogeyStyleContribution"
       }
     }
   },

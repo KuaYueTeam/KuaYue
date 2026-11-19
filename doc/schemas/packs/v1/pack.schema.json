@@ -1,17 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://kuayue.example/schemas/packs/v1/pack.schema.json",
-  "title": "KuaYue external pack manifest",
+  "title": "KuaYue pack manifest",
   "type": "object",
   "additionalProperties": false,
   "required": ["format_version", "id", "version", "namespaces", "name_key", "dependencies", "parcels"],
   "properties": {
     "format_version": {"const": 1},
-    "id": {
-      "type": "string",
-      "pattern": "^[a-z][a-z0-9_-]*$",
-      "not": {"const": "kuayue-core"}
-    },
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]*$"},
     "version": {"type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"},
     "namespaces": {
       "type": "array",
@@ -21,6 +17,11 @@
     },
     "name_key": {"type": "string", "minLength": 1},
     "description_key": {"type": "string", "minLength": 1},
+    "required": {
+      "type": "boolean",
+      "default": false,
+      "description": "内置预设包是否锁定为启用且不可移除。外部安装包不得设为 true。"
+    },
     "dependencies": {
       "type": "object",
       "additionalProperties": false,

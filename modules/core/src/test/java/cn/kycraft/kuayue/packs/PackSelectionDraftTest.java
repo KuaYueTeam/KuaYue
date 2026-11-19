@@ -33,8 +33,8 @@ class PackSelectionDraftTest {
     void requiredPackCannotBeRemovedOrMoved() {
         PackConfig baseline = new PackConfig(
                 PackConfig.FORMAT_VERSION,
-                Map.of("base", true, "alpha", true),
-                List.of("base", "alpha"),
+                Map.of("alpha", true),
+                List.of("alpha"),
                 List.of()
         );
         PackSelectionDraft draft = new PackSelectionDraft(
@@ -48,7 +48,30 @@ class PackSelectionDraftTest {
         draft.moveByPriority("base", 1);
 
         assertEquals(List.of("base", "alpha"), draft.selectedIds());
-        assertEquals(baseline, draft.toConfig());
+        assertEquals(Map.of("alpha", true), draft.toConfig().enabled());
+        assertEquals(List.of("alpha"), draft.toConfig().order());
+        assertFalse(draft.toConfig().enabled().containsKey("base"));
+    }
+
+    @Test
+    void requiredPackIsSelectedWhileIgnoringItsPersistedEntries() {
+        PackConfig baseline = new PackConfig(
+                PackConfig.FORMAT_VERSION,
+                Map.of("base", false, "alpha", true),
+                List.of("base", "alpha"),
+                List.of()
+        );
+        PackSelectionDraft draft = new PackSelectionDraft(
+                baseline,
+                Set.of("base", "alpha"),
+                Set.of("alpha"),
+                Set.of("base")
+        );
+
+        assertEquals(List.of("base", "alpha"), draft.selectedIds());
+        assertEquals(List.of("alpha", "base"), draft.selectedIdsByPriority());
+        assertEquals(Map.of("alpha", true), draft.toConfig().enabled());
+        assertEquals(List.of("alpha"), draft.toConfig().order());
     }
 
     @Test
@@ -138,5 +161,36 @@ class PackSelectionDraftTest {
                 List.of("base", "alpha", "beta"),
                 draft.selectedIdsByPriority()
         );
+    }
+
+    @Test
+    void requiredPackCannotBeCrossedOrMoved() {
+        PackConfig baseline = new PackConfig(
+                PackConfig.FORMAT_VERSION,
+                Map.of("bottom", true, "middle", true, "top", true),
+                List.of("bottom", "middle", "top"),
+                List.of()
+        );
+        PackSelectionDraft draft = new PackSelectionDraft(
+                baseline,
+                Set.of("bottom", "required", "middle", "top"),
+                Set.of("bottom", "required", "middle", "top"),
+                Set.of("required")
+        );
+
+        assertEquals(
+                List.of("top", "middle", "bottom", "required"),
+                draft.selectedIdsByPriority()
+        );
+        assertFalse(draft.canMoveByPriority("bottom", 1));
+        assertFalse(draft.canMoveByPriority("top", -1));
+        assertFalse(draft.canMoveByPriority("required", 1));
+        assertTrue(draft.canMoveByPriority("top", 1));
+        assertTrue(draft.canMoveByPriority("middle", -1));
+
+        List<String> before = draft.selectedIdsByPriority();
+        draft.moveByPriority("bottom", 1);
+        draft.moveByPriority("required", -1);
+        assertEquals(before, draft.selectedIdsByPriority());
     }
 }

@@ -31,16 +31,18 @@ class PackConfigTest {
                 Set.of("zeta-pack", "alpha-pack"),
                 Set.of("running-gear", "passenger"),
                 Set.of("running-gear"));
-        assertEquals(Map.of("running-gear", true, "passenger", true),
+        assertEquals(Map.of("passenger", true),
                 completion.config().enabled());
-        assertEquals(List.of("running-gear", "passenger", "alpha-pack", "zeta-pack"),
+        assertEquals(List.of("passenger", "alpha-pack", "zeta-pack"),
                 completion.config().order());
         assertEquals(List.of("alpha-pack", "zeta-pack"), completion.config().inventory());
+        assertFalse(completion.config().enabled().containsKey("running-gear"));
+        assertFalse(completion.config().order().contains("running-gear"));
         assertFalse(completion.config().enabled().containsKey("alpha-pack"));
     }
 
     @Test
-    void preservesExplicitSwitchesAndUnknownFieldsWhenSaving() throws IOException {
+    void ignoresRequiredEntriesAndPreservesOtherConfigWhenSaving() throws IOException {
         Path path = temporaryDirectory.resolve("kuayue/config.json");
         Files.createDirectories(path.getParent());
         Files.writeString(path, """
@@ -52,7 +54,7 @@ class PackConfigTest {
                       "running-gear": false,
                       "zeta-pack": true
                     },
-                    "order": ["zeta-pack", "zeta-pack", "unknown-pack"],
+                    "order": ["zeta-pack", "running-gear", "zeta-pack", "unknown-pack"],
                     "inventory": ["zeta-pack"]
                   }
                 }
@@ -65,10 +67,10 @@ class PackConfigTest {
                         Set.of("alpha-pack", "zeta-pack"),
                         Set.of("running-gear", "passenger"),
                         Set.of("running-gear"));
-        assertEquals(Boolean.TRUE, completion.config().enabled().get("running-gear"));
         assertEquals(Boolean.TRUE, completion.config().enabled().get("passenger"));
         assertEquals(Boolean.TRUE, completion.config().enabled().get("zeta-pack"));
-        assertEquals(List.of("running-gear", "zeta-pack", "unknown-pack", "passenger", "alpha-pack"),
+        assertFalse(completion.config().enabled().containsKey("running-gear"));
+        assertEquals(List.of("zeta-pack", "unknown-pack", "passenger", "alpha-pack"),
                 completion.config().order());
 
         PackConfigStore.write(path, loaded.document().withConfig(completion.config()));

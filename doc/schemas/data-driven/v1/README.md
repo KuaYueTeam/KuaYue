@@ -17,7 +17,8 @@
 | 只含 `bogey_models` | `bogey-models.schema.json` |
 | 只含 `bogey_blocks` | `bogey-blocks.schema.json` |
 | 只含 `bogey_styles` | `bogey-styles.schema.json` |
-| 同文件含 `bogey_sizes`、`bogey_blocks`、`bogey_styles` | `bogeys.schema.json` |
+| 只含 `bogey_style_variants` | `bogey-style-variants.schema.json` |
+| 同文件组合多个 `bogey_*` 类型 | `bogeys.schema.json` |
 | 含 `registry_groups` 与 `tracks` | `tracks.schema.json` |
 | provisions 内容包 | `provisions.schema.json` |
 | `on_reload` 指向的动画剪辑 | `animation-clips.schema.json` |
@@ -37,6 +38,7 @@
 | `bogey_models` | 注册期，阶段 30 | `BogeyModelTypeHandler` | `BogeyModelDefinition` |
 | `bogey_blocks` | 注册期，阶段 40 | `BogeyBlockTypeHandler` | `BogeyBlockDefinition` |
 | `bogey_styles` | 注册期，阶段 50 | `BogeyStyleTypeHandler` | `BogeyStyleDefinition` |
+| `bogey_style_variants` | 注册期，阶段 51 | `BogeyStyleVariantsTypeHandler` | `BogeyStyleVariantsDefinition` |
 | `tracks` | 注册期，内容阶段 | `TrackTypeHandler` | `TrackDefinitionParser`、`TrackDefinition` |
 | `animation_clips` | reload 期 | `FsmClipsReloadHandler`、`AnimationClipLoader` | `AnimationClip` |
 
@@ -44,7 +46,7 @@
 
 ## 3. 索引与发现
 
-内置 corepack、外部车包和 runtime source 都使用同一索引布局：
+内置预设包、外部车包和 runtime source 都使用同一索引布局：
 
 ```text
 data/<namespace>/kasuga_lib/data_driven/
@@ -72,14 +74,15 @@ data/<namespace>/kasuga_lib/data_driven/
 - `animation_clips/` 没有目录 glob，必须显式列入 `on_reload`；
 - KasugaLib 支持 `state_machines/` glob，但 KuaYue 当前没有对应数据，因此不维护 KuaYue 专用状态机 Schema。
 
-在 corepack 中，索引必须位于具体 parcel，例如：
+内置预设包中，数据驱动索引位于具体 parcel，例如：
 
 ```text
-parcels/c22/data/kuayue/kasuga_lib/data_driven/c22.json
-parcels/shared/data/kuayue/kasuga_lib/data_driven/bogeys.json
+packs/kuayue-preset-passenger-22/parcels/c22/data/kuayue/kasuga_lib/data_driven/c22.json
+packs/kuayue-preset-ss/parcels/ss3/data/kuayue/kasuga_lib/data_driven/ss3.json
+packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driven/bogeys.json
 ```
 
-corepack 根的 `data/kuayue/kasuga_lib/data_driven/` 是错误结构。
+车型注册入口由车型 parcel 声明；`shared` 只保留跨车型共用的运行数据。外部包仍可遵循同一 parcel 布局。
 
 ## 4. 注册组、方块和物品
 
@@ -113,17 +116,19 @@ corepack 根的 `data/kuayue/kasuga_lib/data_driven/` 是错误结构。
 | factory | `params` |
 |---|---|
 | `train_panel`、`train_hinge_panel`、`level_panel` | 可选 `begin_x`、`begin_y`、`end_x`、`end_y`；用于自定义平面范围 |
-| `slab`、`slab_top`、`air_vent`、`skirt`、`level_window`、`train_unopenable_small_window` | 无字段 |
+| `slab`、`slab_top`、`height_slab`、`air_vent`、`skirt`、`level_window`、`train_unopenable_small_window` | 无字段 |
 | `ladder` | 可选 `is_meter` |
 | `train_small_window` | 可选 `height` |
 | `train_openable_window` | 旧式 `wide`，或 `left`、`right`、`height` 组合；后者出现时优先 |
-| `train_unopenable_window` | 可选 `wide`、`begin_y`、`end_y` |
+| `train_unopenable_window` | 可选 `wide`、`begin_x`、`end_x`、`begin_y`、`end_y` |
 | `hinge_slab` | 可选 `is_carport`、`width` |
 | `custom_rendered_door` | 必须提供 `params`，其中必填 `left_models`、`right_models`；可选 `offset`、`open_offset`、`render_shape`、`is_slide_door` |
 | `custom_rendered_end_face` | 可选 `door_type`、`left_model`、`right_model`、`frame_model` |
 | `double_rotate_door` | 可选 `door_type`、`left_model`、`right_model`、`frame_model` |
 | `freight_end_face` | 可选 `freight_type`：`c70` 或 `nx70`，缺省为 `c70` |
 | `meter_carriage_end_face` | 可选 `door_type`、`outside`、`left_model`、`right_model`、`frame_model` |
+| `full_shape_directional`、`hxd3d_cowcatcher`、`single_arm_pantograph`、`head`、`chimney`、`df5_chimney`、`jy290_ac` | 无字段 |
+| `train_door` | 可选 `begin_x`、`begin_y`、`end_x`、`end_y` |
 | `diet_box` | 可选 `food_type`、`has_tooltip`、`remainder` |
 | `drink` | 可选 `food_type`、`drink`、`has_particle`、`remainder` |
 | `placement_food`、`dried_noodles` | 可选 `food_type`、`has_tooltip` |
@@ -146,7 +151,7 @@ corepack 根的 `data/kuayue/kasuga_lib/data_driven/` 是错误结构。
 
 `block_entity` 结构为 `{"type": "...", "params": {...}}`。当前 KuaYue 没有注册可供 JSON 使用的 block entity factory，因此 Schema 可以检查形状，实际声明仍会被严格预检拒绝。`state_properties` 同理：当前 KuaYue factory 没有实现 `StatefulBlockFactory`。
 
-## 5. 转向架
+## 5. 转向架与跨包样式贡献
 
 转向架定义按依赖阶段拆分：
 
@@ -154,21 +159,59 @@ corepack 根的 `data/kuayue/kasuga_lib/data_driven/` 是错误结构。
 2. `bogey_motions` 定义 `wheel_spin`、`rod_rotation` 或 `formula` 运动；
 3. `bogey_models` 组合模型部件、局部变换和运动引用；
 4. `bogey_blocks` 关联 size、默认 style、物理参数和方块属性；
-5. `bogey_styles` 通过 variants 把 size、block、model 组合成 Create 样式。
+5. `bogey_styles` 通过 variants 把 size、block、model 组合成 Create 样式；
+6. `bogey_style_variants` 从车型包向已有 style 追加 variants。
 
 重要约束：
 
 - `formula` motion 必须有 `clip`，其他 motion 不允许 `clip`；
 - model 每个 `local` 操作对象只能含 `translate`、`rotate`、`scale` 之一；
 - block 的 `physics.wheel_point_spacing` 必须存在且为正；
-- 每个 block 必须出现在一个 style variant 中，且只能出现一次；
+- 每个 block 必须出现在一个 style variant 或 style contribution 中，且只能出现一次；
 - variant 的 size 必须与 block 的 size 一致；
 - block 的 `default_style` 必须指向包含它的 style；
-- 引用存在性、ID 唯一性和上述交叉约束由 Java 严格预检执行。
+- `bogey_styles[].variants` 可以为空，用作只提供样式壳的基础 definition；
+- style contribution 的 `variants` 不能为空，贡献 ID 在整个注册集合中必须唯一；
+- 同一目标 style 内，size 和 block 不能同时由基础 variants 与 contribution 重复提供。
+
+车型包向基础包样式追加 variants 的示例：
+
+```json
+{
+  "bogey_style_variants": [
+    {
+      "id": "mytrain:df11g_loco",
+      "style": "kuayue:loco",
+      "variants": [
+        {
+          "size": "mytrain:df11g",
+          "block": "mytrain:df11g_bogey",
+          "model": "mytrain:bogey/df11g"
+        }
+      ]
+    }
+  ]
+}
+```
+
+贡献包必须通过 `pack.json.dependencies.packs` 依赖 style 所有者的包。当前内置车型包都依赖必选的 `kuayue-preset-running-gear`。引用存在性、ID 唯一性和上述交叉约束由 Java 严格预检执行。
 
 所有 registry ID、registry group、尺寸、转向架、模型、motion、clip 和轨道模型引用都必须写成显式 `namespace:path`。Schema 和 Java parser 都会拒绝裸 ID，避免 claim 使用宿主 namespace 而 apply 落到 `minecraft:`。
 
-KuaYue 的 `bogeys.json` 只包含 sizes、blocks、styles；motions 和 models 位于独立文件，但由同一个 corepack `shared` 索引引用。
+当前资源按所有权拆成多种组合：
+
+```text
+running-gear/shared:
+  sizes + blocks + styles + 通用 style variants
+
+running-gear/bogey-*:
+  具体通用转向架的 blockstate、模型、贴图和语言
+
+车型 parcel:
+  sizes + blocks + models + 车型 style variants
+```
+
+因此不能再用单一 `bogeys.json` 路径判断转向架内容是否完整。查看对应 parcel 的 `indexes` 与 `on_register` 引用。
 
 ## 6. 轨道
 
@@ -274,7 +317,7 @@ Schema 主动拒绝未知字段，适合让拼写错误在提交前失败。以�
 
 - factory 是否在当前客户端/服务端注册；
 - `registry_group`、bogey size/model/block/style 等跨文件引用是否存在；
-- 同一 ID 是否与 corepack、runtime 或其他包冲突；
+- 同一 ID 是否与必选预设包、runtime 或其他包冲突；
 - `state_properties` 是否被目标 factory 支持；
 - 状态组合是否超过运行时上限；
 - 轨道 sleeper、bogey 默认方块等注册对象是否真的可见；

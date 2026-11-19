@@ -31,17 +31,15 @@ public final class KuaYueSettingsService {
             return new LoadResult(null, loaded.diagnostics());
         }
         Set<String> known = Set.copyOf(knownManifests.keySet());
-        Set<String> required = Set.copyOf(knownManifests.entrySet().stream()
-                .filter(entry -> entry.getValue().required())
-                .map(Map.Entry::getKey)
-                .toList());
+        Set<String> required = requiredIds(knownManifests);
         Set<String> selectable = Set.copyOf(knownManifests.entrySet().stream()
                 .filter(entry -> entry.getValue().formatVersion() == PackManifest.FORMAT_VERSION)
                 .filter(entry -> !entry.getValue().required())
                 .map(Map.Entry::getKey)
                 .toList());
+        PackConfig baseline = loaded.document().config().withoutRequired(required);
         PackSelectionDraft draft = new PackSelectionDraft(
-                loaded.document().config(),
+                baseline,
                 known,
                 selectable,
                 required
@@ -49,7 +47,7 @@ public final class KuaYueSettingsService {
         try {
             return new LoadResult(
                     new EditSession(
-                            loaded.document().config(),
+                            baseline,
                             currentRevision(),
                             knownManifests,
                             draft
@@ -88,8 +86,10 @@ public final class KuaYueSettingsService {
         try {
             String current = currentRevision();
             PackConfigStore.LoadResult fresh = PackConfigStore.load(configPath, limits);
+            Set<String> required = requiredIds(session.knownManifests());
+            PackConfig freshConfig = fresh.document().config().withoutRequired(required);
             if (fresh.hasBlockingErrors()
-                    || !fresh.document().config().equals(session.baseline())
+                    || !freshConfig.equals(session.baseline())
                     || !currentRevision().equals(current)) {
                 return SaveResult.failed(
                         SavePhase.PRE_COMMIT,
@@ -98,7 +98,8 @@ public final class KuaYueSettingsService {
                 );
             }
             PackConfig next = draft.toConfig();
-            if (next.equals(session.baseline())) {
+            if (next.equals(freshConfig)
+                    && next.equals(fresh.document().config())) {
                 return new SaveResult(SavePhase.SAVED, current, null);
             }
             PackConfigDocument document = fresh.document().withConfig(next);
@@ -154,6 +155,13 @@ public final class KuaYueSettingsService {
         } catch (NoSuchAlgorithmException impossible) {
             throw new IllegalStateException(impossible);
         }
+    }
+
+    private static Set<String> requiredIds(Map<String, PackManifest> manifests) {
+        return manifests.entrySet().stream()
+                .filter(entry -> entry.getValue().required())
+                .map(Map.Entry::getKey)
+                .collect(java.util.stream.Collectors.toUnmodifiableSet());
     }
 
     public record EditSession(

@@ -6,7 +6,7 @@
 
 parcel 是包内车型组织单位，拥有自己的 ID、名称键、可选图标和 KasugaLib 索引列表。新车型和外部车包必须按单个车型划分 parcel，例如 `c22`、`cr200j`、`df11`、`ss8` 或 `c70`。同一车型的车厢、机车或变体可以进入同一 parcel，但不能按“所有车厢”“所有机车”建立大类 parcel。多个车型真正共用的定义放在名为 `shared` 的 parcel。
 
-目录包、ZIP 包和内置 `kuayue-core` 最终都转换为同一组逻辑输入：
+目录包、ZIP 包和内置 `kuayue-preset-*` 预设包最终都转换为同一组逻辑输入：
 
 ```text
 一个 main 根
@@ -47,18 +47,18 @@ ZIP 的 `pack.json` 必须直接位于压缩包根，不能多套一层 `<name>/
 
 ## 3. `config.json`
 
-游戏内管理界面尚未实现，因此配置文件的 `packs` 子域是当前调试和部署入口。完整形状：
+游戏内设置页提供预设包选择与优先级调整；`config.json` 仍是可审计的持久化格式和服务器部署入口。完整形状：
 
 ```json
 {
   "packs": {
     "format_version": 1,
     "enabled": {
-      "kuayue-core": true,
+      "kuayue-preset-df": true,
       "sample-train": false
     },
     "order": [
-      "kuayue-core",
+      "kuayue-preset-df",
       "sample-train"
     ],
     "inventory": [
@@ -73,13 +73,13 @@ ZIP 的 `pack.json` 必须直接位于压缩包根，不能多套一层 `<name>/
 | 字段 | 作用 |
 |---|---|
 | `format_version` | 当前必须为 `1` |
-| `enabled` | 请求开启的包；外部包缺省关闭，`kuayue-core` 缺省开启 |
-| `order` | 普通资源优先级，从低到高 |
+| `enabled` | 可调整包请求开关；内置预设包缺省开启，外部包缺省关闭 |
+| `order` | 可调整包资源优先级，从低到高 |
 | `inventory` | 启动扫描后重算的外部安装清单 |
 
-外部包不会因为被扫描到就自动启用。启用时把包 ID 写入 `enabled` 并设为 `true`，同时建议显式列入 `order`。配置缺失或没有 `packs` 子域时使用默认值：内置 corepack 开启，外部包关闭。
+外部包不会因为被扫描到就自动启用。启用时把包 ID 写入 `enabled` 并设为 `true`，同时建议显式列入 `order`。配置缺失或没有 `packs` 子域时，9 个可选内置预设包默认开启，required 包由运行时自动加入，外部包关闭。
 
-启动会补全默认开关、把 corepack 和扫描到的外部包加入顺序，并重写规范化配置。`inventory` 始终由扫描结果重算，用户不需要维护。当前运行时解析器只严格校验 `packs` 子域，并保留其他顶层字段。独立的 `config.schema.json` 目前只允许顶层 `packs`，使用该 Schema 校验带有其他顶层域的完整实例配置前，应先按 Schema 拆分片段。
+启动会补全可选内置包开关并把已安装包加入顺序。`kuayue-preset-running-gear` 的 `required` 为 `true`，由运行时自动启用并固定在最低优先级；它不能出现在 `enabled` 或 `order`，已有条目会被忽略并在重写配置时移除。`inventory` 只由外部安装扫描结果重算；内置预设包不写入该数组。解析器只严格校验 `packs` 子域并保留其他顶层字段，`config.schema.json` 顶层也允许其他系统字段。
 
 以下情况属于配置错误：文件不是普通文件、JSON 损坏、`packs` 不是对象、`packs` 内出现未知字段、格式版本不支持、包 ID 非法、启用值不是布尔值，或 `order`、`inventory` 不是字符串数组。配置错误会阻止启动，程序不静默恢复默认包集。
 
@@ -119,13 +119,14 @@ ZIP 的 `pack.json` 必须直接位于压缩包根，不能多套一层 `<name>/
 
 约束：
 
-- `id` 使用 `[a-z][a-z0-9_-]*`，外部包不能使用保留 ID `kuayue-core`；
+- `id` 使用 `[a-z][a-z0-9_-]*`；
 - `version` 必须是三段式 SemVer，例如 `1.2.3`；
 - `namespaces` 至少一项，parcel ID 与 parcel 图标命名空间必须属于声明集合；
 - `dependencies.mods` 必须完整提供 `minecraft`、`neoforge`、`kuayue`、`kasuga_lib`、`create`；
 - `dependencies.packs` 只声明直接、必需的包依赖；
 - 车包图标固定为包根目录的 PNG 文件 `icon.png`，不是 `pack.json` 字段；文件可选，其他位置的同名文件不会作为车包图标；
 - `parcels` 至少一项，每项严格为 `parcels/<folder>/parcel.json`；
+- `required` 可选，缺省为 `false`；只有内置预设包可以设为 `true`；
 - `save_compatibility` 可选，只能使用 `from_versions` 或 `minimum_version` 其中一种。
 
 版本范围只支持 `*`、精确版本和 `[lower,upper)`。依赖缺失、依赖被禁用、版本不满足或形成环时，相关包及其依赖者被阻断，系统不会自动启用或下载依赖。
@@ -224,7 +225,7 @@ sample-train/
 启动时按以下顺序形成冻结集合：
 
 1. 读取并补全 `config.json`；
-2. 扫描目录包、ZIP 包和内置 corepack；
+2. 扫描目录包、ZIP 包和内置 `kuayue-preset-*` 预设包；
 3. 校验宿主版本、包依赖和依赖环；
 4. 移除失败包及其依赖者；
 5. 按 `order` 从低到高生成有效集合；
@@ -251,53 +252,41 @@ sample-train/
 
 冲突策略：
 
-- corepack 或 runtime 与外部包冲突时，只拒绝冲突的外部 owner；
+- 必选预设包或 runtime 与外部包冲突时，只拒绝冲突的外部 owner；
 - 多个外部 owner 冲突时拒绝全部相关 owner；
-- corepack 或 runtime 自身失败时中止启动，因为这些属于 KuaYue 自身契约；
+- 必选预设包或 runtime 自身失败时中止启动，因为这些属于 KuaYue 自身契约；
 - 注册准备成功后只执行一次 apply 和一次 finalizer 序列，finalizer 失败会使本次构建失败。
 
 外部安装物的清单、路径、ZIP 和依赖扫描错误会标记该安装物无效，并阻断请求它的依赖闭包；独立有效包继续。`config.json` 错误会中止启动。启动捕获阶段的 I/O 或一致性失败目前也会中止启动。不要把这些早期错误都与 provider 的整包隔离能力混为一谈。
 
-## 10. 内置 corepack
+## 10. 内置预设包
 
-`kuayue-core` 由 `train-parts` 独占提供，默认开启，源清单位于：
+内置内容位于 `modules/train-parts/resources/packs/`，由 `preset-packs.gradle` 生成到 `build/generated/kuayue-preset-packs/`，最终进入 JAR 的 `kuayue-packs/<pack-id>/`。
 
-```text
-modules/train-parts/src/main/resources/kuayue-packs/kuayue-core/
-```
+当前共 10 个包、32 个 parcel：
 
-`corepack.gradle` 读取显式列出的车厢版、转向架和对应共享定义，生成：
-
-```text
-<train-parts JAR>/
-└── kuayue-packs/kuayue-core/
-    ├── pack.json
-    ├── pack.mcmeta
-    └── parcels/<vehicle-or-bogey>/
-```
-
-当前 parcel 数量与名称以生成的 `pack.json` 为准。corepack 只组织车厢版和转向架；`shared` 只保存这两类内容跨 parcel 复用的定义、模型、动画和注册组。
-
-corepack 边界：
-
-| 内容 | 归属 |
+| 包 | 车型/内容 |
 |---|---|
-| KuaYue 车厢版内容 | 对应车厢版 parcel |
-| 具体转向架内容 | 对应 `bogey-*` parcel |
-| 车厢版或转向架跨 parcel 共享定义与动画 | `parcels/shared/` |
-| `resources/common/models/block/bogey/**` | runtime 普通资源，不进 corepack |
-| `tracks/`、`seat/`、`toilet/` | runtime 普通资源，不进 corepack |
-| provisions 餐食资源 | provisions 模块普通资源，不进 corepack |
+| `kuayue-preset-running-gear` | 必选；共享注册、通用转向架和 Create 样式壳 |
+| `kuayue-preset-df` | DF5、DF11、DF11G、DF21 |
+| `kuayue-preset-hxd` | HXD3D |
+| `kuayue-preset-ss` | SS3、SS8 |
+| `kuayue-preset-emu` | CR200J |
+| `kuayue-preset-meter-gauge` | M1、JY30、DFH21 |
+| `kuayue-preset-passenger-22` | 22 型客车 |
+| `kuayue-preset-passenger-25` | 25、25B、25G、25K、25T、25Z |
+| `kuayue-preset-freight` | C70、NX70 |
+| `kuayue-preset-industrial` | JY290 |
 
-以下根路径必须是空/不存在：
+所有权规则：
 
-```text
-kuayue-packs/kuayue-core/data/kuayue/kasuga_lib/data_driven/
-```
+- 只服务一个车型的资源、定义和转向架进入该车型 parcel。
+- 多个车型共用的注册组、基础 style、motion、model 和通用转向架进入 running-gear。
+- 车型转向架通过 `bogey_style_variants` 向 running-gear 的 `kuayue:loco`、`kuayue:andesite_loco`、`kuayue:meter_loco` 等样式追加 variant。
+- 基础样式壳可以保留空 `variants`；贡献定义必须列出至少一个 variant。
+- 语言和 tag 可在生成阶段从多个 parcel 合并到包级标准资源路径。
 
-正确索引只在各 parcel 根内。C70 与 NX70 的块定义分别由 `c70`、`nx70` 索引加载，共用的 `freight_panels` 注册组放在 `shared` 索引；不得建立 `freight` 这类大类 parcel。
-
-corepack 关闭后，其注册与资源根不会进入有效集合，但 runtime 轨道、座椅、厕所、餐食、其他非 corepack 资源和基础设施仍保留。若 runtime 轨道引用 corepack 的转向架，严格预检会记录缺失引用；相关消费者按自身回退行为处理。
+所有非必选预设包都依赖 running-gear。关闭某个可选预设包时，其注册和资源根不会进入有效集合，其他包和 runtime 继续工作。
 
 ## 11. 启动报告
 

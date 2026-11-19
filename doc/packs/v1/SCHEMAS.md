@@ -4,13 +4,14 @@
 
 | 要校验的文件 | Schema |
 |---|---|
-| 外部 `pack.json` | [`../../schemas/packs/v1/pack.schema.json`](../../schemas/packs/v1/pack.schema.json) |
+| `pack.json` | [`../../schemas/packs/v1/pack.schema.json`](../../schemas/packs/v1/pack.schema.json) |
 | `parcel.json` | [`../../schemas/packs/v1/parcel.schema.json`](../../schemas/packs/v1/parcel.schema.json) |
 | 实例 `kuayue/config.json` | [`../../schemas/packs/v1/config.schema.json`](../../schemas/packs/v1/config.schema.json) |
 | `data/<namespace>/kasuga_lib/data_driven/*.json` | [`../../schemas/data-driven/v1/index.schema.json`](../../schemas/data-driven/v1/index.schema.json) |
 | `on_register` 指向的联合内容 | [`../../schemas/data-driven/v1/content.schema.json`](../../schemas/data-driven/v1/content.schema.json) |
 | 单一注册类型 | `data-driven/v1/*.schema.json` 中的对应文件 |
 | 转向架组合文件 | [`../../schemas/data-driven/v1/bogeys.schema.json`](../../schemas/data-driven/v1/bogeys.schema.json) |
+| 仅含 `bogey_style_variants` | [`../../schemas/data-driven/v1/bogey-style-variants.schema.json`](../../schemas/data-driven/v1/bogey-style-variants.schema.json) |
 | 餐食 `provisions.json` | [`../../schemas/data-driven/v1/provisions.schema.json`](../../schemas/data-driven/v1/provisions.schema.json) |
 | `animation_clips` reload 文件 | [`../../schemas/data-driven/v1/animation-clips.schema.json`](../../schemas/data-driven/v1/animation-clips.schema.json) |
 
@@ -27,19 +28,20 @@ Schema 负责静态 JSON 形状、字段枚举、基本类型和可由单文件�
 - 五个宿主依赖；
 - 直接 pack 依赖；
 - parcel 清单路径；
+- 可选 `required`；缺失等价于 `false`；
 - 可选的存档兼容声明。
 
-车包图标不属于 `pack.json`。如提供，只认车包根目录的 PNG 文件 `icon.png`；该文件不会作为普通 Minecraft 资源暴露。Parcel 的 `icon` 字段含义不变。
+内置预设包必须提供车包根目录的 `icon.png` 和 `pack.mcmeta`。外部包可以省略两者。车包图标不属于 `pack.json`，该文件不会作为普通 Minecraft 资源暴露。Parcel 的 `icon` 字段含义不变。
 
-外部包不能声明保留 ID：
+`required: true` 只用于内置预设包，表示该包由运行时自动启用并固定在最低优先级，且在游戏内预设包管理页中不能移除或移动。它不出现在 `config.json` 的 `enabled` 或 `order` 中。当前唯一必选包是：
 
 ```text
-kuayue-core
+kuayue-preset-running-gear
 ```
 
-内置 `kuayue-core/pack.json` 由内部 `parseCore` 规则允许该 ID，因此不能用只面向外部作者的 `pack.schema.json` 直接校验其 `id` 字段。内置包的 parcel 清单仍可使用 `parcel.schema.json`。
+外部安装包不得设置 `required: true`。运行时补全要求所有 required ID 都属于内置 catalog。
 
-`pack.mcmeta` 是 Minecraft metadata，不是 `pack.json` 的字段，也没有独立的 KuaYue 车包 Schema。它可以省略，由资源适配层生成宿主 metadata。
+`pack.mcmeta` 是 Minecraft metadata，不是 `pack.json` 的字段，也没有独立的 KuaYue 车包 Schema。内置 `resources/packs/<id>/` 当前要求它存在；外部包可以省略，由资源适配层生成宿主 metadata。
 
 ## 3. Parcel
 
@@ -90,11 +92,11 @@ parcel 按单个车型组织。`shared` 是跨车型共享内容的 parcel 名�
   "packs": {
     "format_version": 1,
     "enabled": {
-      "kuayue-core": true,
+      "kuayue-preset-df": true,
       "sample-train": true
     },
     "order": [
-      "kuayue-core",
+      "kuayue-preset-df",
       "sample-train"
     ],
     "inventory": []
@@ -111,9 +113,9 @@ parcel 按单个车型组织。`shared` 是跨车型共享内容的 parcel 名�
 - `packs` 内不允许未知字段；
 - pack ID 必须使用当前 ID 语法。
 
-当前 `config.schema.json` 在顶层只允许 `packs`，而运行时解析器会保留 `packs` 之外的其他顶层字段。如果实例配置同时包含其他系统字段，应先抽取 `packs` 子域，或根据统一配置协议调整 Schema；在此之前不要把 Schema 的顶层限制误解成运行时已会删除这些字段。
+`config.schema.json` 顶层允许其他系统字段，只严格约束 `packs` 子域。运行时同样保留 `packs` 之外的其他顶层字段。
 
-启动时程序会补全 `enabled`、`order` 和 `inventory` 并重写配置。提交给 Schema 的 `inventory` 可以是空数组或当前扫描结果；不要把它当作手工授权列表。
+启动时程序会补全 `enabled`、`order` 和 `inventory` 并重写配置。缺失配置时，9 个可选内置预设包默认启用；必选 running-gear 由运行时自动加入。`enabled` 和 `order` 中的 required 条目会被忽略并从写入结果移除。`inventory` 只记录扫描到的外部包 ID，不包含内置预设包。
 
 ## 5. 数据驱动索引
 
@@ -140,20 +142,15 @@ Schema 能检查数组形状和路径格式，主要运行时检查包括：
 - 声明索引的 parcel 文件必须存在；
 - 只有当前来源和显式直接依赖中的定义可用。
 
-在 corepack 中，不得把索引放到车包根：
+内置预设包把索引放在具体 parcel：
 
 ```text
-kuayue-packs/kuayue-core/data/kuayue/kasuga_lib/data_driven/
+kuayue-packs/kuayue-preset-passenger-22/parcels/c22/data/kuayue/kasuga_lib/data_driven/c22.json
+kuayue-packs/kuayue-preset-ss/parcels/ss3/data/kuayue/kasuga_lib/data_driven/ss3.json
+kuayue-packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driven/bogeys.json
 ```
 
-索引应位于：
-
-```text
-kuayue-packs/kuayue-core/parcels/c22/data/kuayue/kasuga_lib/data_driven/c22.json
-kuayue-packs/kuayue-core/parcels/shared/data/kuayue/kasuga_lib/data_driven/bogeys.json
-```
-
-外部包推荐把车型索引放进对应车型 parcel。`main` 根仍受平台包根索引发现规则支持，但车型内容不应借此绕过 parcel 组织。
+外部包同样推荐把车型索引放进对应 parcel。`main` 根仍受平台包根索引发现规则支持，但车型内容不应借此绕过 parcel 组织。
 
 ## 6. 注册期内容
 
@@ -168,11 +165,12 @@ kuayue-packs/kuayue-core/parcels/shared/data/kuayue/kasuga_lib/data_driven/bogey
 - `bogey_models`
 - `bogey_blocks`
 - `bogey_styles`
+- `bogey_style_variants`
 - `tracks`
 
 它不接受 `animation_clips`，避免把注册对象和 reload 数据混在同一生命周期。
 
-单类型 Schema 适合编辑器补全和精确错误定位。`bogeys.schema.json` 用于同时包含 sizes、blocks、styles 的转向架聚合文件。`provisions.schema.json` 用于餐食模块复用的 groups、blocks、items 子集。
+单类型 Schema 适合编辑器补全和精确错误定位。`bogeys.schema.json` 用于组合多个 `bogey_*` 类型的文件；当前车型 parcel 常见组合是 sizes、blocks、models 和 style variants。`provisions.schema.json` 用于餐食模块复用的 groups、blocks、items 子集。
 
 完整字段、factory、`params` 和业务约束见 [数据驱动 Schema 说明](../../schemas/data-driven/v1/README.md)。
 
@@ -253,6 +251,7 @@ python3 validate_schema.py pack.json pack.schema.json
 python3 validate_schema.py parcels/c22/parcel.json parcel.schema.json
 python3 validate_schema.py kuayue/config.json config.schema.json
 python3 validate_schema.py content.json content.schema.json
+python3 validate_schema.py df11g.json bogeys.schema.json
 python3 validate_schema.py animation.json animation-clips.schema.json
 ```
 
@@ -302,6 +301,6 @@ Schema 不能证明：
 3. 同内容 ZIP 包隔离启动；
 4. 检查 `startup.json` 无阻塞诊断；
 5. 检查日志中的 `Prepared`、`Applied` 与 `kasuga/...` 资源层；
-6. 关闭 corepack 再测自包含包。
+6. 关闭全部非必选预设包，再测自包含外部包。
 
 目录与 ZIP 使用同一 Schema、清单映射和固定来源管线；压缩方式不会改变 JSON 契约。

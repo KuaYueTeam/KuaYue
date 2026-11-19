@@ -59,7 +59,7 @@ class PackDiscoveryTest {
     }
 
     @Test
-    void embeddedPacksDefaultEnabledAndRequiredPackCannotBeDisabled() throws Exception {
+    void requiredPackIsAddedAtRuntimeButExcludedFromConfigEntries() throws Exception {
         Path embeddedRoot = temporaryDirectory.resolve("embedded");
         writePack(
                 embeddedRoot.resolve("running-gear"),
@@ -67,11 +67,19 @@ class PackDiscoveryTest {
                 "running_gear",
                 true
         );
+        Path passengerRoot = embeddedRoot.resolve("passenger");
         writePack(
-                embeddedRoot.resolve("passenger"),
+                passengerRoot,
                 "passenger",
                 "passenger",
                 false
+        );
+        Files.writeString(
+                passengerRoot.resolve("pack.json"),
+                packJson("passenger", "passenger").replace(
+                        "\"packs\": {}",
+                        "\"packs\": {\"running-gear\": \"*\"}"
+                )
         );
         Path configPath = temporaryDirectory.resolve("kuayue/config.json");
         Files.createDirectories(configPath.getParent());
@@ -81,7 +89,7 @@ class PackDiscoveryTest {
                     "format_version": 1,
                     "enabled": {
                       "running-gear": false,
-                      "passenger": false
+                      "passenger": true
                     },
                     "order": ["passenger", "running-gear"],
                     "inventory": []
@@ -108,11 +116,19 @@ class PackDiscoveryTest {
                 VersionComparator.semantic()
         );
 
-        assertTrue(result.configDocument().config().isRequestedEnabled("running-gear"));
-        assertFalse(result.configDocument().config().isRequestedEnabled("passenger"));
-        assertEquals(List.of("running-gear"), result.selection().effectivePacks().stream()
+        assertFalse(result.configDocument().config().enabled().containsKey("running-gear"));
+        assertFalse(result.configDocument().config().order().contains("running-gear"));
+        assertTrue(result.configDocument().config().isRequestedEnabled("passenger"));
+        assertEquals(List.of("running-gear", "passenger"),
+                result.selection().effectivePacks().stream()
                 .map(ResolvedPack::id)
                 .toList());
+        assertTrue(result.report().installations().stream()
+                .filter(installation -> "running-gear".equals(installation.packId()))
+                .findFirst()
+                .orElseThrow()
+                .requestedEnabled());
+        assertTrue(result.selection().diagnostics().isEmpty());
     }
 
     @Test

@@ -2,7 +2,7 @@
 
 KuaYue 车包把内置车辆内容、外部车型内容与 Minecraft 普通资源放进同一次启动选择。`pack` 是安装、启用、依赖和覆盖顺序的单位；`parcel` 是包内车型组织单位，同一包内的 parcel 不能单独开关。
 
-当前实现支持目录包、ZIP 包、依赖校验、整包排序、严格注册预检、注册 claim 冲突检查、统一 finalizer、启动报告、世界包集记录和从冻结字节投影 Minecraft 资源。游戏内车包管理界面尚未实现，安装、启用和排序通过 `<game-dir>/kuayue/config.json` 完成，修改后必须完全重启。
+当前实现支持目录包、ZIP 包、10 个内置预设包、依赖校验、排序、严格注册预检、注册 claim 冲突检查、统一 finalizer、启动报告、世界包集记录、从冻结字节投影 Minecraft 资源，以及游戏内预设包管理页。管理页保存的是下次启动配置，修改后必须完全重启。
 
 ## 文档入口
 
@@ -11,7 +11,7 @@ KuaYue 车包把内置车辆内容、外部车型内容与 Minecraft 普通资�
 | [GUIDE.md](GUIDE.md) | 安装、配置、清单、目录映射、快照、资源栈、依赖、报告和世界记录 |
 | [AUTHORING.md](AUTHORING.md) | 制作目录包或 ZIP 包，按车型划分 parcel，编写资源与数据驱动内容 |
 | [SCHEMAS.md](SCHEMAS.md) | 车包清单、配置和 KuaYue 数据驱动 Schema 的选择与校验 |
-| [DEBUGGING.md](DEBUGGING.md) | 使用 `config.json` 调试、检查日志与启动报告、验证 corepack 边界 |
+| [DEBUGGING.md](DEBUGGING.md) | 使用管理页或 `config.json` 调试、检查日志与启动报告、验证预设包布局 |
 | [IMPLEMENTATION.md](IMPLEMENTATION.md) | 启动生命周期、一次捕获、注册预检、claims、finalizer 和资源投影原理 |
 | [数据驱动 Schema](../../schemas/data-driven/v1/README.md) | KuaYue 内容字段、Java handler 与严格校验边界 |
 
@@ -35,41 +35,59 @@ KuaYue 车包把内置车辆内容、外部车型内容与 Minecraft 普通资�
 
 启动不会生成或读取 `<game-dir>/kuayue/cache/packs/` 作为权威资源树；当前实现直接从进程持有的冻结快照投影资源。若旧版本留下该目录，启动会清理它。
 
-## 内置 corepack
+## 内置预设包
 
-内置包 ID 为 `kuayue-core`，只由 `train-parts` 提供，默认启用。清单位于：
+内置内容不再以单一 `kuayue-core` 提供，而是由 10 个独立预设包组成：
+
+| Pack ID | 内容 |
+|---|---|
+| `kuayue-preset-running-gear` | 必选运行基础、通用转向架、Create 样式壳和共享运行数据 |
+| `kuayue-preset-df` | DF5、DF11、DF11G、DF21 |
+| `kuayue-preset-hxd` | HXD3D |
+| `kuayue-preset-ss` | SS3、SS8 |
+| `kuayue-preset-emu` | CR200J |
+| `kuayue-preset-meter-gauge` | M1、JY30、DFH21 |
+| `kuayue-preset-passenger-22` | 22 型客车 |
+| `kuayue-preset-passenger-25` | 25、25B、25G、25K、25T、25Z |
+| `kuayue-preset-freight` | C70、NX70 |
+| `kuayue-preset-industrial` | JY290 |
+
+除 running-gear 外，各预设包都声明：
+
+```json
+"dependencies": {
+  "packs": {
+    "kuayue-preset-running-gear": "*"
+  }
+}
+```
+
+缺失 `config.json` 时，9 个可选预设包默认启用；running-gear 因 `required: true` 由运行时自动加入，且不会写入 `config.json` 的 `enabled/order`。
+
+编辑源位于：
 
 ```text
-modules/train-parts/src/main/resources/kuayue-packs/kuayue-core/
+modules/train-parts/resources/packs/<pack-id>/
 ├── pack.json
 ├── icon.png
 ├── pack.mcmeta
-└── parcels/
-    ├── shared/
-    ├── c22/
-    ├── cr200j/
-    ├── bogey-cw2/
-    └── ...
+├── assets/kuayue/lang/
+└── parcels/<parcel>/
 ```
 
-`modules/train-parts/corepack.gradle` 从显式列出的车型和转向架源目录生成这份真实车包树，再由 `train-parts` 的 `processResources` 写入 JAR 的 `kuayue-packs/kuayue-core/`。`core` 和 `provisions` 模块不携带 corepack。
-
-corepack 的范围是 KuaYue 的车厢版和转向架，以及它们明确的跨车型共享定义。轨道、餐食、座椅、厕所、调度、联锁、Java runtime 和其他资源不属于 corepack。`resources/common/models/block/bogey/**` 必须排除；只有从具体车厢版或转向架源目录明确选取的同名模型才属于对应 parcel。
-
-corepack 树只组织车厢版和转向架 parcel。具体 parcel、来源目录和最终资源以后续 `content-ownership.json` 为准；轨道、餐食及其他未明确属于车厢版或转向架的内容不得放入 corepack。`shared` 只放车厢版或转向架跨 parcel 复用的定义和资源。
-
-corepack 根不得出现 `data/kuayue/kasuga_lib/data_driven/`。索引只能位于具体 parcel 的逻辑根下，例如：
+`modules/train-parts/preset-packs.gradle` 会逐包复制清单、parcel 和资源，并合并语言与 tag，生成：
 
 ```text
-parcels/c22/data/kuayue/kasuga_lib/data_driven/c22.json
-parcels/shared/data/kuayue/kasuga_lib/data_driven/bogeys.json
+modules/train-parts/build/generated/kuayue-preset-packs/<pack-id>/
 ```
+
+`processResources` 再把它写入 JAR 的 `kuayue-packs/<pack-id>/`。`common`、`tracks`、`seat`、`toilet` 仍由 `generateKuaYueRuntimeResources` 处理，不属于任一车型预设包；`core`、`provisions` 也不携带这些 preset 目录。
 
 ## 启动链路
 
 ```text
 读取 kuayue/config.json
-  → 发现目录包、ZIP 包和内置 kuayue-core
+  → 发现目录包、ZIP 包和内置 kuayue-preset-* 包
   → 校验清单、parcel、依赖、宿主版本和包内路径
   → 每个有效包发起一次平台捕获并只保留一个基线
   → 切分为 main 与 parcel-<folder> 固定资源根
@@ -94,7 +112,7 @@ parcels/shared/data/kuayue/kasuga_lib/data_driven/bogeys.json
 ## 主要限制
 
 - `packs.enabled`、`packs.order` 和包文件内容在启动时冻结；`/reload` 只刷新已选包中的 reload 内容。
-- 不提供游戏内安装、开关或拖拽排序界面。
+- 游戏内管理页可以启用、禁用和调整下次启动顺序；安装目录可由“打开文件夹”按钮打开，但下载和压缩包复制仍需用户完成。
 - 不执行热注册、运行中启停包、自动下载或多人自动分发。
 - 目录与 ZIP 的逻辑输入等价；压缩格式仍需满足严格 ZIP 安全限制。
 - `startup.json` 的“已请求”不等于“已生效”，最终状态与诊断以注册阶段更新后的报告为准。
