@@ -5,5 +5,12 @@
   "description_key": "parcel.kuayue.c25.description",
   "indexes": [
     "data/kuayue/kasuga_lib/data_driven/c25.json"
-  ]
+  ],
+  "creative_filter": {
+    "tab": "kuayue:kuayue_carriage",
+    "icon_item": "kuayue:panel_bottom_line_marshalled_25",
+    "item_tags": [
+      "kuayue:system/parcel/kuayue-preset-passenger-25/kuayue/c25"
+    ]
+  }
 }

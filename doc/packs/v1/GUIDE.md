@@ -143,7 +143,7 @@ ZIP 的 `pack.json` 必须直接位于压缩包根，不能多套一层 `<name>/
   "description_key": "parcel.sample_train.demo.description",
   "icon": "sample_train:textures/pack_icon.png",
   "creative_filter": {
-    "tab": "kuayue:train_panel_tab",
+    "tab": "kuayue:kuayue_carriage",
     "icon_item": "sample_train:demo_floor",
     "item_tags": ["sample_train:demo"]
   },
@@ -161,7 +161,7 @@ parcels/demo/data/sample_train/kasuga_lib/data_driven/demo.json
 
 `indexes` 可以为空，适合只提供模型、贴图、语言或配方的 parcel。注册内容必须由索引的 `on_register` 显式列出；reload 内容由 `on_reload` 列出。parcel 根内存在但未被索引声明的数据驱动文件仍属于普通资源，不会成为该 parcel 的注册入口。
 
-`creative_filter` 可选，用于在指定创造模式标签页中提供当前 parcel 的筛选按钮。`tab` 必填，`icon_item` 可选，`item_tags` 与 `items` 至少提供一个；两个选择器同时存在时按并集匹配。按钮级联筛选当前标签页中匹配任一 item tag 或显式 item ID 的物品，筛选状态只影响当前创造模式界面。
+`creative_filter` 可选，用于在指定创造模式标签页中提供当前 parcel 的筛选按钮。`tab` 必填，客车使用 `kuayue:kuayue_carriage`，机车使用 `kuayue:kuayue_loco`；`icon_item` 可选，`item_tags` 与 `items` 至少提供一个。两个选择器同时存在时按并集匹配，按钮级联筛选当前标签页中匹配任一 item tag 或显式 item ID 的物品，筛选状态只影响当前创造模式界面。
 
 ## 6. 目录与 ZIP 映射
 

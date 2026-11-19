@@ -100,7 +100,7 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
     "strength": [1.5, 3.0]
   },
   "item_properties": {
-    "tab": "kuayue:train_panel_tab"
+    "tab": "kuayue:kuayue_carriage"
   },
   "params": {
     "begin_x": 0,

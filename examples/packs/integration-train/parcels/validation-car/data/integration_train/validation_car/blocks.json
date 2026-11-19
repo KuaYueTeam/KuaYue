@@ -11,7 +11,7 @@
         "sound_type": "stone"
       },
       "item_properties": {
-        "tab": "kuayue:train_panel_tab"
+        "tab": "kuayue:kuayue_carriage"
       }
     }
   ],

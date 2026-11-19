@@ -5,5 +5,12 @@
   "description_key": "parcel.kuayue.hxd3d.description",
   "indexes": [
     "data/kuayue/kasuga_lib/data_driven/hxd3d.json"
-  ]
+  ],
+  "creative_filter": {
+    "tab": "kuayue:kuayue_loco",
+    "icon_item": "kuayue:head_hxd3d",
+    "item_tags": [
+      "kuayue:system/parcel/kuayue-preset-hxd/kuayue/hxd3d"
+    ]
+  }
 }

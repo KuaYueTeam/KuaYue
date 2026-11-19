@@ -71,7 +71,7 @@ namespace 必须在同一包的 `pack.json.namespaces` 中声明。Schema 检查
 ```json
 {
   "creative_filter": {
-    "tab": "kuayue:train_panel_tab",
+    "tab": "kuayue:kuayue_carriage",
     "icon_item": "sample_train:demo_floor",
     "item_tags": ["sample_train:demo"],
     "items": ["sample_train:demo_floor"]

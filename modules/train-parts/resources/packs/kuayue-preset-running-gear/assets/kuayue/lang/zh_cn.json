@@ -1,4 +1,6 @@
 {
   "pack.kuayue_preset_running_gear.name": "跨越运行基础",
-  "pack.kuayue_preset_running_gear.description": "所有车型共用的转向架、数据定义和运行基础设施。"
+  "pack.kuayue_preset_running_gear.description": "所有车型共用的转向架、数据定义和运行基础设施。",
+  "itemGroup.kuayue_carriage": "跨越·客车",
+  "itemGroup.kuayue_loco": "跨越·机车"
 }

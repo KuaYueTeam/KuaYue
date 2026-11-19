@@ -14,6 +14,7 @@ import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -23,6 +24,28 @@ class PresetPackSourceLayoutTest {
     private static final Path PACKS = Path.of("resources/packs");
     private static final Path CORE_RESOURCES = Path.of("../core/resources");
     private static final String RUNNING_GEAR = "kuayue-preset-running-gear";
+    private static final String CARRIAGE_TAB = "kuayue:kuayue_carriage";
+    private static final String LOCO_TAB = "kuayue:kuayue_loco";
+    private static final Map<String, String> EXPECTED_CREATIVE_FILTERS = Map.ofEntries(
+            Map.entry("kuayue:c22", CARRIAGE_TAB),
+            Map.entry("kuayue:c25", CARRIAGE_TAB),
+            Map.entry("kuayue:c25b", CARRIAGE_TAB),
+            Map.entry("kuayue:c25g", CARRIAGE_TAB),
+            Map.entry("kuayue:c25k", CARRIAGE_TAB),
+            Map.entry("kuayue:c25t", CARRIAGE_TAB),
+            Map.entry("kuayue:c25z", CARRIAGE_TAB),
+            Map.entry("kuayue:cr200j", CARRIAGE_TAB),
+            Map.entry("kuayue:freight", CARRIAGE_TAB),
+            Map.entry("kuayue:m1", CARRIAGE_TAB),
+            Map.entry("kuayue:df11", LOCO_TAB),
+            Map.entry("kuayue:df11g", LOCO_TAB),
+            Map.entry("kuayue:df21", LOCO_TAB),
+            Map.entry("kuayue:df5", LOCO_TAB),
+            Map.entry("kuayue:hxd3d", LOCO_TAB),
+            Map.entry("kuayue:jy290", LOCO_TAB),
+            Map.entry("kuayue:ss3", LOCO_TAB),
+            Map.entry("kuayue:ss8", LOCO_TAB)
+    );
     private static final Set<String> KNOWN_UPSTREAM_MODEL_GAPS = Set.of(
             "block/df11g/door/frame_door_cabin_df11g_left",
             "block/df11g/door/frame_door_cabin_df11g_right"
@@ -158,6 +181,55 @@ class PresetPackSourceLayoutTest {
                 }
             }
         }
+    }
+
+    @Test
+    void vehicleParcelsExposeSplitCreativeFilters() throws IOException {
+        Map<String, String> actual = new TreeMap<>();
+        for (String packId : PACK_IDS) {
+            Path pack = PACKS.resolve(packId);
+            JsonObject manifest = DataJson.GSON.fromJson(
+                    Files.readString(pack.resolve("pack.json")),
+                    JsonObject.class
+            );
+            for (JsonElement entry : manifest.getAsJsonArray("parcels")) {
+                JsonObject parcel = DataJson.GSON.fromJson(
+                        Files.readString(pack.resolve(entry.getAsString())),
+                        JsonObject.class
+                );
+                if (!parcel.has("creative_filter")) continue;
+
+                String parcelId = parcel.get("id").getAsString();
+                JsonObject filter = parcel.getAsJsonObject("creative_filter");
+                actual.put(parcelId, filter.get("tab").getAsString());
+
+                Set<String> selectors = new LinkedHashSet<>();
+                for (JsonElement selector
+                        : filter.getAsJsonArray("item_tags")) {
+                    selectors.add(selector.getAsString());
+                }
+                if ("kuayue:freight".equals(parcelId)) {
+                    assertEquals(
+                            Set.of(
+                                    "kuayue:system/parcel/"
+                                            + packId + "/kuayue/c70",
+                                    "kuayue:system/parcel/"
+                                            + packId + "/kuayue/nx70"
+                            ),
+                            selectors
+                    );
+                } else {
+                    assertTrue(
+                            selectors.contains(
+                                    "kuayue:system/parcel/"
+                                            + packId + "/" + parcelId.replace(':', '/')
+                            ),
+                            parcelId
+                    );
+                }
+            }
+        }
+        assertEquals(EXPECTED_CREATIVE_FILTERS, actual);
     }
 
     @Test

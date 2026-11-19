@@ -5,5 +5,12 @@
   "description_key": "parcel.kuayue.df11.description",
   "indexes": [
     "data/kuayue/kasuga_lib/data_driven/df11.json"
-  ]
+  ],
+  "creative_filter": {
+    "tab": "kuayue:kuayue_loco",
+    "icon_item": "kuayue:df11_head",
+    "item_tags": [
+      "kuayue:system/parcel/kuayue-preset-df/kuayue/df11"
+    ]
+  }
 }

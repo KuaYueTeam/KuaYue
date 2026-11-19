@@ -144,7 +144,7 @@ modules/train-parts/resources/packs/<pack-id>/
   "description_key": "parcel.mytrain.c22.description",
   "icon": "mytrain:textures/pack_icon.png",
   "creative_filter": {
-    "tab": "kuayue:train_panel_tab",
+    "tab": "kuayue:kuayue_carriage",
     "icon_item": "mytrain:c22_panel",
     "items": ["mytrain:c22_panel", "mytrain:c22_floor"]
   },
@@ -162,7 +162,7 @@ parcels/c22/data/mytrain/kasuga_lib/data_driven/c22.json
 
 `indexes` 可以为空，适合只提供模型、贴图、语言、配方或 tag 的 parcel。若要注册内容，索引文件必须由对应 parcel 显式声明；物理目录里未声明的数据驱动索引不会被当作注册入口。
 
-`creative_filter` 是可选字段，只生成客户端创造模式筛选元数据，不注册物品。`tab` 使用创造标签页 ID；`icon_item` 可选，用于筛选按钮图标；`item_tags` 和 `items` 至少提供一项，前者按 item tag、后者按显式 item ID 匹配，二者同时出现时取并集。选择器必须是合法 resource location 且不能重复。
+`creative_filter` 是可选字段，只生成客户端创造模式筛选元数据，不注册物品。`tab` 使用创造标签页 ID，客车用 `kuayue:kuayue_carriage`、机车用 `kuayue:kuayue_loco`；`icon_item` 可选，用于筛选按钮图标；`item_tags` 和 `items` 至少提供一项，前者按 item tag、后者按显式 item ID 匹配，二者同时出现时取并集。选择器必须是合法 resource location 且不能重复。
 
 ## 5. 写索引和内容
 
@@ -193,7 +193,7 @@ parcels/c22/data/mytrain/kasuga_lib/data_driven/c22.json
         "map_color": "blue"
       },
       "item_properties": {
-        "tab": "kuayue:train_panel_tab"
+        "tab": "kuayue:kuayue_carriage"
       }
     }
   ]

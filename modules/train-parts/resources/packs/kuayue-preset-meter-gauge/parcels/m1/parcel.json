@@ -7,7 +7,7 @@
     "data/kuayue/kasuga_lib/data_driven/m1.json"
   ],
   "creative_filter": {
-    "tab": "kuayue:train_panel_tab",
+    "tab": "kuayue:kuayue_carriage",
     "icon_item": "kuayue:slab_bottom_m1",
     "item_tags": [
       "kuayue:system/parcel/kuayue-preset-meter-gauge/kuayue/m1"

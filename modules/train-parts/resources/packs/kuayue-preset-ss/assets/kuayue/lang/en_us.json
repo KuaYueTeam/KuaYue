@@ -1,4 +1,8 @@
 {
   "pack.kuayue_preset_ss.name": "KuaYue Shaoshan Locomotives",
-  "pack.kuayue_preset_ss.description": "Shaoshan electric locomotive preset."
+  "pack.kuayue_preset_ss.description": "Shaoshan electric locomotive preset.",
+  "parcel.kuayue.ss3.name": "SS3 Electric Locomotive",
+  "parcel.kuayue.ss3.description": "SS3 electric locomotive parts.",
+  "parcel.kuayue.ss8.name": "SS8 Electric Locomotive",
+  "parcel.kuayue.ss8.description": "SS8 electric locomotive parts."
 }

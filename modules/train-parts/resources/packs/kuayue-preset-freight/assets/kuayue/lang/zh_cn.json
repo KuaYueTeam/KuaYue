@@ -1,4 +1,6 @@
 {
   "pack.kuayue_preset_freight.name": "跨越货运车辆",
-  "pack.kuayue_preset_freight.description": "货车与货运注册组预设包。"
+  "pack.kuayue_preset_freight.description": "货车与货运注册组预设包。",
+  "parcel.kuayue.freight.name": "货运车辆",
+  "parcel.kuayue.freight.description": "C70、NX70型货运车辆部件。"
 }

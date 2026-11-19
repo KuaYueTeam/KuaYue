@@ -59,7 +59,7 @@ class StaticLocomotiveDataDrivenDefinitionTest {
                     .getAsJsonObject();
             assertEquals("kuayue:" + model + "_panels", group.get("id").getAsString());
             assertEquals(
-                    "kuayue:train_panel_tab",
+                    "kuayue:kuayue_loco",
                     group.getAsJsonObject("item_properties").get("tab").getAsString()
             );
             assertEquals(

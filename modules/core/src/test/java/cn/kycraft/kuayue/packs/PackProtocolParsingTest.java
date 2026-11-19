@@ -130,14 +130,14 @@ class PackProtocolParsingTest {
                   "name_key": "parcel.name",
                   "indexes": [],
                   "creative_filter": {
-                    "tab": "kuayue:train_panel_tab",
+                    "tab": "kuayue:kuayue_carriage",
                     "icon_item": "kuayue:slab_bottom_m1",
                     "item_tags": ["kuayue:creative/m1"]
                   }
                 }
                 """, Set.of("example_railway", "kuayue"));
 
-        assertEquals("kuayue:train_panel_tab", parcel.creativeFilter().tab());
+        assertEquals("kuayue:kuayue_carriage", parcel.creativeFilter().tab());
         assertEquals(List.of("kuayue:creative/m1"), parcel.creativeFilter().itemTags());
 
         assertThrows(IllegalArgumentException.class, () -> ParcelManifest.parse("""
@@ -146,7 +146,7 @@ class PackProtocolParsingTest {
                   "id": "example_railway:m1",
                   "name_key": "parcel.name",
                   "indexes": [],
-                  "creative_filter": {"tab": "kuayue:train_panel_tab"}
+                  "creative_filter": {"tab": "kuayue:kuayue_carriage"}
                 }
                 """, Set.of("example_railway", "kuayue")));
     }

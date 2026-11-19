@@ -1,4 +1,6 @@
 {
   "pack.kuayue_preset_industrial.name": "跨越工程与特种车型",
-  "pack.kuayue_preset_industrial.description": "工程车辆与特种用途车型预设包。"
+  "pack.kuayue_preset_industrial.description": "工程车辆与特种用途车型预设包。",
+  "parcel.kuayue.jy290.name": "JY290型工程机车",
+  "parcel.kuayue.jy290.description": "JY290型工程机车部件。"
 }

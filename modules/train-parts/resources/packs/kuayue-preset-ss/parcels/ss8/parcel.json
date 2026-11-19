@@ -5,5 +5,12 @@
   "description_key": "parcel.kuayue.ss8.description",
   "indexes": [
     "data/kuayue/kasuga_lib/data_driven/ss8.json"
-  ]
+  ],
+  "creative_filter": {
+    "tab": "kuayue:kuayue_loco",
+    "icon_item": "kuayue:ss8_cowcatcher",
+    "item_tags": [
+      "kuayue:system/parcel/kuayue-preset-ss/kuayue/ss8"
+    ]
+  }
 }
