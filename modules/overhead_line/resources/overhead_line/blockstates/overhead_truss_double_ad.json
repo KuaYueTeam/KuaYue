@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "facing=north": {
+            "model": "kuayue:block/overhead_line/overhead_truss_double_ad",
+            "y": 90
+        },
+        "facing=south": {
+            "model": "kuayue:block/overhead_line/overhead_truss_double_ad",
+            "y": 270
+        },
+        "facing=west": {
+            "model": "kuayue:block/overhead_line/overhead_truss_double_ad",
+            "y": 0
+        },
+        "facing=east": {
+            "model": "kuayue:block/overhead_line/overhead_truss_double_ad",
+            "y": 180
+        }
+    }
+}

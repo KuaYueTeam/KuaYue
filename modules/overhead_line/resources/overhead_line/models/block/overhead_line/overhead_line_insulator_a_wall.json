@@ -1,0 +1,8 @@
+{
+    "render_type": "translucent",
+    "loader": "kasuga_lib:bedrock_animated",
+    "geometry": "geometry.unknown",
+    "identifier": "kuayue:block/overhead_line/overhead_line_insulator_a_wall",
+    "model": "kuayue:block/overhead_line/overhead_line_insulator_a_wall",
+    "texture": "kuayue:block/overhead_line/insulator_a"
+}

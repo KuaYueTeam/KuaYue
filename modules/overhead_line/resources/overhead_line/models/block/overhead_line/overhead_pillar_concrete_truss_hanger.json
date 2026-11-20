@@ -1,0 +1,6 @@
+{
+    "loader": "forge:obj",
+    "render_type": "cutout_mipped",
+    "model": "kuayue:models/block/overhead_line/overhead_pillar_concrete_truss_hanger.obj",
+    "flip_v": true
+}

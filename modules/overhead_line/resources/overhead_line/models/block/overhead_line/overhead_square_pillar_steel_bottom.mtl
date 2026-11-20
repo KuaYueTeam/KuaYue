@@ -1,0 +1,6 @@
+# Made in Blockbench 4.12.5
+newmtl m_31465996-41f3-b78d-3048-09cc7811488b
+map_Kd kuayue:block/overhead_line/overhead_square_pillar_steel
+newmtl m_a0384615-6cc3-6834-0d58-bd6be9261f65
+map_Kd kuayue:block/overhead_line/overhead_base
+newmtl none

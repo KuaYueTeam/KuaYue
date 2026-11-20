@@ -1,0 +1,68 @@
+{
+    "variants": {
+        "facing=east,vertical_type=middle": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_middle",
+            "y": 0
+        },
+        "facing=east,vertical_type=bottom": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_bottom",
+            "y": 0
+        },
+        "facing=east,vertical_type=single": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_middle",
+            "y": 0
+        },
+        "facing=east,vertical_type=top": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_middle",
+            "y": 0
+        },
+        "facing=south,vertical_type=middle": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_middle",
+            "y": 90
+        },
+        "facing=south,vertical_type=bottom": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_bottom",
+            "y": 90
+        },
+        "facing=south,vertical_type=single": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_middle",
+            "y": 90
+        },
+        "facing=south,vertical_type=top": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_middle",
+            "y": 90
+        },
+        "facing=west,vertical_type=middle": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_middle",
+            "y": 180
+        },
+        "facing=west,vertical_type=bottom": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_bottom",
+            "y": 180
+        },
+        "facing=west,vertical_type=single": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_middle",
+            "y": 180
+        },
+        "facing=west,vertical_type=top": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_middle",
+            "y": 180
+        },
+        "facing=north,vertical_type=middle": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_middle",
+            "y": 270
+        },
+        "facing=north,vertical_type=bottom": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_bottom",
+            "y": 270
+        },
+        "facing=north,vertical_type=single": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_middle",
+            "y": 270
+        },
+        "facing=north,vertical_type=top": {
+            "model": "kuayue:block/overhead_line/overhead_square_pillar_steel_middle",
+            "y": 270
+        }
+    }
+}

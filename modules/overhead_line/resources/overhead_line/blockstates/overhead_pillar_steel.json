@@ -1,0 +1,16 @@
+{
+    "variants": {
+        "vertical_type=middle": {
+            "model": "kuayue:block/overhead_line/overhead_pillar_steel_middle"
+        },
+        "vertical_type=bottom": {
+            "model": "kuayue:block/overhead_line/overhead_pillar_steel_bottom"
+        },
+        "vertical_type=single": {
+            "model": "kuayue:block/overhead_line/overhead_pillar_steel_middle"
+        },
+        "vertical_type=top": {
+            "model": "kuayue:block/overhead_line/overhead_pillar_steel_top"
+        }
+    }
+}

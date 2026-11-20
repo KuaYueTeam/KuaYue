@@ -1,0 +1,14 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "kuayue:overhead_line_support_a1"
+        },
+        {
+            "item": "kuayue:overhead_line_support_a2"
+        }
+    ],
+    "result": {
+        "item": "kuayue:overhead_line_support_c"
+    }
+}

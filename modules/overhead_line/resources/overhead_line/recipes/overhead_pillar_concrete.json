@@ -1,0 +1,16 @@
+{
+    "type": "create:compacting",
+    "ingredients": [
+        {
+            "item": "kuayue:weathering_resistant_steel_pole"
+        },
+        {
+            "tag": "minecraft:concrete_powder"
+        }
+    ],
+    "results": [
+        {
+            "item": "kuayue:overhead_pillar_concrete"
+        }
+    ]
+}

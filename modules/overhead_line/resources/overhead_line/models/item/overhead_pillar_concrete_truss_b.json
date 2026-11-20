@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "kuayue:item/overhead_line/overhead_pillar_concrete_truss_b"
+    }
+}

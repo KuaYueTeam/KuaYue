@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "IPP",
+        "IS "
+    ],
+    "key": {
+        "P": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        },
+        "S": {
+            "item": "kuayue:weathering_resistant_steel_pole"
+        },
+        "I": {
+            "item": "kuayue:insulator"
+        }
+    },
+    "result": {
+        "item": "kuayue:overhead_line_support_a1"
+    }
+}

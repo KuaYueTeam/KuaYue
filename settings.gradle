@@ -27,6 +27,7 @@ include ':modules:core'
 include ':modules:decoration'
 include ':modules:train-parts'
 include ':modules:scheduling'
+include ':modules:overhead_line'
 
 include ':temporal:migration'
 include 'temporal:migration'

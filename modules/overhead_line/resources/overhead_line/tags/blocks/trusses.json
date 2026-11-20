@@ -1,0 +1,21 @@
+{
+    "values": [
+        "kuayue:overhead_pillar_concrete",
+        "kuayue:overhead_pillar_concrete_truss_b",
+        "kuayue:overhead_pillar_concrete_truss_a",
+        "kuayue:overhead_truss_concrete",
+        "kuayue:overhead_truss_single_ad",
+        "kuayue:overhead_truss_single_a",
+        "kuayue:overhead_truss_single_b",
+        "kuayue:overhead_pillar_steel",
+        "kuayue:overhead_truss_double",
+        "kuayue:overhead_truss_single_c",
+        "kuayue:overhead_square_pillar_steel",
+        "kuayue:overhead_triangle_truss_steel_ad",
+        "kuayue:overhead_square_pillar_concrete_punching",
+        "kuayue:truss_hanger_single",
+        "kuayue:overhead_triangle_truss_steel",
+        "kuayue:truss_hanger_double",
+        "kuayue:overhead_truss_double_ad"
+    ]
+}

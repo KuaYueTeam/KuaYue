@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "P P",
+        "PSP",
+        "P P"
+    ],
+    "key": {
+        "P": {
+            "item": "kuayue:weathering_resistant_steel_board"
+        },
+        "S": {
+            "item": "minecraft:stone_slab"
+        }
+    },
+    "result": {
+        "item": "kuayue:overhead_square_pillar_concrete_punching",
+        "count": 3
+    }
+}

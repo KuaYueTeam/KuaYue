@@ -1,0 +1,14 @@
+{
+    "type": "create:compacting",
+    "ingredients": [
+        {
+            "item": "kuayue:weathering_resistant_steel_board"
+        }
+    ],
+    "results": [
+        {
+            "item": "kuayue:overhead_line_wire",
+            "count": 2
+        }
+    ]
+}

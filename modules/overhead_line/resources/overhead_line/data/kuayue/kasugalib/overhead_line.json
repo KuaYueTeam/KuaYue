@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "id": "kuayue:overhead_line_wire",
+      "type": "wire"
+    },
+    {
+      "id": "kuayue:electronic_wire",
+      "type": "electronic_wire"
+    }
+  ]
+}

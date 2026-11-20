@@ -1,0 +1,6 @@
+{
+    "loader": "forge:obj",
+    "render_type": "cutout_mipped",
+    "model": "kuayue:models/block/overhead_line/overhead_truss_double_ad.obj",
+    "flip_v": true
+}
