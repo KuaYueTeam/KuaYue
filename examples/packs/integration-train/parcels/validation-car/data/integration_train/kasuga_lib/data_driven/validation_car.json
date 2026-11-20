@@ -1,5 +1,6 @@
 {
   "on_register": [
-    "validation_car/blocks.json"
+    "validation_car/blocks.json",
+    "trains/validation_car.json"
   ]
 }

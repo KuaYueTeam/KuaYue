@@ -8,6 +8,7 @@ import cn.kycraft.kuayue.packs.PackSeverity;
 import cn.kycraft.kuayue.packs.PackStage;
 import cn.kycraft.kuayue.packs.runtime.PackResourceSnapshotter;
 import cn.kycraft.kuayue.packs.state.PackRuntimeState;
+import cn.kycraft.kuayue.train.KuaYueTrainCatalog;
 import com.simibubi.create.AllBogeyStyles;
 import com.simibubi.create.content.trains.bogey.BogeySizes;
 import com.simibubi.create.content.trains.track.TrackMaterial;
@@ -130,6 +131,25 @@ public final class KuaYueContentRegistrationProvider {
                         result.cause()
                 );
             }
+            List<KuaYueTrainCatalog> trainCatalogs = result.finalizerResults().stream()
+                    .filter(KuaYueTrainCatalog.class::isInstance)
+                    .map(KuaYueTrainCatalog.class::cast)
+                    .toList();
+            if (trainCatalogs.size() != 1) {
+                throw new IllegalStateException(
+                        "Expected exactly one compiled KuaYue train catalog, got "
+                                + trainCatalogs.size()
+                );
+            }
+            KuaYueTrainCatalog trainCatalog = trainCatalogs.getFirst();
+            KuaYueTrainCatalog.install(trainCatalog);
+            LOGGER.info(
+                    "Compiled {} effective trains from {} contributor declarations",
+                    trainCatalog.all().size(),
+                    trainCatalog.all().stream()
+                            .mapToInt(train -> train.contributors().size())
+                            .sum()
+            );
             Map<String, String> projectedSourcePackIds = new LinkedHashMap<>();
             for (StartupPackSnapshot.ManagedPackRoot root : activeRoots) {
                 for (PackResourceSnapshotter.CapturedRoot captured : root.capture().roots()) {

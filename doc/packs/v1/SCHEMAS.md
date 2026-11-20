@@ -12,6 +12,7 @@
 | 单一注册类型 | `data-driven/v1/*.schema.json` 中的对应文件 |
 | 转向架组合文件 | [`../../schemas/data-driven/v1/bogeys.schema.json`](../../schemas/data-driven/v1/bogeys.schema.json) |
 | 仅含 `bogey_style_variants` | [`../../schemas/data-driven/v1/bogey-style-variants.schema.json`](../../schemas/data-driven/v1/bogey-style-variants.schema.json) |
+| 仅含 `trains` | [`../../schemas/data-driven/v1/trains.schema.json`](../../schemas/data-driven/v1/trains.schema.json) |
 | 餐食 `provisions.json` | [`../../schemas/data-driven/v1/provisions.schema.json`](../../schemas/data-driven/v1/provisions.schema.json) |
 | `animation_clips` reload 文件 | [`../../schemas/data-driven/v1/animation-clips.schema.json`](../../schemas/data-driven/v1/animation-clips.schema.json) |
 
@@ -66,7 +67,7 @@ data/<namespace>/kasuga_lib/data_driven/...json
 
 namespace 必须在同一包的 `pack.json.namespaces` 中声明。Schema 检查路径形状；运行时还检查 parcel ID 的 namespace、图标 namespace 和索引文件是否真实存在。
 
-可选的 `creative_filter` 描述创造模式筛选按钮：
+新内容应通过 train 定义描述车型身份和创造模式筛选。以下 `creative_filter` 仅为旧外部包保留兼容：
 
 ```json
 {
@@ -79,7 +80,7 @@ namespace 必须在同一包的 `pack.json.namespaces` 中声明。Schema 检查
 }
 ```
 
-`tab` 必填，`icon_item` 可选，`item_tags` 与 `items` 至少出现一项且数组不能为空、不能重复。运行时会按标签页隐藏不适用按钮，并将匹配的 tag 与显式 item ID 取并集后筛选当前创造模式物品列表。
+内置预设包已移除该字段。未从 train 或 parcel filter 提供按钮的车型不会新增创造筛选按钮。
 
 parcel 按单个车型组织。`shared` 是跨车型共享内容的 parcel 名称，不是独立开关或保留 namespace。Schema 无法判断 parcel 是否按车型划分，作者必须遵守该结构规则。
 
@@ -125,7 +126,8 @@ parcel 按单个车型组织。`shared` 是跨车型共享内容的 parcel 名�
 {
   "on_register": [
     "c22/groups.json",
-    "c22/blocks.json"
+    "c22/blocks.json",
+    "trains/c22.json"
   ],
   "on_reload": []
 }
@@ -167,6 +169,7 @@ kuayue-packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/da
 - `bogey_styles`
 - `bogey_style_variants`
 - `tracks`
+- `trains`
 
 它不接受 `animation_clips`，避免把注册对象和 reload 数据混在同一生命周期。
 
@@ -252,6 +255,7 @@ python3 validate_schema.py parcels/c22/parcel.json parcel.schema.json
 python3 validate_schema.py kuayue/config.json config.schema.json
 python3 validate_schema.py content.json content.schema.json
 python3 validate_schema.py df11g.json bogeys.schema.json
+python3 validate_schema.py c22-train.json trains.schema.json
 python3 validate_schema.py animation.json animation-clips.schema.json
 ```
 

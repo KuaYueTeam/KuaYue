@@ -20,6 +20,7 @@
 | 只含 `bogey_style_variants` | `bogey-style-variants.schema.json` |
 | 同文件组合多个 `bogey_*` 类型 | `bogeys.schema.json` |
 | 含 `registry_groups` 与 `tracks` | `tracks.schema.json` |
+| 只含 `trains` | `trains.schema.json` |
 | provisions 内容包 | `provisions.schema.json` |
 | `on_reload` 指向的动画剪辑 | `animation-clips.schema.json` |
 
@@ -40,6 +41,7 @@
 | `bogey_styles` | 注册期，阶段 50 | `BogeyStyleTypeHandler` | `BogeyStyleDefinition` |
 | `bogey_style_variants` | 注册期，阶段 51 | `BogeyStyleVariantsTypeHandler` | `BogeyStyleVariantsDefinition` |
 | `tracks` | 注册期，内容阶段 | `TrackTypeHandler` | `TrackDefinitionParser`、`TrackDefinition` |
+| `trains` | 注册期，阶段 60，不注册对象 | `TrainTypeHandler` | `TrainPatch`、`KuaYueTrainDefinition` |
 | `animation_clips` | reload 期 | `FsmClipsReloadHandler`、`AnimationClipLoader` | `AnimationClip` |
 
 `block_entities` 不是可写的顶层数组。它由 `blocks[].block_entity` 提取，并以父方块 ID 作为逻辑身份。
@@ -58,7 +60,8 @@ data/<namespace>/kasuga_lib/data_driven/
 {
   "on_register": [
     "my_train/c22/groups.json",
-    "my_train/c22/blocks.json"
+    "my_train/c22/blocks.json",
+    "trains/c22.json"
   ],
   "on_reload": [
     "animation_clips/my_mechanism.json"
@@ -213,7 +216,58 @@ running-gear/bogey-*:
 
 因此不能再用单一 `bogeys.json` 路径判断转向架内容是否完整。查看对应 parcel 的 `indexes` 与 `on_register` 引用。
 
-## 6. 轨道
+## 6. Train 集合定义
+
+`trains` 是 KuaYue 独有的 overlay 类型。它把同一车型的方块、物品、转向架、创造页显示信息和系统标签关联起来，供创造筛选、反向索引及后续模块查询。它不注册新的 Minecraft registry 对象。
+
+```json
+{
+  "trains": [
+    {
+      "id": "mytrain:c22",
+      "category": "carriage",
+      "name_key": "parcel.mytrain.c22.name",
+      "description_key": "parcel.mytrain.c22.description",
+      "members": {
+        "blocks": ["mytrain:c22_panel"],
+        "items": [],
+        "item_tags": ["mytrain:c22_parts"],
+        "bogey_sizes": ["mytrain:c22"],
+        "bogey_motions": [],
+        "bogey_models": ["mytrain:bogey/c22"],
+        "bogey_blocks": ["mytrain:c22_bogey"],
+        "bogey_styles": ["kuayue:loco"],
+        "bogey_style_variants": ["mytrain:c22_loco"]
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_carriage",
+        "icon_item": "mytrain:c22_panel"
+      }
+    }
+  ]
+}
+```
+
+单来源可以只声明需要修改的字段。相同 train ID 会按包优先级从低到高合并：
+
+- 对象字段递归合并；
+- 标量字段由高优先级覆盖；
+- 数组整体替换，`[]` 会显式清空低优先级内容；
+- 高优先级来源只声明 `members.items` 时，其余字段继续继承低优先级来源；
+- 覆盖者必须通过 `pack.json.dependencies.packs` 直接依赖低优先级贡献包；
+- 同一 owner 不允许为同一 train ID 声明两次。
+
+合并后的完整定义必须包含非空 `category`、`name_key`、`description_key`，以及 `members` 中九个成员数组；数组可以为空。`creative` 可省略；出现时 `creative.tab` 必填，`icon_item` 可选。
+
+注册成功后，每个 train 会生成：
+
+```text
+kuayue:system/train/<train namespace>/<train path>
+```
+
+该 item tag 会合并 `members.blocks` 对应的 BlockItem、`members.items` 和 `members.item_tags`；同一身份另生成 block tag。`creative` 存在时，创造筛选页会使用这个 train tag。旧 `parcel.json.creative_filter` 只作为外部兼容入口，新内容应声明 train。
+
+## 7. 轨道
 
 当前只有 `simple_track` factory。轨道定义必须提供：
 
@@ -224,7 +278,7 @@ running-gear/bogey-*:
 
 轨道同时声明方块和物品 claim，因此注册时会产生两个 registry claims。`sleepers` 会在应用阶段解析为已注册方块；资源存在但注册不可见的 ID 仍会失败。
 
-## 7. Provisions
+## 8. Provisions
 
 provisions 不是新的顶层类型。实际文件 `provisions.json` 复用 `registry_groups`、`blocks`、`items`，外部布局为：
 
@@ -235,7 +289,7 @@ provisions/resources/provisions/data/kuayue/kasuga_lib/data_driven/provisions.js
 
 其方块 factory 收窄为 `diet_box`、`drink`、`placement_food`、`dried_noodles`、`soaked_noodles`，物品 factory 为 `simple_item`。这些限制来自 `ProvisionsFactories`。
 
-## 8. 动画剪辑
+## 9. 动画剪辑
 
 `animation-clips.schema.json` 校验：
 
@@ -254,7 +308,7 @@ provisions/resources/provisions/data/kuayue/kasuga_lib/data_driven/provisions.js
 
 剪辑还支持 `bones`、`morphs`、`frames` 和 `cameras`。已删除的 `functions`、`formula_parts` 不在 Schema 中，加载器会拒绝这两个旧字段。公式变量按声明顺序求值，`formula_transforms` 的目标可以是整个 model part 或其中的 bone。
 
-## 9. 校验
+## 10. 校验
 
 JSON 语法检查：
 
@@ -308,10 +362,11 @@ raise SystemExit(1 if errors else 0)
 python3 validate.py path/to/index.json index.schema.json
 python3 validate.py path/to/content.json content.schema.json
 python3 validate.py path/to/bogeys.json bogeys.schema.json
+python3 validate.py path/to/trains.json trains.schema.json
 python3 validate.py path/to/qj_mechanism.json animation-clips.schema.json
 ```
 
-## 10. 运行时边界
+## 11. 运行时边界
 
 Schema 主动拒绝未知字段，适合让拼写错误在提交前失败。以下内容仍由 Java 或宿主环境决定：
 

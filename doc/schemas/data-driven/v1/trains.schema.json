@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/trains.schema.json",
+  "title": "KuaYue train overlay content",
+  "description": "TrainTypeHandler / TrainPatchParser / TrainPatch. Same-ID patches merge by pack priority.",
+  "type": "object",
+  "properties": {
+    "trains": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "content.schema.json#/$defs/trainPatch"
+      }
+    }
+  },
+  "required": [
+    "trains"
+  ],
+  "additionalProperties": false
+}

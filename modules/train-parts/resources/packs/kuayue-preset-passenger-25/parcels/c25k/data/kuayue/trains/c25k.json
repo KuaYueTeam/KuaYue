@@ -1,0 +1,51 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:c25k",
+      "category": "carriage",
+      "name_key": "parcel.kuayue.c25k.name",
+      "description_key": "parcel.kuayue.c25k.description",
+      "members": {
+        "blocks": [
+          "kuayue:panel_bottom_25k",
+          "kuayue:panel_bottom_line_25k",
+          "kuayue:panel_middle_25k",
+          "kuayue:panel_symbol_25k",
+          "kuayue:panel_symbol_marshalled_25k",
+          "kuayue:panel_symbol_marshalled_25k_b",
+          "kuayue:panel_top_25k",
+          "kuayue:window_oc_sealed_small_25k",
+          "kuayue:window_oc_small_25k",
+          "kuayue:window_oc_toilet_25k",
+          "kuayue:window_oc_wide_25k",
+          "kuayue:window_oc_wide_sealed_25k",
+          "kuayue:door_25k",
+          "kuayue:door_sliding_25k",
+          "kuayue:end_face_25k_1",
+          "kuayue:end_face_25k_2",
+          "kuayue:end_face_25k_3",
+          "kuayue:end_face_sliding_25k_1",
+          "kuayue:end_face_sliding_25k_2",
+          "kuayue:end_face_sliding_25k_3",
+          "kuayue:floor_25k",
+          "kuayue:toilet_dd_25k",
+          "kuayue:ladder_sliding_25k"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-passenger-25/kuayue/c25k"
+        ],
+        "bogey_sizes": [],
+        "bogey_motions": [],
+        "bogey_models": [],
+        "bogey_blocks": [],
+        "bogey_styles": [],
+        "bogey_style_variants": []
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_carriage",
+        "icon_item": "kuayue:panel_bottom_25k"
+      }
+    }
+  ]
+}

@@ -5,12 +5,5 @@
   "description_key": "parcel.kuayue.cr200j.description",
   "indexes": [
     "data/kuayue/kasuga_lib/data_driven/cr200j.json"
-  ],
-  "creative_filter": {
-    "tab": "kuayue:kuayue_carriage",
-    "icon_item": "kuayue:panel_bottom_marshalled_cr200j",
-    "item_tags": [
-      "kuayue:system/parcel/kuayue-preset-emu/kuayue/cr200j"
-    ]
-  }
+  ]
 }

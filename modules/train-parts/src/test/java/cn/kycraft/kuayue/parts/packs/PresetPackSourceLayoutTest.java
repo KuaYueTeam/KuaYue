@@ -8,9 +8,11 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -26,7 +28,7 @@ class PresetPackSourceLayoutTest {
     private static final String RUNNING_GEAR = "kuayue-preset-running-gear";
     private static final String CARRIAGE_TAB = "kuayue:kuayue_carriage";
     private static final String LOCO_TAB = "kuayue:kuayue_loco";
-    private static final Map<String, String> EXPECTED_CREATIVE_FILTERS = Map.ofEntries(
+    private static final Map<String, String> EXPECTED_TRAIN_TABS = Map.ofEntries(
             Map.entry("kuayue:c22", CARRIAGE_TAB),
             Map.entry("kuayue:c25", CARRIAGE_TAB),
             Map.entry("kuayue:c25b", CARRIAGE_TAB),
@@ -139,7 +141,7 @@ class PresetPackSourceLayoutTest {
     }
 
     @Test
-    void creativeFilterTranslationsExistInEveryRequiredLocale() throws IOException {
+    void trainTranslationsExistInEveryRequiredLocale() throws IOException {
         for (String packId : PACK_IDS) {
             Path pack = PACKS.resolve(packId);
             Map<String, Set<String>> keysByLocale = new HashMap<>();
@@ -159,23 +161,14 @@ class PresetPackSourceLayoutTest {
                 keysByLocale.put(locale, keys);
             }
 
-            JsonObject manifest = DataJson.GSON.fromJson(
-                    Files.readString(pack.resolve("pack.json")),
-                    JsonObject.class
-            );
-            for (JsonElement entry : manifest.getAsJsonArray("parcels")) {
-                JsonObject parcel = DataJson.GSON.fromJson(
-                        Files.readString(pack.resolve(entry.getAsString())),
-                        JsonObject.class
-                );
-                if (!parcel.has("creative_filter")) continue;
+            for (LocatedTrain train : readTrains(pack)) {
                 for (String field : Set.of("name_key", "description_key")) {
-                    if (!parcel.has(field)) continue;
-                    String key = parcel.get(field).getAsString();
+                    String key = train.definition().get(field).getAsString();
                     for (var locale : keysByLocale.entrySet()) {
                         assertTrue(
                                 locale.getValue().contains(key),
-                                () -> packId + " / " + locale.getKey() + " is missing " + key
+                                () -> train.source() + " / " + locale.getKey()
+                                        + " is missing " + key
                         );
                     }
                 }
@@ -184,31 +177,22 @@ class PresetPackSourceLayoutTest {
     }
 
     @Test
-    void vehicleParcelsExposeSplitCreativeFilters() throws IOException {
+    void trainDefinitionsAreIndexedAndExposeSplitCreativeFilters() throws IOException {
         Map<String, String> actual = new TreeMap<>();
         for (String packId : PACK_IDS) {
             Path pack = PACKS.resolve(packId);
-            JsonObject manifest = DataJson.GSON.fromJson(
-                    Files.readString(pack.resolve("pack.json")),
-                    JsonObject.class
-            );
-            for (JsonElement entry : manifest.getAsJsonArray("parcels")) {
-                JsonObject parcel = DataJson.GSON.fromJson(
-                        Files.readString(pack.resolve(entry.getAsString())),
-                        JsonObject.class
-                );
-                if (!parcel.has("creative_filter")) continue;
-
-                String parcelId = parcel.get("id").getAsString();
-                JsonObject filter = parcel.getAsJsonObject("creative_filter");
-                actual.put(parcelId, filter.get("tab").getAsString());
+            for (LocatedTrain located : readTrains(pack)) {
+                JsonObject train = located.definition();
+                String trainId = train.get("id").getAsString();
+                JsonObject creative = train.getAsJsonObject("creative");
+                actual.put(trainId, creative.get("tab").getAsString());
 
                 Set<String> selectors = new LinkedHashSet<>();
                 for (JsonElement selector
-                        : filter.getAsJsonArray("item_tags")) {
+                        : train.getAsJsonObject("members").getAsJsonArray("item_tags")) {
                     selectors.add(selector.getAsString());
                 }
-                if ("kuayue:freight".equals(parcelId)) {
+                if ("kuayue:freight".equals(trainId)) {
                     assertEquals(
                             Set.of(
                                     "kuayue:system/parcel/"
@@ -222,14 +206,26 @@ class PresetPackSourceLayoutTest {
                     assertTrue(
                             selectors.contains(
                                     "kuayue:system/parcel/"
-                                            + packId + "/" + parcelId.replace(':', '/')
+                                            + packId + "/" + trainId.replace(':', '/')
                             ),
-                            parcelId
+                            trainId
                     );
                 }
             }
+
+            JsonObject manifest = DataJson.GSON.fromJson(
+                    Files.readString(pack.resolve("pack.json")),
+                    JsonObject.class
+            );
+            for (JsonElement entry : manifest.getAsJsonArray("parcels")) {
+                JsonObject parcel = DataJson.GSON.fromJson(
+                        Files.readString(pack.resolve(entry.getAsString())),
+                        JsonObject.class
+                );
+                assertFalse(parcel.has("creative_filter"), entry.getAsString());
+            }
         }
-        assertEquals(EXPECTED_CREATIVE_FILTERS, actual);
+        assertEquals(EXPECTED_TRAIN_TABS, actual);
     }
 
     @Test
@@ -322,6 +318,59 @@ class PresetPackSourceLayoutTest {
         return roots;
     }
 
+    private static List<LocatedTrain> readTrains(Path pack) throws IOException {
+        List<LocatedTrain> trains = new ArrayList<>();
+        JsonObject manifest = DataJson.GSON.fromJson(
+                Files.readString(pack.resolve("pack.json")),
+                JsonObject.class
+        );
+        for (JsonElement entry : manifest.getAsJsonArray("parcels")) {
+            Path parcelManifestPath = pack.resolve(entry.getAsString());
+            Path parcelRoot = parcelManifestPath.getParent();
+            JsonObject parcel = DataJson.GSON.fromJson(
+                    Files.readString(parcelManifestPath),
+                    JsonObject.class
+            );
+
+            Set<String> declaredInIndexes = new HashSet<>();
+            for (JsonElement indexEntry : parcel.getAsJsonArray("indexes")) {
+                JsonObject index = DataJson.GSON.fromJson(
+                        Files.readString(parcelRoot.resolve(indexEntry.getAsString())),
+                        JsonObject.class
+                );
+                for (JsonElement registered : index.getAsJsonArray("on_register")) {
+                    declaredInIndexes.add(registered.getAsString());
+                }
+            }
+
+            Path trainDirectory = parcelRoot.resolve("data/kuayue/trains");
+            Set<String> trainFiles = new HashSet<>();
+            if (Files.isDirectory(trainDirectory)) {
+                try (var paths = Files.list(trainDirectory)) {
+                    for (Path file : paths
+                            .filter(Files::isRegularFile)
+                            .filter(path -> path.toString().endsWith(".json"))
+                            .toList()) {
+                        trainFiles.add("trains/" + file.getFileName());
+                        JsonObject root = DataJson.GSON.fromJson(
+                                Files.readString(file),
+                                JsonObject.class
+                        );
+                        assertEquals(1, root.getAsJsonArray("trains").size(), file.toString());
+                        JsonObject train = root.getAsJsonArray("trains")
+                                .get(0)
+                                .getAsJsonObject();
+                        trains.add(new LocatedTrain(pack.getFileName().toString(), file, train));
+                    }
+                }
+            }
+            assertEquals(trainFiles, new HashSet<>(declaredInIndexes.stream()
+                    .filter(path -> path.startsWith("trains/"))
+                    .toList()), parcelManifestPath.toString());
+        }
+        return List.copyOf(trains);
+    }
+
     private static void assertModelReference(
             Path source,
             JsonElement reference,
@@ -379,5 +428,8 @@ class PresetPackSourceLayoutTest {
         int marker = normalized.indexOf("/textures/");
         if (marker < 0) return;
         paths.add(normalized.substring(marker + "/textures/".length()).toLowerCase(Locale.ROOT));
+    }
+
+    private record LocatedTrain(String packId, Path source, JsonObject definition) {
     }
 }

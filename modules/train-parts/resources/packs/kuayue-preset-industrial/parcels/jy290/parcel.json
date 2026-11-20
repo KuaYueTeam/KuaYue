@@ -5,12 +5,5 @@
   "description_key": "parcel.kuayue.jy290.description",
   "indexes": [
     "data/kuayue/kasuga_lib/data_driven/jy290.json"
-  ],
-  "creative_filter": {
-    "tab": "kuayue:kuayue_loco",
-    "icon_item": "kuayue:jy290_head_2",
-    "item_tags": [
-      "kuayue:system/parcel/kuayue-preset-industrial/kuayue/jy290"
-    ]
-  }
+  ]
 }

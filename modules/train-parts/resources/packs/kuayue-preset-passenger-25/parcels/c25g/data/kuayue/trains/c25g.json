@@ -1,0 +1,46 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:c25g",
+      "category": "carriage",
+      "name_key": "parcel.kuayue.c25g.name",
+      "description_key": "parcel.kuayue.c25g.description",
+      "members": {
+        "blocks": [
+          "kuayue:panel_bottom_25g",
+          "kuayue:panel_middle_25g",
+          "kuayue:panel_symbol_marshalled_25g",
+          "kuayue:panel_top_25g",
+          "kuayue:window_oc_sealed_small_25g",
+          "kuayue:window_oc_sealed_wide_25g",
+          "kuayue:window_oc_small_25g",
+          "kuayue:window_oc_small_25g_2",
+          "kuayue:window_oc_toilet_25g",
+          "kuayue:window_oc_wide_25g",
+          "kuayue:door_25g",
+          "kuayue:door_sliding_25g",
+          "kuayue:end_face_25g_1",
+          "kuayue:end_face_25g_2",
+          "kuayue:end_face_25g_3",
+          "kuayue:floor_25g",
+          "kuayue:toilet_dd_25g",
+          "kuayue:ladder_25g"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-passenger-25/kuayue/c25g"
+        ],
+        "bogey_sizes": [],
+        "bogey_motions": [],
+        "bogey_models": [],
+        "bogey_blocks": [],
+        "bogey_styles": [],
+        "bogey_style_variants": []
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_carriage",
+        "icon_item": "kuayue:panel_bottom_25g"
+      }
+    }
+  ]
+}

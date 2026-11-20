@@ -5,12 +5,5 @@
   "description_key": "parcel.kuayue.ss3.description",
   "indexes": [
     "data/kuayue/kasuga_lib/data_driven/ss3.json"
-  ],
-  "creative_filter": {
-    "tab": "kuayue:kuayue_loco",
-    "icon_item": "kuayue:ss3_panel_bottom",
-    "item_tags": [
-      "kuayue:system/parcel/kuayue-preset-ss/kuayue/ss3"
-    ]
-  }
+  ]
 }

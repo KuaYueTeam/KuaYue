@@ -26,6 +26,8 @@ import cn.kycraft.kuayue.packs.runtime.LegacyPackCacheCleaner;
 import cn.kycraft.kuayue.packs.runtime.PackCaptureException;
 import cn.kycraft.kuayue.packs.runtime.PackResourceSnapshotter;
 import cn.kycraft.kuayue.packs.state.PackRuntimeState;
+import cn.kycraft.kuayue.train.KuaYueTrainCatalog;
+import cn.kycraft.kuayue.train.SystemTrainTags;
 import lib.kasuga.core.resource.ResourceSystem;
 import lib.kasuga.core.resource.source.InputPolicy;
 import lib.kasuga.core.resource.source.ResourceSource;
@@ -276,6 +278,7 @@ public final class KuaYuePackBootstrap {
                 finalReport
         );
         PackRuntimeState.install(snapshot.config());
+        KuaYueTrainCatalog.clear();
         SNAPSHOT.set(snapshot);
         NeoForge.EVENT_BUS.addListener(
                 ServerAboutToStartEvent.class,
@@ -321,6 +324,7 @@ public final class KuaYuePackBootstrap {
                         .map(PackResourceSnapshotter.CapturedRoot::source)
                         .forEach(sources::add));
         SystemOriginTags.Result tagged = null;
+        ResourceSource trainTags = null;
         AutoCloseable pending = null;
         try {
             PackOriginIndex currentOrigin = PackOriginIndex.current();
@@ -335,6 +339,13 @@ public final class KuaYuePackBootstrap {
                     PackLimits.defaults()
             );
             sources.add(tagged.source());
+            trainTags = SystemTrainTags.create(
+                    KuaYueTrainCatalog.current(),
+                    currentOrigin,
+                    (long) nextRank + 2L,
+                    PackLimits.defaults()
+            );
+            sources.add(trainTags);
             pending = resourceSystem.getApprovedPacks().registerOrderedGroup(
                     KuaYueMcPackProjection.create(List.copyOf(sources))
             );
@@ -350,6 +361,18 @@ public final class KuaYuePackBootstrap {
                 throw closeFailure;
             }
             tagged = null;
+            try {
+                trainTags.close();
+            } catch (IOException closeFailure) {
+                try {
+                    pending.close();
+                } catch (Exception cleanup) {
+                    closeFailure.addSuppressed(cleanup);
+                }
+                pending = null;
+                throw closeFailure;
+            }
+            trainTags = null;
             resourceSystem.registerManagedCloseable(KuaYuePackBootstrap::closePackResources);
             resourceGroup = pending;
             pending = null;
@@ -357,6 +380,7 @@ public final class KuaYuePackBootstrap {
         } catch (IOException failure) {
             cleanupFailedInstall(pending, failure);
             if (tagged != null) cleanupFailedInstall(tagged.source(), failure);
+            if (trainTags != null) cleanupFailedInstall(trainTags, failure);
             RESOURCES_INSTALLED.set(false);
             closePackResources();
             throw new IllegalStateException(
@@ -366,6 +390,7 @@ public final class KuaYuePackBootstrap {
         } catch (RuntimeException failure) {
             cleanupFailedInstall(pending, failure);
             if (tagged != null) cleanupFailedInstall(tagged.source(), failure);
+            if (trainTags != null) cleanupFailedInstall(trainTags, failure);
             RESOURCES_INSTALLED.set(false);
             closePackResources();
             throw failure;
@@ -433,6 +458,7 @@ public final class KuaYuePackBootstrap {
         resourceGroup = null;
         closeQuietly(group);
         originIndex = null;
+        KuaYueTrainCatalog.clear();
         StartupPackSnapshot snapshot = SNAPSHOT.getAndSet(null);
         if (snapshot != null) {
             closeQuietly(snapshot.runtimeRoot());

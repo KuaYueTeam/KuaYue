@@ -1,0 +1,48 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:m1",
+      "category": "carriage",
+      "name_key": "parcel.kuayue.m1.name",
+      "description_key": "parcel.kuayue.m1.description",
+      "members": {
+        "blocks": [
+          "kuayue:slab_bottom_m1",
+          "kuayue:slab_bottom_jy30",
+          "kuayue:window_large_m1",
+          "kuayue:window_large_between_m1",
+          "kuayue:window_small_m1",
+          "kuayue:window_double_small_m1",
+          "kuayue:window_large_jy30",
+          "kuayue:window_large_between_jy30",
+          "kuayue:slab_top_m1",
+          "kuayue:door_m1",
+          "kuayue:end_face_m1",
+          "kuayue:end_face_middle_m1",
+          "kuayue:ladder_m1",
+          "kuayue:floor_m1",
+          "kuayue:carport_general_m1",
+          "kuayue:carport_air_vent_m1",
+          "kuayue:carport_air_vent_m1_2",
+          "kuayue:carport_middle_m1",
+          "kuayue:floor_battery_m1",
+          "kuayue:floor_reservoir_box_m1"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-meter-gauge/kuayue/m1"
+        ],
+        "bogey_sizes": [],
+        "bogey_motions": [],
+        "bogey_models": [],
+        "bogey_blocks": [],
+        "bogey_styles": [],
+        "bogey_style_variants": []
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_carriage",
+        "icon_item": "kuayue:slab_bottom_m1"
+      }
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:ss8",
+      "category": "locomotive",
+      "name_key": "parcel.kuayue.ss8.name",
+      "description_key": "parcel.kuayue.ss8.description",
+      "members": {
+        "blocks": [
+          "kuayue:ss8_windows_small",
+          "kuayue:ss8_cowcatcher",
+          "kuayue:ss8_carport",
+          "kuayue:ss8_carport_ad",
+          "kuayue:ss8_carport_fan",
+          "kuayue:ss8_carport_link",
+          "kuayue:ss8_floor",
+          "kuayue:ss8_windows_big",
+          "kuayue:ss8_panel_bottom_ad",
+          "kuayue:ss8_panel_upper_ad",
+          "kuayue:ss8_panel_bottom",
+          "kuayue:ss8_panel_upper",
+          "kuayue:ss8_head",
+          "kuayue:ss8_transformer",
+          "kuayue:ss8_roof",
+          "kuayue:ss8_carport_center",
+          "kuayue:ss8_sandbox_front",
+          "kuayue:ss8_door",
+          "kuayue:240km_monument"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-ss/kuayue/ss8"
+        ],
+        "bogey_sizes": [
+          "kuayue:ss8",
+          "kuayue:ss8_backward",
+          "kuayue:ss8_a",
+          "kuayue:ss8_backward_a"
+        ],
+        "bogey_motions": [
+          "kuayue:motion/wheel_spin/scale_1.0_sign_-1",
+          "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        ],
+        "bogey_models": [
+          "kuayue:bogey/ss8",
+          "kuayue:bogey/ss8_backward",
+          "kuayue:bogey/ss8_a",
+          "kuayue:bogey/ss8_backward_a"
+        ],
+        "bogey_blocks": [
+          "kuayue:ss8_bogey",
+          "kuayue:ss8_backward_bogey",
+          "kuayue:ss8_bogey_a",
+          "kuayue:ss8_backward_bogey_a"
+        ],
+        "bogey_styles": [
+          "kuayue:loco",
+          "kuayue:andesite_loco"
+        ],
+        "bogey_style_variants": [
+          "kuayue:ss8_loco",
+          "kuayue:ss8_andesite_loco"
+        ]
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_loco",
+        "icon_item": "kuayue:ss8_cowcatcher"
+      }
+    }
+  ]
+}

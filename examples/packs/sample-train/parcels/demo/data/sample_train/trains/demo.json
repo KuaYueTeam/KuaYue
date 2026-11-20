@@ -1,0 +1,27 @@
+{
+  "trains": [
+    {
+      "id": "sample_train:demo",
+      "category": "carriage",
+      "name_key": "parcel.sample_train.demo.name",
+      "description_key": "parcel.sample_train.demo.description",
+      "members": {
+        "blocks": [
+          "sample_train:demo_floor"
+        ],
+        "items": [],
+        "item_tags": [],
+        "bogey_sizes": [],
+        "bogey_motions": [],
+        "bogey_models": [],
+        "bogey_blocks": [],
+        "bogey_styles": [],
+        "bogey_style_variants": []
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_carriage",
+        "icon_item": "sample_train:demo_floor"
+      }
+    }
+  ]
+}

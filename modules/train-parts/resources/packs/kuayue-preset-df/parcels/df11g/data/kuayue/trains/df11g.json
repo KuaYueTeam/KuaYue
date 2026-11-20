@@ -1,0 +1,88 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:df11g",
+      "category": "locomotive",
+      "name_key": "parcel.kuayue.df11g.name",
+      "description_key": "parcel.kuayue.df11g.description",
+      "members": {
+        "blocks": [
+          "kuayue:door_cabin_df11g",
+          "kuayue:door_equip_room_df11g",
+          "kuayue:end_face_df11g",
+          "kuayue:cowcatcher_df11g",
+          "kuayue:head_df11g_2",
+          "kuayue:df11g_tank",
+          "kuayue:floor_df11g",
+          "kuayue:df11g_carport",
+          "kuayue:df11g_carport_center",
+          "kuayue:df11g_carport_center_cooling_blind",
+          "kuayue:df11g_carport_center_fan_blind",
+          "kuayue:df11g_carport_eh",
+          "kuayue:df11g_carport_eh_ad",
+          "kuayue:df11g_carport_eh_blind",
+          "kuayue:df11g_carport_filter_blind",
+          "kuayue:df11g_carport_kua",
+          "kuayue:df11g_carport_yue",
+          "kuayue:df11g_chimney",
+          "kuayue:panel_kuayue_df11g",
+          "kuayue:panel_top_df11g",
+          "kuayue:panel_bottom_df11g",
+          "kuayue:road_sign_df11g",
+          "kuayue:window_equip_room_df11g_1",
+          "kuayue:window_equip_room_df11g_2",
+          "kuayue:window_pr_df11g",
+          "kuayue:louver_equip_room_df11g_2_top",
+          "kuayue:louver_equip_room_df11g_2_bottom",
+          "kuayue:louver_equip_room_df11g_1",
+          "kuayue:df11g_panel_bottom_eh_blind",
+          "kuayue:df11g_panel_upper_ph_blind",
+          "kuayue:df11g_panel_bottom_ph_blind",
+          "kuayue:df11g_panel_bottom_blind",
+          "kuayue:df11g_panel_upper_blind",
+          "kuayue:df11g_panel_bottom_cooling_blind",
+          "kuayue:df11g_windows_ph_eh",
+          "kuayue:df11g_panel_upper_cooling_blind"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-df/kuayue/df11g"
+        ],
+        "bogey_sizes": [
+          "kuayue:df11g",
+          "kuayue:df11g_backward",
+          "kuayue:df11g_a",
+          "kuayue:df11g_backward_a"
+        ],
+        "bogey_motions": [
+          "kuayue:motion/wheel_spin/scale_1.0_sign_-1",
+          "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        ],
+        "bogey_models": [
+          "kuayue:bogey/df11g",
+          "kuayue:bogey/df11g_backward",
+          "kuayue:bogey/df11g_a",
+          "kuayue:bogey/df11g_backward_a"
+        ],
+        "bogey_blocks": [
+          "kuayue:df11g_bogey",
+          "kuayue:df11g_backward_bogey",
+          "kuayue:df11g_bogey_a",
+          "kuayue:df11g_backward_bogey_a"
+        ],
+        "bogey_styles": [
+          "kuayue:loco",
+          "kuayue:andesite_loco"
+        ],
+        "bogey_style_variants": [
+          "kuayue:df11g_loco",
+          "kuayue:df11g_andesite_loco"
+        ]
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_loco",
+        "icon_item": "kuayue:head_df11g_2"
+      }
+    }
+  ]
+}

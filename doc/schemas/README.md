@@ -5,7 +5,7 @@
 | 版本目录 | 覆盖范围 | 使用说明 |
 |---|---|---|
 | [`packs/v1/`](packs/v1/) | `pack.json`、`parcel.json`、`kuayue/config.json` | 预设包、外部车包、parcel 清单和实例开关 |
-| [`data-driven/v1/`](data-driven/v1/) | KasugaLib 索引、注册组、方块、物品、转向架、轨道、餐食和动画剪辑 | 注册期内容与 KuaYue 使用的 reload 内容 |
+| [`data-driven/v1/`](data-driven/v1/) | KasugaLib 索引、注册组、方块、物品、转向架、轨道、train、餐食和动画剪辑 | 注册期内容与 KuaYue 使用的 reload 内容 |
 
 `packs/v1` 和 `data-driven/v1` 是两套协议，不应交叉套用：
 

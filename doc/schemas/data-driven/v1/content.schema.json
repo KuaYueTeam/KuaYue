@@ -65,6 +65,12 @@
       "items": {
         "$ref": "#/$defs/track"
       }
+    },
+    "trains": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/trainPatch"
+      }
     }
   },
   "additionalProperties": false,
@@ -2175,6 +2181,86 @@
       "required": [
         "id"
       ],
+      "additionalProperties": false
+    },
+    "trainPatch": {
+      "type": "object",
+      "description": "KuaYue train overlay patch. Same-ID patches merge from lower to higher source priority.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "category": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "name_key": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "description_key": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "members": {
+          "$ref": "#/$defs/trainMembers"
+        },
+        "creative": {
+          "$ref": "#/$defs/trainCreative"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "trainMembers": {
+      "type": "object",
+      "properties": {
+        "blocks": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "items": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "item_tags": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "bogey_sizes": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "bogey_motions": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "bogey_models": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "bogey_blocks": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "bogey_styles": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "bogey_style_variants": {
+          "$ref": "#/$defs/resourceLocationList"
+        }
+      },
+      "additionalProperties": false
+    },
+    "resourceLocationList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/explicitResourceLocation"
+      }
+    },
+    "trainCreative": {
+      "type": "object",
+      "properties": {
+        "tab": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "icon_item": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        }
+      },
       "additionalProperties": false
     }
   }
