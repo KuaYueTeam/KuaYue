@@ -1,38 +1,88 @@
 package cn.kycraft.kuayue.overhead_line.block.support.variants;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 public class NormalOverheadSupportBlock extends Block {
-    public NormalOverheadSupportBlock(BlockBehaviour.Properties properties){
-        super(properties.noCollission());
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+
+    public enum TrussShape {
+        SMALL, BIG, PILLAR
+    }
+
+    private static final VoxelShape SMALL_TRUSS_NS = Shapes.box(0.4375, 0.0, 0.0, 0.5625, 1.0, 1.0);
+    private static final VoxelShape SMALL_TRUSS_WE = Shapes.box(0.0, 0.0, 0.4375, 1.0, 1.0, 0.5625);
+    private static final VoxelShape BIG_TRUSS_NS = Shapes.box(0.25, 0.0, 0.0, 0.75, 1.0, 1.0);
+    private static final VoxelShape BIG_TRUSS_WE = Shapes.box(0.0, 0.0, 0.25, 1.0, 1.0, 0.75);
+    private static final VoxelShape PILLAR_TRUSS_NS = Shapes.box(0.25, 0.25, 0.0, 0.75, 0.75, 1.0);
+    private static final VoxelShape PILLAR_TRUSS_WE = Shapes.box(0.0, 0.25, 0.25, 1.0, 0.75, 0.75);
+
+    @Nullable
+    private final TrussShape trussShape;
+
+    public NormalOverheadSupportBlock(BlockBehaviour.Properties properties) {
+        this(properties, null);
+    }
+
+    public NormalOverheadSupportBlock(BlockBehaviour.Properties properties, @Nullable TrussShape trussShape) {
+        super(properties);
+        this.trussShape = trussShape;
         registerDefaultState(getStateDefinition().any().setValue(FACING, Direction.EAST));
     }
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context){
-        return defaultBlockState().setValue(FACING,context.getHorizontalDirection());
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        Direction direction = context.getHorizontalDirection();
+        // Existing support and truss models use opposite placement conventions.
+        return defaultBlockState().setValue(FACING, trussShape == null ? direction : direction.getOpposite());
     }
 
-    protected BlockState rotate(BlockState state, Rotation rotation){
-        return state.setValue(FACING,rotation.rotate(state.getValue(FACING)));
+    @Override
+    protected BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
-    protected BlockState mirror(BlockState state, Mirror mirror){
-        return state.setValue(FACING,mirror.mirror(state.getValue(FACING)));
+    @Override
+    protected BlockState mirror(BlockState state, Mirror mirror) {
+        return state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
     }
 
-    protected void createBlockStateDefinition(
-            StateDefinition.Builder<Block, BlockState> builder) {
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(FACING);
+    }
+
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return trussShape == null ? super.getShape(state, level, pos, context) : shapeOf(trussShape, state.getValue(FACING));
+    }
+
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return trussShape == null ? super.getCollisionShape(state, level, pos, context) : shapeOf(trussShape, state.getValue(FACING));
+    }
+
+    private static VoxelShape shapeOf(TrussShape trussShape, Direction facing) {
+        boolean westEast = facing == Direction.EAST || facing == Direction.WEST;
+        return switch (trussShape) {
+            case BIG -> westEast ? BIG_TRUSS_WE : BIG_TRUSS_NS;
+            case PILLAR -> westEast ? PILLAR_TRUSS_WE : PILLAR_TRUSS_NS;
+            case SMALL -> westEast ? SMALL_TRUSS_WE : SMALL_TRUSS_NS;
+        };
     }
 }

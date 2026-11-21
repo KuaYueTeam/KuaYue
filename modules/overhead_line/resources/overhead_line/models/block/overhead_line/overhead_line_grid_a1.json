@@ -1,3 +1,6 @@
 {
-    "parent": "minecraft:block/iron_block"
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "kuayue:block/overhead_line/overhead_line_grid_a1"
+    }
 }

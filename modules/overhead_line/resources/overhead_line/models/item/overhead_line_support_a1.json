@@ -1,8 +1,40 @@
 {
-    "render_type":  "translucent",
-    "loader":  "kasuga_lib:bedrock_animated",
-    "geometry":  "geometry.unknown",
-    "identifier":  "kuayue:block/overhead_line/overhead_line_grid_a1",
-    "model":  "kuayue:block/overhead_line/overhead_line_grid_a1",
-    "texture":  "kuayue:block/overhead_line/overhead_line_grid_a1"
+    "parent": "minecraft:builtin/entity",
+    "gui_light": "side",
+    "textures": {
+        "particle": "kuayue:block/overhead_line/overhead_line_grid_a1"
+    },
+    "display": {
+        "gui": {
+            "rotation": [30, 45, 0],
+            "translation": [5, 1.25, 0],
+            "scale": [0.32, 0.32, 0.32]
+        },
+        "fixed": {
+            "translation": [-5, 0, 0],
+            "scale": [0.37, 0.37, 0.37]
+        },
+        "ground": {
+            "translation": [0, 3, 0],
+            "scale": [0.25, 0.25, 0.25]
+        },
+        "firstperson_righthand": {
+            "rotation": [0, 45, 0],
+            "scale": [0.35, 0.35, 0.35]
+        },
+        "firstperson_lefthand": {
+            "rotation": [0, 225, 0],
+            "scale": [0.35, 0.35, 0.35]
+        },
+        "thirdperson_righthand": {
+            "rotation": [75, 45, 0],
+            "translation": [0, 2.5, 0],
+            "scale": [0.25, 0.25, 0.25]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [75, 45, 0],
+            "translation": [0, 2.5, 0],
+            "scale": [0.25, 0.25, 0.25]
+        }
+    }
 }

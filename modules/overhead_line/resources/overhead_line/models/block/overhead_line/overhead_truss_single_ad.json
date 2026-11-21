@@ -1,6 +1,10 @@
 {
-    "loader": "forge:obj",
+    "loader": "neoforge:obj",
     "render_type": "cutout_mipped",
     "model": "kuayue:models/block/overhead_line/overhead_truss_single_ad.obj",
-    "flip_v": true
+    "mtl_override": "kuayue:models/block/overhead_line/overhead_truss_single_ad.mtl",
+    "flip_v": true,
+    "textures": {
+        "particle": "kuayue:block/overhead_line/overhead_truss_single_ad"
+    }
 }

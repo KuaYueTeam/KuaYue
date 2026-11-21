@@ -1,5 +1,5 @@
 # Made in Blockbench 4.12.5
-mtllib overhead_truss_concrete.mtl
+mtllib kuayue:block/overhead_line/overhead_truss_concrete
 
 o side
 v 0.343446875 0.625 0.999046875

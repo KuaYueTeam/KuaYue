@@ -1,5 +1,5 @@
 # Made in Blockbench 4.12.5
-mtllib overhead_triangle_truss_steel_ad.mtl
+mtllib kuayue:block/overhead_line/overhead_triangle_truss_steel_ad
 
 o straight_pole
 v 0.8733090655161085 0.2592470942656549 0.020731088282802325

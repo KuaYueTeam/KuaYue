@@ -1,6 +1,10 @@
 {
-    "loader": "forge:obj",
+    "loader": "neoforge:obj",
     "render_type": "cutout_mipped",
     "model": "kuayue:models/block/overhead_line/overhead_truss_concrete.obj",
-    "flip_v": false
+    "mtl_override": "kuayue:models/block/overhead_line/overhead_truss_concrete.mtl",
+    "flip_v": false,
+    "textures": {
+        "particle": "kuayue:block/overhead_line/overhead_pillar_concrete_middle"
+    }
 }

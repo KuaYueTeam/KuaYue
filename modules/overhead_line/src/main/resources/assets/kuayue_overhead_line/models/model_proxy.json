@@ -1,0 +1,16 @@
+{
+    "kuayue": [
+        "models/block/overhead_line/overhead_line_grid_a1.obj",
+        "models/block/overhead_line/overhead_truss_double.obj",
+        "models/block/overhead_line/overhead_truss_double_ad.obj",
+        "models/block/overhead_line/overhead_truss_single_a.json",
+        "models/block/overhead_line/overhead_truss_single_ad.obj",
+        "models/block/overhead_line/overhead_truss_single_b.json",
+        "models/block/overhead_line/overhead_truss_single_c.json",
+        "models/block/overhead_line/overhead_truss_concrete.obj",
+        "models/block/overhead_line/overhead_pillar_concrete_truss_a.obj",
+        "models/block/overhead_line/overhead_pillar_concrete_truss_b.obj",
+        "models/block/overhead_line/overhead_triangle_truss_steel.json",
+        "models/block/overhead_line/overhead_triangle_truss_steel_ad.obj"
+    ]
+}

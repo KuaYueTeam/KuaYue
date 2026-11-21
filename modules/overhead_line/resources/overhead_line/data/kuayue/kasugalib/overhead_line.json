@@ -23,6 +23,187 @@
         "strength": [2.0, 3.0],
         "no_occlusion": true
       },
+      "params": {
+        "model": "kuayue:models/block/overhead_line/overhead_line_grid_a1.obj",
+        "model_yaw": 0
+      },
+      "item_properties": {
+        "tab": "kuayue:power_grid"
+      }
+    },
+    {
+      "id": "kuayue:overhead_truss_double",
+      "type": "overhead_directional",
+      "properties": {
+        "strength": [1.5, 3.0],
+        "no_occlusion": true
+      },
+      "params": {
+        "model": "kuayue:models/block/overhead_line/overhead_truss_double.obj",
+        "model_yaw": 0,
+        "shape": "big"
+      },
+      "item_properties": {
+        "tab": "kuayue:power_grid"
+      }
+    },
+    {
+      "id": "kuayue:overhead_truss_double_ad",
+      "type": "overhead_directional",
+      "properties": {
+        "strength": [1.5, 3.0],
+        "no_occlusion": true
+      },
+      "params": {
+        "model": "kuayue:models/block/overhead_line/overhead_truss_double_ad.obj",
+        "model_yaw": 180,
+        "shape": "big"
+      },
+      "item_properties": {
+        "tab": "kuayue:power_grid"
+      }
+    },
+    {
+      "id": "kuayue:overhead_truss_single_a",
+      "type": "overhead_directional",
+      "properties": {
+        "strength": [1.5, 3.0],
+        "no_occlusion": true
+      },
+      "params": {
+        "model": "kuayue:models/block/overhead_line/overhead_truss_single_a.json",
+        "model_yaw": 0,
+        "shape": "small"
+      },
+      "item_properties": {
+        "tab": "kuayue:power_grid"
+      }
+    },
+    {
+      "id": "kuayue:overhead_truss_single_ad",
+      "type": "overhead_directional",
+      "properties": {
+        "strength": [1.5, 3.0],
+        "no_occlusion": true
+      },
+      "params": {
+        "model": "kuayue:models/block/overhead_line/overhead_truss_single_ad.obj",
+        "model_yaw": 180,
+        "shape": "small"
+      },
+      "item_properties": {
+        "tab": "kuayue:power_grid"
+      }
+    },
+    {
+      "id": "kuayue:overhead_truss_single_b",
+      "type": "overhead_directional",
+      "properties": {
+        "strength": [1.5, 3.0],
+        "no_occlusion": true
+      },
+      "params": {
+        "model": "kuayue:models/block/overhead_line/overhead_truss_single_b.json",
+        "model_yaw": 0,
+        "shape": "small"
+      },
+      "item_properties": {
+        "tab": "kuayue:power_grid"
+      }
+    },
+    {
+      "id": "kuayue:overhead_truss_single_c",
+      "type": "overhead_directional",
+      "properties": {
+        "strength": [1.5, 3.0],
+        "no_occlusion": true
+      },
+      "params": {
+        "model": "kuayue:models/block/overhead_line/overhead_truss_single_c.json",
+        "model_yaw": 0,
+        "shape": "small"
+      },
+      "item_properties": {
+        "tab": "kuayue:power_grid"
+      }
+    },
+    {
+      "id": "kuayue:overhead_truss_concrete",
+      "type": "overhead_directional",
+      "properties": {
+        "strength": [1.5, 3.0],
+        "no_occlusion": true
+      },
+      "params": {
+        "model": "kuayue:models/block/overhead_line/overhead_truss_concrete.obj",
+        "model_yaw": 270,
+        "model_yaw_step": -90,
+        "shape": "pillar"
+      },
+      "item_properties": {
+        "tab": "kuayue:power_grid"
+      }
+    },
+    {
+      "id": "kuayue:overhead_pillar_concrete_truss_a",
+      "type": "overhead_directional",
+      "properties": {
+        "strength": [1.5, 3.0],
+        "no_occlusion": true
+      },
+      "params": {
+        "model": "kuayue:models/block/overhead_line/overhead_pillar_concrete_truss_a.obj",
+        "model_yaw": 90,
+        "shape": "pillar"
+      },
+      "item_properties": {
+        "tab": "kuayue:power_grid"
+      }
+    },
+    {
+      "id": "kuayue:overhead_pillar_concrete_truss_b",
+      "type": "overhead_directional",
+      "properties": {
+        "strength": [1.5, 3.0],
+        "no_occlusion": true
+      },
+      "params": {
+        "model": "kuayue:models/block/overhead_line/overhead_pillar_concrete_truss_b.obj",
+        "model_yaw": 90,
+        "shape": "pillar"
+      },
+      "item_properties": {
+        "tab": "kuayue:power_grid"
+      }
+    },
+    {
+      "id": "kuayue:overhead_triangle_truss_steel",
+      "type": "overhead_directional",
+      "properties": {
+        "strength": [1.5, 3.0],
+        "no_occlusion": true
+      },
+      "params": {
+        "model": "kuayue:models/block/overhead_line/overhead_triangle_truss_steel.json",
+        "model_yaw": 90,
+        "shape": "pillar"
+      },
+      "item_properties": {
+        "tab": "kuayue:power_grid"
+      }
+    },
+    {
+      "id": "kuayue:overhead_triangle_truss_steel_ad",
+      "type": "overhead_directional",
+      "properties": {
+        "strength": [1.5, 3.0],
+        "no_occlusion": true
+      },
+      "params": {
+        "model": "kuayue:models/block/overhead_line/overhead_triangle_truss_steel_ad.obj",
+        "model_yaw": 90,
+        "shape": "pillar"
+      },
       "item_properties": {
         "tab": "kuayue:power_grid"
       }

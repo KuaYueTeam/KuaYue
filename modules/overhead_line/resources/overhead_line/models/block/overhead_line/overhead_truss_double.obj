@@ -1,5 +1,5 @@
 # Made in Blockbench 4.12.5
-mtllib overhead_truss_double.mtl
+mtllib kuayue:block/overhead_line/overhead_truss_double
 
 o steel_pole
 v 0 1.0000000000000004 0.35875

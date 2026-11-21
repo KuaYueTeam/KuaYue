@@ -1,16 +1,19 @@
 {
     "variants": {
-        "facing=south": {
-            "model": "kuayue:block/overhead_line/overhead_line_grid_a1"
-        },
-        "facing=north": {
-            "model": "kuayue:block/overhead_line/overhead_line_grid_a1"
-        },
-        "facing=west": {
-            "model": "kuayue:block/overhead_line/overhead_line_grid_a1"
-        },
         "facing=east": {
             "model": "kuayue:block/overhead_line/overhead_line_grid_a1"
+        },
+        "facing=south": {
+            "model": "kuayue:block/overhead_line/overhead_line_grid_a1",
+            "y": 90
+        },
+        "facing=west": {
+            "model": "kuayue:block/overhead_line/overhead_line_grid_a1",
+            "y": 180
+        },
+        "facing=north": {
+            "model": "kuayue:block/overhead_line/overhead_line_grid_a1",
+            "y": 270
         }
     }
 }
