@@ -7,7 +7,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 public class AllCrativeTabs {
-    public static final CreativeTabReg POWER_GRID = new CreativeTabReg("power_grid").title(Component.translatable("itemGroup.kuayue.power_grid")).icon(() -> new ItemStack(Items.LIGHTNING_ROD)).setParent(KuaYue.REGISTRY);
+    public static final CreativeTabReg POWER_GRID = new CreativeTabReg("power_grid")
+            .title(Component.translatable("itemGroup.kuayue.power_grid"))
+            .icon(() -> new ItemStack(Items.LIGHTNING_ROD))
+            .setParent(KuaYue.REGISTRY);
 
     private AllCrativeTabs() {}
     public static void register(){}

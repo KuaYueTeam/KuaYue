@@ -13,18 +13,30 @@ out
 *.iml
 .idea
 
-# gradle
-build
-.gradle
+# Gradle caches and build outputs (including subprojects)
+build/
+.gradle/
 
-# other
+# Minecraft development runs and generated resources
 eclipse
-run
-runs
-run-data
-.DS_Store
+run/
+runs/
+run-data/
+repo/
+compiled/
+
+# Runtime logs and JVM crash reports
+logs/
+crash-reports/
+*.log
+
+# Local editor and OS files
 .vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
 
-repo
-
-compiled
+# Ignore Markdown outside the root documentation directories
+*.md
+!/doc/**/*.md
+!/docs/**/*.md

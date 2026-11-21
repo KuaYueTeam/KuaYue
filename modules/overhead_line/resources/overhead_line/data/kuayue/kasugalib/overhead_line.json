@@ -2,11 +2,30 @@
   "items": [
     {
       "id": "kuayue:overhead_line_wire",
-      "type": "wire"
+      "type": "wire",
+      "properties": {
+        "tab": "kuayue:power_grid"
+      }
     },
     {
       "id": "kuayue:electronic_wire",
-      "type": "electronic_wire"
+      "type": "electronic_wire",
+      "properties": {
+        "tab": "kuayue:power_grid"
+      }
+    }
+  ],
+  "blocks": [
+    {
+      "id": "kuayue:overhead_line_support_a1",
+      "type": "support",
+      "properties": {
+        "strength": [2.0, 3.0],
+        "no_occlusion": true
+      },
+      "item_properties": {
+        "tab": "kuayue:power_grid"
+      }
     }
   ]
 }

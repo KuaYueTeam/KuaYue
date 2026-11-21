@@ -1,16 +1,16 @@
 {
     "variants": {
         "facing=south": {
-            "model": "minecraft:air"
+            "model": "kuayue:block/overhead_line/overhead_line_grid_a1"
         },
         "facing=north": {
-            "model": "minecraft:air"
+            "model": "kuayue:block/overhead_line/overhead_line_grid_a1"
         },
         "facing=west": {
-            "model": "minecraft:air"
+            "model": "kuayue:block/overhead_line/overhead_line_grid_a1"
         },
         "facing=east": {
-            "model": "minecraft:air"
+            "model": "kuayue:block/overhead_line/overhead_line_grid_a1"
         }
     }
 }
