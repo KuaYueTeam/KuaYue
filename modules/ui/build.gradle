@@ -132,8 +132,16 @@ configurations {
 // kuayue module. Adding it to the runtime classpath as well put the same classes on two module paths and
 // the launcher refused to start ("Module minecraft reads more than one module named kuayue"), so the only
 // thing needed here is the build order.
+// train-parts is on the compile classpath as a project dependency, and its `@Context` holders
+// (ISS8Panel and friends) are referenced from TrainPartBlocks. The dev runs need the classes built first;
+// the compile task needs them too, because a project dependency only orders the other project's *jar*
+// task, which is not what the compile classpath consumes here.
 tasks.matching { it.name == "runClient" }.configureEach {
     dependsOn(":modules:train-parts:classes", ":modules:train-parts:processResources")
+}
+
+tasks.named("compileJava").configure {
+    dependsOn(":modules:train-parts:classes")
 }
 
 dependencies {
