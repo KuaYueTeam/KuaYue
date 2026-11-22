@@ -20,6 +20,10 @@ final class TechTreeTextures {
     /** Sheet dimensions, hard-coded so no texture-manager probing is involved. */
     private static final int BUTTONS = 128;
 
+    /** Group-unlock panel: its own 120x80 sheet. */
+    private static final ResourceLocation UNLOCK_BOARD =
+            ResourceLocation.fromNamespaceAndPath("kuayue", "textures/gui/tech_tree/blueprint_table/group_unlock_board.png");
+
     private static final ResourceLocation TABLE_SHEET =
             ResourceLocation.fromNamespaceAndPath("kuayue", "textures/gui/tech_tree/blueprint_table/blueprint_table.png");
 
@@ -67,6 +71,11 @@ final class TechTreeTextures {
         return slice(25, 25, 32, 32);
     }
 
+    /** 120x80 group-unlock panel sheet, as shipped by 1.0 ({@code group_unlock_board.png}). */
+    static IGuiTexture unlockGroupBoard() {
+        return new SheetTexture(UNLOCK_BOARD, 120, 80, 0, 0, 120, 80);
+    }
+
     /** Completion stamp drawn behind the finished description block. */
     static IGuiTexture completedStamp() {
         return slice(0, 96, 32, 128);
@@ -77,22 +86,36 @@ final class TechTreeTextures {
         return enough ? slice(48, 96, 57, 107) : slice(48, 112, 57, 123);
     }
 
-    /** Confirm button, light state. */
     /**
-     * Confirm button, top half of the 1.0 two-state sprite.
+     * Confirm button background.
      *
-     * <p>NeoKuayue draws the confirm button as a 16x32 strip at {@code (80,64)-(96,96)} with the hover
-     * state at {@code (96,64)-(112,96)}; each state is a 16x16 frame in the upper half and a 16x16
-     * shadow/border strip below it. The board has no hover state to spend, so the upper frame is what is
-     * painted and the hit area is what lights up.</p>
+     * <p>This cell of the 1.0 sheet is a plain filled frame — the tick is a separate glyph drawn over it,
+     * which is why painting only this rect showed an empty white bar. Use {@link #confirmGlyph()} as the
+     * overlay.</p>
      */
     static IGuiTexture confirm() {
         return slice(80, 64, 96, 80);
     }
 
-    /** Confirm button, hover frame of the same 1.0 strip. */
+    /** Confirm button background, hover shade. */
     static IGuiTexture confirmHover() {
         return slice(96, 64, 112, 80);
+    }
+
+    /**
+     * The tick drawn on the confirm button.
+     *
+     * <p>{@code (0,96)-(16,112)} of the 1.0 sheet is the outline tick; {@code (0,112)-(16,128)} is the
+     * crossed-out counterpart that 1.0 shows when the node cannot be unlocked. Both are glyphs, not
+     * frames.</p>
+     */
+    static IGuiTexture confirmGlyph() {
+        return slice(0, 96, 16, 112);
+    }
+
+    /** Crossed-out glyph, shown when the confirm button is present but the node is not unlockable. */
+    static IGuiTexture confirmGlyphBlocked() {
+        return slice(0, 112, 16, 128);
     }
 
     /** Back arrow used by the detail pane. */

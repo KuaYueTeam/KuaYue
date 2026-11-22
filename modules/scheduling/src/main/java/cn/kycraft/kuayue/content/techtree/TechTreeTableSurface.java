@@ -545,6 +545,27 @@ final class TechTreeTableSurface implements LayoutElement, GuiEventListener, Ren
         // Right click only: a left click on a table is "break the block", so the board must not steal it.
         if (button != 1) return false;
 
+        // Group strip first: it sits left of the plate grid and is the only way to reach a group that has not
+        // been published. The element tree cannot receive these clicks while the world-UI input surface is
+        // missing, so the hit test is done here against the same geometry the strip is laid out with.
+        if (mouseX >= GROUP_X && mouseX < GROUP_X + GROUP_SIZE && mouseY >= GROUP_Y) {
+            int row = (int) ((mouseY - GROUP_Y) / GROUP_STEP);
+            List<ResourceLocation> ids = new ArrayList<>(ClientTreeState.groups().keySet());
+            if (row >= 0 && row < Math.min(ids.size(), 6)
+                    && mouseY - GROUP_Y - row * GROUP_STEP < GROUP_SIZE) {
+                ClientTreeState.selectGroup(ids.get(row));
+                refresh();
+                return true;
+            }
+        }
+
+        ResourceLocation selected = ClientTreeState.selectedGroup();
+        if (TechTreeGroupPublishPanel.needsPublish(selected)
+                && inRect(mouseX, mouseY, TechTreeGroupPublishPanel.CONFIRM_HIT)) {
+            publish(selected);
+            return true;
+        }
+
         NodeLocation focused = TechTreeScreen.getMenuFocus();
         if (focused != null) {
             TreeSnapshot.NodeView node = ClientTreeState.nodes().get(focused);
@@ -617,6 +638,12 @@ final class TechTreeTableSurface implements LayoutElement, GuiEventListener, Ren
     private static final int MAX_PLATES = 20;
 
     /** Plate metrics: 20x20 icon plus the 6/4 pixel gutters used by the GUI grid. */
+    /** Group strip: 18x18 buttons at x=2, stacked 20px apart, so a click target is a real target. */
+    static final int GROUP_X = 2;
+    static final int GROUP_Y = 20;
+    static final int GROUP_SIZE = 18;
+    static final int GROUP_STEP = 20;
+
     private static final int CELL = 20;
     /** Extra clickable margin around a plate; the sprite keeps its 20x20 size inside. */
     private static final int HIT_PAD = 3;
@@ -689,6 +716,7 @@ final class TechTreeTableSurface implements LayoutElement, GuiEventListener, Ren
         private final ModularUI ui;
         private final UIElement root;
         private final UIElement plates;
+        private final UIElement groupStrip;
         private final Label title;
         private final UIElement detailLayer;
         private boolean mounted;
@@ -705,6 +733,12 @@ final class TechTreeTableSurface implements LayoutElement, GuiEventListener, Ren
                     .setPosition(YogaEdge.LEFT, 6f).setPosition(YogaEdge.TOP, 3f)
                     .setWidth(WIDTH - 12).setHeight(12));
             root.addChild(title);
+
+            groupStrip = new UIElement();
+            groupStrip.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                    .setPosition(YogaEdge.LEFT, (float) GROUP_X).setPosition(YogaEdge.TOP, (float) GROUP_Y)
+                    .setWidth(GROUP_SIZE).setHeight(HEIGHT - GROUP_Y - 4));
+            root.addChild(groupStrip);
 
             plates = new UIElement();
             plates.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
@@ -755,12 +789,60 @@ final class TechTreeTableSurface implements LayoutElement, GuiEventListener, Ren
 
             title.setText(Component.translatable(view == null ? "tech_tree.board.title" : view.nameKey()));
 
+            // The strip is what selects a group in the first place; forgetting it here left the board with
+            // no way to reach the second group at all.
+            rebuildGroupStrip(group);
+
+            final ResourceLocation publishGroup = group;
+            clear(detailLayer);
+            if (TechTreeGroupPublishPanel.needsPublish(publishGroup)) {
+                // Unpublished group: the tree is not readable yet, so the panel that publishes it takes the board.
+                clear(plates);
+                detailLayer.addChild(TechTreeGroupPublishPanel.build(publishGroup,
+                        () -> publish(publishGroup)));
+                return;
+            }
             rebuildPlates(group);
             rebuildDetail(focusedNode);
         }
 
         private void clear(UIElement element) {
             for (UIElement child : new ArrayList<>(element.getChildren())) element.removeChild(child);
+        }
+
+        /**
+         * Left column of the board: one button per group.
+         *
+         * <p>Groups are not all published: {@code overhead_line_blueprint_group} has
+         * {@code initial_visibility = false} and only becomes reachable through its unlock condition. The
+         * strip is therefore the way to select any group, and selecting an unpublished one opens
+         * {@link TechTreeGroupPublishPanel} instead of the tree.</p>
+         */
+        private void rebuildGroupStrip(@Nullable ResourceLocation selected) {
+            clear(groupStrip);
+            int index = 0;
+            for (ResourceLocation id : ClientTreeState.groups().keySet()) {
+                if (index++ >= 6) break;
+                TreeSnapshot.GroupView view = ClientTreeState.groups().get(id);
+                final int row = index - 1;
+                final boolean published = !TechTreeGroupPublishPanel.needsPublish(id);
+                UIElement button = new UIElement();
+                button.setId("group_" + id);
+                button.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                        .setPosition(YogaEdge.LEFT, 0f)
+                        .setPosition(YogaEdge.TOP, (float) (row * GROUP_STEP))
+                        .setWidth(GROUP_SIZE).setHeight(GROUP_SIZE));
+                button.style(s -> s.background(published
+                                ? TechTreeTextures.groupButton()
+                                : TechTreeTextures.nodePlateDark(false))
+                        .overlay(view.icon().isEmpty() ? null : new ItemStackTexture(view.icon())));
+                button.addEventListener(UIEvents.CLICK, event -> {
+                    ClientTreeState.selectGroup(id);
+                    repaint();
+                    event.stopPropagation();
+                });
+                groupStrip.addChild(button);
+            }
         }
 
         private void rebuildPlates(@Nullable ResourceLocation group) {

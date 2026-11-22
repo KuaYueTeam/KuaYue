@@ -60,6 +60,22 @@ public final class ClientTreeState {
         return Collections.unmodifiableMap(snapshot.nodes);
     }
 
+    /**
+     * Whether a group is visible without being published.
+     *
+     * <p>The snapshot carries no {@code initial_visibility} field, so the client falls back to the two things
+     * it can observe: a group the server already published does not need publishing, and a group with no
+     * incoming edges is its own entry point (the carriage tree). Everything else is treated as unpublished,
+     * which is what makes the overhead-line group show the publish panel.</p>
+     */
+    public static boolean initialVisibility(@Nullable ResourceLocation group) {
+        if (group == null) return false;
+        TreeSnapshot.GroupView view = snapshot.groups.get(group);
+        if (view == null) return false;
+        if (snapshot.progress.unlockedGroups.contains(group)) return true;
+        return view.incoming().isEmpty();
+    }
+
     public static Map<ResourceLocation, TreeSnapshot.GroupView> groups() {
         return Collections.unmodifiableMap(snapshot.groups);
     }

@@ -23,11 +23,23 @@ public final class ServerUnlock {
     public static TreeSnapshot applyNode(ServerPlayer player, String location) {
         try {
             TechTreeNode node = TechTreeManager.get().getNode(NodeLocation.parseFull(location));
-            if (node != null) {
-                unlockNode(player, node);
+            if (node == null) {
+                TechTreeSystem.logWarn("Unlock requested for unknown node {}", location);
+            } else {
+                UnlockResult result = unlockNode(player, node);
+                if (!result.ok()) {
+                    // The client only receives the snapshot, so a refused unlock is otherwise invisible: log
+                    // the rule that rejected it together with what the player actually brought.
+                    TechTreeSystem.logWarn("Unlock of {} refused: {} (items={} level={}/{}, prevUnlocked={}/{})",
+                            node.location, result.errorKey,
+                            hasItems(player, node.consume()), player.experienceLevel, node.level(),
+                            player.totalExperience, node.exp(),
+                            node.prev.stream().filter(n -> PlayerProgress.of(player).unlocked.contains(n.location)).count(),
+                            node.prev.size());
+                }
             }
         } catch (IllegalArgumentException ignored) {
-            // Malformed request from a client: ignore rather than trust it.
+            TechTreeSystem.logWarn("Unlock requested with a malformed node id {}", location);
         }
         return TreeSnapshot.build(player);
     }
@@ -36,11 +48,19 @@ public final class ServerUnlock {
         UnlockState state = PlayerProgress.of(player);
         try {
             TechTreeGroup target = TechTreeManager.get().getGroup(ResourceLocation.parse(group));
-            if (target != null && canPublish(player, target)) {
+            if (target == null) {
+                TechTreeSystem.logWarn("Publish requested for unknown group {}", group);
+            } else if (canPublish(player, target)) {
                 publish(player, state, target);
+                TechTreeSystem.logInfo("Group {} published for {}", target.id, player.getGameProfile().getName());
+            } else {
+                // Same reason as a refused node: the client only sees the snapshot, so say why.
+                long done = target.incoming().stream().filter(state.unlocked::contains).count();
+                TechTreeSystem.logWarn("Publish of {} refused: {}/{} incoming unlocked, needs {}%",
+                        target.id, done, target.incoming().size(), target.data.requiredPercentage);
             }
         } catch (IllegalArgumentException ignored) {
-            // Malformed request from a client: ignore rather than trust it.
+            TechTreeSystem.logWarn("Publish requested with a malformed group id {}", group);
         }
         return TreeSnapshot.build(player);
     }

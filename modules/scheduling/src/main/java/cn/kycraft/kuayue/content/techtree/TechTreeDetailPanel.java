@@ -296,11 +296,13 @@ final class TechTreeDetailPanel {
                 .setWidth(16).setHeight(16)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, (float) CONFIRM_HIT[0] + 4)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.TOP, (float) CONFIRM_HIT[1] + 4));
-        button.style(s -> s.background(TechTreeTextures.confirm()));
+        // Frame plus the tick glyph: the sheet cell alone is a filled bar, the tick is a separate sprite.
+        button.style(s -> s.background(TechTreeTextures.confirm())
+                .overlay(TechTreeTextures.confirmGlyph()));
         button.addEventListener(UIEvents.MOUSE_ENTER, event -> button.style(s -> s.background(
-                TechTreeTextures.confirmHover())));
+                TechTreeTextures.confirmHover()).overlay(TechTreeTextures.confirmGlyph())));
         button.addEventListener(UIEvents.MOUSE_LEAVE, event -> button.style(s -> s.background(
-                TechTreeTextures.confirm())));
+                TechTreeTextures.confirm()).overlay(TechTreeTextures.confirmGlyph())));
         return button;
     }
 
