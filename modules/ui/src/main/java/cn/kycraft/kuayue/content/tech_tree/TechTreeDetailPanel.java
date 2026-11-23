@@ -37,7 +37,8 @@ final class TechTreeDetailPanel {
      *  comfort click target and stays inside the pane. */
     static final int[] BACK_HIT = {2, 2, 24, 18};
     /** Confirm sprite (16x16 at 168,124) and its padded hit rect. */
-    static final int[] CONFIRM_HIT = {164, 120, 24, 24};
+    /** Confirm sprite is 16x32 as in 1.0; the hit rect is padded around it. */
+    static final int[] CONFIRM_HIT = {162, 110, 20, 36};
 
     private static final int CONSUME_CENTER_X = 71;
     private static final int CONSUME_CENTER_Y = 105;
@@ -293,16 +294,14 @@ final class TechTreeDetailPanel {
         UIElement button = new UIElement();
         button.setId("tech_tree_confirm");
         button.layout(l -> l.setPositionType(org.appliedenergistics.yoga.YogaPositionType.ABSOLUTE)
-                .setWidth(16).setHeight(16)
-                .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, (float) CONFIRM_HIT[0] + 4)
-                .setPosition(org.appliedenergistics.yoga.YogaEdge.TOP, (float) CONFIRM_HIT[1] + 4));
-        // Frame plus the tick glyph: the sheet cell alone is a filled bar, the tick is a separate sprite.
-        button.style(s -> s.background(TechTreeTextures.confirm())
-                .overlay(TechTreeTextures.confirmGlyph()));
+                .setWidth(16).setHeight(32)
+                .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, (float) CONFIRM_HIT[0] + 2)
+                .setPosition(org.appliedenergistics.yoga.YogaEdge.TOP, (float) CONFIRM_HIT[1] + 2));
+        button.style(s -> s.background(TechTreeTextures.confirm()));
         button.addEventListener(UIEvents.MOUSE_ENTER, event -> button.style(s -> s.background(
-                TechTreeTextures.confirmHover()).overlay(TechTreeTextures.confirmGlyph())));
+                TechTreeTextures.confirmHover())));
         button.addEventListener(UIEvents.MOUSE_LEAVE, event -> button.style(s -> s.background(
-                TechTreeTextures.confirm()).overlay(TechTreeTextures.confirmGlyph())));
+                TechTreeTextures.confirm())));
         return button;
     }
 

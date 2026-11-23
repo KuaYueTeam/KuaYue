@@ -81,41 +81,34 @@ final class TechTreeTextures {
         return slice(0, 96, 32, 128);
     }
 
+    /** Scroll rail: translucent track and a light thumb, drawn as flat colours (the 1.0 sheet has no rail sprite). */
+    static IGuiTexture scrollTrack() {
+        return new ColorRectTexture(0x33FFFFFF);
+    }
+
+    static IGuiTexture scrollThumb() {
+        return new ColorRectTexture(0xCC5A6B8C);
+    }
+
     /** Experience bar: satisfied / unsatisfied. */
     static IGuiTexture expBar(boolean enough) {
         return enough ? slice(48, 96, 57, 107) : slice(48, 112, 57, 123);
     }
 
     /**
-     * Confirm button background.
+     * Confirm button, 16x32 as in 1.0 {@code UnlockGroupBoard.confirmBtnLight}.
      *
-     * <p>This cell of the 1.0 sheet is a plain filled frame — the tick is a separate glyph drawn over it,
-     * which is why painting only this rect showed an empty white bar. Use {@link #confirmGlyph()} as the
-     * overlay.</p>
+     * <p>The whole rect is the button: cropping it to the top 16 rows showed only its plain upper fill, and
+     * slicing a 16x16 square out of the 32x32 completion stamp at {@code (0,96)} showed the top-left corner
+     * of a tick. There is no separate glyph to overlay.</p>
      */
     static IGuiTexture confirm() {
-        return slice(80, 64, 96, 80);
+        return slice(80, 64, 96, 96);
     }
 
-    /** Confirm button background, hover shade. */
+    /** Confirm button, hover frame ({@code confirmBtnDark}). */
     static IGuiTexture confirmHover() {
-        return slice(96, 64, 112, 80);
-    }
-
-    /**
-     * The tick drawn on the confirm button.
-     *
-     * <p>{@code (0,96)-(16,112)} of the 1.0 sheet is the outline tick; {@code (0,112)-(16,128)} is the
-     * crossed-out counterpart that 1.0 shows when the node cannot be unlocked. Both are glyphs, not
-     * frames.</p>
-     */
-    static IGuiTexture confirmGlyph() {
-        return slice(0, 96, 16, 112);
-    }
-
-    /** Crossed-out glyph, shown when the confirm button is present but the node is not unlockable. */
-    static IGuiTexture confirmGlyphBlocked() {
-        return slice(0, 112, 16, 128);
+        return slice(96, 64, 112, 96);
     }
 
     /** Back arrow used by the detail pane. */

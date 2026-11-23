@@ -587,6 +587,9 @@ final class TechTreeTableSurface implements LayoutElement, GuiEventListener, Ren
             return false;
         }
 
+        // Rail first: it sits on the right edge of the window and must not fall through to a plate.
+        if (clickRail(mouseX, mouseY)) return true;
+
         // Tree view: the plate rects are the same ones the layout produced.
         ResourceLocation group = ClientTreeState.selectedGroup();
         if (group == null) return false;
@@ -597,14 +600,87 @@ final class TechTreeTableSurface implements LayoutElement, GuiEventListener, Ren
             TreeSnapshot.NodeView node = ClientTreeState.nodes().get(location);
             if (node == null) continue;
             int[] at = positionOf(layout, location);
+            // Same offset as rebuildPlates: rows above the window are folded away and must not be clickable.
+            int screenY = at[1] - scrollRow * STEP_Y;
+            if (screenY < 0 || screenY >= WINDOW_H) continue;
             if (!inRect(mouseX, mouseY, new int[]{
-                    GRID_X + at[0] - HIT_PAD, GRID_Y + at[1] - HIT_PAD, CELL_HIT, CELL_HIT})) {
+                    GRID_X + at[0] - HIT_PAD, GRID_Y + screenY - HIT_PAD, CELL_HIT, CELL_HIT})) {
                 continue;
             }
             focus(node);
             return true;
         }
         return false;
+    }
+
+    /**
+     * Moves the plate window by whole rows.
+     *
+     * <p>Rows, not pixels: the plates are laid out on a STEP_Y grid, so a pixel scroll would clip half a
+     * plate at the window edge. Returns true when the window actually moved.</p>
+     */
+    static boolean scrollBy(int rows) {
+        int max = Math.max(0, rowsTotal - rowsVisible);
+        int next = Math.max(0, Math.min(max, scrollRow + rows));
+        if (next == scrollRow) return false;
+        scrollRow = next;
+        refresh();
+        return true;
+    }
+
+    /** Rows the window can still move, so a caller can decide whether a drag is meaningful. */
+    static int scrollRange() {
+        return Math.max(0, rowsTotal - rowsVisible);
+    }
+
+    /**
+     * Rail hit test: turns a click on the track into a page-step scroll, a drag on the thumb into a jump.
+     *
+     * <p>Kept beside the manual click handling because the rail is drawn inside the plates element and the
+     * world-UI router does not deliver child clicks while its input surface is missing.</p>
+     */
+    static boolean clickRail(double mouseX, double mouseY) {
+        if (rowsTotal <= rowsVisible) return false;
+        if (mouseX < SCROLL_X || mouseX >= SCROLL_X + SCROLL_W) return false;
+        if (mouseY < GRID_Y || mouseY >= GRID_Y + WINDOW_H) return false;
+
+        int thumbH = Math.max(SCROLL_MIN_THUMB, WINDOW_H * rowsVisible / Math.max(1, rowsTotal));
+        int travel = WINDOW_H - thumbH;
+        int thumbY = travel * scrollRow / Math.max(1, rowsTotal - rowsVisible);
+        double local = mouseY - GRID_Y;
+
+        // Above the thumb pages up, below it pages down, on the thumb jumps proportionally.
+        if (local >= thumbY && local <= thumbY + thumbH) {
+            int target = travel == 0 ? 0
+                    : (int) Math.round((local - thumbH / 2.0) / travel * (rowsTotal - rowsVisible));
+            int next = Math.max(0, Math.min(rowsTotal - rowsVisible, target));
+            if (next == scrollRow) return true;
+            scrollRow = next;
+        } else {
+            int page = Math.max(1, rowsVisible - 1);
+            scrollRow = Math.max(0, Math.min(rowsTotal - rowsVisible,
+                    scrollRow + (local < thumbY ? -page : page)));
+        }
+        refresh();
+        return true;
+    }
+
+    /**
+     * Wheel scrolling over the plate window.
+     *
+     * <p>Only inside the grid window, and only for the tree view: the detail pane has no scrollable content,
+     * so a wheel there must fall through to whatever else handles it.</p>
+     *
+     * @return true when the wheel was consumed
+     */
+    static boolean manualScroll(double mouseX, double mouseY, double delta) {
+        if (TechTreeScreen.getMenuFocus() != null) return false;
+        if (rowsTotal <= rowsVisible) return false;
+        if (mouseX < GRID_X || mouseX >= GRID_X + WIDTH - GRID_X - 4) return false;
+        if (mouseY < GRID_Y || mouseY >= GRID_Y + WINDOW_H) return false;
+        // One notch is one row; scrolling up is a negative delta in vanilla, so the sign flips.
+        int rows = delta > 0 ? -1 : 1;
+        return scrollBy(rows);
     }
 
     private static boolean inRect(double x, double y, int[] rect) {
@@ -623,6 +699,10 @@ final class TechTreeTableSurface implements LayoutElement, GuiEventListener, Ren
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        // The element tree only sees the wheel when the world-UI widget dispatches it, which is the same
+        // condition that already made the plates unclickable. Handling it here keeps the rail usable either
+        // way; one notch is one row, so the wheel matches the rail's whole-row stepping.
+        if (scrollY != 0 && manualScroll(mouseX, mouseY, scrollY)) return true;
         return BODY.ui.getWidget().mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
@@ -645,14 +725,51 @@ final class TechTreeTableSurface implements LayoutElement, GuiEventListener, Ren
     static final int GROUP_STEP = 20;
 
     private static final int CELL = 20;
+    /**
+     * Painted size of a plate's item icon, relative to the 20x20 plate.
+     *
+     * <p>The icon is item art rendered at 16x16; filling the plate made it touch the border and read as a
+     * solid block at the board's pixel scale.</p>
+     */
+    private static final float ICON_SCALE = 0.75f;
+
     /** Extra clickable margin around a plate; the sprite keeps its 20x20 size inside. */
     private static final int HIT_PAD = 3;
     private static final int CELL_HIT = CELL + HIT_PAD * 2;
     private static final int STEP_X = 26;
     private static final int STEP_Y = 24;
     private static final int COLUMNS = 5;
-    private static final int GRID_X = 14;
+    static final int GRID_X = 26;
     private static final int GRID_Y = 20;
+
+    /** Visible plate window inside the grid area: everything above the slot row / inventory strip. */
+    /**
+     * Top edge of the detail pane's slot row, in board pixels.
+     *
+     * <p>{@code TechTreeDetailPanel} lays its consumption slots at y=105 and the experience bar at y=108;
+     * this is the lowest row the plate window may reach so the two never overlap.</p>
+     */
+    static final int SLOT_ROW_Y = 105;
+
+    /**
+     * Height of the visible plate window.
+     *
+     * <p>Ends well above the sheet's bottom edge: the slot row lives there (and the detail pane puts its
+     * consumption/result slots at y=105..121), so plates that reach the bottom of the sheet were drawn over
+     * the slots. Sized to the slot row's top edge instead of the sheet height.</p>
+     */
+    private static final int WINDOW_H = SLOT_ROW_Y - GRID_Y - 2;
+
+    /** Scroll rail: 4px wide, on the right edge of the grid window, above the detail overlay. */
+    static final int SCROLL_X = WIDTH - 14;
+    private static final int SCROLL_W = 4;
+    private static final int SCROLL_MIN_THUMB = 12;
+
+    /** First row currently shown; plates are positioned relative to this. */
+    private static int scrollRow;
+    /** Number of rows the current group needs, and how many fit in the window. */
+    private static int rowsTotal;
+    private static int rowsVisible;
 
     /** Live board DOM. Rebuilt only when the tree itself changes; repaint() re-resolves the views. */
     private static final Board BODY = new Board();
@@ -728,10 +845,12 @@ final class TechTreeTableSurface implements LayoutElement, GuiEventListener, Ren
             root.style(s -> s.background(TechTreeTextures.tableSheet()));
 
             title = new Label();
-            title.textStyle(t -> t.textColor(0xFF1E2A44).adaptiveWidth(false).adaptiveHeight(true));
+            // Ink, not black: at the board's pixel scale 0xFF1E2A44 collapsed into a dark bar. This is the
+            // sheet's own blue-grey, which keeps contrast on the parchment without smudging.
+            title.textStyle(t -> t.textColor(0xFF3E4E6B).adaptiveWidth(false).adaptiveHeight(true));
             title.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                    .setPosition(YogaEdge.LEFT, 6f).setPosition(YogaEdge.TOP, 3f)
-                    .setWidth(WIDTH - 12).setHeight(12));
+                    .setPosition(YogaEdge.LEFT, (float) (GRID_X + 2)).setPosition(YogaEdge.TOP, 3f)
+                    .setWidth(WIDTH - GRID_X - 6).setHeight(12));
             root.addChild(title);
 
             groupStrip = new UIElement();
@@ -859,24 +978,59 @@ final class TechTreeTableSurface implements LayoutElement, GuiEventListener, Ren
                 int byRow = Integer.compare(a.getValue()[1], b.getValue()[1]);
                 return byRow != 0 ? byRow : Integer.compare(a.getValue()[0], b.getValue()[0]);
             });
+
+            // The window is the grid area; content taller than it is scrolled by whole rows instead of being
+            // clipped by the player inventory that sits under the board.
+            rowsTotal = 0;
+            for (Map.Entry<NodeLocation, int[]> entry : drawn) {
+                rowsTotal = Math.max(rowsTotal, entry.getValue()[1] + 1);
+            }
+            rowsVisible = Math.max(1, WINDOW_H / STEP_Y);
+            scrollRow = Math.max(0, Math.min(scrollRow, Math.max(0, rowsTotal - rowsVisible)));
+
+            int lastRow = scrollRow + rowsVisible;
             int limit = Math.min(drawn.size(), MAX_PLATES);
             for (int i = 0; i < limit; i++) {
                 NodeLocation location = drawn.get(i).getKey();
                 TreeSnapshot.NodeView node = ClientTreeState.nodes().get(location);
                 if (node == null) continue;
                 int[] at = positionOf(layout, location);
-                plates.addChild(plate(node, at[0], at[1]));
+                // Rows above the window are folded away; rows below it stay folded until the rail is moved.
+                if (at[1] < scrollRow * STEP_Y || at[1] >= lastRow * STEP_Y) continue;
+                plates.addChild(plate(node, at[0], at[1] - scrollRow * STEP_Y));
             }
-            if (drawn.size() > MAX_PLATES) {
-                Label more = new Label();
-                more.setText(Component.translatable("tech_tree.board.more", drawn.size() - MAX_PLATES));
-                more.textStyle(t -> t.textColor(0xFF7A3B16).adaptiveHeight(true));
-                more.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
-                        .setPosition(YogaEdge.LEFT, 2f)
-                        .setPosition(YogaEdge.TOP, (float) (HEIGHT - GRID_Y - 16))
-                        .setWidth(160).setHeight(9));
-                plates.addChild(more);
+
+            if (rowsTotal > rowsVisible) {
+                plates.addChild(scrollRail());
+            } else if (scrollRow != 0) {
+                scrollRow = 0;
             }
+        }
+
+        /** Vertical rail on the right edge: track plus a thumb whose height is the visible fraction. */
+        private UIElement scrollRail() {
+            UIElement rail = new UIElement();
+            rail.setId("tech_tree_scroll");
+            rail.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                    .setPosition(YogaEdge.LEFT, (float) (SCROLL_X - GRID_X))
+                    .setPosition(YogaEdge.TOP, 0f)
+                    .setWidth(SCROLL_W).setHeight(WINDOW_H));
+            rail.style(s -> s.background(TechTreeTextures.scrollTrack()));
+
+            int thumbH = Math.max(SCROLL_MIN_THUMB, WINDOW_H * rowsVisible / Math.max(1, rowsTotal));
+            int travel = WINDOW_H - thumbH;
+            int thumbY = rowsTotal > rowsVisible
+                    ? travel * scrollRow / (rowsTotal - rowsVisible) : 0;
+
+            UIElement thumb = new UIElement();
+            thumb.setId("tech_tree_scroll_thumb");
+            thumb.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                    .setPosition(YogaEdge.LEFT, 0f)
+                    .setPosition(YogaEdge.TOP, (float) thumbY)
+                    .setWidth(SCROLL_W).setHeight(thumbH));
+            thumb.style(s -> s.background(TechTreeTextures.scrollThumb()));
+            rail.addChild(thumb);
+            return rail;
         }
 
         private UIElement plate(TreeSnapshot.NodeView node, int x, int y) {
@@ -904,10 +1058,23 @@ final class TechTreeTableSurface implements LayoutElement, GuiEventListener, Ren
                 .setPosition(YogaEdge.TOP, (float) HIT_PAD)
                 .setWidth(CELL).setHeight(CELL));
         sprite.style(s -> s.background(unlocked
-                        ? TechTreeTextures.nodePlate(epic, true)
-                        : TechTreeTextures.nodePlateDark(epic))
-                .overlay(logo.isEmpty() ? null : new ItemStackTexture(logo)));
+                ? TechTreeTextures.nodePlate(epic, true)
+                : TechTreeTextures.nodePlateDark(epic)));
         element.addChild(sprite);
+
+        // The item icon is its own element so it can be smaller than the plate it sits on: at full 16x16 the
+        // art touched the plate border and read as one blob at the board's pixel scale.
+        if (!logo.isEmpty()) {
+            int icon = Math.round(CELL * ICON_SCALE);
+            int inset = (CELL - icon) / 2;
+            UIElement item = new UIElement();
+            item.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
+                    .setPosition(YogaEdge.LEFT, (float) (HIT_PAD + inset))
+                    .setPosition(YogaEdge.TOP, (float) (HIT_PAD + inset))
+                    .setWidth(icon).setHeight(icon));
+            item.style(s -> s.overlay(new ItemStackTexture(logo)));
+            element.addChild(item);
+        }
 
         // State dot, as in 1.0 {@code TechTreeLabel}: every node carries one — white once unlocked, red while
         // a predecessor is still missing. The first version drew the white dot only for unlocked nodes, so a
