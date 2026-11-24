@@ -16,16 +16,23 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class MeterCarriageEndFaceBlock extends CustomRenderedEndFaceBlock {
 
+    /**
+     * 本家族的端面框用原生方块元素模型建模，元素坐标即碰撞盒坐标，
+     * 因此要抵消渲染器默认给端面框加的 1 格 Y 偏移。
+     */
+    private static final double FRAME_OFFSET_Y = -1.0D;
+
     private final boolean outside;
 
     public MeterCarriageEndFaceBlock(Properties properties, TrainPanelProperties.DoorType doorType, boolean outside) {
-        super(properties, doorType, (String) null, null, "carriage/carriage_m1/end_face/m1_middle_end_face_frame");
+        // Without a door this block renders its own blockstate model, so the block entity must not draw a frame.
+        super(properties, doorType, (String) null, null, null);
         this.outside = outside;
     }
 
     public MeterCarriageEndFaceBlock(Properties properties, TrainPanelProperties.DoorType doorType,
                                      String leftModel, String rightModel, String frameModel, boolean outside) {
-        super(properties, doorType, leftModel, rightModel, frameModel);
+        super(properties, doorType, leftModel, rightModel, frameModel, FRAME_OFFSET_Y);
         this.outside = outside;
     }
 

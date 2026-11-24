@@ -47,11 +47,12 @@ public class CustomRenderedEndFaceRenderer implements BlockEntityRenderer<Custom
         pose.mulPose(Axis.YP.rotationDegrees(f + 90f));
         // pose.translate(0, 0, -1);
         if (frame != null) {
-            pose.translate(-.5, 2, -.5);
+            double frameOffsetY = pBlockEntity.getFrameOffsetY();
+            pose.translate(-.5, 2 + frameOffsetY, -.5);
             SuperByteBuffer frameBuffer = CachedBuffers.partial(frame, blockState);
             frameBuffer.light(pPackedLight);
             frameBuffer.renderInto(pose, pBufferSource.getBuffer(RenderType.cutout()));
-            pose.translate(.5, -2, .5);
+            pose.translate(.5, -2 - frameOffsetY, .5);
         }
         if (pBlockEntity.type == TrainPanelProperties.DoorType.NO_DOOR) {
             pose.popPose();

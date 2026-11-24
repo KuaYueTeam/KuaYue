@@ -107,12 +107,18 @@
     },
     {
       "id": "kuayue:window_oc_wide_sealed_25t",
-      "type": "train_unopenable_small_window",
+      "type": "train_unopenable_window",
+      "params": {
+        "wide": 2
+      },
       "registry_group": "kuayue:c25t_panels"
     },
     {
       "id": "kuayue:window_oc_wide_sealed_blue_25t",
-      "type": "train_unopenable_small_window",
+      "type": "train_unopenable_window",
+      "params": {
+        "wide": 2
+      },
       "registry_group": "kuayue:c25t_panels"
     },
     {
