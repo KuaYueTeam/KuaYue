@@ -22,7 +22,12 @@ eclipse
 run
 runs
 run-data
+.DS_Store
+.vscode/
 
 repo
 
 compiled
+
+# Local planning documents
+/plan_detailed*/

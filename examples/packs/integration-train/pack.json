@@ -1,0 +1,23 @@
+{
+  "format_version": 1,
+  "id": "integration-train",
+  "version": "1.0.0",
+  "namespaces": [
+    "integration_train"
+  ],
+  "name_key": "pack.integration_train.name",
+  "description_key": "pack.integration_train.description",
+  "dependencies": {
+    "mods": {
+      "minecraft": "1.21.1",
+      "neoforge": "21.1.203",
+      "kuayue": "2.0.0",
+      "kasuga_lib": "1.0.0",
+      "create": "6.0.6"
+    },
+    "packs": {}
+  },
+  "parcels": [
+    "parcels/validation-car/parcel.json"
+  ]
+}

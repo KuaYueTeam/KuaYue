@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/index.schema.json",
+  "title": "KuaYue / KasugaLib registration index (v1)",
+  "description": "data/<namespace>/kasuga_lib/data_driven/*.json。路径相对 data/<namespace>/。",
+  "type": "object",
+  "minProperties": 1,
+  "properties": {
+    "on_register": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_.-]+(?:/[a-z0-9_.-]+)*\\.json$",
+        "not": {
+          "pattern": "(^|/)\\.\\.?($|/)"
+        }
+      }
+    },
+    "on_reload": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_.-]+(?:/[a-z0-9_.-]+)*\\.json$",
+        "not": {
+          "pattern": "(^|/)\\.\\.?($|/)"
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$comment": "同一个路径不能同时出现在 on_register 与 on_reload；这一点由运行时跨字段检查。"
+}

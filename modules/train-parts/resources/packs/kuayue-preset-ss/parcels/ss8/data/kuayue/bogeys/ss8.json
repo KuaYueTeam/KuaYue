@@ -1,0 +1,362 @@
+{
+  "bogey_sizes": [
+    {
+      "id": "kuayue:ss8",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:ss8_backward",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:ss8_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:ss8_backward_a",
+      "wheel_radius": 0.4575
+    }
+  ],
+  "bogey_blocks": [
+    {
+      "id": "kuayue:ss8_bogey",
+      "size": "kuayue:ss8",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:ss8_backward_bogey",
+      "size": "kuayue:ss8_backward",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:ss8_bogey_a",
+      "size": "kuayue:ss8_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:ss8_backward_bogey_a",
+      "size": "kuayue:ss8_backward_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    }
+  ],
+  "bogey_models": [
+    {
+      "id": "kuayue:bogey/ss8",
+      "y_offset": -1.5078125,
+      "parts": [
+        {
+          "id": "part_00",
+          "model": "kuayue:models/block/bogey/ss8/ss8_frame.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "id": "part_01",
+          "model": "kuayue:models/block/bogey/ss8/ss8_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                -1.3
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        },
+        {
+          "id": "part_02",
+          "model": "kuayue:models/block/bogey/ss8/ss8_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                1.304
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:bogey/ss8_backward",
+      "y_offset": -1.5078125,
+      "parts": [
+        {
+          "id": "part_00",
+          "model": "kuayue:models/block/bogey/ss8/ss8_frame.obj",
+          "local": []
+        },
+        {
+          "id": "part_01",
+          "model": "kuayue:models/block/bogey/ss8/ss8_wheel.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                0.905,
+                -1.3
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_-1"
+        },
+        {
+          "id": "part_02",
+          "model": "kuayue:models/block/bogey/ss8/ss8_wheel.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                0.905,
+                1.304
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_-1"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:bogey/ss8_a",
+      "y_offset": -1.5078125,
+      "parts": [
+        {
+          "id": "part_00",
+          "model": "kuayue:models/block/bogey/ss8/ss8_frame.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "id": "part_01",
+          "model": "kuayue:models/block/bogey/ss8/ss8_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                -1.3
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        },
+        {
+          "id": "part_02",
+          "model": "kuayue:models/block/bogey/ss8/ss8_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                1.304
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:bogey/ss8_backward_a",
+      "y_offset": -1.5078125,
+      "parts": [
+        {
+          "id": "part_00",
+          "model": "kuayue:models/block/bogey/ss8/ss8_frame.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "id": "part_01",
+          "model": "kuayue:models/block/bogey/ss8/ss8_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                -1.3
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        },
+        {
+          "id": "part_02",
+          "model": "kuayue:models/block/bogey/ss8/ss8_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                1.304
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        }
+      ]
+    }
+  ],
+  "bogey_style_variants": [
+    {
+      "id": "kuayue:ss8_loco",
+      "style": "kuayue:loco",
+      "variants": [
+        {
+          "size": "kuayue:ss8",
+          "block": "kuayue:ss8_bogey",
+          "model": "kuayue:bogey/ss8"
+        },
+        {
+          "size": "kuayue:ss8_backward",
+          "block": "kuayue:ss8_backward_bogey",
+          "model": "kuayue:bogey/ss8_backward"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:ss8_andesite_loco",
+      "style": "kuayue:andesite_loco",
+      "variants": [
+        {
+          "size": "kuayue:ss8_a",
+          "block": "kuayue:ss8_bogey_a",
+          "model": "kuayue:bogey/ss8_a"
+        },
+        {
+          "size": "kuayue:ss8_backward_a",
+          "block": "kuayue:ss8_backward_bogey_a",
+          "model": "kuayue:bogey/ss8_backward_a"
+        }
+      ]
+    }
+  ]
+}

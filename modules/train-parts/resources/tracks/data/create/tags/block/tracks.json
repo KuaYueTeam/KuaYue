@@ -1,0 +1,9 @@
+{
+    "values": [
+        "kuayue:tieless_track",
+        "kuayue:meter_track",
+        "kuayue:ballastless_track",
+        "kuayue:guard_track",
+        "kuayue:standard_track"
+    ]
+}

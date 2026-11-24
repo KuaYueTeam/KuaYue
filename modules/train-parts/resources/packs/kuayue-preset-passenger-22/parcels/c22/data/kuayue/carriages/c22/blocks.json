@@ -1,0 +1,108 @@
+{
+  "blocks": [
+    {
+      "id": "kuayue:22_floor",
+      "type": "slab",
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_floor_center",
+      "type": "slab",
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_panel_bottom",
+      "type": "train_panel",
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_panel_middle",
+      "type": "train_panel",
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_ladder",
+      "type": "ladder",
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_window",
+      "type": "train_small_window",
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_large_window",
+      "type": "train_openable_window",
+      "params": {
+        "wide": 2
+      },
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_double_small_window",
+      "type": "train_openable_window",
+      "params": {
+        "wide": 2
+      },
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_small_window",
+      "type": "train_openable_window",
+      "params": {
+        "wide": 1
+      },
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_coupler",
+      "type": "slab",
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_carport_panel_top",
+      "type": "train_panel",
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_carport_panel_top_lamp",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_carport_top_cap",
+      "type": "slab_top",
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_air_vent",
+      "type": "air_vent",
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_door",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:carriage/carriage_22/door/22_door_bottom_lh",
+          "kuayue:carriage/carriage_22/door/22_door_upper_lh"
+        ],
+        "right_models": [
+          "kuayue:carriage/carriage_22/door/22_door_bottom",
+          "kuayue:carriage/carriage_22/door/22_door_upper"
+        ],
+        "render_shape": "entityblock_animated"
+      },
+      "registry_group": "kuayue:c22_panels"
+    },
+    {
+      "id": "kuayue:22_end_face",
+      "type": "custom_rendered_end_face",
+      "params": {
+        "door_type": "no_door",
+        "frame_model": "carriage/carriage_22/22_end_face"
+      },
+      "registry_group": "kuayue:c22_panels"
+    }
+  ]
+}

@@ -1,0 +1,482 @@
+{
+  "bogey_sizes": [
+    {
+      "id": "kuayue:hxd3d",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:hxd3d_backward",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:hxd3d_a",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:hxd3d_backward_a",
+      "wheel_radius": 0.4575
+    }
+  ],
+  "bogey_blocks": [
+    {
+      "id": "kuayue:hxd3d_bogey",
+      "size": "kuayue:hxd3d",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:hxd3d_backward_bogey",
+      "size": "kuayue:hxd3d_backward",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:hxd3d_bogey_a",
+      "size": "kuayue:hxd3d_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:hxd3d_backward_bogey_a",
+      "size": "kuayue:hxd3d_backward_a",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:andesite_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    }
+  ],
+  "bogey_models": [
+    {
+      "id": "kuayue:bogey/hxd3d",
+      "y_offset": -1.5078125,
+      "parts": [
+        {
+          "id": "part_00",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_frame.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.012,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "id": "part_01",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                0.23
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        },
+        {
+          "id": "part_02",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                2.365
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        },
+        {
+          "id": "part_03",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                -1.69
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:bogey/hxd3d_backward",
+      "y_offset": -1.5078125,
+      "parts": [
+        {
+          "id": "part_00",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_frame.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                0.012,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "id": "part_01",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_wheel.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                0.905,
+                0.23
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        },
+        {
+          "id": "part_02",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_wheel.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                0.905,
+                2.365
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        },
+        {
+          "id": "part_03",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_wheel.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                0.905,
+                -1.69
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:bogey/hxd3d_a",
+      "y_offset": -1.5078125,
+      "parts": [
+        {
+          "id": "part_00",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_frame.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.012,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "id": "part_01",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                0.23
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_-1"
+        },
+        {
+          "id": "part_02",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                2.365
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_-1"
+        },
+        {
+          "id": "part_03",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                -1.69
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_-1"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:bogey/hxd3d_backward_a",
+      "y_offset": -1.5078125,
+      "parts": [
+        {
+          "id": "part_00",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_frame.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.012,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "id": "part_01",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                0.23
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_-1"
+        },
+        {
+          "id": "part_02",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                2.365
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_-1"
+        },
+        {
+          "id": "part_03",
+          "model": "kuayue:models/block/bogey/hxd3d/hxd3d_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "scale": [
+                1.2,
+                1,
+                1
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.905,
+                -1.69
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_-1"
+        }
+      ]
+    }
+  ],
+  "bogey_style_variants": [
+    {
+      "id": "kuayue:hxd3d_loco",
+      "style": "kuayue:loco",
+      "variants": [
+        {
+          "size": "kuayue:hxd3d",
+          "block": "kuayue:hxd3d_bogey",
+          "model": "kuayue:bogey/hxd3d"
+        },
+        {
+          "size": "kuayue:hxd3d_backward",
+          "block": "kuayue:hxd3d_backward_bogey",
+          "model": "kuayue:bogey/hxd3d_backward"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:hxd3d_andesite_loco",
+      "style": "kuayue:andesite_loco",
+      "variants": [
+        {
+          "size": "kuayue:hxd3d_a",
+          "block": "kuayue:hxd3d_bogey_a",
+          "model": "kuayue:bogey/hxd3d_a"
+        },
+        {
+          "size": "kuayue:hxd3d_backward_a",
+          "block": "kuayue:hxd3d_backward_bogey_a",
+          "model": "kuayue:bogey/hxd3d_backward_a"
+        }
+      ]
+    }
+  ]
+}

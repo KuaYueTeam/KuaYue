@@ -1,0 +1,120 @@
+{
+  "registry_groups": [
+    {
+      "id": "kuayue:track_blocks",
+      "properties": {
+        "no_occlusion": true,
+        "strength": [
+          0.8,
+          0.8
+        ],
+        "sound_type": "metal"
+      },
+      "item_properties": {
+        "tab": "kuayue:kuayue_temp_tab"
+      }
+    }
+  ],
+  "tracks": [
+    {
+      "id": "kuayue:standard_track",
+      "type": "simple_track",
+      "registry_group": "kuayue:track_blocks",
+      "default_bogey": "kuayue:pk209p_bogey",
+      "material": {
+        "id": "kuayue:standard",
+        "name": "Standard Track",
+        "particle": "kuayue:block/palettes/stone_types/polished/andesite_cut_polished",
+        "half_distance": 0.755,
+        "sleepers": [
+          "minecraft:andesite_slab"
+        ],
+        "models": {
+          "tie": "kuayue:block/track/standard/tie",
+          "left": "kuayue:block/track/standard/segment_left",
+          "right": "kuayue:block/track/standard/segment_right"
+        }
+      }
+    },
+    {
+      "id": "kuayue:ballastless_track",
+      "type": "simple_track",
+      "registry_group": "kuayue:track_blocks",
+      "default_bogey": "kuayue:pk209p_bogey",
+      "material": {
+        "id": "kuayue:ballastless",
+        "name": "Ballastless Track",
+        "particle": "kuayue:block/palettes/stone_types/polished/andesite_cut_polished",
+        "half_distance": 0.755,
+        "sleepers": [
+          "minecraft:andesite_slab"
+        ],
+        "models": {
+          "tie": "kuayue:block/track/ballastless/tie",
+          "left": "kuayue:block/track/standard/segment_left",
+          "right": "kuayue:block/track/standard/segment_right"
+        }
+      }
+    },
+    {
+      "id": "kuayue:tieless_track",
+      "type": "simple_track",
+      "registry_group": "kuayue:track_blocks",
+      "default_bogey": "kuayue:pk209p_bogey",
+      "material": {
+        "id": "kuayue:tieless",
+        "name": "Tieless Track",
+        "particle": "kuayue:block/palettes/stone_types/polished/andesite_cut_polished",
+        "half_distance": 0.755,
+        "sleepers": [
+          "minecraft:andesite_slab"
+        ],
+        "models": {
+          "tie": "kuayue:block/track/empty_model",
+          "left": "kuayue:block/track/standard/segment_left",
+          "right": "kuayue:block/track/standard/segment_right"
+        }
+      }
+    },
+    {
+      "id": "kuayue:meter_track",
+      "type": "simple_track",
+      "registry_group": "kuayue:track_blocks",
+      "default_bogey": "kuayue:mkz_bogey",
+      "material": {
+        "id": "kuayue:meter",
+        "name": "Meter Track",
+        "particle": "kuayue:block/palettes/stone_types/polished/andesite_cut_polished",
+        "half_distance": 0.525,
+        "sleepers": [
+          "minecraft:andesite_slab"
+        ],
+        "models": {
+          "tie": "kuayue:block/track/meter/tie",
+          "left": "kuayue:block/track/standard/segment_left",
+          "right": "kuayue:block/track/standard/segment_right"
+        }
+      }
+    },
+    {
+      "id": "kuayue:guard_track",
+      "type": "simple_track",
+      "registry_group": "kuayue:track_blocks",
+      "default_bogey": "kuayue:pk209p_bogey",
+      "material": {
+        "id": "kuayue:guard",
+        "name": "Guard Track",
+        "particle": "kuayue:block/palettes/stone_types/polished/andesite_cut_polished",
+        "half_distance": 0.755,
+        "sleepers": [
+          "minecraft:andesite_slab"
+        ],
+        "models": {
+          "tie": "kuayue:block/track/guard/tie",
+          "left": "kuayue:block/track/guard/segment_left",
+          "right": "kuayue:block/track/guard/segment_right"
+        }
+      }
+    }
+  ]
+}

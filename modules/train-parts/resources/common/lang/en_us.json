@@ -58,5 +58,12 @@
     "tooltip.kuayue.color_template_screen.title": "Color Templates",
     "tooltip.kuayue.get_share_overlay_toast.content": "Press \" %s \" to save.",
     "tooltip.kuayue.get_share_overlay_toast.title": "New Color Template.",
-    "tooltip.kuayue.type_screen.title": "Edit type panel."
+    "tooltip.kuayue.type_screen.title": "Edit type panel.",
+    "kuayue.bogey.style.loco": "Locomotive Bogey",
+    "kuayue.bogey.style.meter_loco": "Meter-gauge Loco Bogey",
+    "kuayue.bogey.style.asymmetry_loco": "Asymmetric Loco Bogey",
+    "kuayue.bogey.style.andesite_loco": "Andesite Loco Bogey",
+    "kuayue.bogey.style.carriage": "Carriage Bogey",
+    "kuayue.bogey.style.meter_carriage": "Meter-gauge Carriage Bogey",
+    "kuayue.bogey.style.andesite_carriage": "Andesite Carriage Bogey"
 }

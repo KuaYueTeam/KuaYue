@@ -4,7 +4,14 @@
     "package": "cn.kycraft.kuayue.mixins",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
-        "BucketItemMixin"
+        "BogeyStyleMessageMixin",
+        "BucketItemMixin",
+        "ConfigurationInitializationMixin"
+    ],
+    "client": [
+        "client.CreativeModeInventoryScreenAccessor",
+        "client.CreativeModeInventoryScreenMixin",
+        "client.WorldOpenPackHistoryMixin"
     ],
     "injectors": {
         "defaultRequire": 1

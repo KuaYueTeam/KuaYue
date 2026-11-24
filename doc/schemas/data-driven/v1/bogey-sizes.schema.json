@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kuayue.example/schemas/data-driven/v1/bogey-sizes.schema.json",
+  "title": "转向架尺寸内容文件",
+  "description": "BogeySizeTypeHandler / BogeySizeDefinition",
+  "type": "object",
+  "properties": {
+    "bogey_sizes": {
+      "type": "array",
+      "items": {
+        "$ref": "content.schema.json#/$defs/bogeySize"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "bogey_sizes"
+  ]
+}

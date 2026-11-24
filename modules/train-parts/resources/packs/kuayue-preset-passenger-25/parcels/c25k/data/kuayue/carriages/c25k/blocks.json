@@ -1,0 +1,190 @@
+{
+  "blocks": [
+    {
+      "id": "kuayue:panel_bottom_25k",
+      "type": "train_panel",
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:panel_bottom_line_25k",
+      "type": "train_panel",
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:panel_middle_25k",
+      "type": "train_panel",
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:panel_symbol_25k",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:panel_symbol_marshalled_25k",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:panel_symbol_marshalled_25k_b",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:panel_top_25k",
+      "type": "train_panel",
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:window_oc_sealed_small_25k",
+      "type": "train_unopenable_small_window",
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:window_oc_small_25k",
+      "type": "train_small_window",
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:window_oc_toilet_25k",
+      "type": "train_small_window",
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:window_oc_wide_25k",
+      "type": "train_openable_window",
+      "params": {
+        "wide": 2
+      },
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:window_oc_wide_sealed_25k",
+      "type": "train_unopenable_window",
+      "params": {
+        "wide": 2
+      },
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:door_25k",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:door/original_25k_door_bottom_hinge",
+          "kuayue:door/original_25k_door_top_hinge"
+        ],
+        "right_models": [
+          "kuayue:door/original_25k_door_bottom",
+          "kuayue:door/original_25k_door_top"
+        ],
+        "open_offset": [
+          0.0,
+          0.0,
+          -0.124
+        ]
+      },
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:door_sliding_25k",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:door/sliding_door_25k_bottom",
+          "kuayue:door/sliding_door_25k_upper"
+        ],
+        "right_models": [
+          "kuayue:door/sliding_door_25k_bottom_lh",
+          "kuayue:door/sliding_door_25k_upper_lh"
+        ],
+        "is_slide_door": true
+      },
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:end_face_25k_1",
+      "type": "custom_rendered_end_face",
+      "params": {
+        "door_type": "rotate_single_sided",
+        "left_model": "carriage/carriage25k/end_face/end_face_door_original_25k",
+        "frame_model": "carriage/carriage25k/end_face/end_face_original_25k_1"
+      },
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:end_face_25k_2",
+      "type": "custom_rendered_end_face",
+      "params": {
+        "door_type": "rotate_single_sided",
+        "left_model": "carriage/carriage25k/end_face/end_face_door_original_25k",
+        "frame_model": "carriage/carriage25k/end_face/end_face_original_25k_2"
+      },
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:end_face_25k_3",
+      "type": "custom_rendered_end_face",
+      "params": {
+        "door_type": "rotate_single_sided",
+        "left_model": "carriage/carriage25k/end_face/end_face_door_original_25k",
+        "frame_model": "carriage/carriage25k/end_face/end_face_original_25k_3"
+      },
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:end_face_sliding_25k_1",
+      "type": "custom_rendered_end_face",
+      "params": {
+        "door_type": "slide_2",
+        "left_model": "carriage/carriage25k/end_face/end_face_sliding_door_original_25k_right",
+        "right_model": "carriage/carriage25k/end_face/end_face_sliding_door_original_25k_left",
+        "frame_model": "carriage/carriage25k/end_face/end_face_sliding_original_25k_1"
+      },
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:end_face_sliding_25k_2",
+      "type": "custom_rendered_end_face",
+      "params": {
+        "door_type": "slide_2",
+        "left_model": "carriage/carriage25k/end_face/end_face_sliding_door_original_25k_right",
+        "right_model": "carriage/carriage25k/end_face/end_face_sliding_door_original_25k_left",
+        "frame_model": "carriage/carriage25k/end_face/end_face_sliding_original_25k_2"
+      },
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:end_face_sliding_25k_3",
+      "type": "custom_rendered_end_face",
+      "params": {
+        "door_type": "slide_2",
+        "left_model": "carriage/carriage25k/end_face/end_face_sliding_door_original_25k_right",
+        "right_model": "carriage/carriage25k/end_face/end_face_sliding_door_original_25k_left",
+        "frame_model": "carriage/carriage25k/end_face/end_face_sliding_original_25k_3"
+      },
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:floor_25k",
+      "type": "slab",
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:toilet_dd_25k",
+      "type": "slab",
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:c25k_panels"
+    },
+    {
+      "id": "kuayue:ladder_sliding_25k",
+      "type": "ladder",
+      "registry_group": "kuayue:c25k_panels"
+    }
+  ]
+}

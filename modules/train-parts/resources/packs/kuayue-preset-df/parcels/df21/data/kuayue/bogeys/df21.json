@@ -1,0 +1,204 @@
+{
+  "bogey_sizes": [
+    {
+      "id": "kuayue:df21",
+      "wheel_radius": 0.4575
+    },
+    {
+      "id": "kuayue:df21_backward",
+      "wheel_radius": 0.4575
+    }
+  ],
+  "bogey_blocks": [
+    {
+      "id": "kuayue:df21_bogey",
+      "size": "kuayue:df21",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:meter_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    },
+    {
+      "id": "kuayue:df21_backward_bogey",
+      "size": "kuayue:df21_backward",
+      "registry_group": "kuayue:loco_bogeys",
+      "default_style": "kuayue:meter_loco",
+      "physics": {
+        "wheel_point_spacing": 2.0,
+        "allow_single_bogey_carriage": false
+      }
+    }
+  ],
+  "bogey_models": [
+    {
+      "id": "kuayue:bogey/df21",
+      "y_offset": -1.5078125,
+      "parts": [
+        {
+          "id": "part_00",
+          "model": "kuayue:models/block/bogey/df21/df21_bogey_temple.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                0.225,
+                0.17
+              ]
+            }
+          ]
+        },
+        {
+          "id": "part_01",
+          "model": "kuayue:models/block/bogey/df21/df21_wheel.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                0.88,
+                -1.805
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        },
+        {
+          "id": "part_02",
+          "model": "kuayue:models/block/bogey/df21/df21_wheel.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                0.88,
+                0
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        },
+        {
+          "id": "part_03",
+          "model": "kuayue:models/block/bogey/df21/df21_wheel.obj",
+          "local": [
+            {
+              "translate": [
+                0,
+                0.88,
+                1.805
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        }
+      ]
+    },
+    {
+      "id": "kuayue:bogey/df21_backward",
+      "y_offset": -1.5078125,
+      "parts": [
+        {
+          "id": "part_00",
+          "model": "kuayue:models/block/bogey/df21/df21_bogey_temple.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.225,
+                0.17
+              ]
+            }
+          ]
+        },
+        {
+          "id": "part_01",
+          "model": "kuayue:models/block/bogey/df21/df21_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.88,
+                -1.805
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_-1"
+        },
+        {
+          "id": "part_02",
+          "model": "kuayue:models/block/bogey/df21/df21_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.88,
+                0
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_-1"
+        },
+        {
+          "id": "part_03",
+          "model": "kuayue:models/block/bogey/df21/df21_wheel.obj",
+          "local": [
+            {
+              "rotate": [
+                0,
+                180,
+                0
+              ]
+            },
+            {
+              "translate": [
+                0,
+                0.88,
+                1.805
+              ]
+            }
+          ],
+          "motion": "kuayue:motion/wheel_spin/scale_1.0_sign_-1"
+        }
+      ]
+    }
+  ],
+  "bogey_style_variants": [
+    {
+      "id": "kuayue:df21_meter_loco",
+      "style": "kuayue:meter_loco",
+      "variants": [
+        {
+          "size": "kuayue:df21",
+          "block": "kuayue:df21_bogey",
+          "model": "kuayue:bogey/df21"
+        },
+        {
+          "size": "kuayue:df21_backward",
+          "block": "kuayue:df21_backward_bogey",
+          "model": "kuayue:bogey/df21_backward"
+        }
+      ]
+    }
+  ]
+}

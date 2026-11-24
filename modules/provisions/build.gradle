@@ -29,6 +29,7 @@ ext.useBundle = { dependency ->
 repositories {
     maven { url = "https://maven.createmod.net" }
     maven { url = "https://maven.ithundxr.dev/snapshots" }
+    maven { url = "https://maven.firstdark.dev/snapshots" }
 }
 
 base {

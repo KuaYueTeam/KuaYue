@@ -14,7 +14,7 @@ public class CompanyRegistry {
                     .noCollission()
                     .strength(1.5f, 3f)
                     .requiresCorrectToolForDrops()))
-            .setParent(KuaYueTrainPanelModule.REGISTRY_GROUP);
+            .setParent(KuaYueTrainPanelModule.RUNTIME_REGISTRY_GROUP);
 
     public static final BlockReg<CompanyTrainPanel> COMPANY_TRAIN_PANEL =
             BlockReg.of("company_panel_block", CompanyTrainPanel::new)

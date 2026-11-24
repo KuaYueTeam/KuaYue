@@ -1,0 +1,29 @@
+{
+  "format_version": 1,
+  "id": "kuayue-preset-df",
+  "version": "2.0.0",
+  "required": false,
+  "namespaces": [
+    "kuayue"
+  ],
+  "name_key": "pack.kuayue_preset_df.name",
+  "description_key": "pack.kuayue_preset_df.description",
+  "dependencies": {
+    "mods": {
+      "minecraft": "1.21.1",
+      "neoforge": "21.1.203",
+      "kuayue": "2.0.0",
+      "kasuga_lib": "1.0.0",
+      "create": "6.0.6"
+    },
+    "packs": {
+      "kuayue-preset-running-gear": "*"
+    }
+  },
+  "parcels": [
+    "parcels/df5/parcel.json",
+    "parcels/df11/parcel.json",
+    "parcels/df11g/parcel.json",
+    "parcels/df21/parcel.json"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "on_register": [
+    "locomotives/jy290/groups.json",
+    "locomotives/jy290/blocks.json",
+    "bogeys/jy290.json"
+  ]
+}

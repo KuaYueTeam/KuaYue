@@ -1,0 +1,57 @@
+{
+  "bogey_motions": [
+    {
+      "id": "kuayue:motion/wheel_spin/scale_1.0_sign_1",
+      "type": "wheel_spin",
+      "scale": 1.0,
+      "sign": 1
+    },
+    {
+      "id": "kuayue:motion/wheel_spin/scale_3.256_sign_1",
+      "type": "wheel_spin",
+      "scale": 3.256,
+      "sign": 1
+    },
+    {
+      "id": "kuayue:motion/wheel_spin/scale_1.0_sign_-1",
+      "type": "wheel_spin",
+      "scale": 1.0,
+      "sign": -1
+    },
+    {
+      "id": "kuayue:motion/wheel_spin/scale_3.256_sign_-1",
+      "type": "wheel_spin",
+      "scale": 3.256,
+      "sign": -1
+    },
+    {
+      "id": "kuayue:motion/wheel_spin/scale_1.09_sign_1",
+      "type": "wheel_spin",
+      "scale": 1.09,
+      "sign": 1
+    },
+    {
+      "id": "kuayue:motion/wheel_spin/scale_1.22_sign_1",
+      "type": "wheel_spin",
+      "scale": 1.22,
+      "sign": 1
+    },
+    {
+      "id": "kuayue:motion/wheel_spin/scale_1.22_sign_-1",
+      "type": "wheel_spin",
+      "scale": 1.22,
+      "sign": -1
+    },
+    {
+      "id": "kuayue:motion/qj/formula",
+      "type": "formula",
+      "clip": "kuayue:qj_mechanism"
+    },
+    {
+      "id": "kuayue:motion/rod_rotation/scale_3.256_sign_1",
+      "type": "rod_rotation",
+      "scale": 3.256,
+      "sign": 1
+    }
+  ]
+}

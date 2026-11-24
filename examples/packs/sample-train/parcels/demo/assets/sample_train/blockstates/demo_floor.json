@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "sample_train:block/demo_floor"
+    },
+    "facing=east": {
+      "model": "sample_train:block/demo_floor"
+    },
+    "facing=south": {
+      "model": "sample_train:block/demo_floor"
+    },
+    "facing=west": {
+      "model": "sample_train:block/demo_floor"
+    }
+  }
+}

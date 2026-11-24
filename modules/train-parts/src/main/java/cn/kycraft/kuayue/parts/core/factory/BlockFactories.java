@@ -3,9 +3,13 @@ package cn.kycraft.kuayue.parts.core.factory;
 import cn.kycraft.kuayue.parts.core.panel.AirVentBlock;
 import cn.kycraft.kuayue.parts.core.panel.FreightC70EndFaceBlock;
 import cn.kycraft.kuayue.parts.core.panel.FreightNX70EndFaceBlock;
+import cn.kycraft.kuayue.parts.core.panel.FullShapeDirectionalBlock;
+import cn.kycraft.kuayue.parts.core.panel.HeadBlock;
+import cn.kycraft.kuayue.parts.core.panel.HeightSlabBlock;
 import cn.kycraft.kuayue.parts.core.panel.HingeSlabBlock;
 import cn.kycraft.kuayue.parts.core.panel.LadderBlock;
 import cn.kycraft.kuayue.parts.core.panel.LevelPanelBlock;
+import cn.kycraft.kuayue.parts.core.panel.SingleArmPantographBlock;
 import cn.kycraft.kuayue.parts.core.panel.SkirtBlock;
 import cn.kycraft.kuayue.parts.core.panel.SlabBlock;
 import cn.kycraft.kuayue.parts.core.panel.TrainHingePanelBlock;
@@ -15,6 +19,7 @@ import cn.kycraft.kuayue.parts.core.panel.custom_rendered.CustomRenderedDoorBloc
 import cn.kycraft.kuayue.parts.core.panel.custom_rendered.CustomRenderedEndFaceBlock;
 import cn.kycraft.kuayue.parts.core.panel.custom_rendered.DoubleRotateDoorBlock;
 import cn.kycraft.kuayue.parts.core.panel.custom_rendered.MeterCarriageEndFaceBlock;
+import cn.kycraft.kuayue.parts.core.panel.door.TrainDoorBlock;
 import cn.kycraft.kuayue.parts.core.panel.registration.PanelReg;
 import cn.kycraft.kuayue.parts.core.panel.registration.SkirtReg;
 import cn.kycraft.kuayue.parts.core.panel.registration.SlabReg;
@@ -23,11 +28,20 @@ import cn.kycraft.kuayue.parts.core.panel.window.TrainOpenableWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainSmallWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainUnOpenableSmallWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainUnOpenableWindowBlock;
+import cn.kycraft.kuayue.parts.locomotives.df11.DF11GChimneyBlock;
+import cn.kycraft.kuayue.parts.locomotives.df5.DF5ChimneyBlock;
+import cn.kycraft.kuayue.parts.locomotives.hxd3d.HXD3DCowCatcherBlock;
+import cn.kycraft.kuayue.parts.locomotives.jy.JY290ACBlock;
 import io.micronaut.context.annotation.Context;
+import lib.kasuga.registration.minecraft.block.BlockReg;
 import lib.kasuga.registration.factory.FactoryRegistry;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.function.Function;
 
 @Context
 public class BlockFactories {
@@ -56,6 +70,8 @@ public class BlockFactories {
 
     public static FactoryRegistry.BlockFactory SLAB = (id, params) -> new SlabReg<>(id, p -> new SlabBlock(p, false));
     public static FactoryRegistry.BlockFactory SLAB_TOP = (id, params) -> new SlabReg<>(id, p -> new SlabBlock(p, true));
+    public static FactoryRegistry.BlockFactory HEIGHT_SLAB = (id, params) ->
+            blockWithDefaultItem(id, HeightSlabBlock::new);
 
     public static FactoryRegistry.BlockFactory LADDER = (id, params) -> new SlabReg<>(id, p -> {
         boolean isMeter = FactoryParams.getBooleanOr(params, "is_meter", false);
@@ -103,6 +119,11 @@ public class BlockFactories {
             new PanelReg<>(id, TrainUnOpenableSmallWindowBlock::new);
 
     public static FactoryRegistry.BlockFactory TRAIN_UNOPENABLE_WINDOW = (id, params) -> new PanelReg<>(id, p -> {
+        if (params != null && (params.has("begin_x") || params.has("end_x"))) {
+            int beginX = FactoryParams.getIntOr(params, "begin_x", -1);
+            int endX = FactoryParams.getIntOr(params, "end_x", 1);
+            return new TrainUnOpenableWindowBlock(p, beginX, endX);
+        }
         int wide = FactoryParams.getIntOr(params, "wide", 1);
         int beginY = FactoryParams.getIntOr(params, "begin_y", 0);
         int endY = FactoryParams.getIntOr(params, "end_y", 1);
@@ -157,25 +178,76 @@ public class BlockFactories {
         return new MeterCarriageEndFaceBlock(p, doorType, outside);
     });
 
+    public static FactoryRegistry.BlockFactory FULL_SHAPE_DIRECTIONAL = (id, params) ->
+            blockWithDefaultItem(id, FullShapeDirectionalBlock::new);
+
+    public static FactoryRegistry.BlockFactory HXD3D_COWCATCHER = (id, params) ->
+            blockWithDefaultItem(id, HXD3DCowCatcherBlock::new);
+
+    public static FactoryRegistry.BlockFactory SINGLE_ARM_PANTOGRAPH = (id, params) ->
+            blockWithDefaultItem(id, SingleArmPantographBlock::new);
+
+    public static FactoryRegistry.BlockFactory HEAD = (id, params) ->
+            blockWithDefaultItem(id, HeadBlock::new);
+
+    public static FactoryRegistry.BlockFactory CHIMNEY = (id, params) ->
+            new SlabReg<>(id, p -> new DF11GChimneyBlock(p, false));
+
+    public static FactoryRegistry.BlockFactory DF5_CHIMNEY = (id, params) ->
+            new SlabReg<>(id, p -> new DF5ChimneyBlock(p, false));
+
+    public static FactoryRegistry.BlockFactory TRAIN_DOOR = (id, params) -> new PanelReg<>(id, p ->
+            new TrainDoorBlock(
+                    p,
+                    new Vec2(
+                            FactoryParams.getFloatOr(params, "begin_x", 0f),
+                            FactoryParams.getFloatOr(params, "begin_y", 0f)
+                    ),
+                    new Vec2(
+                            FactoryParams.getFloatOr(params, "end_x", 1f),
+                            FactoryParams.getFloatOr(params, "end_y", 1f)
+                    )
+            ));
+
+    public static FactoryRegistry.BlockFactory JY290_AC = (id, params) ->
+            blockWithDefaultItem(id, JY290ACBlock::new);
+
+    private static BlockReg<Block> blockWithDefaultItem(
+            String id,
+            Function<BlockBehaviour.Properties, ? extends Block> supplier
+    ) {
+        return BlockReg.<Block>of(id, properties -> supplier.apply(properties))
+                .withDefaultBlockItem(id);
+    }
+
     static {
-        FactoryRegistry.register("train_panel", TRAIN_PANEL);
-        FactoryRegistry.register("slab", SLAB);
-        FactoryRegistry.register("slab_top", SLAB_TOP);
-        FactoryRegistry.register("ladder", LADDER);
-        FactoryRegistry.register("train_small_window", TRAIN_SMALL_WINDOW);
-        FactoryRegistry.register("train_openable_window", TRAIN_OPENABLE_WINDOW);
-        FactoryRegistry.register("train_hinge_panel", TRAIN_HINGE_PANEL);
-        FactoryRegistry.register("air_vent", AIR_VENT);
-        FactoryRegistry.register("custom_rendered_door", CUSTOM_RENDERED_DOOR);
-        FactoryRegistry.register("custom_rendered_end_face", CUSTOM_RENDERED_END_FACE);
-        FactoryRegistry.register("train_unopenable_small_window", TRAIN_UNOPENABLE_SMALL_WINDOW);
-        FactoryRegistry.register("train_unopenable_window", TRAIN_UNOPENABLE_WINDOW);
-        FactoryRegistry.register("hinge_slab", HINGE_SLAB);
-        FactoryRegistry.register("skirt", SKIRT);
-        FactoryRegistry.register("level_panel", LEVEL_PANEL);
-        FactoryRegistry.register("level_window", LEVEL_WINDOW);
-        FactoryRegistry.register("double_rotate_door", DOUBLE_ROTATE_DOOR);
-        FactoryRegistry.register("freight_end_face", FREIGHT_END_FACE);
-        FactoryRegistry.register("meter_carriage_end_face", METER_CARRIAGE_END_FACE);
+        FactoryRegistry.register("train_panel", TRAIN_PANEL, true);
+        FactoryRegistry.register("slab", SLAB, true);
+        FactoryRegistry.register("slab_top", SLAB_TOP, true);
+        FactoryRegistry.register("height_slab", HEIGHT_SLAB, true);
+        FactoryRegistry.register("ladder", LADDER, true);
+        FactoryRegistry.register("train_small_window", TRAIN_SMALL_WINDOW, true);
+        FactoryRegistry.register("train_openable_window", TRAIN_OPENABLE_WINDOW, true);
+        FactoryRegistry.register("train_hinge_panel", TRAIN_HINGE_PANEL, true);
+        FactoryRegistry.register("air_vent", AIR_VENT, true);
+        FactoryRegistry.register("custom_rendered_door", CUSTOM_RENDERED_DOOR, true);
+        FactoryRegistry.register("custom_rendered_end_face", CUSTOM_RENDERED_END_FACE, true);
+        FactoryRegistry.register("train_unopenable_small_window", TRAIN_UNOPENABLE_SMALL_WINDOW, true);
+        FactoryRegistry.register("train_unopenable_window", TRAIN_UNOPENABLE_WINDOW, true);
+        FactoryRegistry.register("hinge_slab", HINGE_SLAB, true);
+        FactoryRegistry.register("skirt", SKIRT, true);
+        FactoryRegistry.register("level_panel", LEVEL_PANEL, true);
+        FactoryRegistry.register("level_window", LEVEL_WINDOW, true);
+        FactoryRegistry.register("double_rotate_door", DOUBLE_ROTATE_DOOR, true);
+        FactoryRegistry.register("freight_end_face", FREIGHT_END_FACE, true);
+        FactoryRegistry.register("meter_carriage_end_face", METER_CARRIAGE_END_FACE, true);
+        FactoryRegistry.register("full_shape_directional", FULL_SHAPE_DIRECTIONAL, true);
+        FactoryRegistry.register("hxd3d_cowcatcher", HXD3D_COWCATCHER, true);
+        FactoryRegistry.register("single_arm_pantograph", SINGLE_ARM_PANTOGRAPH, true);
+        FactoryRegistry.register("head", HEAD, true);
+        FactoryRegistry.register("chimney", CHIMNEY, true);
+        FactoryRegistry.register("df5_chimney", DF5_CHIMNEY, true);
+        FactoryRegistry.register("train_door", TRAIN_DOOR, true);
+        FactoryRegistry.register("jy290_ac", JY290_AC, true);
     }
 }

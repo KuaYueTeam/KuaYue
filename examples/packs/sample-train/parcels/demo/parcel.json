@@ -1,0 +1,7 @@
+{
+  "format_version": 1,
+  "id": "sample_train:demo",
+  "name_key": "parcel.sample_train.demo.name",
+  "description_key": "parcel.sample_train.demo.description",
+  "indexes": ["data/sample_train/kasuga_lib/data_driven/demo.json"]
+}

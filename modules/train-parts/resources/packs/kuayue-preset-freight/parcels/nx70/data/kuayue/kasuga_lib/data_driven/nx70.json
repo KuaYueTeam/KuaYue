@@ -1,0 +1,5 @@
+{
+  "on_register": [
+    "carriages/freight/nx70/blocks.json"
+  ]
+}

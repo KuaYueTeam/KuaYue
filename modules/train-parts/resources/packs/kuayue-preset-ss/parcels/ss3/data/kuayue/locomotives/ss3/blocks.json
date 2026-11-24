@@ -1,0 +1,106 @@
+{
+  "blocks": [
+    {
+      "id": "kuayue:ss3_panel_bottom",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_panel_upper",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_panel_upper_windows",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_panel_bottom_ad",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_panel_upper_ad",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_carport",
+      "type": "slab_top",
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_carport_center",
+      "type": "slab_top",
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_roof",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_carport_ad",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_floor",
+      "type": "slab",
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_carport_skylight",
+      "type": "slab",
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_roof_vent",
+      "type": "hinge_slab",
+      "params": {"is_carport": true},
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_floor_center",
+      "type": "slab",
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_transformer",
+      "type": "slab",
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_head",
+      "type": "head",
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_door",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:ss3/ss3_door_bottom_lh",
+          "kuayue:ss3/ss3_door_upper_lh"
+        ],
+        "right_models": [
+          "kuayue:ss3/ss3_door_bottom",
+          "kuayue:ss3/ss3_door_upper"
+        ],
+        "offset": [-0.1875, 0, 0],
+        "open_offset": [0, 0, 0],
+        "render_shape": "entityblock_animated",
+        "is_slide_door": false
+      },
+      "registry_group": "kuayue:ss3_panels"
+    },
+    {
+      "id": "kuayue:ss3_cowcatcher",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:ss3_panels"
+    }
+  ]
+}

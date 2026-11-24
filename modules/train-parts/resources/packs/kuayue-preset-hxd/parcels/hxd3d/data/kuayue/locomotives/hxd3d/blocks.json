@@ -1,0 +1,114 @@
+{
+  "blocks": [
+    {
+      "id": "kuayue:door_cabin_hxd3d",
+      "type": "custom_rendered_door",
+      "params": {
+        "left_models": [
+          "kuayue:hxd3d/door/door_bottom_hxd3d_left",
+          "kuayue:hxd3d/door/door_upper_hxd3d_left"
+        ],
+        "right_models": [
+          "kuayue:hxd3d/door/door_bottom_hxd3d_right",
+          "kuayue:hxd3d/door/door_upper_hxd3d_right"
+        ],
+        "offset": [
+          -0.3125,
+          0.25,
+          0
+        ],
+        "open_offset": [
+          0,
+          0,
+          0
+        ],
+        "render_shape": "model",
+        "is_slide_door": false
+      },
+      "registry_group": "kuayue:hxd3d_panels"
+    },
+    {
+      "id": "kuayue:floor_hxd3d",
+      "type": "height_slab",
+      "registry_group": "kuayue:hxd3d_panels"
+    },
+    {
+      "id": "kuayue:head_hxd3d",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:hxd3d_panels"
+    },
+    {
+      "id": "kuayue:hxd3d_cowcatcher",
+      "type": "hxd3d_cowcatcher",
+      "registry_group": "kuayue:hxd3d_panels"
+    },
+    {
+      "id": "kuayue:hxd3d_pantograph",
+      "type": "single_arm_pantograph",
+      "registry_group": "kuayue:hxd3d_panels"
+    },
+    {
+      "id": "kuayue:hxd3d_carport",
+      "type": "slab_top",
+      "registry_group": "kuayue:hxd3d_panels"
+    },
+    {
+      "id": "kuayue:hxd3d_carport_center",
+      "type": "slab_top",
+      "registry_group": "kuayue:hxd3d_panels"
+    },
+    {
+      "id": "kuayue:hxd3d_underbody_equip",
+      "type": "slab",
+      "registry_group": "kuayue:hxd3d_panels"
+    },
+    {
+      "id": "kuayue:panel_hexie_hxd3d",
+      "type": "train_panel",
+      "params": {
+        "begin_x": -1,
+        "begin_y": 0,
+        "end_x": 2,
+        "end_y": 2
+      },
+      "registry_group": "kuayue:hxd3d_panels"
+    },
+    {
+      "id": "kuayue:hxd3d_panel_bottom",
+      "type": "train_panel",
+      "registry_group": "kuayue:hxd3d_panels"
+    },
+    {
+      "id": "kuayue:panel_logo_num_hxd3d",
+      "type": "train_panel",
+      "params": {
+        "begin_x": -1,
+        "begin_y": 0,
+        "end_x": 2,
+        "end_y": 2
+      },
+      "registry_group": "kuayue:hxd3d_panels"
+    },
+    {
+      "id": "kuayue:hxd3d_panel_middle",
+      "type": "train_panel",
+      "registry_group": "kuayue:hxd3d_panels"
+    },
+    {
+      "id": "kuayue:hxd3d_panel_transit",
+      "type": "train_hinge_panel",
+      "params": {
+        "begin_x": 0,
+        "begin_y": 0,
+        "end_x": 1,
+        "end_y": 2
+      },
+      "registry_group": "kuayue:hxd3d_panels"
+    },
+    {
+      "id": "kuayue:hxd3d_panel_transit_2",
+      "type": "train_hinge_panel",
+      "registry_group": "kuayue:hxd3d_panels"
+    }
+  ]
+}

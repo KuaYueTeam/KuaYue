@@ -1,0 +1,67 @@
+{
+  "blocks": [
+    {
+      "id": "kuayue:jy290_head_2",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:jy290_panels"
+    },
+    {
+      "id": "kuayue:jy290_head_1",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:jy290_panels"
+    },
+    {
+      "id": "kuayue:jy290_cowcatcher",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:jy290_panels"
+    },
+    {
+      "id": "kuayue:jy290_floor",
+      "type": "slab",
+      "registry_group": "kuayue:jy290_panels"
+    },
+    {
+      "id": "kuayue:jy290_floor_ladder",
+      "type": "slab",
+      "registry_group": "kuayue:jy290_panels"
+    },
+    {
+      "id": "kuayue:jy290_carport",
+      "type": "slab_top",
+      "registry_group": "kuayue:jy290_panels"
+    },
+    {
+      "id": "kuayue:jy290_equipment",
+      "type": "full_shape_directional",
+      "registry_group": "kuayue:jy290_panels"
+    },
+    {
+      "id": "kuayue:jy290_panel",
+      "type": "train_hinge_panel",
+      "params": {"begin_x": -1, "begin_y": 0, "end_x": 1, "end_y": 2},
+      "registry_group": "kuayue:jy290_panels"
+    },
+    {
+      "id": "kuayue:jy290_panel_logo",
+      "type": "train_hinge_panel",
+      "params": {"begin_x": -1, "begin_y": 0, "end_x": 1, "end_y": 2},
+      "registry_group": "kuayue:jy290_panels"
+    },
+    {
+      "id": "kuayue:jy290_ac",
+      "type": "jy290_ac",
+      "registry_group": "kuayue:jy290_panels"
+    },
+    {
+      "id": "kuayue:jy290_vent",
+      "type": "slab_top",
+      "registry_group": "kuayue:jy290_panels"
+    },
+    {
+      "id": "kuayue:jy290_door",
+      "type": "train_door",
+      "params": {"begin_x": 0, "begin_y": 0, "end_x": 1, "end_y": 1},
+      "registry_group": "kuayue:jy290_panels"
+    }
+  ]
+}

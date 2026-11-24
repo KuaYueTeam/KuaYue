@@ -17,6 +17,7 @@ includeBuild("../KasugaLibNext") {
         substitute module("lib.kasuga:inject") using project(':modules:inject')
         substitute module("lib.kasuga:generator") using project(':modules:generator')
         substitute module("lib.kasuga:resource-compiler") using project(':modules:resource-compiler')
+        substitute module("lib.kasuga:formula") using project(':modules:formula')
     }
 }
 

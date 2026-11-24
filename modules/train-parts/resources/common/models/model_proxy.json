@@ -1,0 +1,6 @@
+{
+  "kuayue": [
+    "models/block/bogey/*.obj",
+    "models/block/bogey/**/*.obj"
+  ]
+}
