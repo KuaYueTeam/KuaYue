@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_console"
+    },
+    "facing=north": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_console"
+    },
+    "facing=south": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_console"
+    },
+    "facing=west": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_console"
+    }
+  }
+}

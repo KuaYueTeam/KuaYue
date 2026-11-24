@@ -1,0 +1,17 @@
+{
+  "pack.jy_maintenance.name": "JY Maintenance Vehicle",
+  "pack.jy_maintenance.description": "JY maintenance vehicle pack",
+  "parcel.jy_maintenance.jy_maintenance.name": "JY Maintenance Vehicle",
+  "parcel.jy_maintenance.jy_maintenance.description": "JY maintenance vehicle",
+  "block.jy_maintenance.jy_maintenance_head": "JY Maintenance Vehicle Head",
+  "block.jy_maintenance.jy_maintenance_carport": "JY Maintenance Vehicle Carport",
+  "block.jy_maintenance.jy_maintenance_console": "JY Maintenance Vehicle Console",
+  "block.jy_maintenance.jy_maintenance_floor": "JY Maintenance Vehicle Floor",
+  "block.jy_maintenance.jy_maintenance_floor_ladder": "JY Maintenance Vehicle Floor (Ladder)",
+  "block.jy_maintenance.jy_maintenance_outrigger": "JY Maintenance Vehicle Outrigger",
+  "block.jy_maintenance.jy_maintenance_endface": "JY Maintenance Vehicle End Face",
+  "block.jy_maintenance.jy_maintenance_door": "JY Maintenance Vehicle Door",
+  "block.jy_maintenance.jy_maintenance_panel": "JY Maintenance Vehicle Side Panel",
+  "block.jy_maintenance.jy_maintenance_tail": "JY Maintenance Vehicle Tail",
+  "block.jy_maintenance.jy_maintenance_handrail": "JY Maintenance Vehicle Handrail"
+}

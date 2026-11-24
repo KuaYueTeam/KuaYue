@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_floor_ladder",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_floor_ladder",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_floor_ladder",
+      "y": 0
+    },
+    "facing=west": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_floor_ladder",
+      "y": 90
+    }
+  }
+}

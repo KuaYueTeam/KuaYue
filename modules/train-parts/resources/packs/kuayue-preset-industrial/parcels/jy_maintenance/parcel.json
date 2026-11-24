@@ -1,0 +1,9 @@
+{
+  "format_version": 1,
+  "id": "jy_maintenance:jy_maintenance",
+  "name_key": "parcel.jy_maintenance.jy_maintenance.name",
+  "description_key": "parcel.jy_maintenance.jy_maintenance.description",
+  "indexes": [
+    "data/jy_maintenance/kasuga_lib/data_driven/jy_maintenance.json"
+  ]
+}

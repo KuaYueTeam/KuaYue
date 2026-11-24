@@ -4,7 +4,8 @@
   "version": "2.0.0",
   "required": false,
   "namespaces": [
-    "kuayue"
+    "kuayue",
+    "jy_maintenance"
   ],
   "name_key": "pack.kuayue_preset_industrial.name",
   "description_key": "pack.kuayue_preset_industrial.description",
@@ -21,6 +22,7 @@
     }
   },
   "parcels": [
-    "parcels/jy290/parcel.json"
+    "parcels/jy290/parcel.json",
+    "parcels/jy_maintenance/parcel.json"
   ]
 }

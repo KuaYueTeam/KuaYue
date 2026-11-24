@@ -45,6 +45,7 @@ class PresetPackSourceLayoutTest {
             Map.entry("kuayue:df5", LOCO_TAB),
             Map.entry("kuayue:hxd3d", LOCO_TAB),
             Map.entry("kuayue:jy290", LOCO_TAB),
+            Map.entry("jy_maintenance:jy_maintenance", LOCO_TAB),
             Map.entry("kuayue:ss3", LOCO_TAB),
             Map.entry("kuayue:ss8", LOCO_TAB)
     );
@@ -92,6 +93,8 @@ class PresetPackSourceLayoutTest {
                     JsonObject.class
             );
             assertEquals(packId, manifest.get("id").getAsString());
+            Set<String> namespaces = new HashSet<>();
+            manifest.getAsJsonArray("namespaces").forEach(value -> namespaces.add(value.getAsString()));
 
             Set<String> declared = new LinkedHashSet<>();
             for (JsonElement entry : manifest.getAsJsonArray("parcels")) {
@@ -103,8 +106,8 @@ class PresetPackSourceLayoutTest {
                         Files.readString(parcel),
                         JsonObject.class
                 );
-                assertTrue(parcelManifest.get("id").getAsString()
-                        .startsWith("kuayue:"), parcelPath);
+                assertTrue(namespaces.contains(parcelManifest.get("id").getAsString().split(":", 2)[0]),
+                        parcelPath);
                 parcelCount++;
             }
 
@@ -135,7 +138,7 @@ class PresetPackSourceLayoutTest {
                 );
             }
         }
-        assertEquals(33, parcelCount);
+        assertEquals(34, parcelCount);
         assertFalse(Files.exists(PACKS.getParent().resolve("tracks")));
         assertFalse(Files.exists(Path.of("src/main/resources/kuayue-packs")));
     }
@@ -333,25 +336,29 @@ class PresetPackSourceLayoutTest {
             );
 
             Set<String> declaredInIndexes = new HashSet<>();
+            Set<String> dataNamespaces = new HashSet<>();
             for (JsonElement indexEntry : parcel.getAsJsonArray("indexes")) {
+                String namespace = indexEntry.getAsString().split("/", 3)[1];
+                dataNamespaces.add(namespace);
                 JsonObject index = DataJson.GSON.fromJson(
                         Files.readString(parcelRoot.resolve(indexEntry.getAsString())),
                         JsonObject.class
                 );
                 for (JsonElement registered : index.getAsJsonArray("on_register")) {
-                    declaredInIndexes.add(registered.getAsString());
+                    declaredInIndexes.add(namespace + "/" + registered.getAsString());
                 }
             }
 
-            Path trainDirectory = parcelRoot.resolve("data/kuayue/trains");
             Set<String> trainFiles = new HashSet<>();
-            if (Files.isDirectory(trainDirectory)) {
+            for (String namespace : dataNamespaces) {
+                Path trainDirectory = parcelRoot.resolve("data/" + namespace + "/trains");
+                if (!Files.isDirectory(trainDirectory)) continue;
                 try (var paths = Files.list(trainDirectory)) {
                     for (Path file : paths
                             .filter(Files::isRegularFile)
                             .filter(path -> path.toString().endsWith(".json"))
                             .toList()) {
-                        trainFiles.add("trains/" + file.getFileName());
+                        trainFiles.add(namespace + "/trains/" + file.getFileName());
                         JsonObject root = DataJson.GSON.fromJson(
                                 Files.readString(file),
                                 JsonObject.class
@@ -365,7 +372,7 @@ class PresetPackSourceLayoutTest {
                 }
             }
             assertEquals(trainFiles, new HashSet<>(declaredInIndexes.stream()
-                    .filter(path -> path.startsWith("trains/"))
+                    .filter(path -> path.contains("/trains/"))
                     .toList()), parcelManifestPath.toString());
         }
         return List.copyOf(trains);
