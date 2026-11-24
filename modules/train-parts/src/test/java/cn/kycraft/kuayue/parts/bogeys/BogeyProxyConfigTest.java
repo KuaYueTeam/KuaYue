@@ -34,14 +34,27 @@ class BogeyProxyConfigTest {
         }
         assertFalse(patterns.isEmpty());
 
-        List<String> unmatched;
-        try (var paths = Files.walk(BOGEY_RESOURCES)) {
-            unmatched = paths
-                    .filter(Files::isRegularFile)
-                    .filter(path -> path.toString().endsWith(".obj"))
-                    .map(BogeyProxyConfigTest::bogeyModelPath)
-                    .filter(path -> patterns.stream().noneMatch(glob -> matches(path, glob)))
+        List<Path> bogeyRoots;
+        try (var paths = Files.list(BOGEY_RESOURCES)) {
+            bogeyRoots = paths
+                    .filter(Files::isDirectory)
+                    .filter(path -> {
+                        String name = path.getFileName().toString();
+                        return name.equals("shared") || name.startsWith("bogey-");
+                    })
                     .toList();
+        }
+
+        List<String> unmatched = new ArrayList<>();
+        for (Path root : bogeyRoots) {
+            try (var paths = Files.walk(root)) {
+                unmatched.addAll(paths
+                        .filter(Files::isRegularFile)
+                        .filter(path -> path.toString().endsWith(".obj"))
+                        .map(BogeyProxyConfigTest::bogeyModelPath)
+                        .filter(path -> patterns.stream().noneMatch(glob -> matches(path, glob)))
+                        .toList());
+            }
         }
 
         assertTrue(unmatched.isEmpty(), () -> "Bogey OBJ files are not selectable by "

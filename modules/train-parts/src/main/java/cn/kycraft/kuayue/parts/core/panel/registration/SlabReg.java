@@ -2,6 +2,8 @@ package cn.kycraft.kuayue.parts.core.panel.registration;
 
 import cn.kycraft.kuayue.parts.core.panel.SlabBlock;
 import cn.kycraft.kuayue.parts.core.panel.SlabBlockItem;
+import cn.kycraft.kuayue.parts.core.multiblock.MultiCellFootprint;
+import com.google.gson.JsonObject;
 import lib.kasuga.registration.Reg;
 import lib.kasuga.registration.minecraft.block.BlockReg;
 import lib.kasuga.registration.minecraft.block.BlockRegConfigurations;
@@ -20,6 +22,18 @@ public class SlabReg<T extends SlabBlock> extends Reg<SlabReg<T>, Block> impleme
     public SlabReg(String name, Function<BlockBehaviour.Properties, T> blockSupplier) {
         this.blockReg = BlockReg.of(name, blockSupplier).setParent(this);
         this.itemReg = ItemReg.of(name, (i)->new SlabBlockItem(blockReg.getEntry(), i)).setParent(this);
+    }
+
+    public SlabReg(
+            String name,
+            JsonObject params,
+            Function<BlockBehaviour.Properties, T> blockSupplier
+    ) {
+        this(name, properties -> {
+            T block = blockSupplier.apply(properties);
+            block.configureMultiCell(MultiCellFootprint.parse(params));
+            return block;
+        });
     }
 
     @Override

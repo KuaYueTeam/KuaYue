@@ -2,6 +2,8 @@ package cn.kycraft.kuayue.parts.core.panel.registration;
 
 import cn.kycraft.kuayue.parts.core.panel.PanelBlockItem;
 import cn.kycraft.kuayue.parts.core.panel.TrainPanelBlock;
+import cn.kycraft.kuayue.parts.core.multiblock.MultiCellFootprint;
+import com.google.gson.JsonObject;
 import lib.kasuga.registration.Reg;
 import lib.kasuga.registration.minecraft.block.BlockReg;
 import lib.kasuga.registration.minecraft.block.BlockRegConfigurations;
@@ -21,6 +23,18 @@ public class PanelReg<T extends TrainPanelBlock> extends Reg<PanelReg<T>, Block>
     public PanelReg(String name, Function<BlockBehaviour.Properties, T> blockSupplier) {
         this.blockReg = BlockReg.of(name, blockSupplier).setParent(this);
         this.itemReg = ItemReg.of(name, (i)->new PanelBlockItem(blockReg.getEntry(), i)).setParent(this);
+    }
+
+    public PanelReg(
+            String name,
+            JsonObject params,
+            Function<BlockBehaviour.Properties, T> blockSupplier
+    ) {
+        this(name, properties -> {
+            T block = blockSupplier.apply(properties);
+            block.configureMultiCell(MultiCellFootprint.parse(params));
+            return block;
+        });
     }
 
     @Override

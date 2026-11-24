@@ -32,6 +32,20 @@ public final class SystemOriginTagIds {
         );
     }
 
+    public static ResourceLocation train(ResourceLocation trainId) {
+        if (!PackPathRules.isResourceLocation(trainId.toString())) {
+            throw new IllegalArgumentException("Invalid train identity: " + trainId);
+        }
+        String suffix = trainId.getNamespace() + "/" + trainId.getPath();
+        if (!PackPathRules.isSafeRelativePath(suffix)) {
+            throw new IllegalArgumentException("Unsafe train identity: " + trainId);
+        }
+        return ResourceLocation.fromNamespaceAndPath(
+                NAMESPACE,
+                "system/train/" + suffix
+        );
+    }
+
     public static boolean isReservedDataPath(String path) {
         return path.startsWith("data/kuayue/tags/item/system/")
                 || path.startsWith("data/kuayue/tags/block/system/")

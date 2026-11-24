@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "extended=false,facing=east,hinge=left": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=false,facing=east,hinge=right": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=false,facing=north,hinge=left": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=false,facing=north,hinge=right": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=false,facing=south,hinge=left": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=false,facing=south,hinge=right": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=false,facing=west,hinge=left": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=false,facing=west,hinge=right": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=true,facing=east,hinge=left": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=true,facing=east,hinge=right": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=true,facing=north,hinge=left": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=true,facing=north,hinge=right": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=true,facing=south,hinge=left": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=true,facing=south,hinge=right": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=true,facing=west,hinge=left": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    },
+    "extended=true,facing=west,hinge=right": {
+      "model": "jy_maintenance:block/jy_maintenance/jy_maintenance_outrigger"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 {
     "parent": "block/block",
     "loader": "neoforge:obj",
+    "automatic_culling": false,
     "flip_v": true,
     "model": "kuayue:models/block/bogey/df21/df21_top_lh.obj",
     "textures": {

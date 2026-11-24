@@ -251,10 +251,10 @@ jq -r '
 
 每行第二列都应为 `*`。
 
-检查 runtime 资源仍在普通 JAR 根：
+检查轨道索引已进入 running-gear：
 
 ```sh
-find modules/train-parts/build/generated/kuayue-runtime-resources \
+find modules/train-parts/build/generated/kuayue-preset-packs/kuayue-preset-running-gear \
   -path '*/data/kuayue/kasuga_lib/data_driven/tracks.json'
 ```
 
@@ -262,7 +262,8 @@ find modules/train-parts/build/generated/kuayue-runtime-resources \
 
 - `train-parts` JAR 中存在全部 `kuayue-packs/<pack-id>/pack.json`；
 - `core`、`provisions` JAR 中不存在 `kuayue-packs/`；
-- 独立 `tracks/`、`seat/`、`toilet/` 和 `common` 仍来自 runtime 编译结果；
+- `tracks` 位于 running-gear 的 `tracks` parcel；
+- 独立 `seat/`、`toilet/` 和 `common` 仍来自 runtime 编译结果；
 - 车型专用转向架位于车型 parcel；
 - 无特定车型归属的通用转向架位于 running-gear。
 

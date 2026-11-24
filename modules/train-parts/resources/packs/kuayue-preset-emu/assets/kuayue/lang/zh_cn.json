@@ -1,4 +1,6 @@
 {
   "pack.kuayue_preset_emu.name": "跨越动集",
-  "pack.kuayue_preset_emu.description": "CR200J动力集中动车组预设包。"
+  "pack.kuayue_preset_emu.description": "CR200J动力集中动车组预设包。",
+  "parcel.kuayue.cr200j.name": "CR200J型动力集中动车组",
+  "parcel.kuayue.cr200j.description": "CR200J型动力集中动车组部件。"
 }

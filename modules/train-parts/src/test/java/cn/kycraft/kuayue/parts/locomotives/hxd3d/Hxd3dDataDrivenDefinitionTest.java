@@ -53,7 +53,8 @@ class Hxd3dDataDrivenDefinitionTest {
                 List.of(
                         "locomotives/hxd3d/groups.json",
                         "locomotives/hxd3d/blocks.json",
-                        "bogeys/hxd3d.json"
+                        "bogeys/hxd3d.json",
+                        "trains/hxd3d.json"
                 ),
                 strings(index.getAsJsonArray("on_register"))
         );
@@ -64,7 +65,7 @@ class Hxd3dDataDrivenDefinitionTest {
                 .getAsJsonObject();
         assertEquals("kuayue:hxd3d_panels", group.get("id").getAsString());
         assertEquals(
-                "kuayue:train_panel_tab",
+                "kuayue:kuayue_loco",
                 group.getAsJsonObject("item_properties").get("tab").getAsString()
         );
         assertEquals(

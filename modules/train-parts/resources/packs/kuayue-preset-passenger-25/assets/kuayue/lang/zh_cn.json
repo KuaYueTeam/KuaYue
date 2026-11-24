@@ -1,4 +1,16 @@
 {
   "pack.kuayue_preset_passenger_25.name": "跨越25型客车",
-  "pack.kuayue_preset_passenger_25.description": "25型客车预设包。"
+  "pack.kuayue_preset_passenger_25.description": "25型客车预设包。",
+  "parcel.kuayue.c25.name": "统型25型客车",
+  "parcel.kuayue.c25.description": "统型25型客车部件。",
+  "parcel.kuayue.c25b.name": "25B型客车",
+  "parcel.kuayue.c25b.description": "25B型客车部件。",
+  "parcel.kuayue.c25g.name": "25G型客车",
+  "parcel.kuayue.c25g.description": "25G型客车部件。",
+  "parcel.kuayue.c25k.name": "25K型客车",
+  "parcel.kuayue.c25k.description": "25K型客车部件。",
+  "parcel.kuayue.c25t.name": "25T型客车",
+  "parcel.kuayue.c25t.description": "25T型客车部件。",
+  "parcel.kuayue.c25z.name": "25Z型客车",
+  "parcel.kuayue.c25z.description": "25Z型客车部件。"
 }

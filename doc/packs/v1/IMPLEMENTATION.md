@@ -313,7 +313,6 @@ modules/train-parts/preset-packs.gradle
 
 ```text
 resources/common/
-resources/tracks/
 resources/seat/
 resources/toilet/
 ```
@@ -329,10 +328,11 @@ train-parts JAR/
 
 ### 12.1 当前包与 parcel
 
-当前有 10 个包、32 个 parcel。车型包各自声明具体车型，`running-gear` 单独拥有：
+当前有 10 个包、33 个 parcel。车型包各自声明具体车型，`running-gear` 单独拥有：
 
 - `shared`：共享 sizes、blocks、styles、variants、motions、models、groups 和动画；
 - `bogey-*`：CW2、MKZ、PK209P、QJ、SW160、SW220K、TKZ1、TKZ2、ZK6 等没有独立整车车型包的通用转向架。
+- `tracks`：标准轨、无砟轨、无枕轨、米轨和护轨的定义、模型、资源及 Create 标签。
 
 DF5、DF11G、DF21、HXD3D、SS3、SS8、JY290、DFH21 的专用转向架资源留在各自车型 parcel，并通过 `bogey_style_variants` 向 running-gear 的样式贡献 variant。C70/NX70 等没有专用转向架定义的车型直接使用 running-gear 或外部定义。
 
@@ -417,7 +417,7 @@ packs[] = { id, version, format_version }
 
 - 10 个 `pack.json` 的目录名与 ID 一致；
 - `pack.json.parcels` 与 `parcels/*/parcel.json` 完全一致；
-- 32 个 parcel 的索引文件全部存在；
+- 33 个 parcel 的索引文件全部存在；
 - 所有非必选预设包依赖 `kuayue-preset-running-gear`；
 - required 包只有 running-gear；
 - `bogey_style_variants` 的 style、size、block、model 和默认样式一致；

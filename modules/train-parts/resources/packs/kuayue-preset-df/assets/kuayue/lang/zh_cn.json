@@ -1,4 +1,12 @@
 {
   "pack.kuayue_preset_df.name": "跨越东风机车",
-  "pack.kuayue_preset_df.description": "东风系列内燃机车预设包。"
+  "pack.kuayue_preset_df.description": "东风系列内燃机车预设包。",
+  "parcel.kuayue.df11.name": "DF11型内燃机车",
+  "parcel.kuayue.df11.description": "DF11型内燃机车部件。",
+  "parcel.kuayue.df11g.name": "DF11G型内燃机车",
+  "parcel.kuayue.df11g.description": "DF11G型双机重联内燃机车部件。",
+  "parcel.kuayue.df21.name": "DF21型内燃机车",
+  "parcel.kuayue.df21.description": "DF21型内燃机车部件。",
+  "parcel.kuayue.df5.name": "DF5型内燃机车",
+  "parcel.kuayue.df5.description": "DF5型调车内燃机车部件。"
 }

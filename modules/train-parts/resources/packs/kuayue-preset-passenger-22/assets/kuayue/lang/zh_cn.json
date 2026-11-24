@@ -1,4 +1,6 @@
 {
   "pack.kuayue_preset_passenger_22.name": "跨越22型客车",
-  "pack.kuayue_preset_passenger_22.description": "22型客车预设包。"
+  "pack.kuayue_preset_passenger_22.description": "22型客车预设包。",
+  "parcel.kuayue.c22.name": "22型客车",
+  "parcel.kuayue.c22.description": "22型客车部件。"
 }

@@ -65,6 +65,12 @@
       "items": {
         "$ref": "#/$defs/track"
       }
+    },
+    "trains": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/trainPatch"
+      }
     }
   },
   "additionalProperties": false,
@@ -433,6 +439,9 @@
     "panelBoundsParams": {
       "type": "object",
       "properties": {
+        "multi_cell": {
+          "$ref": "#/$defs/multiCellParams"
+        },
         "begin_x": {
           "type": "number"
         },
@@ -453,9 +462,21 @@
       "properties": {},
       "additionalProperties": false
     },
+    "trainPanelEmptyParams": {
+      "type": "object",
+      "properties": {
+        "multi_cell": {
+          "$ref": "#/$defs/multiCellParams"
+        }
+      },
+      "additionalProperties": false
+    },
     "trainSmallWindowParams": {
       "type": "object",
       "properties": {
+        "multi_cell": {
+          "$ref": "#/$defs/multiCellParams"
+        },
         "height": {
           "type": "integer"
         }
@@ -465,6 +486,9 @@
     "trainOpenableWindowParams": {
       "type": "object",
       "properties": {
+        "multi_cell": {
+          "$ref": "#/$defs/multiCellParams"
+        },
         "wide": {
           "type": "integer"
         },
@@ -483,6 +507,9 @@
     "trainUnopenableWindowParams": {
       "type": "object",
       "properties": {
+        "multi_cell": {
+          "$ref": "#/$defs/multiCellParams"
+        },
         "wide": {
           "type": "integer"
         },
@@ -504,6 +531,9 @@
     "ladderParams": {
       "type": "object",
       "properties": {
+        "multi_cell": {
+          "$ref": "#/$defs/multiCellParams"
+        },
         "is_meter": {
           "type": "boolean"
         }
@@ -513,6 +543,9 @@
     "customRenderedDoorParams": {
       "type": "object",
       "properties": {
+        "multi_cell": {
+          "$ref": "#/$defs/multiCellParams"
+        },
         "left_models": {
           "type": "array",
           "items": {
@@ -568,6 +601,9 @@
     "endFaceParams": {
       "type": "object",
       "properties": {
+        "multi_cell": {
+          "$ref": "#/$defs/multiCellParams"
+        },
         "door_type": {
           "type": "string",
           "enum": [
@@ -595,6 +631,9 @@
     "doubleRotateDoorParams": {
       "type": "object",
       "properties": {
+        "multi_cell": {
+          "$ref": "#/$defs/multiCellParams"
+        },
         "door_type": {
           "type": "string",
           "enum": [
@@ -622,6 +661,9 @@
     "hingeSlabParams": {
       "type": "object",
       "properties": {
+        "multi_cell": {
+          "$ref": "#/$defs/multiCellParams"
+        },
         "is_carport": {
           "type": "boolean"
         },
@@ -634,6 +676,9 @@
     "freightEndFaceParams": {
       "type": "object",
       "properties": {
+        "multi_cell": {
+          "$ref": "#/$defs/multiCellParams"
+        },
         "freight_type": {
           "type": "string",
           "enum": [
@@ -647,6 +692,9 @@
     "meterCarriageEndFaceParams": {
       "type": "object",
       "properties": {
+        "multi_cell": {
+          "$ref": "#/$defs/multiCellParams"
+        },
         "door_type": {
           "type": "string",
           "enum": [
@@ -791,6 +839,54 @@
       },
       "additionalProperties": false
     },
+    "multiCellCells": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "array",
+        "minItems": 3,
+        "maxItems": 3,
+        "items": {
+          "type": "integer",
+          "minimum": -16,
+          "maximum": 16
+        }
+      }
+    },
+    "multiCellParams": {
+      "type": "object",
+      "properties": {
+        "cells": {
+          "$ref": "#/$defs/multiCellCells"
+        },
+        "cells_by_state": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "$ref": "#/$defs/multiCellCells"
+            }
+          }
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "cells"
+          ]
+        },
+        {
+          "required": [
+            "cells_by_state"
+          ]
+        }
+      ],
+      "additionalProperties": false
+    },
     "block": {
       "type": "object",
       "properties": {
@@ -827,7 +923,17 @@
             "chimney",
             "df5_chimney",
             "train_door",
+            "jy290_door",
             "jy290_ac",
+            "jy_maintenance_outrigger",
+            "jy_maintenance_floor",
+            "jy_maintenance_carport",
+            "jy_maintenance_console",
+            "jy_maintenance_endface",
+            "jy_maintenance_door",
+            "jy_maintenance_panel",
+            "jy_maintenance_tail",
+            "proxy_model",
             "diet_box",
             "drink",
             "placement_food",
@@ -887,6 +993,23 @@
           "if": {
             "properties": {
               "type": {
+                "const": "jy_maintenance_console"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "type": "object",
+                "maxProperties": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
                 "const": "train_hinge_panel"
               }
             }
@@ -926,7 +1049,7 @@
           "then": {
             "properties": {
               "params": {
-                "$ref": "#/$defs/emptyParams"
+                "$ref": "#/$defs/trainPanelEmptyParams"
               }
             }
           }
@@ -942,7 +1065,7 @@
           "then": {
             "properties": {
               "params": {
-                "$ref": "#/$defs/emptyParams"
+                "$ref": "#/$defs/trainPanelEmptyParams"
               }
             }
           }
@@ -958,7 +1081,7 @@
           "then": {
             "properties": {
               "params": {
-                "$ref": "#/$defs/emptyParams"
+                "$ref": "#/$defs/trainPanelEmptyParams"
               }
             }
           }
@@ -968,14 +1091,12 @@
             "properties": {
               "type": {
                 "enum": [
-                  "height_slab",
                   "full_shape_directional",
                   "hxd3d_cowcatcher",
                   "single_arm_pantograph",
                   "head",
                   "chimney",
-                  "df5_chimney",
-                  "jy290_ac"
+                  "df5_chimney"
                 ]
               }
             }
@@ -983,7 +1104,40 @@
           "then": {
             "properties": {
               "params": {
+                "$ref": "#/$defs/trainPanelEmptyParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "height_slab"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
                 "$ref": "#/$defs/emptyParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "jy290_ac"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "type": "object",
+                "maxProperties": 0
               }
             }
           }
@@ -999,7 +1153,7 @@
           "then": {
             "properties": {
               "params": {
-                "$ref": "#/$defs/emptyParams"
+                "$ref": "#/$defs/trainPanelEmptyParams"
               }
             }
           }
@@ -1015,7 +1169,7 @@
           "then": {
             "properties": {
               "params": {
-                "$ref": "#/$defs/emptyParams"
+                "$ref": "#/$defs/trainPanelEmptyParams"
               }
             }
           }
@@ -1031,7 +1185,7 @@
           "then": {
             "properties": {
               "params": {
-                "$ref": "#/$defs/emptyParams"
+                "$ref": "#/$defs/trainPanelEmptyParams"
               }
             }
           }
@@ -1203,7 +1357,10 @@
           "if": {
             "properties": {
               "type": {
-                "const": "train_door"
+                "enum": [
+                  "train_door",
+                  "jy290_door"
+                ]
               }
             }
           },
@@ -1291,6 +1448,63 @@
             "properties": {
               "params": {
                 "$ref": "#/$defs/soakedNoodlesParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "proxy_model"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "type": "object",
+                "maxProperties": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "enum": [
+                  "jy_maintenance_outrigger",
+                  "jy_maintenance_floor",
+                  "jy_maintenance_carport",
+                  "jy_maintenance_door",
+                  "jy_maintenance_panel",
+                  "jy_maintenance_tail"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/trainPanelEmptyParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "jy_maintenance_endface"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "type": "object",
+                "maxProperties": 0
               }
             }
           }
@@ -2175,6 +2389,89 @@
       "required": [
         "id"
       ],
+      "additionalProperties": false
+    },
+    "trainPatch": {
+      "type": "object",
+      "description": "KuaYue train overlay patch. Same-ID patches merge from lower to higher source priority.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "category": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "name_key": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "description_key": {
+          "$ref": "#/$defs/nonBlankString"
+        },
+        "members": {
+          "$ref": "#/$defs/trainMembers"
+        },
+        "creative": {
+          "$ref": "#/$defs/trainCreative"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "trainMembers": {
+      "type": "object",
+      "properties": {
+        "blocks": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "items": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "item_tags": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "bogey_sizes": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "bogey_motions": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "bogey_models": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "bogey_blocks": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "bogey_styles": {
+          "$ref": "#/$defs/resourceLocationList"
+        },
+        "bogey_style_variants": {
+          "$ref": "#/$defs/resourceLocationList"
+        }
+      },
+      "additionalProperties": false
+    },
+    "resourceLocationList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/explicitResourceLocation"
+      }
+    },
+    "trainCreative": {
+      "type": "object",
+      "properties": {
+        "tab": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "icon_item": {
+          "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "filter_order": {
+          "type": "integer"
+        }
+      },
       "additionalProperties": false
     }
   }

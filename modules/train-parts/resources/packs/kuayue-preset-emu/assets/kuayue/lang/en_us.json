@@ -1,4 +1,6 @@
 {
   "pack.kuayue_preset_emu.name": "KuaYue CR200J EMUs",
-  "pack.kuayue_preset_emu.description": "CR200J power-concentrated EMU preset."
+  "pack.kuayue_preset_emu.description": "CR200J power-concentrated EMU preset.",
+  "parcel.kuayue.cr200j.name": "CR200J Power-concentrated EMU",
+  "parcel.kuayue.cr200j.description": "CR200J power-concentrated EMU parts."
 }

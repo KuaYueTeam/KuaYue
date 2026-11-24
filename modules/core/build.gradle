@@ -52,6 +52,10 @@ sourceSets {
             srcDir "src/compiled/resources/"
         }
     }
+    test {
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.output + sourceSets.main.runtimeClasspath
+    }
 }
 
 test {

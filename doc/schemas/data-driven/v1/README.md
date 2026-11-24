@@ -20,6 +20,7 @@
 | 只含 `bogey_style_variants` | `bogey-style-variants.schema.json` |
 | 同文件组合多个 `bogey_*` 类型 | `bogeys.schema.json` |
 | 含 `registry_groups` 与 `tracks` | `tracks.schema.json` |
+| 只含 `trains` | `trains.schema.json` |
 | provisions 内容包 | `provisions.schema.json` |
 | `on_reload` 指向的动画剪辑 | `animation-clips.schema.json` |
 
@@ -40,6 +41,7 @@
 | `bogey_styles` | 注册期，阶段 50 | `BogeyStyleTypeHandler` | `BogeyStyleDefinition` |
 | `bogey_style_variants` | 注册期，阶段 51 | `BogeyStyleVariantsTypeHandler` | `BogeyStyleVariantsDefinition` |
 | `tracks` | 注册期，内容阶段 | `TrackTypeHandler` | `TrackDefinitionParser`、`TrackDefinition` |
+| `trains` | 注册期，阶段 60，不注册对象 | `TrainTypeHandler` | `TrainPatch`、`KuaYueTrainDefinition` |
 | `animation_clips` | reload 期 | `FsmClipsReloadHandler`、`AnimationClipLoader` | `AnimationClip` |
 
 `block_entities` 不是可写的顶层数组。它由 `blocks[].block_entity` 提取，并以父方块 ID 作为逻辑身份。
@@ -58,7 +60,8 @@ data/<namespace>/kasuga_lib/data_driven/
 {
   "on_register": [
     "my_train/c22/groups.json",
-    "my_train/c22/blocks.json"
+    "my_train/c22/blocks.json",
+    "trains/c22.json"
   ],
   "on_reload": [
     "animation_clips/my_mechanism.json"
@@ -100,7 +103,7 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
     "strength": [1.5, 3.0]
   },
   "item_properties": {
-    "tab": "kuayue:train_panel_tab"
+    "tab": "kuayue:kuayue_carriage"
   },
   "params": {
     "begin_x": 0,
@@ -112,6 +115,8 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 ```
 
 当前 KuaYue 方块 factory 与 `params`：
+
+下表的 TrainPanel 家族 factory 还可统一使用可选的 `multi_cell`；只有 `height_slab` 和 `jy290_ac` 不属于该家族。
 
 | factory | `params` |
 |---|---|
@@ -127,14 +132,57 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 | `double_rotate_door` | 可选 `door_type`、`left_model`、`right_model`、`frame_model` |
 | `freight_end_face` | 可选 `freight_type`：`c70` 或 `nx70`，缺省为 `c70` |
 | `meter_carriage_end_face` | 可选 `door_type`、`outside`、`left_model`、`right_model`、`frame_model` |
-| `full_shape_directional`、`hxd3d_cowcatcher`、`single_arm_pantograph`、`head`、`chimney`、`df5_chimney`、`jy290_ac` | 无字段 |
-| `train_door` | 可选 `begin_x`、`begin_y`、`end_x`、`end_y` |
+| `full_shape_directional`、`hxd3d_cowcatcher`、`single_arm_pantograph`、`head`、`chimney`、`df5_chimney` | 无其他字段 |
+| `jy290_ac` | 无字段 |
+| `train_door`、`jy290_door` | 可选 `begin_x`、`begin_y`、`end_x`、`end_y`；`jy290_door` 使用 JY290 专用门形和玩家通行碰撞 |
+| `proxy_model` | 通用 proxy 模型宿主，方块本身无行为参数；配合 `proxy_model_be`，其 `params.model` 或 `params.model_groups` 必填，`default_model`、`model_name`、`yaw_offset`、`facing_yaw`、`model_by_state` 可选；支持 `state_properties` |
+| `jy_maintenance_outrigger` | KuaYue 专用 JY 工程车支腿，使用 `train_panel_proxy_be`；右键和动画由专用方块类实现，碰撞为完整方块 |
+| `jy_maintenance_floor` | KuaYue 专用 JY 工程车地板与梯子地板，保留半砖碰撞和扳手旋转，并可当作梯子攀爬 |
+| `jy_maintenance_carport` | KuaYue 专用 JY 工程车顶，使用 `train_panel_proxy_be`；保留半砖碰撞和扳手旋转，并直接加载 BBModel |
+| `jy_maintenance_console` | KuaYue 专用金鹰工程车控制台，使用通用 `ProxyModelBlock` 与 `proxy_model_be`；具有 `facing`，选择框和碰撞箱共用一个模型包围盒 |
+| `jy_maintenance_endface` | KuaYue 专用 JY 工程车端面，使用 `train_panel_proxy_be`；不声明 multi-cell，门和端面的选中框复用状态化碰撞箱 |
+| `jy_maintenance_door` | KuaYue 专用 JY 工程车车门，使用 `train_panel_proxy_be`；支持左右模型、开关状态、播放 `door_open` 和状态化碰撞箱 |
+| `jy_maintenance_panel` | KuaYue 专用 JY 工程车箱板，使用 `train_panel_proxy_be`；通过 `hinge` 选择左右模型 |
+| `jy_maintenance_tail` | KuaYue 专用 JY 工程车尾部，使用 `train_panel_proxy_be`；碰撞由 BBModel 几何生成并忽略 y 高度为零的辅助 cube |
 | `diet_box` | 可选 `food_type`、`has_tooltip`、`remainder` |
 | `drink` | 可选 `food_type`、`drink`、`has_particle`、`remainder` |
 | `placement_food`、`dried_noodles` | 可选 `food_type`、`has_tooltip` |
 | `soaked_noodles` | 可选 `has_tooltip` |
 
 门类型枚举为 `fold`、`slide`、`slide_2`、`slide_3`、`rotate`、`rotate_single_sided`、`no_door`。`custom_rendered_door` 的 `render_shape` 为 `invisible`、`model`、`entityblock_animated`。其中的模型值是显式命名空间 ResourceLocation，运行时保留 namespace 并解析为其 `models/block/` 资源。
+
+所有由 KuaYue `TrainPanelBlock` 家族工厂创建的方块都支持可选的多格选择占用：
+
+```json
+{
+  "params": {
+    "multi_cell": {
+      "cells": [[-1, 0, 0], [0, 1, 0], [1, 0, 1]]
+    }
+  }
+}
+```
+
+`cells` 是北向 bind pose 下相对 anchor 的整数格偏移，不包含 `[0,0,0]`；方向方块会随 `HORIZONTAL_FACING` 旋转。companion 只代理准星拾取、轮廓和交互，自身无碰撞、无模型、无物品；目标格已被占用时跳过并记录诊断，不移除已有方块。该能力属于 KuaYue 的 `TrainPanelBlock`，不属于 `proxy_model_be`；需要自定义 model composition 的面板使用 `TrainPanelProxyBlock` 与 `train_panel_proxy_be`。
+
+当占用格随方块状态变化时，使用 `cells_by_state`。映射键是状态属性名，属性值必须使用方块状态序列化名：
+
+```json
+{
+  "params": {
+    "multi_cell": {
+      "cells_by_state": {
+        "hinge": {
+          "left": [[1, 0, 0], [0, 1, 0], [1, 1, 0]],
+          "right": [[-1, 0, 0], [0, 1, 0], [-1, 1, 0]]
+        }
+      }
+    }
+  }
+}
+```
+
+状态切换时 manager 会删除不再需要的旧 companion 并创建新 companion。`cells` 可作为状态规则未命中时的默认值；每个状态规则仍排除 anchor，并随 `facing` 旋转。
 
 物品目前使用 `simple_item`。其 `params` 可包含：
 
@@ -149,7 +197,80 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 }
 ```
 
-`block_entity` 结构为 `{"type": "...", "params": {...}}`。当前 KuaYue 没有注册可供 JSON 使用的 block entity factory，因此 Schema 可以检查形状，实际声明仍会被严格预检拒绝。`state_properties` 同理：当前 KuaYue factory 没有实现 `StatefulBlockFactory`。
+`block_entity` 结构为 `{"type": "...", "params": {...}}`。KasugaLibNext 提供的 `proxy_model` 工厂实现了 `StatefulBlockFactory`；与 `proxy_model_be` 配合时，可直接声明 `facing` 等状态属性并加载 `.bbmodel` 等运行时模型。KuaYue 专用 panel proxy 使用 `train_panel_proxy_be`，以保留 `TrainPanelBlock` 交互并在 KuaYue 侧提供 composition。声明中未使用 `facing` 时，模型保持默认朝向。
+
+```json
+{
+  "id": "example:vehicle_head",
+  "type": "proxy_model",
+  "state_properties": {
+    "facing": {
+      "type": "vanilla",
+      "property": "HORIZONTAL_FACING",
+      "default": "north"
+    }
+  },
+  "block_entity": {
+    "type": "proxy_model_be",
+    "params": {
+      "model": "example:models/block/vehicle_head.bbmodel",
+      "yaw_offset": 0
+    }
+  }
+}
+```
+
+`model_groups` 用于同时加载多个原生模型。每个组内的 `parts` 有稳定 `id`、模型资源、可选 `local` 变换；注册期会编译为不可变的 `CompiledModelGroup`，`model_by_state` 选择的是整个编译组。同一方块的所有组必须保持相同且同序的 part ID，才能在状态切换时复用动画 target 地址：
+
+```json
+{
+  "type": "proxy_model",
+  "state_properties": {
+    "facing": {
+      "type": "vanilla",
+      "property": "HORIZONTAL_FACING",
+      "default": "north"
+    },
+    "hinge": {
+      "type": "vanilla",
+      "property": "DOOR_HINGE",
+      "default": "left"
+    }
+  },
+  "block_entity": {
+    "type": "proxy_model_be",
+    "params": {
+      "default_model": "left",
+      "model_groups": {
+        "left": {
+          "parts": [
+            {
+              "id": "body",
+              "model": "example:models/block/left.bbmodel"
+            }
+          ]
+        },
+        "right": {
+          "parts": [
+            {
+              "id": "body",
+              "model": "example:models/block/right.bbmodel"
+            }
+          ]
+        }
+      },
+      "model_by_state": {
+        "hinge": {
+          "left": "left",
+          "right": "right"
+        }
+      }
+    }
+  }
+}
+```
+
+声明 `DOOR_HINGE` 时，`proxy_model` 会按玩家点击位置选择左右形态。通用 proxy 不定义状态到动画片段的映射；需要动画交互的方块应在消费 mod 中实现专用方块类，用 Java `ProxyControllerPort` 读取状态、发出 `PlaybackCommand`，并用 target evaluator 把已提交的播放时间采样到模型姿态。
 
 ## 5. 转向架与跨包样式贡献
 
@@ -213,7 +334,58 @@ running-gear/bogey-*:
 
 因此不能再用单一 `bogeys.json` 路径判断转向架内容是否完整。查看对应 parcel 的 `indexes` 与 `on_register` 引用。
 
-## 6. 轨道
+## 6. Train 集合定义
+
+`trains` 是 KuaYue 独有的 overlay 类型。它把同一车型的方块、物品、转向架、创造页显示信息和系统标签关联起来，供创造筛选、反向索引及后续模块查询。它不注册新的 Minecraft registry 对象。
+
+```json
+{
+  "trains": [
+    {
+      "id": "mytrain:c22",
+      "category": "carriage",
+      "name_key": "parcel.mytrain.c22.name",
+      "description_key": "parcel.mytrain.c22.description",
+      "members": {
+        "blocks": ["mytrain:c22_panel"],
+        "items": [],
+        "item_tags": ["mytrain:c22_parts"],
+        "bogey_sizes": ["mytrain:c22"],
+        "bogey_motions": [],
+        "bogey_models": ["mytrain:bogey/c22"],
+        "bogey_blocks": ["mytrain:c22_bogey"],
+        "bogey_styles": ["kuayue:loco"],
+        "bogey_style_variants": ["mytrain:c22_loco"]
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_carriage",
+        "icon_item": "mytrain:c22_panel"
+      }
+    }
+  ]
+}
+```
+
+单来源可以只声明需要修改的字段。相同 train ID 会按包优先级从低到高合并：
+
+- 对象字段递归合并；
+- 标量字段由高优先级覆盖；
+- 数组整体替换，`[]` 会显式清空低优先级内容；
+- 高优先级来源只声明 `members.items` 时，其余字段继续继承低优先级来源；
+- 覆盖者必须通过 `pack.json.dependencies.packs` 直接依赖低优先级贡献包；
+- 同一 owner 不允许为同一 train ID 声明两次。
+
+合并后的完整定义必须包含非空 `category`、`name_key`、`description_key`，以及 `members` 中九个成员数组；数组可以为空。`creative` 可省略；出现时 `creative.tab` 必填，`icon_item` 和 `filter_order` 可选。同一创造页按 `filter_order` 升序排列，未声明该字段的筛选项排在已声明项之后。
+
+注册成功后，每个 train 会生成：
+
+```text
+kuayue:system/train/<train namespace>/<train path>
+```
+
+该 item tag 会合并 `members.blocks` 对应的 BlockItem、`members.items` 和 `members.item_tags`；同一身份另生成 block tag。`creative` 存在时，创造筛选页会使用这个 train tag。旧 `parcel.json.creative_filter` 只作为外部兼容入口，新内容应声明 train。
+
+## 7. 轨道
 
 当前只有 `simple_track` factory。轨道定义必须提供：
 
@@ -224,7 +396,7 @@ running-gear/bogey-*:
 
 轨道同时声明方块和物品 claim，因此注册时会产生两个 registry claims。`sleepers` 会在应用阶段解析为已注册方块；资源存在但注册不可见的 ID 仍会失败。
 
-## 7. Provisions
+## 8. Provisions
 
 provisions 不是新的顶层类型。实际文件 `provisions.json` 复用 `registry_groups`、`blocks`、`items`，外部布局为：
 
@@ -235,7 +407,7 @@ provisions/resources/provisions/data/kuayue/kasuga_lib/data_driven/provisions.js
 
 其方块 factory 收窄为 `diet_box`、`drink`、`placement_food`、`dried_noodles`、`soaked_noodles`，物品 factory 为 `simple_item`。这些限制来自 `ProvisionsFactories`。
 
-## 8. 动画剪辑
+## 9. 动画剪辑
 
 `animation-clips.schema.json` 校验：
 
@@ -254,7 +426,7 @@ provisions/resources/provisions/data/kuayue/kasuga_lib/data_driven/provisions.js
 
 剪辑还支持 `bones`、`morphs`、`frames` 和 `cameras`。已删除的 `functions`、`formula_parts` 不在 Schema 中，加载器会拒绝这两个旧字段。公式变量按声明顺序求值，`formula_transforms` 的目标可以是整个 model part 或其中的 bone。
 
-## 9. 校验
+## 10. 校验
 
 JSON 语法检查：
 
@@ -308,10 +480,11 @@ raise SystemExit(1 if errors else 0)
 python3 validate.py path/to/index.json index.schema.json
 python3 validate.py path/to/content.json content.schema.json
 python3 validate.py path/to/bogeys.json bogeys.schema.json
+python3 validate.py path/to/trains.json trains.schema.json
 python3 validate.py path/to/qj_mechanism.json animation-clips.schema.json
 ```
 
-## 10. 运行时边界
+## 11. 运行时边界
 
 Schema 主动拒绝未知字段，适合让拼写错误在提交前失败。以下内容仍由 Java 或宿主环境决定：
 

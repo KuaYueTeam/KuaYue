@@ -1,0 +1,14 @@
+{
+  "values": [
+    "jy_maintenance:jy_maintenance_head",
+    "jy_maintenance:jy_maintenance_carport",
+    "jy_maintenance:jy_maintenance_console",
+    "jy_maintenance:jy_maintenance_floor",
+    "jy_maintenance:jy_maintenance_floor_ladder",
+    "jy_maintenance:jy_maintenance_outrigger",
+    "jy_maintenance:jy_maintenance_door",
+    "jy_maintenance:jy_maintenance_panel",
+    "jy_maintenance:jy_maintenance_tail",
+    "jy_maintenance:jy_maintenance_handrail"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "trains": [
+    {
+      "id": "integration_train:validation_car",
+      "category": "carriage",
+      "name_key": "parcel.integration_train.validation_car.name",
+      "description_key": "parcel.integration_train.validation_car.description",
+      "members": {
+        "blocks": [
+          "integration_train:validation_car_floor"
+        ],
+        "items": [],
+        "item_tags": [
+          "integration_train:train_floors"
+        ],
+        "bogey_sizes": [],
+        "bogey_motions": [],
+        "bogey_models": [],
+        "bogey_blocks": [],
+        "bogey_styles": [],
+        "bogey_style_variants": []
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_carriage",
+        "icon_item": "integration_train:validation_car_floor"
+      }
+    }
+  ]
+}

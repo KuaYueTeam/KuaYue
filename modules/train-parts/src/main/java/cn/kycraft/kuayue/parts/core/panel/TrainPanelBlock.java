@@ -2,12 +2,15 @@ package cn.kycraft.kuayue.parts.core.panel;
 
 import cn.kycraft.kuayue.parts.core.panel.company.CompanyRegistry;
 import cn.kycraft.kuayue.parts.core.panel.company.CompanyTrainPanel;
+import cn.kycraft.kuayue.parts.core.multiblock.MultiCellFootprint;
+import cn.kycraft.kuayue.parts.core.multiblock.MultiCellStructureManager;
 import cn.kycraft.kuayue.utils.DirectionUtil;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import lib.kasuga.content.block.UnModeledBlockProperty;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
@@ -18,6 +21,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.Rotation;
@@ -38,6 +42,7 @@ import java.util.Objects;
 
 public class TrainPanelBlock extends Block implements IWrenchable /*, EntityBlock */ {
     public final Vec2 beginPos, endPos;
+    private MultiCellFootprint multiCellFootprint = MultiCellFootprint.EMPTY;
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final UnModeledBlockProperty<TrainPanelProperties.EditType, EnumProperty<TrainPanelProperties.EditType>> EDIT_TYPE =
             UnModeledBlockProperty.create(EnumProperty.create("edit_type", TrainPanelProperties.EditType.class));
@@ -55,6 +60,47 @@ public class TrainPanelBlock extends Block implements IWrenchable /*, EntityBloc
 
     public TrainPanelBlock(Properties properties) {
         this(properties, Vec2.ZERO, Vec2.ONE);
+    }
+
+    /**
+     * Enables KuaYue footprint companions for this panel without changing its model or rendering root.
+     * Factories may call this once while constructing the registered block.
+     */
+    public final void configureMultiCell(MultiCellFootprint footprint) {
+        if (footprint.isEmpty()) {
+            return;
+        }
+        int width = (int) (endPos.x - beginPos.x);
+        int height = (int) (endPos.y - beginPos.y);
+        if (width > 1 || height > 1) {
+            throw new IllegalArgumentException(
+                    "multi_cell cannot be combined with a legacy company footprint wider or taller than one cell");
+        }
+        if (!multiCellFootprint.isEmpty() && !multiCellFootprint.equals(footprint)) {
+            throw new IllegalStateException("multi-cell footprint was already configured");
+        }
+        footprint.validate(defaultBlockState());
+        multiCellFootprint = footprint;
+    }
+
+    public final MultiCellFootprint multiCellFootprint() {
+        return multiCellFootprint;
+    }
+
+    public final boolean canPlaceMultiCell(BlockGetter level, BlockPos pos, BlockState state) {
+        return multiCellFootprint.isEmpty()
+                || MultiCellStructureManager.canPlace(level, pos, state, multiCellFootprint);
+    }
+
+    protected final void ensureMultiCell(Level level, BlockPos pos, BlockState state) {
+        if (level instanceof ServerLevel serverLevel && !multiCellFootprint.isEmpty()) {
+            MultiCellStructureManager.ensure(serverLevel, pos, state, multiCellFootprint);
+        }
+    }
+
+    @Override
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        return super.canSurvive(state, level, pos) && canPlaceMultiCell(level, pos, state);
     }
 
     @Override
@@ -164,6 +210,20 @@ public class TrainPanelBlock extends Block implements IWrenchable /*, EntityBloc
     public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
         super.onPlace(pState, pLevel, pPos, pOldState, pIsMoving);
         generateCompanyBlock(pLevel, pState, pPos, pIsMoving);
+        ensureMultiCell(pLevel, pPos, pState);
+    }
+
+    @Override
+    public void onBlockStateChange(
+            LevelReader level,
+            BlockPos pos,
+            BlockState oldState,
+            BlockState newState
+    ) {
+        super.onBlockStateChange(level, pos, oldState, newState);
+        if (level instanceof ServerLevel serverLevel) {
+            ensureMultiCell(serverLevel, pos, newState);
+        }
     }
 
     public boolean hasHinge() {
@@ -196,6 +256,9 @@ public class TrainPanelBlock extends Block implements IWrenchable /*, EntityBloc
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+        if (pLevel instanceof ServerLevel serverLevel && !pState.is(pNewState.getBlock())) {
+            MultiCellStructureManager.removeOwned(serverLevel, pPos, multiCellFootprint);
+        }
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
         removeCompanyBlock(pLevel, pState, pPos, pIsMoving);
         if(pNewState.getBlock().getClass().equals(pState.getBlock().getClass())) return;

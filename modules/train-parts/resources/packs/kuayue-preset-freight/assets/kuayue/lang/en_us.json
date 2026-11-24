@@ -1,4 +1,6 @@
 {
   "pack.kuayue_preset_freight.name": "KuaYue Freight Vehicles",
-  "pack.kuayue_preset_freight.description": "Freight vehicle preset."
+  "pack.kuayue_preset_freight.description": "Freight vehicle preset.",
+  "parcel.kuayue.freight.name": "Freight Vehicles",
+  "parcel.kuayue.freight.description": "C70 and NX70 freight vehicle parts."
 }

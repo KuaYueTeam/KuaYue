@@ -1,3 +1,6 @@
 {
-  "on_register": ["sample_train/blocks.json"]
+  "on_register": [
+    "sample_train/blocks.json",
+    "trains/demo.json"
+  ]
 }

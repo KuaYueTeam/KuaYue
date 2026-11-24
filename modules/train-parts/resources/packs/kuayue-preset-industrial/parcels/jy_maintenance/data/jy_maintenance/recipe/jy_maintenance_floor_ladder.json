@@ -1,0 +1,17 @@
+{
+  "type": "create:deploying",
+  "ingredients": [
+    {
+      "item": "jy_maintenance:jy_maintenance_floor"
+    },
+    {
+      "item": "create:brass_ladder"
+    }
+  ],
+  "keep_held_item": false,
+  "results": [
+    {
+      "id": "jy_maintenance:jy_maintenance_floor_ladder"
+    }
+  ]
+}

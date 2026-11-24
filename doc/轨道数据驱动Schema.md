@@ -2,22 +2,23 @@
 
 当前入口文件：
 
-- 索引：`modules/train-parts/resources/tracks/data/kuayue/kasuga_lib/data_driven/tracks.json`
-- 内容：`modules/train-parts/resources/tracks/data/kuayue/tracks/tracks.json`
+- 索引：`modules/train-parts/resources/packs/kuayue-preset-running-gear/parcels/tracks/data/kuayue/kasuga_lib/data_driven/tracks.json`
+- 内容：`modules/train-parts/resources/packs/kuayue-preset-running-gear/parcels/tracks/data/kuayue/tracks/tracks.json`
 
 `registry_groups` 使用 KasugaLib 通用 schema；`tracks` 由 KuaYue 的
 `TrackTypeHandler` 解析。
 
 ## 注册链路
 
-1. `resources/tracks/module.toml` 将 `tracks/` 标记为资源编译模块。
-2. `tracks.json` 放在 `data/kuayue/kasuga_lib/data_driven/`，只列出内容文件。
-3. KasugaLib 先应用 `registry_groups`，再按内容阶段调用 KuaYue 的 `tracks` handler。
-4. `TrackDefinitionParser` 校验 JSON，`TrackTypeHandler` 创建 `TrackMaterialReg` 和
+1. `kuayue-preset-running-gear/pack.json` 声明 `parcels/tracks/parcel.json`。
+2. `parcel.json.indexes` 声明 `data/kuayue/kasuga_lib/data_driven/tracks.json`。
+3. 索引文件 `tracks.json` 放在 `data/kuayue/kasuga_lib/data_driven/`，只列出内容文件。
+4. KasugaLib 先应用 `registry_groups`，再按内容阶段调用 KuaYue 的 `tracks` handler。
+5. `TrackDefinitionParser` 校验 JSON，`TrackTypeHandler` 创建 `TrackMaterialReg` 和
    `TrackReg<SimpleTrackBlock>`。
-5. `TrackReg` 同时创建轨道方块和物品；注册组提供默认属性，创造栏从
+6. `TrackReg` 同时创建轨道方块和物品；注册组提供默认属性，创造栏从
    `item_properties.tab` 继承。
-6. `default_bogey` 在创建转向架锚点时从方块注册表延迟解析。
+7. `default_bogey` 在创建转向架锚点时从方块注册表延迟解析。
 
 索引文件格式：
 

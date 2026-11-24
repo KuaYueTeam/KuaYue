@@ -5,7 +5,7 @@ import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
 def presetSourceRoot = file("resources/packs")
-def runtimeSources = ["common", "tracks", "seat", "toilet"]
+def runtimeSources = ["common", "seat", "toilet"]
 def resourceRoot = file("resources")
 def presetOutput = layout.buildDirectory.dir("generated/kuayue-preset-packs")
 def runtimeOutput = layout.buildDirectory.dir("generated/kuayue-runtime-resources")
