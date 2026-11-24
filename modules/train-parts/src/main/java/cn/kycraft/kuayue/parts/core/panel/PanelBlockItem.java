@@ -24,15 +24,25 @@ public class PanelBlockItem extends BlockItem {
         TrainPanelBlock panel = (TrainPanelBlock) getBlock();
         BlockPos pos = getPlacePos(context, panel.beginPos, panel.endPos, .5f);
         Direction direction = context.getHorizontalDirection();
-        return checkForSpacing(context.getLevel(), pos, direction.getOpposite(), !panel.hasHinge() ||
-                        leftOrNot(context.getClickedPos(), context.getHorizontalDirection(), context.getClickLocation())
+        return panel.canPlaceMultiCell(context.getLevel(), pos, state)
+                && checkForSpacing(
+                        context.getLevel(),
+                        pos,
+                        direction.getOpposite(),
+                        !panel.hasHinge() || leftOrNot(
+                                context.getClickedPos(),
+                                context.getHorizontalDirection(),
+                                context.getClickLocation()
+                        )
                 );
     }
 
     @Override
     protected boolean placeBlock(BlockPlaceContext pContext, BlockState pState) {
         TrainPanelBlock panel = (TrainPanelBlock) getBlock();
-        return pContext.getLevel().setBlock(getPlacePos(pContext, panel.beginPos, panel.endPos, .5f), pState, 11);
+        BlockPos pos = getPlacePos(pContext, panel.beginPos, panel.endPos, .5f);
+        return panel.canPlaceMultiCell(pContext.getLevel(), pos, pState)
+                && pContext.getLevel().setBlock(pos, pState, 11);
     }
 
     public BlockPos getPlacePos(BlockPlaceContext context, Vec2 first, Vec2 last, float radius) {

@@ -33,8 +33,12 @@ public class SkirtBlockItem extends BlockItem {
                 state = state.setValue(SkirtBlock.SKIRT_TYPE, TrainPanelProperties.SkirtType.RIGHT);
             }
         }
-        return context.getLevel()
-                .setBlock(placePosContext.pos, state, 11);
+        return ((TrainPanelBlock) getBlock()).canPlaceMultiCell(
+                        context.getLevel(),
+                        placePosContext.pos,
+                        state
+                )
+                && context.getLevel().setBlock(placePosContext.pos, state, 11);
     }
 
     private PlacePosContext getPlacePos(BlockPlaceContext context) {

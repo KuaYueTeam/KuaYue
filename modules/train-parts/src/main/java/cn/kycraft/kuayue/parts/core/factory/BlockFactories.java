@@ -28,11 +28,13 @@ import cn.kycraft.kuayue.parts.core.panel.window.TrainOpenableWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainSmallWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainUnOpenableSmallWindowBlock;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainUnOpenableWindowBlock;
+import cn.kycraft.kuayue.parts.core.multiblock.MultiCellFootprint;
 import cn.kycraft.kuayue.parts.locomotives.df11.DF11GChimneyBlock;
 import cn.kycraft.kuayue.parts.locomotives.df5.DF5ChimneyBlock;
 import cn.kycraft.kuayue.parts.locomotives.hxd3d.HXD3DCowCatcherBlock;
 import cn.kycraft.kuayue.parts.locomotives.jy.JY290ACBlock;
 import io.micronaut.context.annotation.Context;
+import com.google.gson.JsonObject;
 import lib.kasuga.registration.minecraft.block.BlockReg;
 import lib.kasuga.registration.factory.FactoryRegistry;
 import net.minecraft.world.level.block.Block;
@@ -46,7 +48,7 @@ import java.util.function.Function;
 @Context
 public class BlockFactories {
 
-    public static FactoryRegistry.BlockFactory TRAIN_PANEL = (id, params) -> new PanelReg<>(id, p -> {
+    public static FactoryRegistry.BlockFactory TRAIN_PANEL = (id, params) -> new PanelReg<>(id, params, p -> {
         if (params != null && (params.has("begin_x") || params.has("end_x"))) {
             float bx = FactoryParams.getFloatOr(params, "begin_x", 0f);
             float by = FactoryParams.getFloatOr(params, "begin_y", 0f);
@@ -57,7 +59,7 @@ public class BlockFactories {
         return new TrainPanelBlock(p);
     });
 
-    public static FactoryRegistry.BlockFactory TRAIN_OPENABLE_WINDOW = (id, params) -> new PanelReg<>(id, p -> {
+    public static FactoryRegistry.BlockFactory TRAIN_OPENABLE_WINDOW = (id, params) -> new PanelReg<>(id, params, p -> {
         if (params != null && (params.has("left") || params.has("right") || params.has("height"))) {
             int left = FactoryParams.getIntOr(params, "left", 0);
             int right = FactoryParams.getIntOr(params, "right", 1);
@@ -68,23 +70,23 @@ public class BlockFactories {
         return new TrainOpenableWindowBlock(p, wide);
     });
 
-    public static FactoryRegistry.BlockFactory SLAB = (id, params) -> new SlabReg<>(id, p -> new SlabBlock(p, false));
-    public static FactoryRegistry.BlockFactory SLAB_TOP = (id, params) -> new SlabReg<>(id, p -> new SlabBlock(p, true));
+    public static FactoryRegistry.BlockFactory SLAB = (id, params) -> new SlabReg<>(id, params, p -> new SlabBlock(p, false));
+    public static FactoryRegistry.BlockFactory SLAB_TOP = (id, params) -> new SlabReg<>(id, params, p -> new SlabBlock(p, true));
     public static FactoryRegistry.BlockFactory HEIGHT_SLAB = (id, params) ->
             blockWithDefaultItem(id, HeightSlabBlock::new);
 
-    public static FactoryRegistry.BlockFactory LADDER = (id, params) -> new SlabReg<>(id, p -> {
+    public static FactoryRegistry.BlockFactory LADDER = (id, params) -> new SlabReg<>(id, params, p -> {
         boolean isMeter = FactoryParams.getBooleanOr(params, "is_meter", false);
         return new LadderBlock(p, isMeter);
     });
 
-    public static FactoryRegistry.BlockFactory TRAIN_SMALL_WINDOW = (id, params) -> new PanelReg<>(id, p -> {
+    public static FactoryRegistry.BlockFactory TRAIN_SMALL_WINDOW = (id, params) -> new PanelReg<>(id, params, p -> {
         int height = FactoryParams.getIntOr(params, "height", 1);
         if (height != 1) return new TrainSmallWindowBlock(p, height);
         return new TrainSmallWindowBlock(p);
     });
 
-    public static FactoryRegistry.BlockFactory TRAIN_HINGE_PANEL = (id, params) -> new PanelReg<>(id, p -> {
+    public static FactoryRegistry.BlockFactory TRAIN_HINGE_PANEL = (id, params) -> new PanelReg<>(id, params, p -> {
         if (params != null && (params.has("begin_x") || params.has("end_x"))) {
             float bx = FactoryParams.getFloatOr(params, "begin_x", 0f);
             float by = FactoryParams.getFloatOr(params, "begin_y", 0f);
@@ -95,9 +97,9 @@ public class BlockFactories {
         return new TrainHingePanelBlock(p);
     });
 
-    public static FactoryRegistry.BlockFactory AIR_VENT = (id, params) -> new SlabReg<>(id, AirVentBlock::new);
+    public static FactoryRegistry.BlockFactory AIR_VENT = (id, params) -> new SlabReg<>(id, params, AirVentBlock::new);
 
-    public static FactoryRegistry.BlockFactory CUSTOM_RENDERED_DOOR = (id, params) -> new PanelReg<>(id, p -> new CustomRenderedDoorBlock(
+    public static FactoryRegistry.BlockFactory CUSTOM_RENDERED_DOOR = (id, params) -> new PanelReg<>(id, params, p -> new CustomRenderedDoorBlock(
             p,
             FactoryParams.getModelCouple(params, "left_models"),
             FactoryParams.getModelCouple(params, "right_models"),
@@ -107,7 +109,7 @@ public class BlockFactories {
             FactoryParams.getBooleanOr(params, "is_slide_door", false)
     ));
 
-    public static FactoryRegistry.BlockFactory CUSTOM_RENDERED_END_FACE = (id, params) -> new PanelReg<>(id, p -> new CustomRenderedEndFaceBlock(
+    public static FactoryRegistry.BlockFactory CUSTOM_RENDERED_END_FACE = (id, params) -> new PanelReg<>(id, params, p -> new CustomRenderedEndFaceBlock(
             p,
             TrainPanelProperties.DoorType.fromString(FactoryParams.getStringOr(params, "door_type", "no_door")),
             FactoryParams.getString(params, "left_model"),
@@ -116,9 +118,9 @@ public class BlockFactories {
     ));
 
     public static FactoryRegistry.BlockFactory TRAIN_UNOPENABLE_SMALL_WINDOW = (id, params) ->
-            new PanelReg<>(id, TrainUnOpenableSmallWindowBlock::new);
+            new PanelReg<>(id, params, TrainUnOpenableSmallWindowBlock::new);
 
-    public static FactoryRegistry.BlockFactory TRAIN_UNOPENABLE_WINDOW = (id, params) -> new PanelReg<>(id, p -> {
+    public static FactoryRegistry.BlockFactory TRAIN_UNOPENABLE_WINDOW = (id, params) -> new PanelReg<>(id, params, p -> {
         if (params != null && (params.has("begin_x") || params.has("end_x"))) {
             int beginX = FactoryParams.getIntOr(params, "begin_x", -1);
             int endX = FactoryParams.getIntOr(params, "end_x", 1);
@@ -130,15 +132,15 @@ public class BlockFactories {
         return new TrainUnOpenableWindowBlock(p, wide, beginY, endY);
     });
 
-    public static FactoryRegistry.BlockFactory HINGE_SLAB = (id, params) -> new SlabReg<>(id, p -> {
+    public static FactoryRegistry.BlockFactory HINGE_SLAB = (id, params) -> new SlabReg<>(id, params, p -> {
         boolean isCarport = FactoryParams.getBooleanOr(params, "is_carport", false);
         int width = FactoryParams.getIntOr(params, "width", 1);
         return new HingeSlabBlock(p, isCarport, width);
     });
 
-    public static FactoryRegistry.BlockFactory SKIRT = (id, params) -> new SkirtReg<>(id, SkirtBlock::new);
+    public static FactoryRegistry.BlockFactory SKIRT = (id, params) -> new SkirtReg<>(id, params, SkirtBlock::new);
 
-    public static FactoryRegistry.BlockFactory LEVEL_PANEL = (id, params) -> new PanelReg<>(id, p -> {
+    public static FactoryRegistry.BlockFactory LEVEL_PANEL = (id, params) -> new PanelReg<>(id, params, p -> {
         float bx = FactoryParams.getFloatOr(params, "begin_x", 0f);
         float by = FactoryParams.getFloatOr(params, "begin_y", 0f);
         float ex = FactoryParams.getFloatOr(params, "end_x", 1f);
@@ -147,9 +149,9 @@ public class BlockFactories {
     });
 
     public static FactoryRegistry.BlockFactory LEVEL_WINDOW = (id, params) ->
-            new PanelReg<>(id, LevelWindowBlock::new);
+            new PanelReg<>(id, params, LevelWindowBlock::new);
 
-    public static FactoryRegistry.BlockFactory DOUBLE_ROTATE_DOOR = (id, params) -> new PanelReg<>(id, p -> new DoubleRotateDoorBlock(
+    public static FactoryRegistry.BlockFactory DOUBLE_ROTATE_DOOR = (id, params) -> new PanelReg<>(id, params, p -> new DoubleRotateDoorBlock(
             p,
             TrainPanelProperties.DoorType.fromString(FactoryParams.getStringOr(params, "door_type", "no_door")),
             FactoryParams.getString(params, "left_model"),
@@ -157,7 +159,7 @@ public class BlockFactories {
             FactoryParams.getStringOr(params, "frame_model", "")
     ));
 
-    public static FactoryRegistry.BlockFactory FREIGHT_END_FACE = (id, params) -> new PanelReg<>(id, p -> {
+    public static FactoryRegistry.BlockFactory FREIGHT_END_FACE = (id, params) -> new PanelReg<>(id, params, p -> {
         String type = FactoryParams.getStringOr(params, "freight_type", "c70");
         if ("nx70".equals(type)) {
             return new FreightNX70EndFaceBlock(p, FreightNX70EndFaceBlock.FreightType.NX70);
@@ -165,7 +167,7 @@ public class BlockFactories {
         return new FreightC70EndFaceBlock(p, FreightC70EndFaceBlock.FreightType.C70);
     });
 
-    public static FactoryRegistry.BlockFactory METER_CARRIAGE_END_FACE = (id, params) -> new PanelReg<>(id, p -> {
+    public static FactoryRegistry.BlockFactory METER_CARRIAGE_END_FACE = (id, params) -> new PanelReg<>(id, params, p -> {
         TrainPanelProperties.DoorType doorType = TrainPanelProperties.DoorType.fromString(
                 FactoryParams.getStringOr(params, "door_type", "no_door"));
         boolean outside = FactoryParams.getBooleanOr(params, "outside", false);
@@ -179,24 +181,24 @@ public class BlockFactories {
     });
 
     public static FactoryRegistry.BlockFactory FULL_SHAPE_DIRECTIONAL = (id, params) ->
-            blockWithDefaultItem(id, FullShapeDirectionalBlock::new);
+            panelWithDefaultItem(id, params, FullShapeDirectionalBlock::new);
 
     public static FactoryRegistry.BlockFactory HXD3D_COWCATCHER = (id, params) ->
-            blockWithDefaultItem(id, HXD3DCowCatcherBlock::new);
+            panelWithDefaultItem(id, params, HXD3DCowCatcherBlock::new);
 
     public static FactoryRegistry.BlockFactory SINGLE_ARM_PANTOGRAPH = (id, params) ->
-            blockWithDefaultItem(id, SingleArmPantographBlock::new);
+            panelWithDefaultItem(id, params, SingleArmPantographBlock::new);
 
     public static FactoryRegistry.BlockFactory HEAD = (id, params) ->
-            blockWithDefaultItem(id, HeadBlock::new);
+            panelWithDefaultItem(id, params, HeadBlock::new);
 
     public static FactoryRegistry.BlockFactory CHIMNEY = (id, params) ->
-            new SlabReg<>(id, p -> new DF11GChimneyBlock(p, false));
+            new SlabReg<>(id, params, p -> new DF11GChimneyBlock(p, false));
 
     public static FactoryRegistry.BlockFactory DF5_CHIMNEY = (id, params) ->
-            new SlabReg<>(id, p -> new DF5ChimneyBlock(p, false));
+            new SlabReg<>(id, params, p -> new DF5ChimneyBlock(p, false));
 
-    public static FactoryRegistry.BlockFactory TRAIN_DOOR = (id, params) -> new PanelReg<>(id, p ->
+    public static FactoryRegistry.BlockFactory TRAIN_DOOR = (id, params) -> new PanelReg<>(id, params, p ->
             new TrainDoorBlock(
                     p,
                     new Vec2(
@@ -218,6 +220,18 @@ public class BlockFactories {
     ) {
         return BlockReg.<Block>of(id, properties -> supplier.apply(properties))
                 .withDefaultBlockItem(id);
+    }
+
+    private static <T extends TrainPanelBlock> BlockReg<Block> panelWithDefaultItem(
+            String id,
+            JsonObject params,
+            Function<BlockBehaviour.Properties, T> supplier
+    ) {
+        return blockWithDefaultItem(id, properties -> {
+            T block = supplier.apply(properties);
+            block.configureMultiCell(MultiCellFootprint.parse(params));
+            return block;
+        });
     }
 
     static {
