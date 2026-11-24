@@ -25,7 +25,8 @@
       },
       "params": {
         "model": "kuayue:models/block/overhead_line/overhead_line_grid_a1.obj",
-        "model_yaw": 0
+        "model_yaw": 0,
+        "connection_points" : [[1.55,0.125,0.0]]
       },
       "item_properties": {
         "tab": "kuayue:power_grid"
