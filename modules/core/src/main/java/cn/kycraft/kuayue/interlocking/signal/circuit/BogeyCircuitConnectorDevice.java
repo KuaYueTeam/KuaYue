@@ -1,6 +1,7 @@
 package cn.kycraft.kuayue.interlocking.signal.circuit;
 
 import cn.kycraft.kuayue.interlocking.signal.SignalModule;
+import com.mojang.logging.LogUtils;
 import com.simibubi.create.content.trains.graph.TrackNode;
 import com.simibubi.create.content.trains.signal.TrackEdgePoint;
 import lib.kasuga.KasugaLib;
@@ -16,6 +17,7 @@ import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
+import org.slf4j.Logger;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,6 +25,8 @@ import java.util.Set;
 import java.util.UUID;
 
 public class BogeyCircuitConnectorDevice extends TrainDeviceSystem {
+
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     private Set<UUID> occupiedSegments = new HashSet<>();
     private boolean collected = false;
@@ -93,14 +97,11 @@ public class BogeyCircuitConnectorDevice extends TrainDeviceSystem {
     @Override
     public void tick(Level level) {
         super.tick(level);
-        ValueInspectionUtils.INSTANCE.print(this.getClass().getName() + "::occupiedSegments", occupiedSegments, ()->{
-            System.out.println("");
-            System.out.println("OccupiedSegments changed:");
-            for (UUID uuid : occupiedSegments) {
-                System.out.println(" - " + uuid.toString());
-            }
-            System.out.println("");
-        });
+        ValueInspectionUtils.INSTANCE.print(
+                this.getClass().getName() + "::occupiedSegments",
+                occupiedSegments,
+                () -> LOGGER.debug("OccupiedSegments changed: {}", occupiedSegments)
+        );
     }
 
 
