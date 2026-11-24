@@ -45,19 +45,21 @@ tasks.named("compileResources") {
     enabled = false
 }
 
+def moduleDir = layout.projectDirectory.asFile
+def testArgs = layout.buildDirectory.file('moddev/junit/contraptionTestArgs.txt').get().asFile
+
 test {
     useJUnitPlatform()
     doFirst {
         // FML runs tests as a server; load the exact client selection mixin before Create classes
         // are transformed, without starting a client or adding test hooks to production metadata.
-        def argsFile = file(systemProperties['fml.junit.argsfile'])
-        def testArgs = layout.buildDirectory.file('moddev/junit/contraptionTestArgs.txt').get().asFile
+        def argsFile = new File(systemProperties['fml.junit.argsfile'])
         def args = argsFile.readLines('UTF-8')
         // Keep existing source-resource tests relative to this module while FML writes its runtime
         // files to the generated game directory configured by ModDevGradle.
         def gameDirectory = workingDir
         args[args.indexOf('--gameDir') + 1] = gameDirectory.absolutePath
-        workingDir project.projectDir
+        workingDir moduleDir
         args += ['--mixin', 'kuayue_contraption_selection_test.mixins.json']
         testArgs.setText(args.join('\n') + '\n', 'UTF-8')
         systemProperty 'fml.junit.argsfile', testArgs.absolutePath

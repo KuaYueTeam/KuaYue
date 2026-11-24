@@ -1,5 +1,6 @@
 package cn.kycraft.kuayue;
 
+import cn.kycraft.kuayue.train.TrainDataDrivenModule;
 import com.mojang.logging.LogUtils;
 import io.micronaut.context.annotation.Context;
 import jakarta.annotation.PostConstruct;
@@ -24,6 +25,7 @@ public class KuaYueApplication {
         // Initialize the application
         logger.info("KuaYue initialized.");
         logger.info("Application ID:" + modContainer.getModId());
+        TrainDataDrivenModule.install();
         KuaYue.REGISTRY.register(modEventBus);
     }
 }

@@ -10,12 +10,25 @@ import lib.kasuga.registration.data_driven.pipeline.DataDrivenBuildHooks;
  */
 @Context
 public final class TrainDataDrivenModule {
-    @PostConstruct
-    public void init() {
+    private static boolean installed;
+
+    /**
+     * Installs the train pipeline before any registry dispatch can invoke the content builder.
+     */
+    public static synchronized void install() {
+        if (installed) {
+            return;
+        }
         TypeHandlerRegistry.register(new TrainTypeHandler());
         DataDrivenBuildHooks.registerFinalizer(
                 TrainDataDrivenTypes.HOST_MOD_ID,
                 (context, prepared) -> new TrainOverlayMerger().compile(prepared)
         );
+        installed = true;
+    }
+
+    @PostConstruct
+    public void init() {
+        install();
     }
 }
