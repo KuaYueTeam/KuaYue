@@ -37,8 +37,8 @@ final class TechTreeDetailPanel {
      *  comfort click target and stays inside the pane. */
     static final int[] BACK_HIT = {2, 2, 24, 18};
     /** Confirm sprite (16x16 at 168,124) and its padded hit rect. */
-    /** Confirm sprite is 16x32 as in 1.0; the hit rect is padded around it. */
-    static final int[] CONFIRM_HIT = {162, 110, 20, 36};
+    /** Confirm sprite is a 16x16 square; the hit rect is padded around it. */
+    static final int[] CONFIRM_HIT = {165, 113, 22, 22};
 
     private static final int CONSUME_CENTER_X = 71;
     private static final int CONSUME_CENTER_Y = 105;
@@ -56,7 +56,7 @@ final class TechTreeDetailPanel {
         UIElement pane = new UIElement();
         pane.setId("tech_tree_detail");
         pane.layout(l -> l.setPositionType(org.appliedenergistics.yoga.YogaPositionType.ABSOLUTE)
-                .setWidth(TechTreeTableSurface.WIDTH).setHeight(TechTreeTableSurface.HEIGHT));
+                .setWidth(BoardMetrics.WIDTH).setHeight(BoardMetrics.HEIGHT));
 
         // Opaque backdrop first: the detail pane is mounted over the tree view, and without this the node
         // plates and their state dots showed through the text. The sheet frame is drawn on top of the fill
@@ -66,7 +66,7 @@ final class TechTreeDetailPanel {
         backdrop.layout(l -> l.setPositionType(org.appliedenergistics.yoga.YogaPositionType.ABSOLUTE)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, 0f)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.TOP, 0f)
-                .setWidth(TechTreeTableSurface.WIDTH).setHeight(TechTreeTableSurface.HEIGHT));
+                .setWidth(BoardMetrics.WIDTH).setHeight(BoardMetrics.HEIGHT));
         backdrop.style(s -> s.background(TechTreeTextures.boardPaper()));
         pane.addChild(backdrop);
 
@@ -75,7 +75,7 @@ final class TechTreeDetailPanel {
         sheet.layout(l -> l.setPositionType(org.appliedenergistics.yoga.YogaPositionType.ABSOLUTE)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, 0f)
                 .setPosition(org.appliedenergistics.yoga.YogaEdge.TOP, 0f)
-                .setWidth(TechTreeTableSurface.WIDTH).setHeight(TechTreeTableSurface.HEIGHT));
+                .setWidth(BoardMetrics.WIDTH).setHeight(BoardMetrics.HEIGHT));
         sheet.style(s -> s.background(TechTreeTextures.tableSheet()));
         pane.addChild(sheet);
 
@@ -171,7 +171,7 @@ final class TechTreeDetailPanel {
     private static UIElement consumptionSlots(TreeSnapshot.NodeView node, CheckResult check) {
         UIElement group = new UIElement();
         group.layout(l -> l.setPositionType(org.appliedenergistics.yoga.YogaPositionType.ABSOLUTE)
-                .setWidth(TechTreeTableSurface.WIDTH).setHeight(TechTreeTableSurface.HEIGHT));
+                .setWidth(BoardMetrics.WIDTH).setHeight(BoardMetrics.HEIGHT));
         List<ItemStack> consume = node.consume();
         for (int i = 0; i < 8; i++) {
             int x;
@@ -196,7 +196,7 @@ final class TechTreeDetailPanel {
     private static UIElement resultSlots(TreeSnapshot.NodeView node, CheckResult check) {
         UIElement group = new UIElement();
         group.layout(l -> l.setPositionType(org.appliedenergistics.yoga.YogaPositionType.ABSOLUTE)
-                .setWidth(TechTreeTableSurface.WIDTH).setHeight(TechTreeTableSurface.HEIGHT));
+                .setWidth(BoardMetrics.WIDTH).setHeight(BoardMetrics.HEIGHT));
         List<ItemStack> results = check != null && !check.rewards().isEmpty()
                 ? check.rewards() : node.rewards();
         int[][] positions = {{216, 113}, {231, 105}, {231, 121}, {247, 113}};
@@ -294,9 +294,9 @@ final class TechTreeDetailPanel {
         UIElement button = new UIElement();
         button.setId("tech_tree_confirm");
         button.layout(l -> l.setPositionType(org.appliedenergistics.yoga.YogaPositionType.ABSOLUTE)
-                .setWidth(16).setHeight(32)
-                .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, (float) CONFIRM_HIT[0] + 2)
-                .setPosition(org.appliedenergistics.yoga.YogaEdge.TOP, (float) CONFIRM_HIT[1] + 2));
+                .setWidth(16).setHeight(16)
+                .setPosition(org.appliedenergistics.yoga.YogaEdge.LEFT, (float) CONFIRM_HIT[0] + 3)
+                .setPosition(org.appliedenergistics.yoga.YogaEdge.TOP, (float) CONFIRM_HIT[1] + 3));
         button.style(s -> s.background(TechTreeTextures.confirm()));
         button.addEventListener(UIEvents.MOUSE_ENTER, event -> button.style(s -> s.background(
                 TechTreeTextures.confirmHover())));

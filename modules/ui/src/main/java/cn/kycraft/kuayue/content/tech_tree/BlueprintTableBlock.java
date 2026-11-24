@@ -58,9 +58,8 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer,
                             ItemStack stack) {
         super.setPlacedBy(level, pos, state, placer, stack);
-        if (!level.isClientSide && level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
-            table.setYaw(yawOf(state.getValue(FACING)));
-        }
+        // No yaw to store: the block state carries the facing, and BlueprintTableBlockEntity.yaw() derives
+        // the board rotation from it on both sides.
         if (level.isClientSide) {
             // The board is permanent furniture: mount it as soon as the table exists instead of waiting for
             // an interaction.
@@ -84,6 +83,10 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
     /** Degrees used by the board transform for each facing. */
     public static float yawOf(Direction facing) {
         return switch (facing) {
+            // Block rotation, NOT the plane's final angle: BlueprintTableBlockEntity.yaw() is fed straight
+            // into a rotateY, and TechTreeTableSurface.tableTransform adds a fixed 180 on top. Keep this
+            // mapping and that compensation in sync — changing only one of them turns the board upside down
+            // for the two north/south facings.
             case EAST -> 90f;
             case SOUTH -> 180f;
             case WEST -> 270f;
@@ -140,7 +143,7 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
             // them down explicitly; otherwise they stay hanging where the table used to be.
             CarModelUiDemo.hide(pos.immutable());
             CarModelUiDemo.hideOverlay(pos.immutable());
-            TechTreeTableSurface.forget(pos.immutable());
+            TechTreeTableSurface.pruneNow(pos.immutable());
         }
     }
 }

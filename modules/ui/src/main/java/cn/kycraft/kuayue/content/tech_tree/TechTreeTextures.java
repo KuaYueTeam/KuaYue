@@ -21,6 +21,11 @@ final class TechTreeTextures {
     private static final int BUTTONS = 128;
 
     /** Group-unlock panel: its own 120x80 sheet. */
+    /** Node plate sprite: one 64x32 sheet, drawn at 32x16 on the board. */
+    private static final ResourceLocation NODE_PLATE =
+            ResourceLocation.fromNamespaceAndPath("kuayue",
+                    "textures/gui/tech_tree/blueprint_table/node_plate.png");
+
     private static final ResourceLocation UNLOCK_BOARD =
             ResourceLocation.fromNamespaceAndPath("kuayue", "textures/gui/tech_tree/blueprint_table/group_unlock_board.png");
 
@@ -31,6 +36,53 @@ final class TechTreeTextures {
     }
 
     /** The original 300x150 blueprint-table GUI sheet, drawn in the menu host. */
+    /**
+     * Arbitrary UV slice of a cover texture.
+     *
+     * <p>Cover JSON addresses textures as {@code kuayue:gui/tech_tree/blueprint_cover/foo}, i.e. without the
+     * {@code textures/} segment and {@code .png} suffix, so the resource id is built here rather than being
+     * repeated at every call site.</p>
+     */
+    static final class CoverSlice implements IGuiTexture {
+
+        private final ResourceLocation texture;
+        private final float u0;
+        private final float v0;
+        private final float u1;
+        private final float v1;
+
+        CoverSlice(ResourceLocation path, float u0, float v0, float u1, float v1) {
+            this.texture = ResourceLocation.fromNamespaceAndPath(path.getNamespace(),
+                    "textures/" + path.getPath() + ".png");
+            this.u0 = u0;
+            this.v0 = v0;
+            this.u1 = u1;
+            this.v1 = v1;
+        }
+
+        @Override
+        public IGuiTexture copy() {
+            return new CoverSlice(texture, u0, v0, u1, v1);
+        }
+
+        @Override
+        public void draw(com.lowdragmc.lowdraglib2.gui.ui.rendering.GUIContext context,
+                         float x, float y, float width, float height) {
+            // Reuse the board's own sheet painter: it already writes normalised UVs into a guiTexture buffer
+            // and avoids both the texture-manager size probe and GuiGraphics.blit's integer path.
+            new SheetTexture(texture, 1, 1, 0, 0, 1, 1).drawUv(context.graphics,
+                    x, y, width, height, u0, v0, u1, v1);
+        }
+
+        @Override
+        public void draw(net.minecraft.client.gui.GuiGraphics graphics, float x, float y,
+                         float width, float height, float partialTick, float mouseX, float mouseY) {
+            // Same path as {@link SheetTexture#drawInternal}: the GuiGraphics rectangle is already the target,
+            // so no GUIContext is needed to recover it.
+            new SheetTexture(texture, 1, 1, 0, 0, 1, 1).drawUv(graphics, x, y, width, height, u0, v0, u1, v1);
+        }
+    }
+
     static IGuiTexture tableSheet() {
         return new SheetTexture(TABLE_SHEET, 300, 150, 0, 0, 300, 150);
     }
@@ -47,6 +99,17 @@ final class TechTreeTextures {
 
     private static IGuiTexture slice(int x1, int y1, int x2, int y2) {
         return new SheetTexture(TABLE_BUTTONS, BUTTONS, BUTTONS, x1, y1, x2, y2);
+    }
+
+    /**
+     * The board's node plate, from the project's own sprite.
+     *
+     * <p>Drawn at 32x16 (half the source size: an integer ratio, so the pixels stay crisp). The sprite
+     * carries no state variants yet, so epic/unlocked reuse it — a later revision can add strips to the
+     * sheet and slice them here.</p>
+     */
+    static IGuiTexture nodePlateSprite() {
+        return new SheetTexture(NODE_PLATE, 64, 32, 0, 0, 64, 32);
     }
 
     /** Small node plate: plain / epic (gold). */
@@ -81,6 +144,31 @@ final class TechTreeTextures {
         return slice(0, 96, 32, 128);
     }
 
+    // --- connection lines, UVs taken from 1.0 {@code TechTreeLine} --------------------------
+
+    /** 1x1 line pixel, tiled along a segment. */
+    static IGuiTexture linePixel() {
+        return slice(39, 32, 40, 33);
+    }
+
+    /** 8x4 connector stubs, as used by 1.0 for horizontal joins. */
+    static IGuiTexture lineUpArrow() {
+        return slice(36, 32, 44, 36);
+    }
+
+    static IGuiTexture lineDownArrow() {
+        return slice(36, 44, 44, 48);
+    }
+
+    /** 4x8 connector stubs, as used by 1.0 for vertical joins. */
+    static IGuiTexture lineLeftArrow() {
+        return slice(32, 36, 36, 44);
+    }
+
+    static IGuiTexture lineRightArrow() {
+        return slice(44, 36, 48, 44);
+    }
+
     /** Scroll rail: translucent track and a light thumb, drawn as flat colours (the 1.0 sheet has no rail sprite). */
     static IGuiTexture scrollTrack() {
         return new ColorRectTexture(0x33FFFFFF);
@@ -96,19 +184,19 @@ final class TechTreeTextures {
     }
 
     /**
-     * Confirm button, 16x32 as in 1.0 {@code UnlockGroupBoard.confirmBtnLight}.
+     * Confirm button, top 16x16 of the 1.0 {@code confirmBtnLight} cell.
      *
-     * <p>The whole rect is the button: cropping it to the top 16 rows showed only its plain upper fill, and
-     * slicing a 16x16 square out of the 32x32 completion stamp at {@code (0,96)} showed the top-left corner
-     * of a tick. There is no separate glyph to overlay.</p>
+     * <p>1.0 draws that cell at 16x32 on a screen; the board is a 300x150 sheet painted on a table, and a
+     * 16x32 sprite there stretched its inner art badly. Only the upper square is taken, which is the frame
+     * the tick sits in, and the button is laid out square at 16x16.</p>
      */
     static IGuiTexture confirm() {
-        return slice(80, 64, 96, 96);
+        return slice(80, 64, 96, 80);
     }
 
-    /** Confirm button, hover frame ({@code confirmBtnDark}). */
+    /** Confirm button, hover frame: same square from {@code confirmBtnDark}. */
     static IGuiTexture confirmHover() {
-        return slice(96, 64, 112, 96);
+        return slice(96, 64, 112, 80);
     }
 
     /** Back arrow used by the detail pane. */
