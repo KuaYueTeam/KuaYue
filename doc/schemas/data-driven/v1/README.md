@@ -116,6 +116,8 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 
 当前 KuaYue 方块 factory 与 `params`：
 
+下表的 TrainPanel 家族 factory 还可统一使用可选的 `multi_cell`；只有 `height_slab` 和 `jy290_ac` 不属于该家族。
+
 | factory | `params` |
 |---|---|
 | `train_panel`、`train_hinge_panel`、`level_panel` | 可选 `begin_x`、`begin_y`、`end_x`、`end_y`；用于自定义平面范围 |
@@ -130,14 +132,57 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 | `double_rotate_door` | 可选 `door_type`、`left_model`、`right_model`、`frame_model` |
 | `freight_end_face` | 可选 `freight_type`：`c70` 或 `nx70`，缺省为 `c70` |
 | `meter_carriage_end_face` | 可选 `door_type`、`outside`、`left_model`、`right_model`、`frame_model` |
-| `full_shape_directional`、`hxd3d_cowcatcher`、`single_arm_pantograph`、`head`、`chimney`、`df5_chimney`、`jy290_ac` | 无字段 |
-| `train_door` | 可选 `begin_x`、`begin_y`、`end_x`、`end_y` |
+| `full_shape_directional`、`hxd3d_cowcatcher`、`single_arm_pantograph`、`head`、`chimney`、`df5_chimney` | 无其他字段 |
+| `jy290_ac` | 无字段 |
+| `train_door`、`jy290_door` | 可选 `begin_x`、`begin_y`、`end_x`、`end_y`；`jy290_door` 使用 JY290 专用门形和玩家通行碰撞 |
+| `proxy_model` | 通用 proxy 模型宿主，方块本身无行为参数；配合 `proxy_model_be`，其 `params.model` 或 `params.model_groups` 必填，`default_model`、`model_name`、`yaw_offset`、`facing_yaw`、`model_by_state` 可选；支持 `state_properties` |
+| `jy_maintenance_outrigger` | KuaYue 专用 JY 工程车支腿，使用 `train_panel_proxy_be`；右键和动画由专用方块类实现，碰撞为完整方块 |
+| `jy_maintenance_floor` | KuaYue 专用 JY 工程车地板与梯子地板，保留半砖碰撞和扳手旋转，并可当作梯子攀爬 |
+| `jy_maintenance_carport` | KuaYue 专用 JY 工程车顶，使用 `train_panel_proxy_be`；保留半砖碰撞和扳手旋转，并直接加载 BBModel |
+| `jy_maintenance_console` | KuaYue 专用金鹰工程车控制台，使用通用 `ProxyModelBlock` 与 `proxy_model_be`；具有 `facing`，选择框和碰撞箱共用一个模型包围盒 |
+| `jy_maintenance_endface` | KuaYue 专用 JY 工程车端面，使用 `train_panel_proxy_be`；不声明 multi-cell，门和端面的选中框复用状态化碰撞箱 |
+| `jy_maintenance_door` | KuaYue 专用 JY 工程车车门，使用 `train_panel_proxy_be`；支持左右模型、开关状态、播放 `door_open` 和状态化碰撞箱 |
+| `jy_maintenance_panel` | KuaYue 专用 JY 工程车箱板，使用 `train_panel_proxy_be`；通过 `hinge` 选择左右模型 |
+| `jy_maintenance_tail` | KuaYue 专用 JY 工程车尾部，使用 `train_panel_proxy_be`；碰撞由 BBModel 几何生成并忽略 y 高度为零的辅助 cube |
 | `diet_box` | 可选 `food_type`、`has_tooltip`、`remainder` |
 | `drink` | 可选 `food_type`、`drink`、`has_particle`、`remainder` |
 | `placement_food`、`dried_noodles` | 可选 `food_type`、`has_tooltip` |
 | `soaked_noodles` | 可选 `has_tooltip` |
 
 门类型枚举为 `fold`、`slide`、`slide_2`、`slide_3`、`rotate`、`rotate_single_sided`、`no_door`。`custom_rendered_door` 的 `render_shape` 为 `invisible`、`model`、`entityblock_animated`。其中的模型值是显式命名空间 ResourceLocation，运行时保留 namespace 并解析为其 `models/block/` 资源。
+
+所有由 KuaYue `TrainPanelBlock` 家族工厂创建的方块都支持可选的多格选择占用：
+
+```json
+{
+  "params": {
+    "multi_cell": {
+      "cells": [[-1, 0, 0], [0, 1, 0], [1, 0, 1]]
+    }
+  }
+}
+```
+
+`cells` 是北向 bind pose 下相对 anchor 的整数格偏移，不包含 `[0,0,0]`；方向方块会随 `HORIZONTAL_FACING` 旋转。companion 只代理准星拾取、轮廓和交互，自身无碰撞、无模型、无物品；目标格已被占用时跳过并记录诊断，不移除已有方块。该能力属于 KuaYue 的 `TrainPanelBlock`，不属于 `proxy_model_be`；需要自定义 model composition 的面板使用 `TrainPanelProxyBlock` 与 `train_panel_proxy_be`。
+
+当占用格随方块状态变化时，使用 `cells_by_state`。映射键是状态属性名，属性值必须使用方块状态序列化名：
+
+```json
+{
+  "params": {
+    "multi_cell": {
+      "cells_by_state": {
+        "hinge": {
+          "left": [[1, 0, 0], [0, 1, 0], [1, 1, 0]],
+          "right": [[-1, 0, 0], [0, 1, 0], [-1, 1, 0]]
+        }
+      }
+    }
+  }
+}
+```
+
+状态切换时 manager 会删除不再需要的旧 companion 并创建新 companion。`cells` 可作为状态规则未命中时的默认值；每个状态规则仍排除 anchor，并随 `facing` 旋转。
 
 物品目前使用 `simple_item`。其 `params` 可包含：
 
@@ -152,7 +197,80 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 }
 ```
 
-`block_entity` 结构为 `{"type": "...", "params": {...}}`。当前 KuaYue 没有注册可供 JSON 使用的 block entity factory，因此 Schema 可以检查形状，实际声明仍会被严格预检拒绝。`state_properties` 同理：当前 KuaYue factory 没有实现 `StatefulBlockFactory`。
+`block_entity` 结构为 `{"type": "...", "params": {...}}`。KasugaLibNext 提供的 `proxy_model` 工厂实现了 `StatefulBlockFactory`；与 `proxy_model_be` 配合时，可直接声明 `facing` 等状态属性并加载 `.bbmodel` 等运行时模型。KuaYue 专用 panel proxy 使用 `train_panel_proxy_be`，以保留 `TrainPanelBlock` 交互并在 KuaYue 侧提供 composition。声明中未使用 `facing` 时，模型保持默认朝向。
+
+```json
+{
+  "id": "example:vehicle_head",
+  "type": "proxy_model",
+  "state_properties": {
+    "facing": {
+      "type": "vanilla",
+      "property": "HORIZONTAL_FACING",
+      "default": "north"
+    }
+  },
+  "block_entity": {
+    "type": "proxy_model_be",
+    "params": {
+      "model": "example:models/block/vehicle_head.bbmodel",
+      "yaw_offset": 0
+    }
+  }
+}
+```
+
+`model_groups` 用于同时加载多个原生模型。每个组内的 `parts` 有稳定 `id`、模型资源、可选 `local` 变换；注册期会编译为不可变的 `CompiledModelGroup`，`model_by_state` 选择的是整个编译组。同一方块的所有组必须保持相同且同序的 part ID，才能在状态切换时复用动画 target 地址：
+
+```json
+{
+  "type": "proxy_model",
+  "state_properties": {
+    "facing": {
+      "type": "vanilla",
+      "property": "HORIZONTAL_FACING",
+      "default": "north"
+    },
+    "hinge": {
+      "type": "vanilla",
+      "property": "DOOR_HINGE",
+      "default": "left"
+    }
+  },
+  "block_entity": {
+    "type": "proxy_model_be",
+    "params": {
+      "default_model": "left",
+      "model_groups": {
+        "left": {
+          "parts": [
+            {
+              "id": "body",
+              "model": "example:models/block/left.bbmodel"
+            }
+          ]
+        },
+        "right": {
+          "parts": [
+            {
+              "id": "body",
+              "model": "example:models/block/right.bbmodel"
+            }
+          ]
+        }
+      },
+      "model_by_state": {
+        "hinge": {
+          "left": "left",
+          "right": "right"
+        }
+      }
+    }
+  }
+}
+```
+
+声明 `DOOR_HINGE` 时，`proxy_model` 会按玩家点击位置选择左右形态。通用 proxy 不定义状态到动画片段的映射；需要动画交互的方块应在消费 mod 中实现专用方块类，用 Java `ProxyControllerPort` 读取状态、发出 `PlaybackCommand`，并用 target evaluator 把已提交的播放时间采样到模型姿态。
 
 ## 5. 转向架与跨包样式贡献
 

@@ -33,6 +33,15 @@ import cn.kycraft.kuayue.parts.locomotives.df11.DF11GChimneyBlock;
 import cn.kycraft.kuayue.parts.locomotives.df5.DF5ChimneyBlock;
 import cn.kycraft.kuayue.parts.locomotives.hxd3d.HXD3DCowCatcherBlock;
 import cn.kycraft.kuayue.parts.locomotives.jy.JY290ACBlock;
+import cn.kycraft.kuayue.parts.locomotives.jy.JY290DoorBlock;
+import cn.kycraft.kuayue.parts.locomotives.jy.JYMaintenanceCarportBlock;
+import cn.kycraft.kuayue.parts.locomotives.jy.JYMaintenanceConsoleBlock;
+import cn.kycraft.kuayue.parts.locomotives.jy.JYMaintenanceDoorBlock;
+import cn.kycraft.kuayue.parts.locomotives.jy.JYMaintenanceEndFaceBlock;
+import cn.kycraft.kuayue.parts.locomotives.jy.JYMaintenanceFloorBlock;
+import cn.kycraft.kuayue.parts.locomotives.jy.JYMaintenanceOutriggerBlock;
+import cn.kycraft.kuayue.parts.locomotives.jy.JYMaintenancePanelBlock;
+import cn.kycraft.kuayue.parts.locomotives.jy.JYMaintenanceTailBlock;
 import io.micronaut.context.annotation.Context;
 import com.google.gson.JsonObject;
 import lib.kasuga.registration.minecraft.block.BlockReg;
@@ -214,6 +223,82 @@ public class BlockFactories {
     public static FactoryRegistry.BlockFactory JY290_AC = (id, params) ->
             blockWithDefaultItem(id, JY290ACBlock::new);
 
+    public static FactoryRegistry.BlockFactory JY290_DOOR = (id, params) ->
+            new PanelReg<>(id, params, p -> new JY290DoorBlock(
+                    p,
+                    new Vec2(
+                            FactoryParams.getFloatOr(params, "begin_x", 0f),
+                            FactoryParams.getFloatOr(params, "begin_y", 0f)
+                    ),
+                    new Vec2(
+                            FactoryParams.getFloatOr(params, "end_x", 1f),
+                            FactoryParams.getFloatOr(params, "end_y", 1f)
+                    )
+            ));
+
+    public static FactoryRegistry.BlockFactory JY_MAINTENANCE_OUTRIGGER = (id, params) ->
+            blockWithDefaultItem(
+                    id,
+                    properties -> new JYMaintenanceOutriggerBlock(
+                            properties,
+                            MultiCellFootprint.parse(params)
+                    )
+            );
+
+    public static FactoryRegistry.BlockFactory JY_MAINTENANCE_FLOOR = (id, params) ->
+            blockWithDefaultItem(
+                    id,
+                    properties -> new JYMaintenanceFloorBlock(
+                            properties,
+                            MultiCellFootprint.parse(params)
+                    )
+            );
+
+    public static FactoryRegistry.BlockFactory JY_MAINTENANCE_CARPORT = (id, params) ->
+            blockWithDefaultItem(
+                    id,
+                    properties -> new JYMaintenanceCarportBlock(
+                            properties,
+                            MultiCellFootprint.parse(params)
+                    )
+            );
+
+    public static FactoryRegistry.BlockFactory JY_MAINTENANCE_CONSOLE = (id, params) ->
+            blockWithDefaultItem(id, JYMaintenanceConsoleBlock::new);
+
+    public static FactoryRegistry.BlockFactory JY_MAINTENANCE_ENDFACE = (id, params) ->
+            blockWithDefaultItem(
+                    id,
+                    JYMaintenanceEndFaceBlock::new
+            );
+
+    public static FactoryRegistry.BlockFactory JY_MAINTENANCE_DOOR = (id, params) ->
+            blockWithDefaultItem(
+                    id,
+                    properties -> new JYMaintenanceDoorBlock(
+                            properties,
+                            MultiCellFootprint.parse(params)
+                    )
+            );
+
+    public static FactoryRegistry.BlockFactory JY_MAINTENANCE_PANEL = (id, params) ->
+            blockWithDefaultItem(
+                    id,
+                    properties -> new JYMaintenancePanelBlock(
+                            properties,
+                            MultiCellFootprint.parse(params)
+                    )
+            );
+
+    public static FactoryRegistry.BlockFactory JY_MAINTENANCE_TAIL = (id, params) ->
+            blockWithDefaultItem(
+                    id,
+                    properties -> new JYMaintenanceTailBlock(
+                            properties,
+                            MultiCellFootprint.parse(params)
+                    )
+            );
+
     private static BlockReg<Block> blockWithDefaultItem(
             String id,
             Function<BlockBehaviour.Properties, ? extends Block> supplier
@@ -263,5 +348,46 @@ public class BlockFactories {
         FactoryRegistry.register("df5_chimney", DF5_CHIMNEY, true);
         FactoryRegistry.register("train_door", TRAIN_DOOR, true);
         FactoryRegistry.register("jy290_ac", JY290_AC, true);
+        FactoryRegistry.register("jy290_door", JY290_DOOR, true);
+        FactoryRegistry.register(
+                "jy_maintenance_outrigger",
+                JY_MAINTENANCE_OUTRIGGER,
+                true
+        );
+        FactoryRegistry.register(
+                "jy_maintenance_floor",
+                JY_MAINTENANCE_FLOOR,
+                true
+        );
+        FactoryRegistry.register(
+                "jy_maintenance_carport",
+                JY_MAINTENANCE_CARPORT,
+                true
+        );
+        FactoryRegistry.register(
+                "jy_maintenance_console",
+                JY_MAINTENANCE_CONSOLE,
+                true
+        );
+        FactoryRegistry.register(
+                "jy_maintenance_endface",
+                JY_MAINTENANCE_ENDFACE,
+                true
+        );
+        FactoryRegistry.register(
+                "jy_maintenance_door",
+                JY_MAINTENANCE_DOOR,
+                true
+        );
+        FactoryRegistry.register(
+                "jy_maintenance_panel",
+                JY_MAINTENANCE_PANEL,
+                true
+        );
+        FactoryRegistry.register(
+                "jy_maintenance_tail",
+                JY_MAINTENANCE_TAIL,
+                true
+        );
     }
 }
