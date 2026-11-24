@@ -60,6 +60,7 @@ public final class CreativeFilterCatalog {
                     train.nameKey(),
                     train.descriptionKey(),
                     train.creativeIconItem().map(ResourceLocation::toString).orElse(null),
+                    train.creativeFilterOrder().orElse(Integer.MAX_VALUE),
                     List.of(TagKey.create(
                             Registries.ITEM,
                             SystemOriginTagIds.train(train.id())
@@ -81,6 +82,7 @@ public final class CreativeFilterCatalog {
                         parcel.nameKey(),
                         parcel.descriptionKey(),
                         filter.iconItem(),
+                        Integer.MAX_VALUE,
                         filter.itemTags().stream()
                                 .map(id -> TagKey.create(
                                         Registries.ITEM,
@@ -93,10 +95,14 @@ public final class CreativeFilterCatalog {
                 ));
             }
         }
-        entries.values().forEach(list -> list.sort(
-                java.util.Comparator.comparing(entry -> entry.subjectId().toString())
-        ));
+        entries.values().forEach(CreativeFilterCatalog::sortEntries);
         return new CreativeFilterCatalog(entries);
+    }
+
+    static void sortEntries(List<Entry> entries) {
+        entries.sort(java.util.Comparator
+                .comparingInt(Entry::filterOrder)
+                .thenComparing(entry -> entry.subjectId().toString()));
     }
 
     public List<Entry> entries(ResourceLocation tab) {
@@ -114,9 +120,33 @@ public final class CreativeFilterCatalog {
             String nameKey,
             String descriptionKey,
             String iconItem,
+            int filterOrder,
             List<TagKey<Item>> itemTags,
             Set<ResourceLocation> items
     ) {
+        public Entry(
+                String packId,
+                ResourceLocation subjectId,
+                ResourceLocation tab,
+                String nameKey,
+                String descriptionKey,
+                String iconItem,
+                List<TagKey<Item>> itemTags,
+                Set<ResourceLocation> items
+        ) {
+            this(
+                    packId,
+                    subjectId,
+                    tab,
+                    nameKey,
+                    descriptionKey,
+                    iconItem,
+                    Integer.MAX_VALUE,
+                    itemTags,
+                    items
+            );
+        }
+
         public Entry {
             Objects.requireNonNull(packId, "packId");
             Objects.requireNonNull(subjectId, "subjectId");

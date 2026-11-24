@@ -36,7 +36,8 @@ public final class TrainPatchParser {
     );
     private static final Set<String> CREATIVE_FIELDS = Set.of(
             TrainDataDrivenTypes.TAB,
-            TrainDataDrivenTypes.ICON_ITEM
+            TrainDataDrivenTypes.ICON_ITEM,
+            TrainDataDrivenTypes.FILTER_ORDER
     );
 
     public TrainPatch parse(JsonObject input) {

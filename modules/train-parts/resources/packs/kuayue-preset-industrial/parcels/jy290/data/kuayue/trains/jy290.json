@@ -48,7 +48,8 @@
       },
       "creative": {
         "tab": "kuayue:kuayue_loco",
-        "icon_item": "kuayue:jy290_head_2"
+        "icon_item": "kuayue:jy290_head_2",
+        "filter_order": 100
       }
     }
   ]

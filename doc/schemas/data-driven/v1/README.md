@@ -257,7 +257,7 @@ running-gear/bogey-*:
 - 覆盖者必须通过 `pack.json.dependencies.packs` 直接依赖低优先级贡献包；
 - 同一 owner 不允许为同一 train ID 声明两次。
 
-合并后的完整定义必须包含非空 `category`、`name_key`、`description_key`，以及 `members` 中九个成员数组；数组可以为空。`creative` 可省略；出现时 `creative.tab` 必填，`icon_item` 可选。
+合并后的完整定义必须包含非空 `category`、`name_key`、`description_key`，以及 `members` 中九个成员数组；数组可以为空。`creative` 可省略；出现时 `creative.tab` 必填，`icon_item` 和 `filter_order` 可选。同一创造页按 `filter_order` 升序排列，未声明该字段的筛选项排在已声明项之后。
 
 注册成功后，每个 train 会生成：
 

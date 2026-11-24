@@ -2259,6 +2259,9 @@
         },
         "icon_item": {
           "$ref": "#/$defs/explicitResourceLocation"
+        },
+        "filter_order": {
+          "type": "integer"
         }
       },
       "additionalProperties": false

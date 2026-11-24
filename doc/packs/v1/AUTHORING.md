@@ -158,7 +158,7 @@ parcels/c22/data/mytrain/kasuga_lib/data_driven/c22.json
 
 `indexes` 可以为空，适合只提供模型、贴图、语言、配方或 tag 的 parcel。若要注册内容，索引文件必须由对应 parcel 显式声明；物理目录里未声明的数据驱动索引不会被当作注册入口。
 
-新内容不再在 parcel 中写 `creative_filter`，而是在 train 定义中声明 `creative.tab` 和 `members`。`creative_filter` 只为旧外部包保留兼容；内置预设已经迁移到 train。
+新内容不再在 parcel 中写 `creative_filter`，而是在 train 定义中声明 `creative.tab` 和 `members`。可用 `creative.filter_order` 明确同一创造页内的展示顺序：数值越小越靠前，未声明时排在已声明项之后。`creative_filter` 只为旧外部包保留兼容；内置预设已经迁移到 train。
 
 ## 5. 写索引和内容
 

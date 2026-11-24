@@ -281,6 +281,29 @@ public final class TrainOverlayMerger {
                 "/creative/icon_item",
                 violations
         );
+        validateOptionalInteger(
+                creative,
+                TrainDataDrivenTypes.FILTER_ORDER,
+                "/creative/filter_order",
+                violations
+        );
+    }
+
+    private static void validateOptionalInteger(
+            JsonObject object,
+            String field,
+            String pointer,
+            List<String> violations
+    ) {
+        JsonElement value = object.get(field);
+        if (value == null) {
+            return;
+        }
+        if (!value.isJsonPrimitive()
+                || !value.getAsJsonPrimitive().isNumber()
+                || value.getAsDouble() != Math.rint(value.getAsDouble())) {
+            violations.add(pointer + ": expected an integer");
+        }
     }
 
     private static void validateRequiredResource(

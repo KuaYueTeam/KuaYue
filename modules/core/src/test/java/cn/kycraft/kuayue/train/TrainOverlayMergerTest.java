@@ -8,6 +8,7 @@ import lib.kasuga.registration.data_driven.source.SourceDescriptor;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -197,6 +198,56 @@ class TrainOverlayMergerTest {
         );
     }
 
+    @Test
+    void mergesCreativeFilterOrder() {
+        LocatedDefinition<TrainPatch> base = located(
+                "base_owner",
+                10,
+                1,
+                completeJsonWithCreative("""
+                        "tab":"kuayue:kuayue_loco",
+                        "filter_order":100
+                        """)
+        );
+        LocatedDefinition<TrainPatch> override = located(
+                "override_owner",
+                20,
+                2,
+                """
+                        {
+                          "id":"kuayue:ss3",
+                          "creative":{"filter_order":75}
+                        }
+                        """
+        );
+
+        KuaYueTrainDefinition merged = merger.merge(List.of(base, override));
+
+        assertEquals(OptionalInt.of(75), merged.creativeFilterOrder());
+    }
+
+    @Test
+    void rejectsNonIntegerCreativeFilterOrder() {
+        for (String value : List.of("\"first\"", "1.5")) {
+            LocatedDefinition<TrainPatch> invalid = located(
+                    "invalid_owner",
+                    10,
+                    1,
+                    completeJsonWithCreative(
+                            "\"tab\":\"kuayue:kuayue_loco\",\"filter_order\":" + value
+                    )
+            );
+
+            TrainOverlayMerger.MergeException exception = assertThrows(
+                    TrainOverlayMerger.MergeException.class,
+                    () -> merger.merge(List.of(invalid))
+            );
+
+            assertTrue(exception.violations().stream()
+                    .anyMatch(violation -> violation.contains("/creative/filter_order")));
+        }
+    }
+
     private LocatedDefinition<TrainPatch> located(
             String owner,
             int sourceOrder,
@@ -244,5 +295,12 @@ class TrainOverlayMergerTest {
                   }
                 }
                 """.formatted(items);
+    }
+
+    private static String completeJsonWithCreative(String creative) {
+        return completeJson("").replace(
+                "\"members\":{",
+                "\"creative\":{" + creative + "},\"members\":{"
+        );
     }
 }

@@ -15,6 +15,7 @@ public final class TrainDataDrivenTypes {
     public static final String CREATIVE = "creative";
     public static final String TAB = "tab";
     public static final String ICON_ITEM = "icon_item";
+    public static final String FILTER_ORDER = "filter_order";
     public static final String BLOCKS = "blocks";
     public static final String ITEMS = "items";
     public static final String ITEM_TAGS = "item_tags";

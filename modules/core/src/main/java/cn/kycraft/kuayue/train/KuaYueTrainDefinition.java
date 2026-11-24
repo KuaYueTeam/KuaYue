@@ -1,5 +1,6 @@
 package cn.kycraft.kuayue.train;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lib.kasuga.registration.data_driven.source.LogicalPath;
 import net.minecraft.resources.ResourceLocation;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.Set;
 
 /**
@@ -74,6 +76,18 @@ public record KuaYueTrainDefinition(
                 TrainDataDrivenTypes.CREATIVE,
                 TrainDataDrivenTypes.ICON_ITEM
         );
+    }
+
+    public OptionalInt creativeFilterOrder() {
+        JsonElement creative = fields.get(TrainDataDrivenTypes.CREATIVE);
+        if (creative == null || !creative.isJsonObject()) {
+            return OptionalInt.empty();
+        }
+        JsonElement order = creative.getAsJsonObject().get(TrainDataDrivenTypes.FILTER_ORDER);
+        return order != null && order.isJsonPrimitive()
+                && order.getAsJsonPrimitive().isNumber()
+                ? OptionalInt.of(order.getAsInt())
+                : OptionalInt.empty();
     }
 
     private Optional<ResourceLocation> optionalLocation(String parent, String field) {
