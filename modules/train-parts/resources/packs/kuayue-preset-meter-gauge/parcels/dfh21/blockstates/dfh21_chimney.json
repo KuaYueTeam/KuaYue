@@ -1,0 +1,68 @@
+{
+  "variants": {
+    "facing=north,lit=false,hinge=right": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney",
+      "y": 0
+    },
+    "facing=north,lit=false,hinge=left": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney_extended",
+      "y": 0
+    },
+    "facing=north,lit=true,hinge=right": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney",
+      "y": 0
+    },
+    "facing=north,lit=true,hinge=left": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney_extended",
+      "y": 0
+    },
+    "facing=east,lit=false,hinge=right": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney",
+      "y": 90
+    },
+    "facing=east,lit=false,hinge=left": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney_extended",
+      "y": 90
+    },
+    "facing=east,lit=true,hinge=right": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney",
+      "y": 90
+    },
+    "facing=east,lit=true,hinge=left": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney_extended",
+      "y": 90
+    },
+    "facing=south,lit=false,hinge=right": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney",
+      "y": 180
+    },
+    "facing=south,lit=false,hinge=left": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney_extended",
+      "y": 180
+    },
+    "facing=south,lit=true,hinge=right": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney",
+      "y": 180
+    },
+    "facing=south,lit=true,hinge=left": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney_extended",
+      "y": 180
+    },
+    "facing=west,lit=false,hinge=right": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney",
+      "y": 270
+    },
+    "facing=west,lit=false,hinge=left": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney_extended",
+      "y": 270
+    },
+    "facing=west,lit=true,hinge=right": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney",
+      "y": 270
+    },
+    "facing=west,lit=true,hinge=left": {
+      "model": "kuayue:block/dfh21/power/dfh21_chimney_extended",
+      "y": 270
+    }
+  }
+}

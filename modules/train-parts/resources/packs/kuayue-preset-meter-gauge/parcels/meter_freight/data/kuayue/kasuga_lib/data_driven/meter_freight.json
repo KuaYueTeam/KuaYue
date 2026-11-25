@@ -1,0 +1,8 @@
+{
+  "on_register": [
+    "carriages/meter_freight/groups.json",
+    "carriages/meter_freight/blocks.json",
+    "trains/meter_freight.json"
+  ],
+  "on_reload": []
+}

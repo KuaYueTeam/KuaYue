@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "kuayue:block/carriage/carriage_m1/m1_oil_tank",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "kuayue:block/carriage/carriage_m1/m1_oil_tank",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "kuayue:block/carriage/carriage_m1/m1_oil_tank"
+    },
+    "facing=west": {
+      "model": "kuayue:block/carriage/carriage_m1/m1_oil_tank",
+      "y": 90
+    }
+  }
+}

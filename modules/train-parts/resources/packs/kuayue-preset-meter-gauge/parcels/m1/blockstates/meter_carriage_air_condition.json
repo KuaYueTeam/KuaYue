@@ -1,0 +1,36 @@
+{
+  "variants": {
+    "facing=south,hinge=right": {
+      "model": "kuayue:block/carriage/carriage_m1/meter_carriage_air_condition_1",
+      "y": 0
+    },
+    "facing=south,hinge=left": {
+      "model": "kuayue:block/carriage/carriage_m1/meter_carriage_air_condition_2",
+      "y": 0
+    },
+    "facing=west,hinge=right": {
+      "model": "kuayue:block/carriage/carriage_m1/meter_carriage_air_condition_1",
+      "y": 90
+    },
+    "facing=west,hinge=left": {
+      "model": "kuayue:block/carriage/carriage_m1/meter_carriage_air_condition_2",
+      "y": 90
+    },
+    "facing=north,hinge=right": {
+      "model": "kuayue:block/carriage/carriage_m1/meter_carriage_air_condition_1",
+      "y": 180
+    },
+    "facing=north,hinge=left": {
+      "model": "kuayue:block/carriage/carriage_m1/meter_carriage_air_condition_2",
+      "y": 180
+    },
+    "facing=east,hinge=right": {
+      "model": "kuayue:block/carriage/carriage_m1/meter_carriage_air_condition_1",
+      "y": 270
+    },
+    "facing=east,hinge=left": {
+      "model": "kuayue:block/carriage/carriage_m1/meter_carriage_air_condition_2",
+      "y": 270
+    }
+  }
+}

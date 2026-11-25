@@ -1,0 +1,84 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:dfh21",
+      "category": "locomotive",
+      "name_key": "parcel.kuayue.dfh21.name",
+      "description_key": "parcel.kuayue.dfh21.description",
+      "members": {
+        "blocks": [
+          "kuayue:dfh21_body_panel",
+          "kuayue:dfh21_chimney",
+          "kuayue:dfh21_collision_part",
+          "kuayue:dfh21_coupler_part",
+          "kuayue:dfh21_door_1",
+          "kuayue:dfh21_door_2",
+          "kuayue:dfh21_end_face",
+          "kuayue:dfh21_end_face_2",
+          "kuayue:dfh21_equipment_door_1",
+          "kuayue:dfh21_equipment_door_2",
+          "kuayue:dfh21_equipment_door_3",
+          "kuayue:dfh21_floor",
+          "kuayue:dfh21_floor_2",
+          "kuayue:dfh21_floor_3",
+          "kuayue:dfh21_floor_4",
+          "kuayue:dfh21_head",
+          "kuayue:dfh21_head_2",
+          "kuayue:dfh21_radiator_door",
+          "kuayue:dfh21_radiator_fan",
+          "kuayue:dfh21_radiator_grille",
+          "kuayue:dfh21_roof_1",
+          "kuayue:dfh21_roof_2",
+          "kuayue:dfh21_roof_3",
+          "kuayue:dfh21_tank"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-meter-gauge/kuayue/dfh21"
+        ],
+        "bogey_sizes": [
+          "kuayue:dfh21_s",
+          "kuayue:dfh21_backward_s",
+          "kuayue:dfh21",
+          "kuayue:dfh21_backward",
+          "kuayue:dfh21_a",
+          "kuayue:dfh21_backward_a"
+        ],
+        "bogey_motions": [
+          "kuayue:motion/wheel_spin/scale_1.0_sign_1",
+          "kuayue:motion/rod_rotation/scale_3.256_sign_1"
+        ],
+        "bogey_models": [
+          "kuayue:bogey/dfh21_s",
+          "kuayue:bogey/dfh21_backward_s",
+          "kuayue:bogey/dfh21",
+          "kuayue:bogey/dfh21_backward",
+          "kuayue:bogey/dfh21_a",
+          "kuayue:bogey/dfh21_backward_a"
+        ],
+        "bogey_blocks": [
+          "kuayue:dfh21_bogey_s",
+          "kuayue:dfh21_backward_bogey_s",
+          "kuayue:dfh21_bogey",
+          "kuayue:dfh21_backward_bogey",
+          "kuayue:dfh21_bogey_a",
+          "kuayue:dfh21_backward_bogey_a"
+        ],
+        "bogey_styles": [
+          "kuayue:loco",
+          "kuayue:meter_loco",
+          "kuayue:andesite_loco"
+        ],
+        "bogey_style_variants": [
+          "kuayue:dfh21_loco",
+          "kuayue:dfh21_meter_loco",
+          "kuayue:dfh21_andesite_loco"
+        ]
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_loco",
+        "icon_item": "kuayue:dfh21_head"
+      }
+    }
+  ]
+}

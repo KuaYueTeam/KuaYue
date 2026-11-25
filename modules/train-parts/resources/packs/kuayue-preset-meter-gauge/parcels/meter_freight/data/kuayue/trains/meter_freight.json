@@ -1,0 +1,59 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:meter_freight",
+      "category": "carriage",
+      "name_key": "parcel.kuayue.meter_freight.name",
+      "description_key": "parcel.kuayue.meter_freight.description",
+      "members": {
+        "blocks": [
+          "kuayue:31_freight_floor",
+          "kuayue:31_freight_underfloor_equipment",
+          "kuayue:c31_board",
+          "kuayue:c31_board_2",
+          "kuayue:c31_board_company",
+          "kuayue:c31_coupler_interaction",
+          "kuayue:c31_door",
+          "kuayue:c31_door_part",
+          "kuayue:c31_end_face",
+          "kuayue:c31_end_face_2",
+          "kuayue:c31_floor",
+          "kuayue:meter_freight_tarpaulin",
+          "kuayue:meter_freight_tarpaulin_part",
+          "kuayue:n31_board_company",
+          "kuayue:n31_end_face",
+          "kuayue:n31_no_sideboard",
+          "kuayue:n31_no_sideboard_2",
+          "kuayue:n31_sideboard",
+          "kuayue:n31_sideboard_2",
+          "kuayue:p31_boarding_step",
+          "kuayue:p31_coupler_handwheel",
+          "kuayue:p31_door",
+          "kuayue:p31_end_face",
+          "kuayue:p31_end_face_2",
+          "kuayue:p31_railing_door",
+          "kuayue:p31_roof",
+          "kuayue:p31_sideboard_1",
+          "kuayue:p31_sideboard_2",
+          "kuayue:p31_sideboard_3",
+          "kuayue:p31_sideboard_4",
+          "kuayue:p31_sideboard_5"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-meter-gauge/kuayue/meter_freight"
+        ],
+        "bogey_sizes": [],
+        "bogey_motions": [],
+        "bogey_models": [],
+        "bogey_blocks": [],
+        "bogey_styles": [],
+        "bogey_style_variants": []
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_carriage",
+        "icon_item": "kuayue:c31_floor"
+      }
+    }
+  ]
+}

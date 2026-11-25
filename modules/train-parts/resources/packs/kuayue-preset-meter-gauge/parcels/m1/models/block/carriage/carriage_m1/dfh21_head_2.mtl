@@ -1,0 +1,10 @@
+# Embedded Blockbench textures
+newmtl tex0
+map_Kd kuayue:block/carriage/carriage_m1/dfh21_head_2_tex0
+newmtl tex1
+map_Kd kuayue:block/carriage/carriage_m1/dfh21_head_2_tex1
+newmtl tex2
+map_Kd kuayue:block/carriage/carriage_m1/dfh21_head_2_tex2
+newmtl tex3
+map_Kd kuayue:block/carriage/carriage_m1/dfh21_head_2_tex3
+newmtl none

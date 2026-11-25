@@ -1,0 +1,18 @@
+{
+  "registry_groups": [
+    {
+      "id": "kuayue:gc220ii_panels",
+      "properties": {
+        "no_occlusion": true,
+        "strength": [
+          1.5,
+          3.0
+        ],
+        "map_color": "blue"
+      },
+      "item_properties": {
+        "tab": "kuayue:kuayue_loco"
+      }
+    }
+  ]
+}

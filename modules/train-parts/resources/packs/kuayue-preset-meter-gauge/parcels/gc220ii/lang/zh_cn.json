@@ -1,0 +1,18 @@
+{
+  "block.kuayue.gc220ii_cowcatcher": "GC220II排障器",
+  "block.kuayue.gc220ii_door": "GC220II车门",
+  "block.kuayue.gc220ii_equipment_1": "GC220II车底设备1",
+  "block.kuayue.gc220ii_equipment_2": "GC220II车底设备2",
+  "block.kuayue.gc220ii_equipment_3": "GC220II车底设备3",
+  "block.kuayue.gc220ii_floor": "GC220II地板",
+  "block.kuayue.gc220ii_floor_ladder": "GC220II地板（带梯子）",
+  "block.kuayue.gc220ii_head_1": "GC220II车头（一端）",
+  "block.kuayue.gc220ii_head_2": "GC220II车头（二端）",
+  "block.kuayue.gc220ii_panel": "GC220II厢板",
+  "block.kuayue.gc220ii_panel_logo": "GC220II标志厢板",
+  "block.kuayue.gc220ii_roof": "GC220II车顶",
+  "block.kuayue.gc220ii_vent": "GC220II通风口",
+  "block.kuayue.gc220ii_vent_2": "GC220II通风口（二）",
+  "msg.bogey.style.changed.block.kuayue.gc220ii_backward_bogey": "当前转向架: GC220II(反向)",
+  "msg.bogey.style.changed.block.kuayue.gc220ii_bogey": "当前转向架: GC220II"
+}

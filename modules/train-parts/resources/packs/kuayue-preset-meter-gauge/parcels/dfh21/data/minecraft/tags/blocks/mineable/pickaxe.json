@@ -1,0 +1,28 @@
+{
+  "values": [
+    "kuayue:dfh21_body_panel",
+    "kuayue:dfh21_chimney",
+    "kuayue:dfh21_collision_part",
+    "kuayue:dfh21_coupler_part",
+    "kuayue:dfh21_door_1",
+    "kuayue:dfh21_door_2",
+    "kuayue:dfh21_end_face",
+    "kuayue:dfh21_end_face_2",
+    "kuayue:dfh21_equipment_door_1",
+    "kuayue:dfh21_equipment_door_2",
+    "kuayue:dfh21_equipment_door_3",
+    "kuayue:dfh21_floor",
+    "kuayue:dfh21_floor_2",
+    "kuayue:dfh21_floor_3",
+    "kuayue:dfh21_floor_4",
+    "kuayue:dfh21_head",
+    "kuayue:dfh21_head_2",
+    "kuayue:dfh21_radiator_door",
+    "kuayue:dfh21_radiator_fan",
+    "kuayue:dfh21_radiator_grille",
+    "kuayue:dfh21_roof_1",
+    "kuayue:dfh21_roof_2",
+    "kuayue:dfh21_roof_3",
+    "kuayue:dfh21_tank"
+  ]
+}
