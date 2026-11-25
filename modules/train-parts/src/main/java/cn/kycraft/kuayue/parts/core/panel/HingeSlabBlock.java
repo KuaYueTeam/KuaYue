@@ -43,6 +43,10 @@ public class HingeSlabBlock extends SlabBlock implements IWrenchable {
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        VoxelShape modelShape = modelAabbShape(pState);
+        if (modelShape != null) {
+            return modelShape;
+        }
         DoorHingeSide hinge = pState.getValue(BlockStateProperties.DOOR_HINGE);
         Direction facing = pState.getValue(FACING).getOpposite();
         if (carport) {

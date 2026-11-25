@@ -38,8 +38,8 @@ class BogeyModelDataDrivenSchemaTest {
         BogeyPackTestData data = BogeyPackTestData.load();
 
         assertEquals(9, data.motions.size());
-        assertEquals(53, data.models.size());
-        assertEquals(241, data.models.stream()
+        assertEquals(55, data.models.size());
+        assertEquals(245, data.models.stream()
                 .mapToInt(model -> model.parts().size())
                 .sum());
         assertEquals(
@@ -57,7 +57,7 @@ class BogeyModelDataDrivenSchemaTest {
                 .map(BogeyStyleDefinition.Variant::model)
                 .collect(Collectors.toSet());
         assertEquals(modelIds, referencedModels);
-        assertEquals(53, referencedModels.size());
+        assertEquals(55, referencedModels.size());
         assertTrue(data.models.stream().allMatch(model -> model.yOffset() == -1.5078125f));
     }
 

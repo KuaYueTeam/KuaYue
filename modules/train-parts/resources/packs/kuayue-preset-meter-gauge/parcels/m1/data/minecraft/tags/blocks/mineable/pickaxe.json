@@ -1,5 +1,25 @@
 {
-    "values": [
-        "#kuayue:panel/cm1"
-    ]
+  "values": [
+    "#kuayue:panel/cm1",
+    "kuayue:m1_ceiling_fan",
+    "kuayue:m1_coupler_floor",
+    "kuayue:m1_coupler_interaction",
+    "kuayue:m1_door_end_face",
+    "kuayue:m1_equipment_room_part",
+    "kuayue:m1_generator",
+    "kuayue:m1_oil_tank",
+    "kuayue:m1_partition_door",
+    "kuayue:m1_soft_sleeper_equipment_room",
+    "kuayue:m1_toilet",
+    "kuayue:m1_toilet_room",
+    "kuayue:m1_underbody_equipment_2",
+    "kuayue:m1_underbody_equipment_3",
+    "kuayue:m1_underbody_equipment_4",
+    "kuayue:m1_underbody_equipment_5",
+    "kuayue:m1_washbasin",
+    "kuayue:m1_water_tank",
+    "kuayue:meter_carriage_air_condition",
+    "kuayue:meter_sleeper_compartment",
+    "kuayue:window_single_small_m1"
+  ]
 }

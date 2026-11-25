@@ -50,23 +50,23 @@ class BogeyDataDrivenSchemaTest {
         )));
 
         BogeyPackTestData data = BogeyPackTestData.load();
-        assertEquals(53, data.sizes.size());
-        assertEquals(53, data.blocks.size());
-        assertEquals(53, data.models.size());
+        assertEquals(55, data.sizes.size());
+        assertEquals(55, data.blocks.size());
+        assertEquals(55, data.models.size());
         assertEquals(7, data.styles.size());
         assertFalse(data.styleVariants.isEmpty());
 
         List<BogeyStyleDefinition.Variant> variants = data.allVariants();
-        assertEquals(53, variants.size());
-        assertEquals(53, variants.stream()
+        assertEquals(55, variants.size());
+        assertEquals(55, variants.stream()
                 .map(BogeyStyleDefinition.Variant::size)
                 .collect(Collectors.toSet())
                 .size());
-        assertEquals(53, variants.stream()
+        assertEquals(55, variants.stream()
                 .map(BogeyStyleDefinition.Variant::block)
                 .collect(Collectors.toSet())
                 .size());
-        assertEquals(53, variants.stream()
+        assertEquals(55, variants.stream()
                 .map(BogeyStyleDefinition.Variant::model)
                 .collect(Collectors.toSet())
                 .size());
@@ -84,7 +84,7 @@ class BogeyDataDrivenSchemaTest {
                 "kuayue:andesite_carriage", 8L,
                 "kuayue:loco", 15L,
                 "kuayue:asymmetry_loco", 1L,
-                "kuayue:meter_loco", 4L,
+                "kuayue:meter_loco", 6L,
                 "kuayue:andesite_loco", 12L
         ), variantCounts);
 
@@ -130,7 +130,7 @@ class BogeyDataDrivenSchemaTest {
         assertEquals(21, data.blocks.stream()
                 .filter(block -> block.registryGroup().equals("kuayue:carriage_bogeys"))
                 .count());
-        assertEquals(32, data.blocks.stream()
+        assertEquals(34, data.blocks.stream()
                 .filter(block -> block.registryGroup().equals("kuayue:loco_bogeys"))
                 .count());
 

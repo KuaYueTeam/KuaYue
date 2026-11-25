@@ -23,6 +23,8 @@
   "parcels": [
     "parcels/m1/parcel.json",
     "parcels/jy30/parcel.json",
-    "parcels/dfh21/parcel.json"
+    "parcels/dfh21/parcel.json",
+    "parcels/gc220ii/parcel.json",
+    "parcels/meter_freight/parcel.json"
   ]
 }

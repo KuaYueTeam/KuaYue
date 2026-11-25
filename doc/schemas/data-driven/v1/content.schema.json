@@ -436,9 +436,22 @@
       ],
       "additionalProperties": false
     },
+    "modelAabbParams": {
+      "type": "object",
+      "description": "Model-derived AABBs keyed by a normalised state string; each value is [x1,y1,z1,x2,y2,z2] in pixels or [] for an empty shape.",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "number" },
+        "minItems": 0,
+        "maxItems": 6
+      }
+    },
     "panelBoundsParams": {
       "type": "object",
       "properties": {
+        "aabb": {
+          "$ref": "#/$defs/modelAabbParams"
+        },
         "multi_cell": {
           "$ref": "#/$defs/multiCellParams"
         },
@@ -465,6 +478,9 @@
     "trainPanelEmptyParams": {
       "type": "object",
       "properties": {
+        "aabb": {
+          "$ref": "#/$defs/modelAabbParams"
+        },
         "multi_cell": {
           "$ref": "#/$defs/multiCellParams"
         }
@@ -474,6 +490,9 @@
     "trainSmallWindowParams": {
       "type": "object",
       "properties": {
+        "aabb": {
+          "$ref": "#/$defs/modelAabbParams"
+        },
         "multi_cell": {
           "$ref": "#/$defs/multiCellParams"
         },
@@ -507,6 +526,9 @@
     "trainUnopenableWindowParams": {
       "type": "object",
       "properties": {
+        "aabb": {
+          "$ref": "#/$defs/modelAabbParams"
+        },
         "multi_cell": {
           "$ref": "#/$defs/multiCellParams"
         },
@@ -531,6 +553,9 @@
     "ladderParams": {
       "type": "object",
       "properties": {
+        "aabb": {
+          "$ref": "#/$defs/modelAabbParams"
+        },
         "multi_cell": {
           "$ref": "#/$defs/multiCellParams"
         },
@@ -661,6 +686,9 @@
     "hingeSlabParams": {
       "type": "object",
       "properties": {
+        "aabb": {
+          "$ref": "#/$defs/modelAabbParams"
+        },
         "multi_cell": {
           "$ref": "#/$defs/multiCellParams"
         },

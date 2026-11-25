@@ -39,6 +39,9 @@ class PresetPackSourceLayoutTest {
             Map.entry("kuayue:cr200j", CARRIAGE_TAB),
             Map.entry("kuayue:freight", CARRIAGE_TAB),
             Map.entry("kuayue:m1", CARRIAGE_TAB),
+            Map.entry("kuayue:meter_freight", CARRIAGE_TAB),
+            Map.entry("kuayue:dfh21", LOCO_TAB),
+            Map.entry("kuayue:gc220ii", LOCO_TAB),
             Map.entry("kuayue:df11", LOCO_TAB),
             Map.entry("kuayue:df11g", LOCO_TAB),
             Map.entry("kuayue:df21", LOCO_TAB),
@@ -138,7 +141,7 @@ class PresetPackSourceLayoutTest {
                 );
             }
         }
-        assertEquals(34, parcelCount);
+        assertEquals(36, parcelCount);
         assertFalse(Files.exists(PACKS.getParent().resolve("tracks")));
         assertFalse(Files.exists(Path.of("src/main/resources/kuayue-packs")));
     }

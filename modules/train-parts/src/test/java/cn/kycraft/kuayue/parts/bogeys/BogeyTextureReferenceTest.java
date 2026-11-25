@@ -27,7 +27,8 @@ class BogeyTextureReferenceTest {
             materials = paths
                     .filter(Files::isRegularFile)
                     .filter(path -> path.toString().endsWith(".mtl"))
-                    .filter(path -> path.toString().contains("/models/block/bogey/"))
+                    .filter(path -> path.toString().replace('\\', '/')
+                            .contains("/models/block/bogey/"))
                     .toList();
         }
         assertFalse(materials.isEmpty());
@@ -36,7 +37,8 @@ class BogeyTextureReferenceTest {
         try (var paths = Files.walk(RESOURCES)) {
             textures = paths
                     .filter(Files::isRegularFile)
-                    .filter(path -> path.toString().contains("/textures/"))
+                    .filter(path -> path.toString().replace('\\', '/')
+                            .contains("/textures/"))
                     .filter(path -> path.toString().endsWith(".png"))
                     .toList();
         }
