@@ -1,6 +1,8 @@
 package cn.kycraft.kuayue.parts.bogeys.core;
 
 import lib.kasuga.rendering.models.mc.proxies.ModelPart;
+import lib.kasuga.rendering.models.mc.proxies.CompiledModelGroup;
+import lib.kasuga.rendering.models.mc.proxies.CompiledModelPart;
 import lib.kasuga.rendering.models.uml.dynamic.animation.AnimationClip;
 import lib.kasuga.rendering.models.uml.dynamic.animation.FormulaTransformSampler;
 import lib.kasuga.rendering.models.uml.dynamic.fsm.FsmAnimationClips;
@@ -10,6 +12,7 @@ import lib.kasuga.rendering.models.uml.math.Transform;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,12 +20,12 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
- * Compiled, host-independent description of one bogey model group.
+ * Host-independent bogey plan backed by the shared {@link CompiledModelGroup} geometry.
  */
 public final class BogeyModelPlan {
     private final ResourceLocation id;
-    private final float yOffset;
-    private final List<Part> parts;
+    private final CompiledModelGroup compiledGroup;
+    private final Map<String, Motion> motions;
 
     /**
      * Creates an immutable model plan.
@@ -39,8 +42,17 @@ public final class BogeyModelPlan {
         if (parts == null || parts.isEmpty()) {
             throw new IllegalArgumentException("model plan must contain at least one part");
         }
-        this.yOffset = yOffset;
-        this.parts = List.copyOf(parts);
+        Map<String, Motion> resolvedMotions = new HashMap<>();
+        List<CompiledModelPart> compiledParts = new ArrayList<>(parts.size());
+        for (Part part : parts) {
+            compiledParts.add(new CompiledModelPart(
+                    part.id(), part.model(), null, part.local()));
+            if (part.motion() != null) {
+                resolvedMotions.put(part.id(), part.motion());
+            }
+        }
+        compiledGroup = new CompiledModelGroup(id.toString(), yOffset, compiledParts);
+        motions = Map.copyOf(resolvedMotions);
     }
 
     /**
@@ -54,23 +66,29 @@ public final class BogeyModelPlan {
      * Returns the vertical model offset used by the proxy root.
      */
     public float yOffset() {
-        return yOffset;
+        return compiledGroup.yOffset();
     }
 
     /**
      * Returns the ordered compiled parts.
      */
     public List<Part> parts() {
-        return parts;
+        return compiledGroup.parts().stream()
+                .map(part -> new Part(
+                        part.id(), part.model(), part.local(), motions.get(part.id())))
+                .toList();
+    }
+
+    /** Shared resolved geometry consumed by the proxy model-group stage. */
+    public CompiledModelGroup compiledGroup() {
+        return compiledGroup;
     }
 
     /**
      * Creates static model parts for the shared placement registry.
      */
     public List<ModelPart> staticParts() {
-        return parts.stream()
-                .map(part -> new ModelPart(part.model(), null, part.local(), null))
-                .toList();
+        return compiledGroup.modelParts();
     }
 
     /**
@@ -83,15 +101,12 @@ public final class BogeyModelPlan {
     public List<ModelPart> bind(Supplier<Float> wheelAngle, boolean frameDomain) {
         Objects.requireNonNull(wheelAngle, "wheelAngle");
         BindingContext context = new BindingContext();
-        return parts.stream()
-                .map(part -> part.motion() == null
-                        ? new ModelPart(part.model(), null, part.local(), null)
-                        : new ModelPart(
-                                part.model(),
-                                null,
-                                part.local(),
-                                part.motion().bind(part.id(), wheelAngle, frameDomain, context)
-                        ))
+        return compiledGroup.parts().stream()
+                .map(part -> motions.get(part.id()) == null
+                        ? part.toModelPart()
+                        : part.toModelPart(
+                                motions.get(part.id()).bind(
+                                        part.id(), wheelAngle, frameDomain, context)))
                 .toList();
     }
 

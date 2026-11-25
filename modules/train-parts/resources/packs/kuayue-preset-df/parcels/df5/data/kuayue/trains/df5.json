@@ -1,0 +1,74 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:df5",
+      "category": "locomotive",
+      "name_key": "parcel.kuayue.df5.name",
+      "description_key": "parcel.kuayue.df5.description",
+      "members": {
+        "blocks": [
+          "kuayue:df5_end_face_1",
+          "kuayue:df5_end_face_2",
+          "kuayue:df5_cowcatcher",
+          "kuayue:df5_fuel_tank",
+          "kuayue:df5_floor",
+          "kuayue:df5_center_floor",
+          "kuayue:df5_transit_floor",
+          "kuayue:df5_chimney",
+          "kuayue:df5_carport_cabin",
+          "kuayue:df5_cooling_fan",
+          "kuayue:df5_handrail",
+          "kuayue:df5_panel_bottom",
+          "kuayue:df5_panel_top",
+          "kuayue:df5_carport_1",
+          "kuayue:df5_carport_2",
+          "kuayue:df5_carport_3",
+          "kuayue:df5_carport_4",
+          "kuayue:df5_carport_5",
+          "kuayue:df5_carport_grille",
+          "kuayue:df5_air_intake",
+          "kuayue:df5_air_intake_2",
+          "kuayue:df5_air_intake_3",
+          "kuayue:df5_radiator_grid",
+          "kuayue:df5_engine_access_door",
+          "kuayue:df5_equip_door_1",
+          "kuayue:df5_equip_door_2",
+          "kuayue:df5_cabin_door",
+          "kuayue:df5_head_end_face",
+          "kuayue:df5_head_end_face_2",
+          "kuayue:df5_head_panel",
+          "kuayue:df5_cowcatcher_ladder"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-df/kuayue/df5"
+        ],
+        "bogey_sizes": [
+          "kuayue:df5",
+          "kuayue:df5_backward"
+        ],
+        "bogey_motions": [
+          "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        ],
+        "bogey_models": [
+          "kuayue:bogey/df5",
+          "kuayue:bogey/df5_backward"
+        ],
+        "bogey_blocks": [
+          "kuayue:df5_bogey",
+          "kuayue:df5_backward_bogey"
+        ],
+        "bogey_styles": [
+          "kuayue:loco"
+        ],
+        "bogey_style_variants": [
+          "kuayue:df5_loco"
+        ]
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_loco",
+        "icon_item": "kuayue:df5_end_face_1"
+      }
+    }
+  ]
+}

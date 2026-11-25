@@ -25,6 +25,8 @@
   "kuayue.packs.network.mismatch": "客户端与服务器的车包集合、版本或格式不一致。\n服务器：%s\n客户端：%s",
   "kuayue.creative_filter.select": "筛选此车型",
   "kuayue.creative_filter.selected": "已筛选，再次点击可显示全部",
+  "kuayue.creative_filter.scroll_up": "上一组车型筛选",
+  "kuayue.creative_filter.scroll_down": "下一组车型筛选",
   "kuayue.packs.world_record.warning.title": "KuaYue 车包记录发生变化",
   "kuayue.packs.world_record.warning.body": "该世界上次使用的车包集合与本次不同。继续可能丢失或替换内容。\n\n%s\n\n仍要继续加载吗？",
   "kuayue.packs.world_record.error.title": "无法读取 KuaYue 车包记录",

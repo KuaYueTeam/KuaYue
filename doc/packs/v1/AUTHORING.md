@@ -38,6 +38,7 @@ my-train-pack/
     │   └── data/
     │       └── mytrain/
     │           ├── kasuga_lib/data_driven/c22.json
+    │           ├── trains/c22.json
     │           └── c22/
     │               ├── groups.json
     │               └── blocks.json
@@ -143,11 +144,6 @@ modules/train-parts/resources/packs/<pack-id>/
   "name_key": "parcel.mytrain.c22.name",
   "description_key": "parcel.mytrain.c22.description",
   "icon": "mytrain:textures/pack_icon.png",
-  "creative_filter": {
-    "tab": "kuayue:train_panel_tab",
-    "icon_item": "mytrain:c22_panel",
-    "items": ["mytrain:c22_panel", "mytrain:c22_floor"]
-  },
   "indexes": [
     "data/mytrain/kasuga_lib/data_driven/c22.json"
   ]
@@ -162,7 +158,7 @@ parcels/c22/data/mytrain/kasuga_lib/data_driven/c22.json
 
 `indexes` 可以为空，适合只提供模型、贴图、语言、配方或 tag 的 parcel。若要注册内容，索引文件必须由对应 parcel 显式声明；物理目录里未声明的数据驱动索引不会被当作注册入口。
 
-`creative_filter` 是可选字段，只生成客户端创造模式筛选元数据，不注册物品。`tab` 使用创造标签页 ID；`icon_item` 可选，用于筛选按钮图标；`item_tags` 和 `items` 至少提供一项，前者按 item tag、后者按显式 item ID 匹配，二者同时出现时取并集。选择器必须是合法 resource location 且不能重复。
+新内容不再在 parcel 中写 `creative_filter`，而是在 train 定义中声明 `creative.tab` 和 `members`。可用 `creative.filter_order` 明确同一创造页内的展示顺序：数值越小越靠前，未声明时排在已声明项之后。`creative_filter` 只为旧外部包保留兼容；内置预设已经迁移到 train。
 
 ## 5. 写索引和内容
 
@@ -172,13 +168,46 @@ parcels/c22/data/mytrain/kasuga_lib/data_driven/c22.json
 {
   "on_register": [
     "c22/groups.json",
-    "c22/blocks.json"
+    "c22/blocks.json",
+    "trains/c22.json"
   ],
   "on_reload": []
 }
 ```
 
 索引中的相对路径以该索引所在的 `data/<namespace>/` 为根，不再次添加 `parcels/c22/`。
+
+train 把同一车型的方块、物品、转向架和创造页信息放进一个可查询身份：
+
+```json
+{
+  "trains": [
+    {
+      "id": "mytrain:c22",
+      "category": "carriage",
+      "name_key": "parcel.mytrain.c22.name",
+      "description_key": "parcel.mytrain.c22.description",
+      "members": {
+        "blocks": ["mytrain:c22_panel"],
+        "items": [],
+        "item_tags": ["mytrain:c22_parts"],
+        "bogey_sizes": ["mytrain:c22"],
+        "bogey_motions": [],
+        "bogey_models": ["mytrain:bogey/c22"],
+        "bogey_blocks": ["mytrain:c22_bogey"],
+        "bogey_styles": ["kuayue:loco"],
+        "bogey_style_variants": ["mytrain:c22_loco"]
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_carriage",
+        "icon_item": "mytrain:c22_panel"
+      }
+    }
+  ]
+}
+```
+
+车型专用转向架应列在同一 train 的 `members.bogey_*` 中。基础样式可以来自 `kuayue-preset-running-gear`，车型通过 `bogey_style_variants` 贡献 variant。覆盖其他包的 train 时，覆盖包必须直接依赖原贡献包；对象递归合并、标量覆盖、数组整组替换。最终合并结果必须补齐三个文本字段和九个成员数组，数组可为空。
 
 注册组：
 
@@ -193,7 +222,7 @@ parcels/c22/data/mytrain/kasuga_lib/data_driven/c22.json
         "map_color": "blue"
       },
       "item_properties": {
-        "tab": "kuayue:train_panel_tab"
+        "tab": "kuayue:kuayue_carriage"
       }
     }
   ]
@@ -349,10 +378,11 @@ my-train-pack/pack.json
 - 所有声明索引都存在，未声明数据文件没有被误认为注册入口；
 - 所有引用 ID 在当前有效包、显式直接依赖或 runtime 中可见；
 - factory 和字段属于当前 Schema 与 handler 支持范围；
+- 每个车型 parcel 的索引都声明 train 文件，最终合并定义包含完整成员字段和可解析的语言键；
 - 方块、物品、模型、纹理、语言和其他资源齐全；
 - 目录包和 ZIP 包各完成一次隔离启动；
 - `startup.json` 无阻塞诊断，目标包出现在 `effective_packs`；
 - 关闭全部非必选预设包时，自包含包仍能启动且只引用 running-gear 或自身内容；
 - 存档语义变化时更新版本或提供 `save_compatibility`；
 - 包内没有符号链接、绝对路径、运行缓存、日志或整份存档；
-- 内置 `resources/packs/<owner>/` 之外的历史车型目录、runtime tracks、seat、toilet 和 provisions 资源没有被误打包。
+- 内置 `resources/packs/<owner>/` 之外的历史车型目录、runtime seat、toilet 和 provisions 资源没有被误打包。

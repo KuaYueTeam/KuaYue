@@ -91,6 +91,13 @@ public class CustomRenderedEndFaceEntity extends SmartBlockEntity implements ICo
         return block.frameModel;
     }
 
+    public double getFrameOffsetY() {
+        if (this.level == null) return 0;
+        BlockState state = this.level.getBlockState(this.getBlockPos());
+        if (!(state.getBlock() instanceof CustomRenderedEndFaceBlock block)) return 0;
+        return block.frameOffsetY;
+    }
+
     @Override
     public void update(StructureTemplate.StructureBlockInfo info, Player player, BlockPos pos, AbstractContraptionEntity entity) {
         this.open = !open;

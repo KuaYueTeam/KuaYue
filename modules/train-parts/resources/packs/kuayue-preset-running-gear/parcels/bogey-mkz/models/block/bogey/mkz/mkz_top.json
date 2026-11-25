@@ -2,7 +2,7 @@
     "parent": "block/block",
     "loader": "neoforge:obj",
     "flip_v": true,
-    "render_type": "translucent",
+    "render_type": "cutout_mipped",
     "model": "kuayue:models/block/bogey/mkz/mkz_top.obj",
     "textures": {
         "particle": "kuayue:block/bogey/mkz/mkz_top"

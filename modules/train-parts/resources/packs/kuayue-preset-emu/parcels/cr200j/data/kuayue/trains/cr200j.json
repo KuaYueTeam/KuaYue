@@ -1,0 +1,52 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:cr200j",
+      "category": "multiple_unit",
+      "name_key": "parcel.kuayue.cr200j.name",
+      "description_key": "parcel.kuayue.cr200j.description",
+      "members": {
+        "blocks": [
+          "kuayue:panel_bottom_marshalled_cr200j",
+          "kuayue:panel_middle_logo_cr_marshalled_cr200j",
+          "kuayue:panel_middle_marshalled_cr200j",
+          "kuayue:panel_top_marshalled_cr200j",
+          "kuayue:panel_top_marshalled_cr200j_2",
+          "kuayue:panel_top_marshalled_cr200j_3",
+          "kuayue:panel_wide_fu_xing_marshalled_cr200j",
+          "kuayue:panel_wide_logo_cr_marshalled_cr200j",
+          "kuayue:panel_wide_marshalled_cr200j",
+          "kuayue:window_toilet_marshalled_cr200j",
+          "kuayue:window_wide_marshalled_cr200j",
+          "kuayue:window_sealed_marshalled_cr200j",
+          "kuayue:window_wide_sealed_marshalled_cr200j",
+          "kuayue:door_marshalled_cr200j",
+          "kuayue:door_marshalled_cr200j_2",
+          "kuayue:door_cabin_marshalled_cr200j",
+          "kuayue:end_face_marshalled_cr200j",
+          "kuayue:end_face_marshalled_cr200j_2",
+          "kuayue:skirt_marshalled_cr200j",
+          "kuayue:ladder_marshalled_cr200j",
+          "kuayue:floor_marshalled_cr200j",
+          "kuayue:toilet_dd_marshalled_cr200j",
+          "kuayue:carport_center_marshalled_cr200j",
+          "kuayue:carport_marshalled_cr200j"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-emu/kuayue/cr200j"
+        ],
+        "bogey_sizes": [],
+        "bogey_motions": [],
+        "bogey_models": [],
+        "bogey_blocks": [],
+        "bogey_styles": [],
+        "bogey_style_variants": []
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_carriage",
+        "icon_item": "kuayue:panel_bottom_marshalled_cr200j"
+      }
+    }
+  ]
+}

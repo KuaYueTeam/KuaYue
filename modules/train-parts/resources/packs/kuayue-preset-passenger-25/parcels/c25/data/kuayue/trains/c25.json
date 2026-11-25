@@ -1,0 +1,42 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:c25",
+      "category": "carriage",
+      "name_key": "parcel.kuayue.c25.name",
+      "description_key": "parcel.kuayue.c25.description",
+      "members": {
+        "blocks": [
+          "kuayue:panel_bottom_line_marshalled_25",
+          "kuayue:panel_bottom_marshalled_25",
+          "kuayue:panel_middle_marshalled_25",
+          "kuayue:panel_top_marshalled_25",
+          "kuayue:panel_top_marshalled_25_2",
+          "kuayue:window_oc_25",
+          "kuayue:window_oc_sealed_25",
+          "kuayue:carport_25bgzk",
+          "kuayue:carport_air_condition_25bgzk",
+          "kuayue:carport_air_condition_side_25bgzk",
+          "kuayue:carport_center_25bgzkt",
+          "kuayue:carport_water_tank_25bgzkt",
+          "kuayue:floor_marshalled_25",
+          "kuayue:panel_slab_universal_25"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-passenger-25/kuayue/c25"
+        ],
+        "bogey_sizes": [],
+        "bogey_motions": [],
+        "bogey_models": [],
+        "bogey_blocks": [],
+        "bogey_styles": [],
+        "bogey_style_variants": []
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_carriage",
+        "icon_item": "kuayue:panel_bottom_line_marshalled_25"
+      }
+    }
+  ]
+}

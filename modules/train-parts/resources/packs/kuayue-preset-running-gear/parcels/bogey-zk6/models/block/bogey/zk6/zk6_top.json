@@ -1,8 +1,9 @@
 {
     "parent": "block/block",
     "loader": "neoforge:obj",
+    "automatic_culling": false,
     "flip_v": true,
-    "render_type": "translucent",
+    "render_type": "cutout_mipped",
     "model": "kuayue:models/block/bogey/zk6/zk6_top.obj",
     "textures": {
         "particle": "kuayue:block/bogey/zk6/zk6_top"

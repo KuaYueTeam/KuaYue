@@ -1,0 +1,4 @@
+interface:
+  display_name: "KuaYue 车包制作"
+  short_description: "分析模型并跨平台制作、验证和提交 KuaYue 车包"
+  default_prompt: "使用 $kuayue-pack-authoring 把我的模型文件制作成经过验证的 KuaYue 车包改动。"

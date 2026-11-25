@@ -1,0 +1,56 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:jy290",
+      "category": "locomotive",
+      "name_key": "parcel.kuayue.jy290.name",
+      "description_key": "parcel.kuayue.jy290.description",
+      "members": {
+        "blocks": [
+          "kuayue:jy290_head_2",
+          "kuayue:jy290_head_1",
+          "kuayue:jy290_cowcatcher",
+          "kuayue:jy290_floor",
+          "kuayue:jy290_floor_ladder",
+          "kuayue:jy290_carport",
+          "kuayue:jy290_equipment",
+          "kuayue:jy290_panel",
+          "kuayue:jy290_panel_logo",
+          "kuayue:jy290_ac",
+          "kuayue:jy290_vent",
+          "kuayue:jy290_door"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-industrial/kuayue/jy290"
+        ],
+        "bogey_sizes": [
+          "kuayue:jy290",
+          "kuayue:jy290_backward"
+        ],
+        "bogey_motions": [
+          "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        ],
+        "bogey_models": [
+          "kuayue:bogey/jy290",
+          "kuayue:bogey/jy290_backward"
+        ],
+        "bogey_blocks": [
+          "kuayue:jy290_bogey",
+          "kuayue:jy290_backward_bogey"
+        ],
+        "bogey_styles": [
+          "kuayue:loco"
+        ],
+        "bogey_style_variants": [
+          "kuayue:jy290_loco"
+        ]
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_loco",
+        "icon_item": "kuayue:jy290_head_2",
+        "filter_order": 100
+      }
+    }
+  ]
+}

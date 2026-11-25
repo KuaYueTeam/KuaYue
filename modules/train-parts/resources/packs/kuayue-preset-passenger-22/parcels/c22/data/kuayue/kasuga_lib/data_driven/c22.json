@@ -1,6 +1,7 @@
 {
   "on_register": [
     "carriages/c22/groups.json",
-    "carriages/c22/blocks.json"
+    "carriages/c22/blocks.json",
+    "trains/c22.json"
   ]
 }

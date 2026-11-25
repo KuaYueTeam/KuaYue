@@ -1,4 +1,16 @@
 {
   "pack.kuayue_preset_passenger_25.name": "KuaYue 25 Series Passenger",
-  "pack.kuayue_preset_passenger_25.description": "25 series passenger vehicle preset."
+  "pack.kuayue_preset_passenger_25.description": "25 series passenger vehicle preset.",
+  "parcel.kuayue.c25.name": "Marshalled 25 Series Passenger Cars",
+  "parcel.kuayue.c25.description": "Marshalled 25 series passenger car parts.",
+  "parcel.kuayue.c25b.name": "25B Passenger Car",
+  "parcel.kuayue.c25b.description": "25B passenger car parts.",
+  "parcel.kuayue.c25g.name": "25G Passenger Car",
+  "parcel.kuayue.c25g.description": "25G passenger car parts.",
+  "parcel.kuayue.c25k.name": "25K Passenger Car",
+  "parcel.kuayue.c25k.description": "25K passenger car parts.",
+  "parcel.kuayue.c25t.name": "25T Passenger Car",
+  "parcel.kuayue.c25t.description": "25T passenger car parts.",
+  "parcel.kuayue.c25z.name": "25Z Passenger Car",
+  "parcel.kuayue.c25z.description": "25Z passenger car parts."
 }

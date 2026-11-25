@@ -81,7 +81,9 @@ modules/train-parts/resources/packs/<pack-id>/
 modules/train-parts/build/generated/kuayue-preset-packs/<pack-id>/
 ```
 
-`processResources` 再把它写入 JAR 的 `kuayue-packs/<pack-id>/`。`common`、`tracks`、`seat`、`toilet` 仍由 `generateKuaYueRuntimeResources` 处理，不属于任一车型预设包；`core`、`provisions` 也不携带这些 preset 目录。
+`processResources` 再把它写入 JAR 的 `kuayue-packs/<pack-id>/`。`tracks` 已作为
+`kuayue-preset-running-gear` 的 parcel 打包；`common`、`seat`、`toilet` 仍由
+`generateKuaYueRuntimeResources` 处理。`core`、`provisions` 不携带这些 preset 目录。
 
 ## 启动链路
 

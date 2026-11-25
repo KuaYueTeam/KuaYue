@@ -26,9 +26,13 @@ public class SlabBlockItem extends BlockItem {
         if(placePosContext.success() > 0) {
             direction = getParentDirection(context);
         }
-        return context.getLevel().setBlock(placePosContext.pos(),
-                state.setValue(BlockStateProperties.HORIZONTAL_FACING, direction),
-                11);
+        BlockState placementState = state.setValue(BlockStateProperties.HORIZONTAL_FACING, direction);
+        return ((TrainPanelBlock) getBlock()).canPlaceMultiCell(
+                        context.getLevel(),
+                        placePosContext.pos(),
+                        placementState
+                )
+                && context.getLevel().setBlock(placePosContext.pos(), placementState, 11);
     }
 
     public SkirtBlockItem.PlacePosContext getPlacePos(BlockPlaceContext context) {

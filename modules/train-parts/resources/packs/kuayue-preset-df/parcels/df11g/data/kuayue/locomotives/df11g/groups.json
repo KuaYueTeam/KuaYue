@@ -8,7 +8,7 @@
         "map_color": "green"
       },
       "item_properties": {
-        "tab": "kuayue:train_panel_tab",
+        "tab": "kuayue:kuayue_loco",
         "stacks_to": 8
       }
     }

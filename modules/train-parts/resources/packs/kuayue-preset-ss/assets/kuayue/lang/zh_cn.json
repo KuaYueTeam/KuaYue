@@ -1,4 +1,8 @@
 {
   "pack.kuayue_preset_ss.name": "跨越韶山机车",
-  "pack.kuayue_preset_ss.description": "韶山系列电力机车预设包。"
+  "pack.kuayue_preset_ss.description": "韶山系列电力机车预设包。",
+  "parcel.kuayue.ss3.name": "SS3型电力机车",
+  "parcel.kuayue.ss3.description": "SS3型电力机车部件。",
+  "parcel.kuayue.ss8.name": "SS8型电力机车",
+  "parcel.kuayue.ss8.description": "SS8型电力机车部件。"
 }

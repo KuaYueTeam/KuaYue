@@ -59,7 +59,7 @@
     },
     {
       "id": "kuayue:jy290_door",
-      "type": "train_door",
+      "type": "jy290_door",
       "params": {"begin_x": 0, "begin_y": 0, "end_x": 1, "end_y": 1},
       "registry_group": "kuayue:jy290_panels"
     }

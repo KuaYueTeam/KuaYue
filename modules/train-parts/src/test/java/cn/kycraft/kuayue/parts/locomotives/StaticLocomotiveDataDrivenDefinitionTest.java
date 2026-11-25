@@ -44,6 +44,10 @@ class StaticLocomotiveDataDrivenDefinitionTest {
             if (Files.isRegularFile(bogeyData)) {
                 expectedIndexes.add("bogeys/" + model + ".json");
             }
+            Path trainData = root.resolve("data/kuayue/trains/" + model + ".json");
+            if (Files.isRegularFile(trainData)) {
+                expectedIndexes.add("trains/" + model + ".json");
+            }
             assertEquals(
                     expectedIndexes,
                     strings(index.getAsJsonArray("on_register")),
@@ -59,7 +63,7 @@ class StaticLocomotiveDataDrivenDefinitionTest {
                     .getAsJsonObject();
             assertEquals("kuayue:" + model + "_panels", group.get("id").getAsString());
             assertEquals(
-                    "kuayue:train_panel_tab",
+                    "kuayue:kuayue_loco",
                     group.getAsJsonObject("item_properties").get("tab").getAsString()
             );
             assertEquals(

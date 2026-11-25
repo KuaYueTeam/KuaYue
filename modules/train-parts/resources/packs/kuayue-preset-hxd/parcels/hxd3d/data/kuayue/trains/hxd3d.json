@@ -1,0 +1,66 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:hxd3d",
+      "category": "locomotive",
+      "name_key": "parcel.kuayue.hxd3d.name",
+      "description_key": "parcel.kuayue.hxd3d.description",
+      "members": {
+        "blocks": [
+          "kuayue:door_cabin_hxd3d",
+          "kuayue:floor_hxd3d",
+          "kuayue:head_hxd3d",
+          "kuayue:hxd3d_cowcatcher",
+          "kuayue:hxd3d_pantograph",
+          "kuayue:hxd3d_carport",
+          "kuayue:hxd3d_carport_center",
+          "kuayue:hxd3d_underbody_equip",
+          "kuayue:panel_hexie_hxd3d",
+          "kuayue:hxd3d_panel_bottom",
+          "kuayue:panel_logo_num_hxd3d",
+          "kuayue:hxd3d_panel_middle",
+          "kuayue:hxd3d_panel_transit",
+          "kuayue:hxd3d_panel_transit_2"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-hxd/kuayue/hxd3d"
+        ],
+        "bogey_sizes": [
+          "kuayue:hxd3d",
+          "kuayue:hxd3d_backward",
+          "kuayue:hxd3d_a",
+          "kuayue:hxd3d_backward_a"
+        ],
+        "bogey_motions": [
+          "kuayue:motion/wheel_spin/scale_1.0_sign_-1",
+          "kuayue:motion/wheel_spin/scale_1.0_sign_1"
+        ],
+        "bogey_models": [
+          "kuayue:bogey/hxd3d",
+          "kuayue:bogey/hxd3d_backward",
+          "kuayue:bogey/hxd3d_a",
+          "kuayue:bogey/hxd3d_backward_a"
+        ],
+        "bogey_blocks": [
+          "kuayue:hxd3d_bogey",
+          "kuayue:hxd3d_backward_bogey",
+          "kuayue:hxd3d_bogey_a",
+          "kuayue:hxd3d_backward_bogey_a"
+        ],
+        "bogey_styles": [
+          "kuayue:loco",
+          "kuayue:andesite_loco"
+        ],
+        "bogey_style_variants": [
+          "kuayue:hxd3d_loco",
+          "kuayue:hxd3d_andesite_loco"
+        ]
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_loco",
+        "icon_item": "kuayue:head_hxd3d"
+      }
+    }
+  ]
+}

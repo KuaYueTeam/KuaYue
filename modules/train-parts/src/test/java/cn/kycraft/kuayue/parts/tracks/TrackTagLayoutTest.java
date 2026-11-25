@@ -12,7 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TrackTagLayoutTest {
 
-    private static final Path TRACK_DATA = Path.of("resources/tracks/data");
+    private static final Path TRACK_DATA = Path.of(
+            "resources/packs/kuayue-preset-running-gear/parcels/tracks/data"
+    );
     private static final List<String> TRACKS = List.of(
             "kuayue:standard_track",
             "kuayue:ballastless_track",

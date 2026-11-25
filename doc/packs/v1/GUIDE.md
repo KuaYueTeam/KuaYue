@@ -142,11 +142,6 @@ ZIP 的 `pack.json` 必须直接位于压缩包根，不能多套一层 `<name>/
   "name_key": "parcel.sample_train.demo.name",
   "description_key": "parcel.sample_train.demo.description",
   "icon": "sample_train:textures/pack_icon.png",
-  "creative_filter": {
-    "tab": "kuayue:train_panel_tab",
-    "icon_item": "sample_train:demo_floor",
-    "item_tags": ["sample_train:demo"]
-  },
   "indexes": [
     "data/sample_train/kasuga_lib/data_driven/demo.json"
   ]
@@ -161,7 +156,7 @@ parcels/demo/data/sample_train/kasuga_lib/data_driven/demo.json
 
 `indexes` 可以为空，适合只提供模型、贴图、语言或配方的 parcel。注册内容必须由索引的 `on_register` 显式列出；reload 内容由 `on_reload` 列出。parcel 根内存在但未被索引声明的数据驱动文件仍属于普通资源，不会成为该 parcel 的注册入口。
 
-`creative_filter` 可选，用于在指定创造模式标签页中提供当前 parcel 的筛选按钮。`tab` 必填，`icon_item` 可选，`item_tags` 与 `items` 至少提供一个；两个选择器同时存在时按并集匹配。按钮级联筛选当前标签页中匹配任一 item tag 或显式 item ID 的物品，筛选状态只影响当前创造模式界面。
+车型的创造页筛选、方块/物品集合和转向架关联由数据驱动 train 定义。新内容不要把 `creative_filter` 写入 parcel；该字段只为旧外部包保留兼容。字段和覆盖规则见 [制作车包](AUTHORING.md)。
 
 ## 6. 目录与 ZIP 映射
 
@@ -182,6 +177,7 @@ sample-train/
     │   └── data/
     │       └── sample_train/
     │           ├── kasuga_lib/data_driven/c22.json
+    │           ├── trains/c22.json
     │           └── sample_train/c22/
     └── bogey-sw220k/
         ├── parcel.json
@@ -263,11 +259,11 @@ sample-train/
 
 内置内容位于 `modules/train-parts/resources/packs/`，由 `preset-packs.gradle` 生成到 `build/generated/kuayue-preset-packs/`，最终进入 JAR 的 `kuayue-packs/<pack-id>/`。
 
-当前共 10 个包、32 个 parcel：
+当前共 10 个包、33 个 parcel：
 
 | 包 | 车型/内容 |
 |---|---|
-| `kuayue-preset-running-gear` | 必选；共享注册、通用转向架和 Create 样式壳 |
+| `kuayue-preset-running-gear` | 必选；共享注册、通用转向架、轨道系统和 Create 样式壳 |
 | `kuayue-preset-df` | DF5、DF11、DF11G、DF21 |
 | `kuayue-preset-hxd` | HXD3D |
 | `kuayue-preset-ss` | SS3、SS8 |

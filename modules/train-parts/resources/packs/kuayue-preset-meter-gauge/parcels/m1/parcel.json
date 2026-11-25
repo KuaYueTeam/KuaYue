@@ -5,12 +5,5 @@
   "description_key": "parcel.kuayue.m1.description",
   "indexes": [
     "data/kuayue/kasuga_lib/data_driven/m1.json"
-  ],
-  "creative_filter": {
-    "tab": "kuayue:train_panel_tab",
-    "icon_item": "kuayue:slab_bottom_m1",
-    "item_tags": [
-      "kuayue:system/parcel/kuayue-preset-meter-gauge/kuayue/m1"
-    ]
-  }
+  ]
 }

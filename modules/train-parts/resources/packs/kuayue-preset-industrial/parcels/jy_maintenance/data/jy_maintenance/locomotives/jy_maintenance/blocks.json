@@ -1,0 +1,239 @@
+{
+  "blocks": [
+    {
+      "id": "jy_maintenance:jy_maintenance_head",
+      "type": "proxy_model",
+      "registry_group": "jy_maintenance:jy_maintenance_panels",
+      "state_properties": {
+        "facing": {
+          "type": "vanilla",
+          "property": "HORIZONTAL_FACING",
+          "default": "north"
+        }
+      },
+      "block_entity": {
+        "type": "proxy_model_be",
+        "params": {
+          "model": "jy_maintenance:models/block/jy_maintenance/jy_maintenance_head.bbmodel"
+        }
+      }
+    },
+    {
+      "id": "jy_maintenance:jy_maintenance_carport",
+      "type": "jy_maintenance_carport",
+      "registry_group": "jy_maintenance:jy_maintenance_panels",
+      "block_entity": {
+        "type": "train_panel_proxy_be",
+        "params": {
+          "model": "jy_maintenance:models/block/jy_maintenance/jy_maintenance_carport.bbmodel",
+          "facing_yaw": {
+            "north": 180,
+            "east": 270,
+            "south": 0,
+            "west": 90
+          }
+        }
+      }
+    },
+    {
+      "id": "jy_maintenance:jy_maintenance_console",
+      "type": "jy_maintenance_console",
+      "registry_group": "jy_maintenance:jy_maintenance_panels",
+      "block_entity": {
+        "type": "proxy_model_be",
+        "params": {
+          "model": "jy_maintenance:models/block/jy_maintenance/jy_maintenance_console.bbmodel"
+        }
+      }
+    },
+    {
+      "id": "jy_maintenance:jy_maintenance_floor",
+      "type": "jy_maintenance_floor",
+      "registry_group": "jy_maintenance:jy_maintenance_panels"
+    },
+    {
+      "id": "jy_maintenance:jy_maintenance_floor_ladder",
+      "type": "jy_maintenance_floor",
+      "registry_group": "jy_maintenance:jy_maintenance_panels"
+    },
+    {
+      "id": "jy_maintenance:jy_maintenance_outrigger",
+      "type": "jy_maintenance_outrigger",
+      "registry_group": "jy_maintenance:jy_maintenance_panels",
+      "block_entity": {
+        "type": "train_panel_proxy_be",
+        "params": {
+          "default_model": "left",
+          "model_groups": {
+            "left": {
+              "parts": [
+                {
+                  "id": "body",
+                  "model": "jy_maintenance:models/block/jy_maintenance/jy_maintenance_outtrigger_left.bbmodel"
+                }
+              ]
+            },
+            "right": {
+              "parts": [
+                {
+                  "id": "body",
+                  "model": "jy_maintenance:models/block/jy_maintenance/jy_maintenance_outtrigger_right.bbmodel"
+                }
+              ]
+            }
+          },
+          "model_by_state": {
+            "hinge": {
+              "left": "left",
+              "right": "right"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "jy_maintenance:jy_maintenance_endface",
+      "type": "jy_maintenance_endface",
+      "registry_group": "jy_maintenance:jy_maintenance_panels",
+      "block_entity": {
+        "type": "train_panel_proxy_be",
+        "params": {
+          "model": "jy_maintenance:models/block/jy_maintenance/jy_maintenance_endface.bbmodel"
+        }
+      }
+    },
+    {
+      "id": "jy_maintenance:jy_maintenance_door",
+      "type": "jy_maintenance_door",
+      "registry_group": "jy_maintenance:jy_maintenance_panels",
+      "params": {
+        "multi_cell": {
+          "cells_by_state": {
+            "hinge": {
+              "left": [
+                [1, 0, 0],
+                [0, 1, 0],
+                [1, 1, 0]
+              ],
+              "right": [
+                [-1, 0, 0],
+                [0, 1, 0],
+                [-1, 1, 0]
+              ]
+            }
+          }
+        }
+      },
+      "block_entity": {
+        "type": "train_panel_proxy_be",
+        "params": {
+          "default_model": "left",
+          "model_groups": {
+            "left": {
+              "parts": [
+                {
+                  "id": "body",
+                  "model": "jy_maintenance:models/block/jy_maintenance/jy_maintenance_door_left.bbmodel"
+                }
+              ]
+            },
+            "right": {
+              "parts": [
+                {
+                  "id": "body",
+                  "model": "jy_maintenance:models/block/jy_maintenance/jy_maintenance_door_right.bbmodel"
+                }
+              ]
+            }
+          },
+          "model_by_state": {
+            "hinge": {
+              "left": "left",
+              "right": "right"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "jy_maintenance:jy_maintenance_panel",
+      "type": "jy_maintenance_panel",
+      "registry_group": "jy_maintenance:jy_maintenance_panels",
+      "params": {
+        "multi_cell": {
+          "cells_by_state": {
+            "hinge": {
+              "left": [
+                [1, 0, 0],
+                [0, 1, 0],
+                [1, 1, 0]
+              ],
+              "right": [
+                [-1, 0, 0],
+                [0, 1, 0],
+                [-1, 1, 0]
+              ]
+            }
+          }
+        }
+      },
+      "block_entity": {
+        "type": "train_panel_proxy_be",
+        "params": {
+          "default_model": "left",
+          "model_groups": {
+            "left": {
+              "parts": [
+                {
+                  "id": "body",
+                  "model": "jy_maintenance:models/block/jy_maintenance/jy_maintenance_panel_left.bbmodel"
+                }
+              ]
+            },
+            "right": {
+              "parts": [
+                {
+                  "id": "body",
+                  "model": "jy_maintenance:models/block/jy_maintenance/jy_maintenance_panel_right.bbmodel"
+                }
+              ]
+            }
+          },
+          "model_by_state": {
+            "hinge": {
+              "left": "left",
+              "right": "right"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "jy_maintenance:jy_maintenance_tail",
+      "type": "jy_maintenance_tail",
+      "registry_group": "jy_maintenance:jy_maintenance_panels",
+      "params": {
+        "multi_cell": {
+          "cells": [
+            [-1, 0, 0],
+            [1, 0, 0],
+            [-1, -1, 0],
+            [0, -1, 0],
+            [1, -1, 0]
+          ]
+        }
+      },
+      "block_entity": {
+        "type": "train_panel_proxy_be",
+        "params": {
+          "model": "jy_maintenance:models/block/jy_maintenance/jy_maintenance_tail.bbmodel"
+        }
+      }
+    },
+    {
+      "id": "jy_maintenance:jy_maintenance_handrail",
+      "type": "train_panel",
+      "registry_group": "jy_maintenance:jy_maintenance_panels"
+    }
+  ]
+}

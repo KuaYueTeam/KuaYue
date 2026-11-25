@@ -1,4 +1,12 @@
 {
   "pack.kuayue_preset_df.name": "KuaYue Dongfeng Locomotives",
-  "pack.kuayue_preset_df.description": "Dongfeng diesel locomotive preset."
+  "pack.kuayue_preset_df.description": "Dongfeng diesel locomotive preset.",
+  "parcel.kuayue.df11.name": "DF11 Diesel Locomotive",
+  "parcel.kuayue.df11.description": "DF11 diesel locomotive parts.",
+  "parcel.kuayue.df11g.name": "DF11G Diesel Locomotive",
+  "parcel.kuayue.df11g.description": "DF11G double-unit diesel locomotive parts.",
+  "parcel.kuayue.df21.name": "DF21 Diesel Locomotive",
+  "parcel.kuayue.df21.description": "DF21 diesel locomotive parts.",
+  "parcel.kuayue.df5.name": "DF5 Diesel Locomotive",
+  "parcel.kuayue.df5.description": "DF5 diesel shunting locomotive parts."
 }
