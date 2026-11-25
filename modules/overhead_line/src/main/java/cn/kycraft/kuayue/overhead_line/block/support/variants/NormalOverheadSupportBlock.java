@@ -96,4 +96,8 @@ public class NormalOverheadSupportBlock extends Block {
         if (pointIndex < 0 || pointIndex >= connectionPoints.size()){return Optional.empty();}
         return Optional.of(OverheadLineAnchorTransform.toWorld(pos , state.getValue(FACING) , connectionPoints.get(pointIndex)));
     }
+
+    public int getConnectionPointCount(){
+        return connectionPoints.size();
+    }
 }

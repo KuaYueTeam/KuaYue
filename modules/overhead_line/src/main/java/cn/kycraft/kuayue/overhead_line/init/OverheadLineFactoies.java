@@ -6,6 +6,7 @@ import cn.kycraft.kuayue.overhead_line.block.support.OverheadModelBlockEntity;
 import cn.kycraft.kuayue.overhead_line.block.support.variants.ModelledOverheadSupportBlock;
 import cn.kycraft.kuayue.overhead_line.client.OverheadModelRenderer;
 import cn.kycraft.kuayue.overhead_line.wire.Allwires;
+import cn.kycraft.kuayue.overhead_line.wire.OverheadLineWireKind;
 import lib.kasuga.registration.Reg;
 import lib.kasuga.registration.factory.FactoryRegistry;
 import lib.kasuga.registration.minecraft.block.BlockReg;
@@ -40,12 +41,12 @@ public class OverheadLineFactoies {
     public static synchronized final void register(){
         if (registered){return;}
         FactoryRegistry.registerItem(OVERHEAD_LINE_WIRE,(id,params) -> {
-            ItemReg<Allwires> overhead_line_wire_reg = ItemReg.of(id,(Function<Item.Properties, Allwires>) Allwires :: new);
+            ItemReg<Allwires> overhead_line_wire_reg = ItemReg.of(id,(Function<Item.Properties, Allwires>) properties -> new Allwires(properties, OverheadLineWireKind.OVERHEAD_LINE_WIRE));
             return (Reg<ItemReg<?>, Item>)  (Reg<?,?>) overhead_line_wire_reg;
         });
 
         FactoryRegistry.registerItem(ELECTRONIC_WIRE , (id,params) -> {
-            ItemReg<Allwires> electronic_wire_reg = ItemReg.of(id,(Function<Item.Properties, Allwires>) Allwires :: new);
+            ItemReg<Allwires> electronic_wire_reg = ItemReg.of(id,(Function<Item.Properties, Allwires>) properties -> new Allwires(properties, OverheadLineWireKind.ELECTRONIC_WIRE));
             return (Reg<ItemReg<?>, Item>)  (Reg<?,?>) electronic_wire_reg;
         });
 

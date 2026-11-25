@@ -1,8 +1,6 @@
 package cn.kycraft.kuayue.overhead_line.wire;
 
 import cn.kycraft.kuayue.overhead_line.block.support.variants.NormalOverheadSupportBlock;
-import cn.kycraft.kuayue.overhead_line.client.OverheadLineEndpoint;
-import lib.kasuga.rendering.models.uml.loaders.serial.byte_stream.chunk.Chunk;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -14,7 +12,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
@@ -24,7 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class Allwires extends Item {
-    public Allwires(Properties properties){super(properties);}
+    public Allwires(Properties properties, OverheadLineWireKind electronicWire){super(properties);}
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
@@ -43,7 +40,8 @@ public class Allwires extends Item {
         if (anchor == null){return InteractionResult.PASS;}
         if (!level.isClientSide){
             selectEndPoint(level,player,pos,anchor);
-            player.sendSystemMessage(Component.literal("选中第一个挂点" + anchor));}
+            player.sendSystemMessage(Component.literal("选中第一个挂点" + anchor));
+        }
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
