@@ -37,8 +37,12 @@ final class BoardMetrics {
 
     /** Painted size of a plate's item icon, relative to the plate height. */
     static final float ICON_SCALE = 0.75f;
-
-    /** Upper bound on drawn plates; the board cannot usefully show more than this. */
+    /**
+     * Reference count for how many plates a 300x150 sheet can usefully hold.
+     *
+     * <p>Not used as a hard cap: the scroll window already bounds what is drawn (depths below it are folded
+     * away), and capping the sorted set would drop the deepest branches of a wide group.</p>
+     */
     static final int MAX_PLATES = 20;
 
     // --- grid ----------------------------------------------------------------------------------
@@ -47,8 +51,15 @@ final class BoardMetrics {
     static final int GRID_Y = 20;
 
     /** Horizontal step between neighbouring branches, and vertical step between depths. */
+    /**
+     * Steps between plates.
+     *
+     * <p>The tree reads top-to-bottom, so depth advances downward: {@code STEP_Y} is the gap between a
+     * parent and its children's depth, {@code STEP_X} the gap between neighbouring branches at one depth.
+     * The plate is 32 wide and 16 tall, so the vertical step can be tighter than the horizontal one.</p>
+     */
     static final int STEP_X = 40;
-    static final int STEP_Y = 22;
+    static final int STEP_Y = 24;
 
     /** How many plates fit across the field before the layout would run off the sheet. */
     static final int COLUMNS = 5;

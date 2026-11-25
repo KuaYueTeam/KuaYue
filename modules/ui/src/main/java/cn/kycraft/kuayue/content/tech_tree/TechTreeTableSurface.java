@@ -381,6 +381,7 @@ final class TechTreeTableSurface implements LayoutElement, GuiEventListener, Ren
     /** Leaves the cover page and shows the tree; the cover's entry button is the only caller. */
     static void enterTree() {
         if (!coverVisible) return;
+        BODY.leaveCover();
         coverVisible = false;
         refresh();
     }

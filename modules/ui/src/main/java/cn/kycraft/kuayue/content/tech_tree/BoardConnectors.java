@@ -73,7 +73,6 @@ final class BoardConnectors {
      */
     private static void connect(UIElement layer, int fromX, int fromY, int toX, int toY, boolean toVisible) {
         int midX = BoardMetrics.CELL_W / 2;
-        int midY = BoardMetrics.CELL_H / 2;
 
         // Same branch: a plain vertical run from the parent's bottom edge to the child's top edge.
         if (fromX == toX) {
@@ -92,7 +91,8 @@ final class BoardConnectors {
 
         // Different branch: down out of the parent, across, then in from the side of the child.
         int exitY = fromY + BoardMetrics.CELL_H;
-        int entryY = toY + midY;
+        // Enter at the child's top edge: the gutter run comes down and stops there, with the arrow on it.
+        int entryY = toY;
         int gutterY = Math.max(exitY + 1, (exitY + entryY) / 2);
 
         vline(layer, fromX + midX, exitY, Math.max(1, gutterY - exitY));

@@ -109,6 +109,11 @@ final class TechTreeTextures {
      * sheet and slice them here.</p>
      */
     static IGuiTexture nodePlateSprite() {
+        // Resolve the texture once so the failure mode is visible in the log: LDLib's guiTexture render
+        // type binds whatever the TextureManager holds for this id, and an unregistered id binds nothing —
+        // the quad is then drawn with no texture and the plate appears as a hole.
+        var texture = net.minecraft.client.Minecraft.getInstance().getTextureManager().getTexture(NODE_PLATE, null);
+        TechTreeSystem.logInfo("node_plate texture resolved: {}", texture != null);
         return new SheetTexture(NODE_PLATE, 64, 32, 0, 0, 64, 32);
     }
 

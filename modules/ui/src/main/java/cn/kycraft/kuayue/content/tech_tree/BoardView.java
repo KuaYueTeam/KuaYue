@@ -37,6 +37,9 @@ final class BoardView {
     private final UIElement detailLayer;
     private boolean mounted;
 
+    /** True while the cover page owns the board; the tree must not paint over it. */
+    private boolean coverActive;
+
     /** Node locations currently drawable; recomputed on every repaint. */
     private final Set<NodeLocation> visible = new LinkedHashSet<>();
 
@@ -153,10 +156,20 @@ final class BoardView {
 
     /** Paints a cover page instead of the tree, and returns the entry-button action to the caller. */
     void showCover(BlueprintCover cover) {
+        // The cover is the only thing on the board until its entry button is clicked: the strip, the title
+        // and the connector layer would otherwise show through or around the cover sheet.
         clear(plates);
         clear(lines);
+        clear(groupStrip);
         clear(detailLayer);
+        coverActive = true;
         detailLayer.addChild(BlueprintCoverPanel.build(cover, TechTreeTableSurface::enterTree));
+    }
+
+    /** Returns the board to the tree; the cover's entry button is the only caller. */
+    void leaveCover() {
+        if (!coverActive) return;
+        coverActive = false;
     }
 
     // --- pieces --------------------------------------------------------------------------------
@@ -204,11 +217,20 @@ final class BoardView {
             return byDepth != 0 ? byDepth : Integer.compare(a.getValue()[1], b.getValue()[1]);
         });
 
+        // Rows are a property of this layout, so they are computed here rather than passed in: the host
+        // never filled the counts, and a zero-height window made the depth filter below skip every plate.
+        int depthTotal = 0;
+        for (Map.Entry<NodeLocation, int[]> entry : drawn) {
+            depthTotal = Math.max(depthTotal, entry.getValue()[0] + 1);
+        }
+        int depthVisible = Math.max(1, BoardMetrics.WINDOW_H / BoardMetrics.STEP_Y);
+        TechTreeTableSurface.noteRowCounts(depthTotal, depthVisible);
         BoardConnectors.rebuild(lines, layout, visible, ClientTreeState.nodes(), scrollRow);
 
-        int lastRow = scrollRow + rowsVisible;
-        int limit = Math.min(drawn.size(), BoardMetrics.MAX_PLATES);
-        for (int i = 0; i < limit; i++) {
+        int lastRow = scrollRow + depthVisible;
+        // No cap on the visible set: the window already bounds what is drawn (depths below it are folded
+        // away), so a second cap would silently drop the deepest branches of a wide group.
+        for (int i = 0; i < drawn.size(); i++) {
             NodeLocation location = drawn.get(i).getKey();
             TreeSnapshot.NodeView node = ClientTreeState.nodes().get(location);
             if (node == null) continue;
