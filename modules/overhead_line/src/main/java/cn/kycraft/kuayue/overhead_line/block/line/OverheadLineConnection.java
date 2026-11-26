@@ -34,7 +34,7 @@ public record OverheadLineConnection(
         public OverheadLineConnection decode(RegistryFriendlyByteBuf registryFriendlyByteBuf) {
             ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, registryFriendlyByteBuf.readResourceLocation());
             var from = new OverheadLineEndpoint(dimension,registryFriendlyByteBuf.readBlockPos(),registryFriendlyByteBuf.readVarInt());
-            var to = new OverheadLineEndpoint(dimension,registryFriendlyByteBuf.readBlockPos(),registryFriendlyByteBuf.readerIndex());
+            var to = new OverheadLineEndpoint(dimension,registryFriendlyByteBuf.readBlockPos(),registryFriendlyByteBuf.readVarInt());
             OverheadLineWireKind kind = switch (registryFriendlyByteBuf.readVarInt()){
                 case 0 -> OverheadLineWireKind.OVERHEAD_LINE_WIRE;
                 case 1 -> OverheadLineWireKind.ELECTRONIC_WIRE;
@@ -48,6 +48,8 @@ public record OverheadLineConnection(
             buf.writeResourceLocation(overheadLineConnection.from().dimension().location());
             buf.writeBlockPos(overheadLineConnection.from().blockPos());
             buf.writeVarInt(overheadLineConnection.from().pointIndex());
+            buf.writeBlockPos(overheadLineConnection.to().blockPos());
+            buf.writeVarInt(overheadLineConnection.to().pointIndex());
             buf.writeVarInt(switch (overheadLineConnection.kind()){
                 case ELECTRONIC_WIRE -> 1;
                 case OVERHEAD_LINE_WIRE -> 0;
@@ -57,6 +59,6 @@ public record OverheadLineConnection(
 
     @Override
     public Type<? extends CustomPacketPayload> type() {
-        return null;
+        return TYPE;
     }
 }
