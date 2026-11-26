@@ -1,0 +1,177 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "minecraft:cutout_mipped",
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        45,
+        -135,
+        0
+      ],
+      "translation": [
+        0.5,
+        0.25,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        45,
+        -135,
+        0
+      ],
+      "translation": [
+        0.5,
+        0.25,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        45,
+        -135,
+        0
+      ],
+      "translation": [
+        5.75,
+        0.25,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        45,
+        -135,
+        0
+      ],
+      "translation": [
+        5.25,
+        0.25,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "ground": {
+      "translation": [
+        0.5,
+        0.25,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "gui": {
+      "rotation": [
+        45,
+        -135,
+        0
+      ],
+      "translation": [
+        0.5,
+        0.25,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  },
+  "textures": {
+    "0": "kuayue:block/carriage/meter_freight/31_freight_floor_2_tex0",
+    "particle": "kuayue:block/carriage/meter_freight/31_freight_floor_2_tex0"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        3,
+        4
+      ],
+      "to": [
+        16,
+        8,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#0",
+          "uv": [
+            8.0,
+            0.0,
+            16.0,
+            2.5
+          ]
+        },
+        "east": {
+          "texture": "#0",
+          "uv": [
+            8.0,
+            5.0,
+            14.0,
+            7.5
+          ]
+        },
+        "south": {
+          "texture": "#0",
+          "uv": [
+            8.0,
+            2.5,
+            16.0,
+            5.0
+          ]
+        },
+        "west": {
+          "texture": "#0",
+          "uv": [
+            8.0,
+            7.5,
+            14.0,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#0",
+          "uv": [
+            8.0,
+            6.0,
+            0.0,
+            0.0
+          ]
+        },
+        "down": {
+          "texture": "#0",
+          "uv": [
+            8.0,
+            6.0,
+            0.0,
+            12.0
+          ]
+        }
+      }
+    }
+  ]
+}

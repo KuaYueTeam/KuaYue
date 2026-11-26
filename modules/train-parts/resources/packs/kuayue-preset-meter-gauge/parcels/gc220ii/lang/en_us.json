@@ -1,0 +1,18 @@
+{
+  "block.kuayue.gc220ii_cowcatcher": "GC220II Cowcatcher",
+  "block.kuayue.gc220ii_door": "GC220II Door",
+  "block.kuayue.gc220ii_equipment_1": "GC220II Underbody Equipment 1",
+  "block.kuayue.gc220ii_equipment_2": "GC220II Underbody Equipment 2",
+  "block.kuayue.gc220ii_equipment_3": "GC220II Underbody Equipment 3",
+  "block.kuayue.gc220ii_floor": "GC220II Floor",
+  "block.kuayue.gc220ii_floor_ladder": "GC220II Floor with Ladder",
+  "block.kuayue.gc220ii_head_1": "GC220II Head (End I)",
+  "block.kuayue.gc220ii_head_2": "GC220II Head (End II)",
+  "block.kuayue.gc220ii_panel": "GC220II Side Panel",
+  "block.kuayue.gc220ii_panel_logo": "GC220II Logo Side Panel",
+  "block.kuayue.gc220ii_roof": "GC220II Roof",
+  "block.kuayue.gc220ii_vent": "GC220II Vent",
+  "block.kuayue.gc220ii_vent_2": "GC220II Vent 2",
+  "msg.bogey.style.changed.block.kuayue.gc220ii_backward_bogey": "current bogey: GC220II(Backward)",
+  "msg.bogey.style.changed.block.kuayue.gc220ii_bogey": "current bogey: GC220II"
+}

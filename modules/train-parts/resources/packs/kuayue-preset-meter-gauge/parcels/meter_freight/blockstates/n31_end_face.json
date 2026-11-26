@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "kuayue:block/carriage/meter_freight/n31_end_face",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "kuayue:block/carriage/meter_freight/n31_end_face",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "kuayue:block/carriage/meter_freight/n31_end_face",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "kuayue:block/carriage/meter_freight/n31_end_face",
+      "y": 270
+    }
+  }
+}

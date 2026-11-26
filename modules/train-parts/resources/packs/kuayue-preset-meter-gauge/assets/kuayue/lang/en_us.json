@@ -1,8 +1,14 @@
 {
-  "pack.kuayue_preset_meter_gauge.name": "KuaYue Metre-gauge Vehicles",
   "pack.kuayue_preset_meter_gauge.description": "Metre-gauge vehicle preset.",
-  "parcel.kuayue.m1.name": "M1 Passenger Car",
-  "parcel.kuayue.m1.description": "M1 metre-gauge passenger car resources.",
+  "pack.kuayue_preset_meter_gauge.name": "KuaYue Metre-gauge Vehicles",
+  "parcel.kuayue.dfh21.description": "DFH21 locomotive and running-gear resources.",
   "parcel.kuayue.dfh21.name": "DFH21",
-  "parcel.kuayue.dfh21.description": "DFH21 locomotive and running-gear resources."
+  "parcel.kuayue.gc220ii.description": "GC220II locomotive body and running-gear resources.",
+  "parcel.kuayue.gc220ii.name": "GC220II Industrial Locomotive",
+  "parcel.kuayue.jy30.description": "JY30 metre-gauge dormitory car resources.",
+  "parcel.kuayue.jy30.name": "JY30 Dormitory Car",
+  "parcel.kuayue.m1.description": "M1 metre-gauge passenger car resources.",
+  "parcel.kuayue.m1.name": "M1 Passenger Car",
+  "parcel.kuayue.meter_freight.description": "Type 31 metre-gauge gondola, flatcar and covered wagon resources.",
+  "parcel.kuayue.meter_freight.name": "Metre-gauge Freight Cars (C31/N31/P31)"
 }

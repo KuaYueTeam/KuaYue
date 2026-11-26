@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "kuayue:block/carriage/carriage_m1/m1_toilet",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "kuayue:block/carriage/carriage_m1/m1_toilet",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "kuayue:block/carriage/carriage_m1/m1_toilet"
+    },
+    "facing=west": {
+      "model": "kuayue:block/carriage/carriage_m1/m1_toilet",
+      "y": 90
+    }
+  }
+}

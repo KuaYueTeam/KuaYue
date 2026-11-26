@@ -1,0 +1,125 @@
+{
+  "textures": {
+    "0": "kuayue:block/gc220ii/gc220ii_vents_2",
+    "particle": "kuayue:block/gc220ii/gc220ii_vents_2"
+  },
+  "gui_light": "front",
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        -180,
+        0
+      ],
+      "translation": [
+        0,
+        0,
+        -1
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.3
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        -180,
+        0
+      ],
+      "translation": [
+        -4.5,
+        0,
+        -1
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.3
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        9.25,
+        -1,
+        2.25
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.3
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        3.5,
+        -1,
+        2.25
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.3
+      ]
+    },
+    "ground": {
+      "translation": [
+        3.5,
+        0,
+        2.25
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.3
+      ]
+    },
+    "gui": {
+      "rotation": [
+        15,
+        -137,
+        0
+      ],
+      "translation": [
+        1,
+        2,
+        2.25
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "head": {
+      "translation": [
+        3.5,
+        -1,
+        2.25
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.3
+      ]
+    },
+    "fixed": {
+      "translation": [
+        2.5,
+        -1,
+        2.25
+      ],
+      "scale": [
+        0.3,
+        0.3,
+        0.3
+      ]
+    }
+  },
+  "loader": "neoforge:obj",
+  "model": "kuayue:models/block/gc220ii/gc220ii_vent_2.obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "render_type": "cutout_mipped"
+}

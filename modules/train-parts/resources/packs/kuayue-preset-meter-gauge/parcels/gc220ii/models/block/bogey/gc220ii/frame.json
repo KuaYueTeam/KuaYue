@@ -1,0 +1,1 @@
+{"parent":"minecraft:block/block","loader":"neoforge:obj","flip_v":true,"automatic_culling":false,"model":"kuayue:models/block/bogey/gc220ii/frame.obj","textures": {"particle":"kuayue:block/bogey/gc220ii/gc220ii_frame"}}

@@ -1,0 +1,4 @@
+# Embedded Blockbench textures
+newmtl tex0
+map_Kd kuayue:block/carriage/carriage_m1/meter_carriage_air_condition_2_tex0
+newmtl none

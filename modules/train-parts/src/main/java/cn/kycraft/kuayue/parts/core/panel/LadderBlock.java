@@ -56,6 +56,10 @@ public class LadderBlock extends SlabBlock{
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        VoxelShape modelShape = modelAabbShape(pState);
+        if (modelShape != null) {
+            return modelShape;
+        }
         if(!isMeter)
             return TrainPanelShapes.getLadderShape(pState);
         return TrainPanelShapes.getMeterLadderShape(pState);

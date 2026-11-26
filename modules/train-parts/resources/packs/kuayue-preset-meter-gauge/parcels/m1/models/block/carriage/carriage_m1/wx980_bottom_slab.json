@@ -1,0 +1,147 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "0": "kuayue:block/carriage/carriage_m1/wx980_bottom_slab",
+    "particle": "kuayue:block/carriage/carriage_m1/wx980_bottom_slab"
+  },
+  "render_type": "minecraft:cutout_mipped",
+  "elements": [
+    {
+      "from": [
+        0,
+        4.5,
+        -0.9
+      ],
+      "to": [
+        16,
+        16,
+        0.1
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8.0,
+            6.0,
+            0.0,
+            11.75
+          ],
+          "texture": "#0"
+        },
+        "east": {
+          "uv": [
+            9.0,
+            2.0,
+            8.0,
+            7.75
+          ],
+          "texture": "#0"
+        },
+        "south": {
+          "uv": [
+            8.0,
+            0.0,
+            0.0,
+            5.75
+          ],
+          "texture": "#0"
+        },
+        "west": {
+          "uv": [
+            9.0,
+            8.0,
+            8.0,
+            13.75
+          ],
+          "texture": "#0"
+        },
+        "up": {
+          "uv": [
+            16.0,
+            0.0,
+            8.0,
+            1.0
+          ],
+          "texture": "#0"
+        },
+        "down": {
+          "uv": [
+            16.0,
+            2.0,
+            8.0,
+            1.0
+          ],
+          "texture": "#0"
+        }
+      }
+    }
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        1,
+        6
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        1,
+        6
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ]
+    },
+    "firstperson_righthand": {
+      "translation": [
+        9.25,
+        -2.75,
+        0
+      ]
+    },
+    "firstperson_lefthand": {
+      "translation": [
+        9.25,
+        -2.75,
+        0
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        1,
+        6
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "gui": {
+      "rotation": [
+        30,
+        30,
+        0
+      ],
+      "translation": [
+        3.25,
+        -4.25,
+        0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ]
+    }
+  }
+}

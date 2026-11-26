@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "kuayue:block/dfh21/power/dfh21_radiator_fan",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "kuayue:block/dfh21/power/dfh21_radiator_fan",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "kuayue:block/dfh21/power/dfh21_radiator_fan",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "kuayue:block/dfh21/power/dfh21_radiator_fan",
+      "y": 270
+    }
+  }
+}

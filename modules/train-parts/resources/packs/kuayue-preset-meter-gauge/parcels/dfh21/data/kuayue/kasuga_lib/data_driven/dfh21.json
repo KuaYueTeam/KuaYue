@@ -1,5 +1,9 @@
 {
   "on_register": [
-    "bogeys/dfh21.json"
-  ]
+    "bogeys/dfh21.json",
+    "locomotives/dfh21/groups.json",
+    "locomotives/dfh21/blocks.json",
+    "trains/dfh21.json"
+  ],
+  "on_reload": []
 }

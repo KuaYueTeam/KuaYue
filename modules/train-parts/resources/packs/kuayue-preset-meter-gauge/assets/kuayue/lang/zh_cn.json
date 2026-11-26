@@ -1,8 +1,14 @@
 {
-  "pack.kuayue_preset_meter_gauge.name": "跨越米轨车型",
   "pack.kuayue_preset_meter_gauge.description": "米轨客车与工程车型预设包。",
-  "parcel.kuayue.m1.name": "M1型客车",
-  "parcel.kuayue.m1.description": "M1型米轨客车资源。",
+  "pack.kuayue_preset_meter_gauge.name": "跨越米轨车型",
+  "parcel.kuayue.dfh21.description": "东方红21型机车及转向架资源。",
   "parcel.kuayue.dfh21.name": "东方红21",
-  "parcel.kuayue.dfh21.description": "东方红21型机车及转向架资源。"
+  "parcel.kuayue.gc220ii.description": "GC220II 工矿机车车体与转向架资源。",
+  "parcel.kuayue.gc220ii.name": "GC220II 工矿机车",
+  "parcel.kuayue.jy30.description": "JY30型米轨宿营车资源。",
+  "parcel.kuayue.jy30.name": "JY30宿营车",
+  "parcel.kuayue.m1.description": "M1型米轨客车资源。",
+  "parcel.kuayue.m1.name": "M1型客车",
+  "parcel.kuayue.meter_freight.description": "31型米轨敞车、平车与篷车资源。",
+  "parcel.kuayue.meter_freight.name": "米轨货车 (C31/N31/P31)"
 }

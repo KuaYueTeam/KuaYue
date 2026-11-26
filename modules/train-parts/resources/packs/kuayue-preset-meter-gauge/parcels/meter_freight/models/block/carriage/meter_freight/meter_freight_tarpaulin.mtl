@@ -1,0 +1,4 @@
+# Embedded Blockbench textures
+newmtl tex0
+map_Kd kuayue:block/carriage/meter_freight/meter_freight_tarpaulin
+newmtl none

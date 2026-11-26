@@ -1,0 +1,9 @@
+{
+  "parent": "block/block",
+  "loader": "neoforge:obj",
+  "flip_v": true,
+  "model": "kuayue:models/block/carriage/carriage_m1/m1_toilet.obj",
+  "textures": {
+    "particle": "kuayue:block/carriage/carriage_m1/m1_toilet_tex0"
+  }
+}

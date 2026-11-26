@@ -4,6 +4,7 @@ import cn.kycraft.kuayue.parts.core.panel.AirVentBlock;
 import cn.kycraft.kuayue.parts.core.panel.FreightC70EndFaceBlock;
 import cn.kycraft.kuayue.parts.core.panel.FreightNX70EndFaceBlock;
 import cn.kycraft.kuayue.parts.core.panel.FullShapeDirectionalBlock;
+import cn.kycraft.kuayue.parts.core.panel.ModelAabbShapes;
 import cn.kycraft.kuayue.parts.core.panel.HeadBlock;
 import cn.kycraft.kuayue.parts.core.panel.HeightSlabBlock;
 import cn.kycraft.kuayue.parts.core.panel.HingeSlabBlock;
@@ -315,6 +316,7 @@ public class BlockFactories {
         return blockWithDefaultItem(id, properties -> {
             T block = supplier.apply(properties);
             block.configureMultiCell(MultiCellFootprint.parse(params));
+            block.configureModelAabb(ModelAabbShapes.parse(params));
             return block;
         });
     }

@@ -118,6 +118,8 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 
 下表的 TrainPanel 家族 factory 还可统一使用可选的 `multi_cell`；只有 `height_slab` 和 `jy290_ac` 不属于该家族。
 
+所有 TrainPanel 家族 factory 还支持可选的 `params.aabb`：从模型几何生成的精确包围盒。键是规范化状态串（如 `facing=north,hinge=left,open=false`，无状态变体用 `""`），值是像素坐标 `[x1,y1,z1,x2,y2,z2]`，空模型用 `[]`。配置后 `getShape` 返回对应盒，`getCollisionShape` 委托 `getShape`，`getInteractionShape` 默认也委托 `getShape`，因此可见形、交互形、碰撞形三者一致；未配置时保持各 factory 原有形状。运行时从完整状态键逐级降级匹配到较短前缀，以兼容 blockstate 变体只声明部分属性的情况（例如只按 `facing` 变化的梯子）。
+
 | factory | `params` |
 |---|---|
 | `train_panel`、`train_hinge_panel`、`level_panel` | 可选 `begin_x`、`begin_y`、`end_x`、`end_y`；用于自定义平面范围 |

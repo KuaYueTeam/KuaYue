@@ -1,5 +1,6 @@
 package cn.kycraft.kuayue.parts.core.panel.registration;
 
+import cn.kycraft.kuayue.parts.core.panel.ModelAabbShapes;
 import cn.kycraft.kuayue.parts.core.panel.SlabBlock;
 import cn.kycraft.kuayue.parts.core.panel.SlabBlockItem;
 import cn.kycraft.kuayue.parts.core.multiblock.MultiCellFootprint;
@@ -32,6 +33,7 @@ public class SlabReg<T extends SlabBlock> extends Reg<SlabReg<T>, Block> impleme
         this(name, properties -> {
             T block = blockSupplier.apply(properties);
             block.configureMultiCell(MultiCellFootprint.parse(params));
+            block.configureModelAabb(ModelAabbShapes.parse(params));
             return block;
         });
     }

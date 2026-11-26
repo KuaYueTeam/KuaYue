@@ -1,0 +1,9 @@
+{
+  "on_register": [
+    "bogeys/gc220ii.json",
+    "locomotives/gc220ii/groups.json",
+    "locomotives/gc220ii/blocks.json",
+    "trains/gc220ii.json"
+  ],
+  "on_reload": []
+}

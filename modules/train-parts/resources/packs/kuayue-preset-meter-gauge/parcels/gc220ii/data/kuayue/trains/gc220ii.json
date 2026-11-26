@@ -1,0 +1,58 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:gc220ii",
+      "category": "locomotive",
+      "name_key": "parcel.kuayue.gc220ii.name",
+      "description_key": "parcel.kuayue.gc220ii.description",
+      "members": {
+        "blocks": [
+          "kuayue:gc220ii_cowcatcher",
+          "kuayue:gc220ii_door",
+          "kuayue:gc220ii_equipment_1",
+          "kuayue:gc220ii_equipment_2",
+          "kuayue:gc220ii_equipment_3",
+          "kuayue:gc220ii_floor",
+          "kuayue:gc220ii_floor_ladder",
+          "kuayue:gc220ii_head_1",
+          "kuayue:gc220ii_head_2",
+          "kuayue:gc220ii_panel",
+          "kuayue:gc220ii_panel_logo",
+          "kuayue:gc220ii_roof",
+          "kuayue:gc220ii_vent",
+          "kuayue:gc220ii_vent_2"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-meter-gauge/kuayue/gc220ii"
+        ],
+        "bogey_sizes": [
+          "kuayue:gc220ii",
+          "kuayue:gc220ii_backward"
+        ],
+        "bogey_motions": [
+          "kuayue:motion/wheel_spin/scale_1.0_sign_1",
+          "kuayue:motion/wheel_spin/scale_1.0_sign_-1"
+        ],
+        "bogey_models": [
+          "kuayue:bogey/gc220ii",
+          "kuayue:bogey/gc220ii_backward"
+        ],
+        "bogey_blocks": [
+          "kuayue:gc220ii_bogey",
+          "kuayue:gc220ii_backward_bogey"
+        ],
+        "bogey_styles": [
+          "kuayue:meter_loco"
+        ],
+        "bogey_style_variants": [
+          "kuayue:gc220ii_meter_loco"
+        ]
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_loco",
+        "icon_item": "kuayue:gc220ii_head_1"
+      }
+    }
+  ]
+}

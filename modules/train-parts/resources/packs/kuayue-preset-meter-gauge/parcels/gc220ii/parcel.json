@@ -1,0 +1,9 @@
+{
+  "format_version": 1,
+  "id": "kuayue:gc220ii",
+  "name_key": "parcel.kuayue.gc220ii.name",
+  "description_key": "parcel.kuayue.gc220ii.description",
+  "indexes": [
+    "data/kuayue/kasuga_lib/data_driven/gc220ii.json"
+  ]
+}
