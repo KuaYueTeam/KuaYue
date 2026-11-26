@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.state.BlockState;
 public class BlueprintTableBlockEntity extends BlockEntity {
 
     private String selectedGroup = "";
-    private float yaw;
 
     public BlueprintTableBlockEntity(BlockPos pos, BlockState state) {
         super(BlueprintTableRegistry.BLOCK_ENTITY.getEntry(), pos, state);
@@ -36,27 +35,43 @@ public class BlueprintTableBlockEntity extends BlockEntity {
         }
     }
 
+    /**
+     * Board rotation, derived from the block state.
+     *
+     * <p>The facing is authoritative and already present on both sides; a stored float had to be written
+     * from {@code setPlacedBy} and synced through {@code getUpdateTag()}, and any gap in either path left the
+     * client reading 0 — which is exactly what the board showed for every facing.</p>
+     */
     public float yaw() {
-        return yaw;
+        BlockState state = getBlockState();
+        if (state.hasProperty(BlueprintTableBlock.FACING)) {
+            return BlueprintTableBlock.yawOf(state.getValue(BlueprintTableBlock.FACING));
+        }
+        return 0f;
     }
 
+    /**
+     * Kept for source compatibility; the rotation now comes from the block state.
+     *
+     * @deprecated the facing is the single source of truth
+     */
+    @Deprecated
     public void setYaw(float yaw) {
-        this.yaw = yaw;
-        setChanged();
+        // no-op: see yaw()
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.putString("selected_group", selectedGroup);
-        tag.putFloat("yaw", yaw);
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         selectedGroup = tag.getString("selected_group");
-        yaw = tag.getFloat("yaw");
+        // "yaw" is deliberately not read back: rotation follows the block state now. Old tables keep the
+        // stale float in their NBT, which simply goes unused.
     }
 
     @Override

@@ -39,6 +39,9 @@ public class TechTreeModule {
 
     private void onAddReloadListener(AddReloadListenerEvent event) {
         event.addListener(TechTreeManager.get());
+        // The cover directory is only read on the client, but the reload event is shared; the listener is
+        // harmless on a dedicated server (no covers resolve to a texture there) and keeps one code path.
+        event.addListener(BlueprintCoverManager.get());
     }
 
     /** Exposes the registry root so the main mod can hang it under its own tree if it wants to. */

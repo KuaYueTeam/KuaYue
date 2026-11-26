@@ -38,15 +38,15 @@ final class TechTreeGroupPublishPanel {
      * clear the group strip, and the publish panel stands in for that grid, so it follows it.</p>
      */
     private static final int PANEL_X =
-            TechTreeTableSurface.GRID_X + (TechTreeTableSurface.WIDTH - TechTreeTableSurface.GRID_X - WIDTH) / 2;
-    private static final int PANEL_Y = (TechTreeTableSurface.HEIGHT - HEIGHT) / 2;
+            BoardMetrics.GRID_X + (BoardMetrics.WIDTH - BoardMetrics.GRID_X - WIDTH) / 2;
+    private static final int PANEL_Y = (BoardMetrics.HEIGHT - HEIGHT) / 2;
     private static final int SLOT = 21;
     private static final int CELL = 20;
     private static final int GRID_X = 15;
     private static final int GRID_Y = 9;
 
     /** Confirm sprite and hit rect inside the panel, from the 1.0 layout (83,16) 16x32 strip. */
-    static final int[] CONFIRM_HIT = {PANEL_X + 82, PANEL_Y + 15, 18, 34};
+    static final int[] CONFIRM_HIT = {PANEL_X + 83, PANEL_Y + 16, 22, 22};
 
     private TechTreeGroupPublishPanel() {
     }
@@ -137,7 +137,7 @@ final class TechTreeGroupPublishPanel {
         button.layout(l -> l.setPositionType(YogaPositionType.ABSOLUTE)
                 .setPosition(YogaEdge.LEFT, (float) (CONFIRM_HIT[0] - PANEL_X))
                 .setPosition(YogaEdge.TOP, (float) (CONFIRM_HIT[1] - PANEL_Y))
-                .setWidth(16).setHeight(32));
+                .setWidth(16).setHeight(16));
         button.style(s -> s.background(TechTreeTextures.confirm()));
         button.addEventListener(UIEvents.MOUSE_ENTER, event -> button.style(s -> s.background(
                 TechTreeTextures.confirmHover())));

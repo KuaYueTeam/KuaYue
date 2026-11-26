@@ -58,9 +58,8 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer,
                             ItemStack stack) {
         super.setPlacedBy(level, pos, state, placer, stack);
-        if (!level.isClientSide && level.getBlockEntity(pos) instanceof BlueprintTableBlockEntity table) {
-            table.setYaw(yawOf(state.getValue(FACING)));
-        }
+        // No yaw to store: the block state carries the facing, and BlueprintTableBlockEntity.yaw() derives
+        // the board rotation from it on both sides.
         if (level.isClientSide) {
             // The board is permanent furniture: mount it as soon as the table exists instead of waiting for
             // an interaction.
@@ -82,14 +81,28 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
     }
 
     /** Degrees used by the board transform for each facing. */
+    /**
+     * Board rotation for a facing, in degrees, where SOUTH is the orientation that reads upright.
+     *
+     * <p>The table cannot be a plain clockwise count from NORTH: the board is anchored on SOUTH, so NORTH is
+     * the far side of the cycle. Expressing it against the enum instead of four hard-coded cases keeps the
+     * relationship in one place — {@code clockwise} is 90&deg; each step, {@code getOpposite} is 180&deg;.</p>
+     *
+     * <p>Consumers: {@code BlueprintTableBlockEntity.yaw()} feeds this straight into a {@code rotateY}, and
+     * {@code TechTreeTableSurface.tableTransform} adds a fixed 180 on top. Change one, check the other.</p>
+     */
     public static float yawOf(Direction facing) {
-        return switch (facing) {
-            case EAST -> 90f;
-            case SOUTH -> 180f;
-            case WEST -> 270f;
-            default -> 0f;
-        };
+        // Rotate from the reference facing toward the requested one, one quarter turn at a time.
+        Direction cursor = REFERENCE_FACING;
+        for (int quarter = 0; quarter < 4; quarter++) {
+            if (cursor == facing) return quarter * 90f;
+            cursor = cursor.getClockWise();
+        }
+        return 0f;
     }
+
+    /** The facing whose board orientation reads upright to the player; the yaw cycle starts here. */
+    public static final Direction REFERENCE_FACING = Direction.SOUTH;
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
@@ -140,7 +153,7 @@ public class BlueprintTableBlock extends HorizontalDirectionalBlock implements E
             // them down explicitly; otherwise they stay hanging where the table used to be.
             CarModelUiDemo.hide(pos.immutable());
             CarModelUiDemo.hideOverlay(pos.immutable());
-            TechTreeTableSurface.forget(pos.immutable());
+            TechTreeTableSurface.pruneNow(pos.immutable());
         }
     }
 }

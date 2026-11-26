@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
+import org.lwjgl.opengl.GL11;
 
 /**
  * Draws a fixed UV slice of a sheet texture.
@@ -63,17 +64,36 @@ final class SheetTexture implements IGuiTexture {
 
     private void drawInternal(GuiGraphics graphics, float x, float y, float width, float height) {
         if (width <= 0 || height <= 0 || u1 <= u0 || v1 <= v0) return;
+        drawUv(graphics, x, y, width, height,
+                u0 / (float) sheetWidth, v0 / (float) sheetHeight,
+                u1 / (float) sheetWidth, v1 / (float) sheetHeight);
+    }
 
-        float su0 = u0 / (float) sheetWidth;
-        float sv0 = v0 / (float) sheetHeight;
-        float su1 = u1 / (float) sheetWidth;
-        float sv1 = v1 / (float) sheetHeight;
+    /**
+     * Paints the sheet with UVs already normalised to 0..1.
+     *
+     * <p>Separate from {@link #drawInternal} because a slice does not always know the texture's pixel size:
+     * cover JSON stores UVs as fractions, so converting them to pixels first would only add a round trip.</p>
+     */
+    void drawUv(GuiGraphics graphics, float x, float y, float width, float height,
+                float su0, float sv0, float su1, float sv1) {
+        if (width <= 0 || height <= 0 || su1 <= su0 || sv1 <= sv0) return;
 
         Matrix4f pose = graphics.pose().last().pose();
         MultiBufferSource.BufferSource buffers = graphics.bufferSource();
         RenderType type = LDLibRenderTypes.guiTexture(sheet);
         VertexConsumer vertex = buffers.getBuffer(type);
+
+        // Depth state is saved and restored rather than forced back on: the world-UI pass draws inside the
+        // level render batch, and an unconditional enableDepthTest() here leaked into whoever drew next —
+        // which is what showed up as the first-person hand going black after a board repaint.
+        boolean depthWasEnabled = GL11.glIsEnabled(GL11.GL_DEPTH_TEST);
         RenderSystem.disableDepthTest();
+        // The guiTexture shader multiplies by the global shader colour. Inside the level batch that colour is
+        // whatever the previous draw left behind (often a biome/light tint), which darkens every slice and is
+        // why the first-person hand dimmed whenever the board repainted. Reset it to white for the quad.
+        float[] previousColor = RenderSystem.getShaderColor().clone();
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
 
         float x1 = x + width;
         float y1 = y + height;
@@ -84,6 +104,8 @@ final class SheetTexture implements IGuiTexture {
         vertex.addVertex(pose, x1, y, 0).setColor(1f, 1f, 1f, 1f).setUv(su1, sv0);
 
         buffers.endBatch(type);
-        RenderSystem.enableDepthTest();
+        RenderSystem.setShaderColor(previousColor[0], previousColor[1], previousColor[2], previousColor[3]);
+        if (depthWasEnabled) RenderSystem.enableDepthTest();
+        else RenderSystem.disableDepthTest();
     }
 }

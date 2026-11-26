@@ -1,0 +1,75 @@
+{
+  "id": "kuayue:test_cover",
+  "is_default": true,
+  "background": {
+    "id": "kuayue:test_cover_background",
+    "location": "kuayue:gui/tech_tree/blueprint_cover/blueprint_background",
+    "uv": {
+      "u0": 0,
+      "v0": 0,
+      "u1": 1,
+      "v1": 1
+    },
+    "pos": {
+      "horizontal_centered": true,
+      "vertical_centered": true,
+      "position_is_center": false
+    },
+    "size": {
+      "width": 242,
+      "height": 128,
+      "axis_x": "x",
+      "axis_y": "y",
+      "x_positive": true,
+      "y_positive": true
+    }
+  },
+  "title": {
+    "id": "kuayue:test_cover_title",
+    "location": "kuayue:gui/tech_tree/blueprint_cover/blueprint_title",
+    "uv": {
+      "u0": 0,
+      "v0": 0,
+      "u1": 1,
+      "v1": 1
+    },
+    "pos": {
+      "vec": [40, 20, 0],
+      "horizontal_centered": false,
+      "vertical_centered": false,
+      "position_is_center": false
+    },
+    "size": {
+      "width": 75,
+      "height": 21,
+      "axis_x": "x",
+      "axis_y": "y",
+      "x_positive": true,
+      "y_positive": true
+    }
+  },
+  "button_background": {
+    "id": "kuayue:test_cover_button_background",
+    "location": "kuayue:gui/tech_tree/blueprint_cover/blueprint_buttons",
+    "uv": {
+      "u0": 0,
+      "v0": 0.87425,
+      "u1": 1,
+      "v1": 1
+    },
+    "pos": {
+      "vec": [223, 115, 0],
+      "horizontal_centered": false,
+      "vertical_centered": false,
+      "position_is_center": false
+    },
+    "size": {
+      "width": 44,
+      "height": 14,
+      "axis_x": "x",
+      "axis_y": "y",
+      "x_positive": true,
+      "y_positive": true
+    }
+  }
+}
