@@ -37,6 +37,22 @@ base {
     archivesName = mod_id
 }
 
+sourceSets {
+    contentTesting {
+        java {
+            srcDir 'src/contentTesting/java'
+        }
+        resources {
+            srcDir 'src/contentTesting/resources'
+        }
+
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+        compileClasspath += sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.runtimeClasspath
+    }
+}
+
 configurations {}
 
 apply from: "preset-packs.gradle"
@@ -85,6 +101,22 @@ neoForge {
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
+        clientHeadless {
+            client()
+            gameDirectory = file(
+                    providers.gradleProperty('kasugaClientDirectory')
+                            .getOrElse('run/headless-client')
+            )
+            programArguments.addAll '--width', '1280', '--height', '720'
+            systemProperty 'kasuga.headless', providers.gradleProperty('kasugaHeadlessBackend')
+                    .getOrElse('hidden')
+            systemProperty 'kasuga.headless.fps', '60'
+            systemProperty 'java.awt.headless', 'true'
+            systemProperty 'kuayue.testTrainPackShapes',
+                    providers.gradleProperty('kuayueTestTrainPackShapes')
+                            .getOrElse('false')
+        }
+
         server {
             server()
             programArgument '--nogui'
@@ -116,6 +148,7 @@ neoForge {
         "${mod_id}" {
             // Inlcude the core subproject as a dependency.
             sourceSet(sourceSets.main)
+            sourceSet(sourceSets.contentTesting)
         }
     }
 
@@ -123,6 +156,32 @@ neoForge {
         enable()
         testedMod = mods.named(mod_id)
     }
+}
+
+tasks.register('prepareHeadlessClient') {
+    def directory = file(
+            providers.gradleProperty('kasugaClientDirectory')
+                    .getOrElse('run/headless-client')
+    )
+    doLast {
+        def config = new File(directory, 'config/fml.toml')
+        config.parentFile.mkdirs()
+        def text = config.exists() ? config.getText('UTF-8') : ''
+        if (text =~ /(?m)^\s*earlyWindowControl\s*=/) {
+            text = text.replaceAll(
+                    /(?m)^\s*earlyWindowControl\s*=.*$/,
+                    'earlyWindowControl = false'
+            )
+        } else {
+            text += '\nearlyWindowControl = false\n'
+        }
+        config.setText(text, 'UTF-8')
+    }
+}
+tasks.matching {
+    it.name == 'runClientHeadless' || it.name == 'prepareClientHeadlessRun'
+}.configureEach {
+    dependsOn 'prepareHeadlessClient'
 }
 
 

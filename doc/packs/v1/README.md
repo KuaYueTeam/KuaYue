@@ -57,7 +57,7 @@ KuaYue 车包把内置车辆内容、外部车型内容与 Minecraft 普通资�
 ```json
 "dependencies": {
   "packs": {
-    "kuayue-preset-running-gear": "*"
+    "kuayue-preset-running-gear": ">=2.0.0"
   }
 }
 ```

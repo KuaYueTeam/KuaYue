@@ -24,6 +24,12 @@
         "$ref": "#/$defs/item"
       }
     },
+    "shapes": {
+      "type": "array",
+      "items": {
+        "$ref": "https://kuayue.example/schemas/data-driven/v1/shapes.schema.json#/$defs/definition"
+      }
+    },
     "bogey_sizes": {
       "type": "array",
       "items": {
@@ -415,6 +421,205 @@
       ],
       "additionalProperties": false
     },
+    "shapeTransform": {
+      "type": "object",
+      "properties": {
+        "scale": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "rotate_y": {
+          "type": "integer",
+          "enum": [
+            0,
+            90,
+            180,
+            270
+          ]
+        },
+        "pivot": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number",
+              "minimum": -65536,
+              "maximum": 65536
+            },
+            {
+              "type": "number",
+              "minimum": -65536,
+              "maximum": 65536
+            },
+            {
+              "type": "number",
+              "minimum": -65536,
+              "maximum": 65536
+            }
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "translate": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number",
+              "minimum": -65536,
+              "maximum": 65536
+            },
+            {
+              "type": "number",
+              "minimum": -65536,
+              "maximum": 65536
+            },
+            {
+              "type": "number",
+              "minimum": -65536,
+              "maximum": 65536
+            }
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        }
+      },
+      "additionalProperties": false
+    },
+    "shapeSelection": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "native",
+            "empty"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ref": {
+              "$ref": "#/$defs/explicitResourceLocation"
+            },
+            "transform": {
+              "$ref": "#/$defs/shapeTransform"
+            }
+          },
+          "required": [
+            "ref"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "from": {
+              "type": "string",
+              "enum": [
+                "shape",
+                "collision",
+                "visual",
+                "interaction",
+                "support",
+                "occlusion"
+              ]
+            }
+          },
+          "required": [
+            "from"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "shapeStateRule": {
+      "type": "object",
+      "properties": {
+        "when": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": {
+            "minLength": 1
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "shape": {
+          "$ref": "#/$defs/shapeSelection"
+        },
+        "collision": {
+          "$ref": "#/$defs/shapeSelection"
+        },
+        "visual": {
+          "$ref": "#/$defs/shapeSelection"
+        },
+        "interaction": {
+          "$ref": "#/$defs/shapeSelection"
+        },
+        "support": {
+          "$ref": "#/$defs/shapeSelection"
+        },
+        "occlusion": {
+          "$ref": "#/$defs/shapeSelection"
+        }
+      },
+      "required": [
+        "when"
+      ],
+      "additionalProperties": false
+    },
+    "shapeBindings": {
+      "type": "object",
+      "properties": {
+        "shape": {
+          "$ref": "#/$defs/shapeSelection"
+        },
+        "collision": {
+          "$ref": "#/$defs/shapeSelection"
+        },
+        "visual": {
+          "$ref": "#/$defs/shapeSelection"
+        },
+        "interaction": {
+          "$ref": "#/$defs/shapeSelection"
+        },
+        "support": {
+          "$ref": "#/$defs/shapeSelection"
+        },
+        "occlusion": {
+          "$ref": "#/$defs/shapeSelection"
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/shapeStateRule"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "legacyShapeBindingsKey": {
+      "description": "The nested params.shapes key is unsupported; rename it to params.shape_bindings.",
+      "not": {}
+    },
     "registryGroup": {
       "type": "object",
       "properties": {
@@ -449,6 +654,12 @@
     "panelBoundsParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "aabb": {
           "$ref": "#/$defs/modelAabbParams"
         },
@@ -472,12 +683,25 @@
     },
     "emptyParams": {
       "type": "object",
-      "properties": {},
+      "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        }
+      },
       "additionalProperties": false
     },
     "trainPanelEmptyParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "aabb": {
           "$ref": "#/$defs/modelAabbParams"
         },
@@ -490,6 +714,12 @@
     "trainSmallWindowParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "aabb": {
           "$ref": "#/$defs/modelAabbParams"
         },
@@ -505,6 +735,12 @@
     "trainOpenableWindowParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "multi_cell": {
           "$ref": "#/$defs/multiCellParams"
         },
@@ -526,6 +762,12 @@
     "trainUnopenableWindowParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "aabb": {
           "$ref": "#/$defs/modelAabbParams"
         },
@@ -553,6 +795,12 @@
     "ladderParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "aabb": {
           "$ref": "#/$defs/modelAabbParams"
         },
@@ -568,6 +816,12 @@
     "customRenderedDoorParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "multi_cell": {
           "$ref": "#/$defs/multiCellParams"
         },
@@ -626,6 +880,12 @@
     "endFaceParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "multi_cell": {
           "$ref": "#/$defs/multiCellParams"
         },
@@ -656,6 +916,12 @@
     "doubleRotateDoorParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "multi_cell": {
           "$ref": "#/$defs/multiCellParams"
         },
@@ -686,6 +952,12 @@
     "hingeSlabParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "aabb": {
           "$ref": "#/$defs/modelAabbParams"
         },
@@ -704,6 +976,12 @@
     "freightEndFaceParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "multi_cell": {
           "$ref": "#/$defs/multiCellParams"
         },
@@ -720,6 +998,12 @@
     "meterCarriageEndFaceParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "multi_cell": {
           "$ref": "#/$defs/multiCellParams"
         },
@@ -753,6 +1037,12 @@
     "dietBoxParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "food_type": {
           "type": "string",
           "enum": [
@@ -777,6 +1067,12 @@
     "drinkParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "food_type": {
           "type": "string",
           "enum": [
@@ -812,6 +1108,12 @@
     "foodParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "food_type": {
           "type": "string",
           "enum": [
@@ -832,6 +1134,12 @@
     "soakedNoodlesParams": {
       "type": "object",
       "properties": {
+        "shape_bindings": {
+          "$ref": "#/$defs/shapeBindings"
+        },
+        "shapes": {
+          "$ref": "#/$defs/legacyShapeBindingsKey"
+        },
         "has_tooltip": {
           "type": "boolean"
         }
@@ -883,6 +1191,22 @@
         }
       }
     },
+    "multiCellExactCells": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "array",
+        "minItems": 3,
+        "maxItems": 3,
+        "items": {
+          "type": "integer",
+          "minimum": -16,
+          "maximum": 16
+        }
+      }
+    },
     "multiCellParams": {
       "type": "object",
       "properties": {
@@ -899,6 +1223,34 @@
               "$ref": "#/$defs/multiCellCells"
             }
           }
+        },
+        "state_cells": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "when": {
+                "type": "object",
+                "minProperties": 1,
+                "propertyNames": {
+                  "minLength": 1
+                },
+                "additionalProperties": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "cells": {
+                "$ref": "#/$defs/multiCellExactCells"
+              }
+            },
+            "required": [
+              "when",
+              "cells"
+            ],
+            "additionalProperties": false
+          }
         }
       },
       "anyOf": [
@@ -910,6 +1262,11 @@
         {
           "required": [
             "cells_by_state"
+          ]
+        },
+        {
+          "required": [
+            "state_cells"
           ]
         }
       ],
@@ -955,6 +1312,7 @@
             "jy290_ac",
             "jy_maintenance_outrigger",
             "jy_maintenance_floor",
+            "jy_maintenance_head",
             "jy_maintenance_carport",
             "jy_maintenance_console",
             "jy_maintenance_endface",
@@ -1021,7 +1379,10 @@
           "if": {
             "properties": {
               "type": {
-                "const": "jy_maintenance_console"
+                "enum": [
+                  "jy_maintenance_console",
+                  "jy_maintenance_head"
+                ]
               }
             }
           },
@@ -1029,7 +1390,15 @@
             "properties": {
               "params": {
                 "type": "object",
-                "maxProperties": 0
+                "properties": {
+                  "shape_bindings": {
+                    "$ref": "#/$defs/shapeBindings"
+                  },
+                  "shapes": {
+                    "$ref": "#/$defs/legacyShapeBindingsKey"
+                  }
+                },
+                "additionalProperties": false
               }
             }
           }
@@ -1165,7 +1534,15 @@
             "properties": {
               "params": {
                 "type": "object",
-                "maxProperties": 0
+                "properties": {
+                  "shape_bindings": {
+                    "$ref": "#/$defs/shapeBindings"
+                  },
+                  "shapes": {
+                    "$ref": "#/$defs/legacyShapeBindingsKey"
+                  }
+                },
+                "additionalProperties": false
               }
             }
           }
@@ -1492,7 +1869,15 @@
             "properties": {
               "params": {
                 "type": "object",
-                "maxProperties": 0
+                "properties": {
+                  "shape_bindings": {
+                    "$ref": "#/$defs/shapeBindings"
+                  },
+                  "shapes": {
+                    "$ref": "#/$defs/legacyShapeBindingsKey"
+                  }
+                },
+                "additionalProperties": false
               }
             }
           }
@@ -1532,7 +1917,15 @@
             "properties": {
               "params": {
                 "type": "object",
-                "maxProperties": 0
+                "properties": {
+                  "shape_bindings": {
+                    "$ref": "#/$defs/shapeBindings"
+                  },
+                  "shapes": {
+                    "$ref": "#/$defs/legacyShapeBindingsKey"
+                  }
+                },
+                "additionalProperties": false
               }
             }
           }

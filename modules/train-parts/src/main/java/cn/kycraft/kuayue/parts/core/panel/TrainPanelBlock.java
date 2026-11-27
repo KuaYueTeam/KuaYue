@@ -45,6 +45,7 @@ public class TrainPanelBlock extends Block implements IWrenchable /*, EntityBloc
     public final Vec2 beginPos, endPos;
     private MultiCellFootprint multiCellFootprint = MultiCellFootprint.EMPTY;
     private Map<String, VoxelShape> modelAabbShapes = ModelAabbShapes.NONE;
+    private boolean shapeCoverage;
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final UnModeledBlockProperty<TrainPanelProperties.EditType, EnumProperty<TrainPanelProperties.EditType>> EDIT_TYPE =
             UnModeledBlockProperty.create(EnumProperty.create("edit_type", TrainPanelProperties.EditType.class));
@@ -87,6 +88,15 @@ public class TrainPanelBlock extends Block implements IWrenchable /*, EntityBloc
 
     public final MultiCellFootprint multiCellFootprint() {
         return multiCellFootprint;
+    }
+
+    /** Enables per-cell collision coverage from the installed lib shape plan. */
+    public final void configureShapeCoverage(boolean enabled) {
+        shapeCoverage = enabled;
+    }
+
+    public final boolean usesShapeCoverage() {
+        return shapeCoverage;
     }
 
     public final boolean canPlaceMultiCell(BlockGetter level, BlockPos pos, BlockState state) {

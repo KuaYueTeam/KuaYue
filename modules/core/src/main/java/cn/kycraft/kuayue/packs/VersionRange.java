@@ -4,13 +4,14 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A v1 dependency range: wildcard, exact version, or [lower, upper).
+ * A v1 dependency range: wildcard, exact version, inclusive lower bound, or [lower, upper).
  */
 public record VersionRange(String expression, Kind kind, SemanticVersion lower, SemanticVersion upper)
         implements Serializable {
     public enum Kind {
         WILDCARD,
         EXACT,
+        AT_LEAST,
         HALF_OPEN
     }
 
@@ -22,6 +23,10 @@ public record VersionRange(String expression, Kind kind, SemanticVersion lower, 
         }
         if (kind == Kind.EXACT && (lower == null || upper != null)) {
             throw new IllegalArgumentException("Exact range requires only a lower version");
+        }
+        if (kind == Kind.AT_LEAST && (lower == null || upper != null
+                || !expression.equals(">=" + lower))) {
+            throw new IllegalArgumentException("At-least range requires only an inclusive lower version");
         }
         if (kind == Kind.HALF_OPEN && (lower == null || upper == null || lower.compareTo(upper) >= 0)) {
             throw new IllegalArgumentException("Half-open range requires lower < upper");
@@ -38,6 +43,10 @@ public record VersionRange(String expression, Kind kind, SemanticVersion lower, 
         }
         if ("*".equals(trimmed)) {
             return new VersionRange(trimmed, Kind.WILDCARD, null, null);
+        }
+        if (trimmed.startsWith(">=")) {
+            SemanticVersion lower = SemanticVersion.parse(trimmed.substring(2));
+            return new VersionRange(trimmed, Kind.AT_LEAST, lower, null);
         }
         if (trimmed.startsWith("[") || trimmed.endsWith(")")) {
             if (!trimmed.startsWith("[") || !trimmed.endsWith(")")) {
@@ -66,6 +75,7 @@ public record VersionRange(String expression, Kind kind, SemanticVersion lower, 
         return switch (kind) {
             case WILDCARD -> true;
             case EXACT -> lower.equals(version);
+            case AT_LEAST -> lower.compareTo(version) <= 0;
             case HALF_OPEN -> lower.compareTo(version) <= 0 && version.compareTo(upper) < 0;
         };
     }
@@ -79,6 +89,9 @@ public record VersionRange(String expression, Kind kind, SemanticVersion lower, 
         int lowerComparison = comparator.compare(version, lower.toString());
         if (kind == Kind.EXACT) {
             return lowerComparison == 0;
+        }
+        if (kind == Kind.AT_LEAST) {
+            return lowerComparison >= 0;
         }
         return lowerComparison >= 0 && comparator.compare(version, upper.toString()) < 0;
     }

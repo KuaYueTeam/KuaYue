@@ -1,5 +1,7 @@
 package cn.kycraft.kuayue.packs.network;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -26,5 +28,34 @@ class PackSetDeclarationTest {
 
         assertTrue(first.compatibleWith(reordered));
         assertFalse(first.compatibleWith(changed));
+    }
+
+    @Test
+    void compatibilityRejectsShapeGenerationChangesAtTheSamePackVersion() {
+        List<PackSetDeclaration.Entry> entries = List.of(
+                new PackSetDeclaration.Entry("alpha", "1.0.0", 1)
+        );
+        PackSetDeclaration first = new PackSetDeclaration(entries, "a".repeat(64));
+        PackSetDeclaration changed = new PackSetDeclaration(entries, "b".repeat(64));
+
+        assertFalse(first.compatibleWith(changed));
+    }
+
+    @Test
+    void shapeDigestRoundTripsThroughTheConfigurationCodec() {
+        PackSetDeclaration declaration = new PackSetDeclaration(
+                List.of(new PackSetDeclaration.Entry("alpha", "1.0.0", 1)),
+                "a".repeat(64)
+        );
+        ByteBuf buffer = Unpooled.buffer();
+        try {
+            PackSetDeclarationCodec.STREAM_CODEC.encode(buffer, declaration);
+            assertEquals(
+                    declaration,
+                    PackSetDeclarationCodec.STREAM_CODEC.decode(buffer)
+            );
+        } finally {
+            buffer.release();
+        }
     }
 }

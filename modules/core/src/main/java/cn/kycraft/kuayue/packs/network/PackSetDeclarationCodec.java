@@ -18,6 +18,7 @@ public final class PackSetDeclarationCodec {
     }
 
     private static void write(ByteBuf buffer, PackSetDeclaration declaration) {
+        writeUtf(buffer, declaration.shapeDigest());
         buffer.writeShort(declaration.entries().size());
         for (PackSetDeclaration.Entry entry : declaration.entries()) {
             writeUtf(buffer, entry.id());
@@ -27,6 +28,7 @@ public final class PackSetDeclarationCodec {
     }
 
     private static PackSetDeclaration read(ByteBuf buffer) {
+        String shapeDigest = readUtf(buffer, PackSetDeclaration.MAX_SHAPE_DIGEST_LENGTH);
         int count = buffer.readUnsignedShort();
         if (count > PackSetDeclaration.MAX_ENTRIES) {
             throw new IllegalArgumentException("Too many pack entries");
@@ -42,7 +44,7 @@ public final class PackSetDeclarationCodec {
             }
             entries.add(new PackSetDeclaration.Entry(id, version, format));
         }
-        return new PackSetDeclaration(entries);
+        return new PackSetDeclaration(entries, shapeDigest);
     }
 
     private static void writeUtf(ByteBuf buffer, String value) {

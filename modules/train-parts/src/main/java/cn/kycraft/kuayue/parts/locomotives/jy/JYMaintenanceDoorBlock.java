@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
@@ -76,34 +75,6 @@ public final class JYMaintenanceDoorBlock extends TrainPanelProxyBlock
                 OPEN,
                 "door_open",
                 "door"
-        );
-    }
-
-    @Override
-    public VoxelShape getShape(
-            BlockState state,
-            BlockGetter level,
-            BlockPos pos,
-            CollisionContext context
-    ) {
-        return JYMaintenanceDoorShapes.get(
-                state.getValue(FACING),
-                state.getValue(HINGE),
-                state.getValue(OPEN)
-        );
-    }
-
-    @Override
-    public VoxelShape getCollisionShape(
-            BlockState state,
-            BlockGetter level,
-            BlockPos pos,
-            CollisionContext context
-    ) {
-        return JYMaintenanceDoorShapes.getCollision(
-                state.getValue(FACING),
-                state.getValue(HINGE),
-                state.getValue(OPEN)
         );
     }
 

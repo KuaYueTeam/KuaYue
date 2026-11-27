@@ -68,6 +68,17 @@ class PackDependencyCheckTest {
     }
 
     @Test
+    void acceptsAtLeastModVersionRange() {
+        PackManifest alpha = manifestWithCreateRange("alpha", ">=6.0.0");
+
+        PackDependencyCheck.Result result = PackDependencyCheck.check(
+                alpha, Map.of("alpha", alpha), Set.of(), RUNTIME, VersionComparator.semantic());
+
+        assertTrue(result.satisfied());
+        assertTrue(result.missingMods().isEmpty());
+    }
+
+    @Test
     void acceptsCompleteEnabledPackClosure() {
         PackManifest alpha = manifest("alpha", Map.of("beta", "*"));
         Map<String, PackManifest> known = Map.of(

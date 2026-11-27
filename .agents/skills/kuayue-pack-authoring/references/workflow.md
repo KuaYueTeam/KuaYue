@@ -81,6 +81,13 @@ Read the current authoring and schema documents, then inspect the closest workin
 - `doc/schemas/data-driven/v1/README.md`
 - at least one manifest, one index, and one resource of the same factory family
 
+When replacing model-derived AABBs with data-driven shapes, also read
+[shapes.md](shapes.md) and inspect one migrated meter-gauge parcel. Confirm that
+the KasugaLib revision resolved by KuaYue CI exposes `ShapeTypeHandler` and the
+shape JSON Schema. A local composite build can compile against an unmerged
+library checkout while CI still uses an older default branch; if that dependency
+is not available, stop before adding shape fields.
+
 Normalize Blockbench Java model JSON when necessary:
 
 ```powershell
@@ -109,6 +116,18 @@ For heads, cowcatchers, and other blocks whose geometry comes from a runtime mod
 - keep `.bbmodel` assets intact and point `params.model` at them;
 - do not use `fsm_block`, `fsm_be`, or a top-level `state_machine` as a rendering shortcut.
 
+For collision, selection, and other block geometry:
+
+- keep the top-level `shapes` definitions in an `on_register` file owned by the
+  vehicle parcel, usually `data/<namespace>/<kind>/<vehicle>/shapes.json`;
+- list that file before `blocks.json` in the parcel index and keep every ID in
+  the owning pack namespace;
+- use `nodes` values plus a string `output`; use closed
+  `{"op":"union|intersection|difference","args":[...]}` operation objects;
+- bind selected outputs from `params.shape_bindings`, using `states` for block-state
+  selection and `{"from":"shape"}` or another slot for aliases;
+- do not reuse the retired operator-array syntax in examples or migrations.
+
 Before accepting a BBModel, confirm that at least one intended element survives the `visibility`/`export` flags from its complete outliner hierarchy. Binding or loading the file does not prove that it contains visible geometry.
 
 Keep rendering configuration and business behavior separate. `proxy_model` and
@@ -136,7 +155,8 @@ behavior. The option belongs to `TrainPanelBlock`, so every TrainPanel family
 factory may use it. A TrainPanel part that also needs custom Proxy rendering
 extends `TrainPanelProxyBlock`; do not introduce a separate cross-cell Proxy
 base. When left/right or open/closed states occupy different cells, use
-`cells_by_state` rather than the union of all states.
+`cells_by_state` for a property mapping or exact `state_cells` rules rather
+than the union of all states.
 
 Before placing a multi-cell anchor, preflight every selected companion cell from
 the candidate state. Reject the whole placement when any target overlaps another
@@ -160,6 +180,7 @@ Use the Python and Gradle commands detected by `inspect_workspace.py`. Windows P
 ```powershell
 py -3 .agents/skills/kuayue-pack-authoring/scripts/validate_pack.py PACK_ROOT --require-schema
 .\gradlew.bat :modules:train-parts:test --console=plain
+.\gradlew.bat :modules:core:test --console=plain
 ```
 
 macOS/Linux use `python3` and `./gradlew`. If `jsonschema` or `referencing` is unavailable, follow the virtual-environment commands in [platform-commands.md](platform-commands.md).
@@ -179,6 +200,12 @@ The validator also checks:
 - visible exported geometry in local `proxy_model` BBModels;
 - complete four-direction blockstates for known directional factories;
 - runtime/generated pack locations.
+
+For shape changes, verify the shape file against
+`doc/schemas/data-driven/v1/shapes.schema.json`, which mirrors the KasugaLib
+schema. Schema checks are structural; the KuaYue tests cover state-rule
+resolution and migrated parcel coverage, while the library compiler checks
+outputs, cycles, visibility, float32 narrowing, and geometry budgets.
 
 Before a commit, rerun with `--require-durable-source`. A runtime-preview pack is not a complete result.
 

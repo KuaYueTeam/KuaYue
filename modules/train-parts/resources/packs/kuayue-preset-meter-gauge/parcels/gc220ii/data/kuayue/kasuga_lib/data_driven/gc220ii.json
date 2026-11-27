@@ -1,5 +1,6 @@
 {
   "on_register": [
+    "locomotives/gc220ii/shapes.json",
     "bogeys/gc220ii.json",
     "locomotives/gc220ii/groups.json",
     "locomotives/gc220ii/blocks.json",

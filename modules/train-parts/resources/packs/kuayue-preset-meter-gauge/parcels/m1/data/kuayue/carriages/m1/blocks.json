@@ -179,40 +179,8 @@
       "type": "air_vent",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=north": [
-            4.25,
-            15.431,
-            4.25,
-            11.75,
-            16.181,
-            11.75
-          ],
-          "facing=east": [
-            4.25,
-            15.431,
-            4.25,
-            11.75,
-            16.181,
-            11.75
-          ],
-          "facing=south": [
-            4.25,
-            15.431,
-            4.25,
-            11.75,
-            16.181,
-            11.75
-          ],
-          "facing=west": [
-            4.25,
-            15.431,
-            4.25,
-            11.75,
-            16.181,
-            11.75
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/ceiling_fan"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/ceiling_fan"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/ceiling_fan"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/ceiling_fan"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north"},"cells":[[0,1,0]]},{"when":{"facing":"east"},"cells":[[0,1,0]]},{"when":{"facing":"south"},"cells":[[0,1,0]]},{"when":{"facing":"west"},"cells":[[0,1,0]]}]}
       }
     },
     {
@@ -220,40 +188,8 @@
       "type": "slab_top",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=north": [
-            0.0,
-            0.6,
-            -9.0,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=east": [
-            0.0,
-            0.6,
-            0.0,
-            25.0,
-            8.0,
-            16.0
-          ],
-          "facing=south": [
-            0.0,
-            0.6,
-            0.0,
-            16.0,
-            8.0,
-            25.0
-          ],
-          "facing=west": [
-            -9.0,
-            0.6,
-            0.0,
-            16.0,
-            8.0,
-            16.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/coupler_floor_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/coupler_floor_facing_east"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/coupler_floor_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/coupler_floor_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north"},"cells":[[0,0,-1]]},{"when":{"facing":"east"},"cells":[[0,0,-1]]},{"when":{"facing":"south"},"cells":[[0,0,-1]]},{"when":{"facing":"west"},"cells":[[0,0,-1]]}]}
       }
     },
     {
@@ -264,9 +200,7 @@
         "no_collision": true
       },
       "params": {
-        "aabb": {
-          "": []
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[],"shape":{"ref":"kuayue:m1/shapes/empty_geometry"}}
       }
     },
     {
@@ -274,72 +208,8 @@
       "type": "train_small_window",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=east,open=false": [
-            -7.904,
-            -8.0,
-            -15.978,
-            2.069,
-            32.0,
-            31.972
-          ],
-          "facing=north,open=false": [
-            -15.978,
-            -8.0,
-            13.931,
-            31.972,
-            32.0,
-            23.904
-          ],
-          "facing=south,open=false": [
-            -15.972,
-            -8.0,
-            -7.904,
-            31.978,
-            32.0,
-            2.069
-          ],
-          "facing=west,open=false": [
-            13.931,
-            -8.0,
-            -15.972,
-            23.904,
-            32.0,
-            31.978
-          ],
-          "facing=east,open=true": [
-            -7.904,
-            -8.0,
-            -15.978,
-            2.069,
-            32.0,
-            31.972
-          ],
-          "facing=north,open=true": [
-            -15.978,
-            -8.0,
-            13.931,
-            31.972,
-            32.0,
-            23.904
-          ],
-          "facing=south,open=true": [
-            -15.972,
-            -8.0,
-            -7.904,
-            31.978,
-            32.0,
-            2.069
-          ],
-          "facing=west,open=true": [
-            13.931,
-            -8.0,
-            -15.972,
-            23.904,
-            32.0,
-            31.978
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"east","open":"false"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_east"}},{"when":{"facing":"north","open":"false"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_north"}},{"when":{"facing":"south","open":"false"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_south"}},{"when":{"facing":"west","open":"false"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_west"}},{"when":{"facing":"east","open":"true"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_east"}},{"when":{"facing":"north","open":"true"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_north"}},{"when":{"facing":"south","open":"true"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_south"}},{"when":{"facing":"west","open":"true"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"east","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"north","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"south","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"west","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"east","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"north","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"south","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"west","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]}]}
       }
     },
     {
@@ -350,9 +220,7 @@
         "no_collision": true
       },
       "params": {
-        "aabb": {
-          "": []
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[],"shape":{"ref":"kuayue:m1/shapes/empty_geometry"}}
       }
     },
     {
@@ -360,40 +228,8 @@
       "type": "full_shape_directional",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=east": [
-            0.0,
-            -7.861,
-            -10.5,
-            16.0,
-            8.0,
-            25.5
-          ],
-          "facing=north": [
-            -10.5,
-            -7.861,
-            0.0,
-            25.5,
-            8.0,
-            16.0
-          ],
-          "facing=south": [
-            -9.5,
-            -7.861,
-            0.0,
-            26.5,
-            8.0,
-            16.0
-          ],
-          "facing=west": [
-            0.0,
-            -7.861,
-            -9.5,
-            16.0,
-            8.0,
-            26.5
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/generator_facing_east"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/generator_facing_north"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/generator_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/generator_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"east"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"north"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"south"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"west"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]}]}
       }
     },
     {
@@ -401,40 +237,8 @@
       "type": "full_shape_directional",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=east": [
-            -2.619,
-            -7.913,
-            -8.0,
-            17.0,
-            8.0,
-            16.0
-          ],
-          "facing=north": [
-            -8.0,
-            -7.913,
-            -1.0,
-            16.0,
-            8.0,
-            18.619
-          ],
-          "facing=south": [
-            0.0,
-            -7.913,
-            -2.619,
-            24.0,
-            8.0,
-            17.0
-          ],
-          "facing=west": [
-            -1.0,
-            -7.913,
-            0.0,
-            18.619,
-            8.0,
-            24.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/oil_tank_facing_east"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/oil_tank_facing_north"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/oil_tank_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/oil_tank_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"east"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1]]},{"when":{"facing":"north"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1]]},{"when":{"facing":"south"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1]]},{"when":{"facing":"west"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1]]}]}
       }
     },
     {
@@ -446,136 +250,8 @@
         "begin_y": 0,
         "end_x": 1,
         "end_y": 1,
-        "aabb": {
-          "facing=south,hinge=right,open=false": [
-            0.0,
-            -8.0,
-            15.0,
-            16.0,
-            32.0,
-            17.0
-          ],
-          "facing=west,hinge=right,open=false": [
-            -1.0,
-            -8.0,
-            0.0,
-            1.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=false": [
-            0.0,
-            -8.0,
-            -1.0,
-            16.0,
-            32.0,
-            1.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            15.0,
-            -8.0,
-            0.0,
-            17.0,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            0.0,
-            -8.0,
-            15.0,
-            27.0,
-            32.0,
-            17.0
-          ],
-          "facing=west,hinge=right,open=true": [
-            -1.0,
-            -8.0,
-            0.0,
-            1.0,
-            32.0,
-            27.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            -11.0,
-            -8.0,
-            -1.0,
-            16.0,
-            32.0,
-            1.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            15.0,
-            -8.0,
-            -11.0,
-            17.0,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=false": [
-            0.0,
-            -8.0,
-            15.0,
-            16.0,
-            32.0,
-            17.0
-          ],
-          "facing=west,hinge=left,open=false": [
-            -1.0,
-            -8.0,
-            0.0,
-            1.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=false": [
-            0.0,
-            -8.0,
-            -1.0,
-            16.0,
-            32.0,
-            1.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            15.0,
-            -8.0,
-            0.0,
-            17.0,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            -11.0,
-            -8.0,
-            15.0,
-            16.0,
-            32.0,
-            17.0
-          ],
-          "facing=west,hinge=left,open=true": [
-            -1.0,
-            -8.0,
-            -11.0,
-            1.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            0.0,
-            -8.0,
-            -1.0,
-            27.0,
-            32.0,
-            1.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            15.0,
-            -8.0,
-            0.0,
-            17.0,
-            32.0,
-            27.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south","hinge":"right","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_south_closed"}},{"when":{"facing":"west","hinge":"right","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_west_closed"}},{"when":{"facing":"north","hinge":"right","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_north_closed"}},{"when":{"facing":"east","hinge":"right","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_east_closed"}},{"when":{"facing":"south","hinge":"right","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_south_hinge_right_open"}},{"when":{"facing":"west","hinge":"right","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_west_hinge_right_open"}},{"when":{"facing":"north","hinge":"right","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_north_hinge_right_open"}},{"when":{"facing":"east","hinge":"right","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_east_hinge_right_open"}},{"when":{"facing":"south","hinge":"left","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_south_closed"}},{"when":{"facing":"west","hinge":"left","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_west_closed"}},{"when":{"facing":"north","hinge":"left","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_north_closed"}},{"when":{"facing":"east","hinge":"left","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_east_closed"}},{"when":{"facing":"south","hinge":"left","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_south_hinge_left_open"}},{"when":{"facing":"west","hinge":"left","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_west_hinge_left_open"}},{"when":{"facing":"north","hinge":"left","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_north_hinge_left_open"}},{"when":{"facing":"east","hinge":"left","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_east_hinge_left_open"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south","hinge":"right","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"west","hinge":"right","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"north","hinge":"right","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"east","hinge":"right","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"south","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"west","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"north","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"east","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"south","hinge":"left","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"west","hinge":"left","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"north","hinge":"left","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"east","hinge":"left","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"south","hinge":"left","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west","hinge":"left","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"north","hinge":"left","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east","hinge":"left","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]}]}
       }
     },
     {
@@ -583,72 +259,8 @@
       "type": "train_small_window",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=south,open=false": [
-            0.0,
-            -8.0,
-            0.0,
-            16.0,
-            32.0,
-            32.0
-          ],
-          "facing=south,open=true": [
-            0.0,
-            -8.0,
-            0.0,
-            16.0,
-            32.0,
-            32.0
-          ],
-          "facing=west,open=false": [
-            -16.0,
-            -8.0,
-            0.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=west,open=true": [
-            -16.0,
-            -8.0,
-            0.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,open=false": [
-            0.0,
-            -8.0,
-            -16.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,open=true": [
-            0.0,
-            -8.0,
-            -16.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=east,open=false": [
-            0.0,
-            -8.0,
-            0.0,
-            32.0,
-            32.0,
-            16.0
-          ],
-          "facing=east,open=true": [
-            0.0,
-            -8.0,
-            0.0,
-            32.0,
-            32.0,
-            16.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south","open":"false"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_south"}},{"when":{"facing":"south","open":"true"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_south"}},{"when":{"facing":"west","open":"false"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_west"}},{"when":{"facing":"west","open":"true"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_west"}},{"when":{"facing":"north","open":"false"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_north"}},{"when":{"facing":"north","open":"true"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_north"}},{"when":{"facing":"east","open":"false"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_east"}},{"when":{"facing":"east","open":"true"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"south","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"west","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"west","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"north","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"north","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"east","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"east","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]}]}
       }
     },
     {
@@ -656,40 +268,8 @@
       "type": "slab_top",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=east": [
-            0.0,
-            -2.334,
-            0.0,
-            16.0,
-            8.025,
-            16.0
-          ],
-          "facing=north": [
-            0.0,
-            -2.334,
-            0.0,
-            16.0,
-            8.025,
-            16.0
-          ],
-          "facing=south": [
-            0.0,
-            -2.334,
-            0.0,
-            16.0,
-            8.025,
-            16.0
-          ],
-          "facing=west": [
-            0.0,
-            -2.334,
-            0.0,
-            16.0,
-            8.025,
-            16.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/toilet"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/toilet"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/toilet"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/toilet"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"east"},"cells":[[0,-1,0]]},{"when":{"facing":"north"},"cells":[[0,-1,0]]},{"when":{"facing":"south"},"cells":[[0,-1,0]]},{"when":{"facing":"west"},"cells":[[0,-1,0]]}]}
       }
     },
     {
@@ -697,72 +277,8 @@
       "type": "train_small_window",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=south,open=false": [
-            1.0,
-            -8.0,
-            -0.052,
-            32.0,
-            32.0,
-            15.948
-          ],
-          "facing=south,open=true": [
-            1.0,
-            -8.0,
-            -0.052,
-            32.0,
-            32.0,
-            15.948
-          ],
-          "facing=west,open=false": [
-            0.052,
-            -8.0,
-            1.0,
-            16.052,
-            32.0,
-            32.0
-          ],
-          "facing=west,open=true": [
-            0.052,
-            -8.0,
-            1.0,
-            16.052,
-            32.0,
-            32.0
-          ],
-          "facing=north,open=false": [
-            -16.0,
-            -8.0,
-            0.052,
-            15.0,
-            32.0,
-            16.052
-          ],
-          "facing=north,open=true": [
-            -16.0,
-            -8.0,
-            0.052,
-            15.0,
-            32.0,
-            16.052
-          ],
-          "facing=east,open=false": [
-            -0.052,
-            -8.0,
-            -16.0,
-            15.948,
-            32.0,
-            15.0
-          ],
-          "facing=east,open=true": [
-            -0.052,
-            -8.0,
-            -16.0,
-            15.948,
-            32.0,
-            15.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south","open":"false"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_south"}},{"when":{"facing":"south","open":"true"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_south"}},{"when":{"facing":"west","open":"false"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_west"}},{"when":{"facing":"west","open":"true"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_west"}},{"when":{"facing":"north","open":"false"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_north"}},{"when":{"facing":"north","open":"true"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_north"}},{"when":{"facing":"east","open":"false"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_east"}},{"when":{"facing":"east","open":"true"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"south","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"west","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"west","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"north","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"north","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"east","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"east","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]}]}
       }
     },
     {
@@ -770,40 +286,8 @@
       "type": "slab_top",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=south": [
-            -16.0,
-            -4.207,
-            -12.369,
-            32.0,
-            8.0,
-            28.009
-          ],
-          "facing=west": [
-            -12.009,
-            -4.207,
-            -16.0,
-            28.369,
-            8.0,
-            32.0
-          ],
-          "facing=north": [
-            -16.0,
-            -4.207,
-            -12.009,
-            32.0,
-            8.0,
-            28.369
-          ],
-          "facing=east": [
-            -12.369,
-            -4.207,
-            -16.0,
-            28.009,
-            8.0,
-            32.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_2_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_2_facing_west"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_2_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_2_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"west"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"north"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"east"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]}]}
       }
     },
     {
@@ -811,40 +295,8 @@
       "type": "slab_top",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=south": [
-            -6.0,
-            -4.207,
-            -11.162,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=west": [
-            0.0,
-            -4.207,
-            -6.0,
-            27.162,
-            8.0,
-            16.0
-          ],
-          "facing=north": [
-            0.0,
-            -4.207,
-            0.0,
-            22.0,
-            8.0,
-            27.162
-          ],
-          "facing=east": [
-            -11.162,
-            -4.207,
-            0.0,
-            16.0,
-            8.0,
-            22.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_3_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_3_facing_west"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_3_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_3_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"west"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"north"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"east"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]}]}
       }
     },
     {
@@ -852,40 +304,8 @@
       "type": "slab_top",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=south": [
-            -11.261,
-            -3.5,
-            -13.55,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=west": [
-            0.0,
-            -3.5,
-            -11.261,
-            29.55,
-            8.0,
-            16.0
-          ],
-          "facing=north": [
-            0.0,
-            -3.5,
-            0.0,
-            27.261,
-            8.0,
-            29.55
-          ],
-          "facing=east": [
-            -13.55,
-            -3.5,
-            0.0,
-            16.0,
-            8.0,
-            27.261
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_4_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_4_facing_west"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_4_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_4_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"west"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"north"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"east"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]}]}
       }
     },
     {
@@ -893,40 +313,8 @@
       "type": "slab_top",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=south": [
-            0.0,
-            -6.0,
-            0.0,
-            16.0,
-            8.0,
-            17.0
-          ],
-          "facing=west": [
-            -1.0,
-            -6.0,
-            0.0,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=north": [
-            0.0,
-            -6.0,
-            -1.0,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=east": [
-            0.0,
-            -6.0,
-            0.0,
-            17.0,
-            8.0,
-            16.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_5_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_5_facing_west"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_5_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_5_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1]]},{"when":{"facing":"west"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1]]},{"when":{"facing":"north"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1]]},{"when":{"facing":"east"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1]]}]}
       }
     },
     {
@@ -934,40 +322,8 @@
       "type": "slab_top",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=south": [
-            0.0,
-            -8.0,
-            8.0,
-            16.0,
-            10.0,
-            16.0
-          ],
-          "facing=west": [
-            0.0,
-            -8.0,
-            0.0,
-            8.0,
-            10.0,
-            16.0
-          ],
-          "facing=north": [
-            0.0,
-            -8.0,
-            0.0,
-            16.0,
-            10.0,
-            8.0
-          ],
-          "facing=east": [
-            8.0,
-            -8.0,
-            0.0,
-            16.0,
-            10.0,
-            16.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/washbasin_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/washbasin_facing_west"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/washbasin_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/washbasin_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south"},"cells":[[0,-1,0]]},{"when":{"facing":"west"},"cells":[[0,-1,0]]},{"when":{"facing":"north"},"cells":[[0,-1,0]]},{"when":{"facing":"east"},"cells":[[0,-1,0]]}]}
       }
     },
     {
@@ -975,40 +331,8 @@
       "type": "full_shape_directional",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=east": [
-            0.0,
-            -7.707,
-            -5.529,
-            16.0,
-            8.0,
-            28.519
-          ],
-          "facing=north": [
-            -5.529,
-            -7.707,
-            0.0,
-            28.519,
-            8.0,
-            16.0
-          ],
-          "facing=south": [
-            -12.519,
-            -7.707,
-            0.0,
-            21.529,
-            8.0,
-            16.0
-          ],
-          "facing=west": [
-            0.0,
-            -7.707,
-            -12.519,
-            16.0,
-            8.0,
-            21.529
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/water_tank_facing_east"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/water_tank_facing_north"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/water_tank_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/water_tank_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"east"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"north"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"south"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"west"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]}]}
       }
     },
     {
@@ -1016,72 +340,8 @@
       "type": "train_unopenable_window",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=south,hinge=right": [
-            -16.0,
-            -0.579,
-            -16.0,
-            32.0,
-            9.0,
-            32.0
-          ],
-          "facing=south,hinge=left": [
-            -16.0,
-            -0.579,
-            -16.0,
-            32.0,
-            9.0,
-            32.0
-          ],
-          "facing=west,hinge=right": [
-            -16.0,
-            -0.579,
-            -16.0,
-            32.0,
-            9.0,
-            32.0
-          ],
-          "facing=west,hinge=left": [
-            -16.0,
-            -0.579,
-            -16.0,
-            32.0,
-            9.0,
-            32.0
-          ],
-          "facing=north,hinge=right": [
-            -16.0,
-            -0.579,
-            -16.0,
-            32.0,
-            9.0,
-            32.0
-          ],
-          "facing=north,hinge=left": [
-            -16.0,
-            -0.579,
-            -16.0,
-            32.0,
-            9.0,
-            32.0
-          ],
-          "facing=east,hinge=right": [
-            -16.0,
-            -0.579,
-            -16.0,
-            32.0,
-            9.0,
-            32.0
-          ],
-          "facing=east,hinge=left": [
-            -16.0,
-            -0.579,
-            -16.0,
-            32.0,
-            9.0,
-            32.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south","hinge":"right"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"south","hinge":"left"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"west","hinge":"right"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"west","hinge":"left"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"north","hinge":"right"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"north","hinge":"left"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"east","hinge":"right"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"east","hinge":"left"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south","hinge":"right"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"south","hinge":"left"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"west","hinge":"right"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"west","hinge":"left"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"north","hinge":"right"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"north","hinge":"left"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"east","hinge":"right"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"east","hinge":"left"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]}]}
       }
     },
     {
@@ -1089,72 +349,8 @@
       "type": "train_small_window",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=north,open=false": [
-            0.0,
-            -8.0,
-            0.0,
-            32.0,
-            32.0,
-            32.0
-          ],
-          "facing=north,open=true": [
-            0.0,
-            -8.0,
-            0.0,
-            32.0,
-            32.0,
-            32.0
-          ],
-          "facing=east,open=false": [
-            -16.0,
-            -8.0,
-            0.0,
-            16.0,
-            32.0,
-            32.0
-          ],
-          "facing=east,open=true": [
-            -16.0,
-            -8.0,
-            0.0,
-            16.0,
-            32.0,
-            32.0
-          ],
-          "facing=south,open=false": [
-            -16.0,
-            -8.0,
-            -16.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=south,open=true": [
-            -16.0,
-            -8.0,
-            -16.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=west,open=false": [
-            0.0,
-            -8.0,
-            -16.0,
-            32.0,
-            32.0,
-            16.0
-          ],
-          "facing=west,open=true": [
-            0.0,
-            -8.0,
-            -16.0,
-            32.0,
-            32.0,
-            16.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","open":"false"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_north"}},{"when":{"facing":"north","open":"true"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_north"}},{"when":{"facing":"east","open":"false"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_east"}},{"when":{"facing":"east","open":"true"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_east"}},{"when":{"facing":"south","open":"false"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_south"}},{"when":{"facing":"south","open":"true"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_south"}},{"when":{"facing":"west","open":"false"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_west"}},{"when":{"facing":"west","open":"true"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","open":"false"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"north","open":"true"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"east","open":"false"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"east","open":"true"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"south","open":"false"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"south","open":"true"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"west","open":"false"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"west","open":"true"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]}]}
       }
     },
     {
@@ -1162,72 +358,8 @@
       "type": "train_small_window",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=north,open=false": [
-            0.0,
-            0.0,
-            15.45,
-            16.0,
-            32.0,
-            17.45
-          ],
-          "facing=east,open=false": [
-            -1.45,
-            0.0,
-            0.0,
-            0.55,
-            32.0,
-            16.0
-          ],
-          "facing=south,open=false": [
-            0.0,
-            0.0,
-            -1.45,
-            16.0,
-            32.0,
-            0.55
-          ],
-          "facing=west,open=false": [
-            15.45,
-            0.0,
-            0.0,
-            17.45,
-            32.0,
-            16.0
-          ],
-          "facing=north,open=true": [
-            0.0,
-            0.0,
-            15.45,
-            16.0,
-            32.0,
-            17.45
-          ],
-          "facing=east,open=true": [
-            -1.45,
-            0.0,
-            0.0,
-            0.55,
-            32.0,
-            16.0
-          ],
-          "facing=south,open=true": [
-            0.0,
-            0.0,
-            -1.45,
-            16.0,
-            32.0,
-            0.55
-          ],
-          "facing=west,open=true": [
-            15.45,
-            0.0,
-            0.0,
-            17.45,
-            32.0,
-            16.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","open":"false"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_north"}},{"when":{"facing":"east","open":"false"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_east"}},{"when":{"facing":"south","open":"false"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_south"}},{"when":{"facing":"west","open":"false"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_west"}},{"when":{"facing":"north","open":"true"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_north"}},{"when":{"facing":"east","open":"true"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_east"}},{"when":{"facing":"south","open":"true"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_south"}},{"when":{"facing":"west","open":"true"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","open":"false"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"east","open":"false"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"south","open":"false"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"west","open":"false"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"north","open":"true"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"east","open":"true"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"south","open":"true"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"west","open":"true"},"cells":[[0,0,1],[0,1,0],[0,1,1]]}]}
       }
     }
   ]

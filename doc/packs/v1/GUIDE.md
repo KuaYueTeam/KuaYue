@@ -103,11 +103,11 @@ ZIP 的 `pack.json` 必须直接位于压缩包根，不能多套一层 `<name>/
   "description_key": "pack.sample_train.description",
   "dependencies": {
     "mods": {
-      "minecraft": "1.21.1",
-      "neoforge": "21.1.203",
-      "kuayue": "2.0.0",
-      "kasuga_lib": "1.0.0",
-      "create": "6.0.6"
+      "minecraft": ">=1.21.1",
+      "neoforge": ">=21.1.203",
+      "kuayue": ">=2.0.0",
+      "kasuga_lib": ">=1.0.0",
+      "create": ">=6.0.6"
     },
     "packs": {}
   },
@@ -129,7 +129,7 @@ ZIP 的 `pack.json` 必须直接位于压缩包根，不能多套一层 `<name>/
 - `required` 可选，缺省为 `false`；只有内置预设包可以设为 `true`；
 - `save_compatibility` 可选，只能使用 `from_versions` 或 `minimum_version` 其中一种。
 
-版本范围只支持 `*`、精确版本和 `[lower,upper)`。依赖缺失、依赖被禁用、版本不满足或形成环时，相关包及其依赖者被阻断，系统不会自动启用或下载依赖。
+版本范围支持 `*`、`>=lower`、精确版本和 `[lower,upper)`。依赖缺失、依赖被禁用、版本不满足或形成环时，相关包及其依赖者被阻断，系统不会自动启用或下载依赖。
 
 `pack.mcmeta` 可以随包提供；省略时资源适配层会使用宿主生成的 Minecraft pack metadata。`pack.json` 和 `parcel.json` 本身不会作为 Minecraft 内容暴露。
 

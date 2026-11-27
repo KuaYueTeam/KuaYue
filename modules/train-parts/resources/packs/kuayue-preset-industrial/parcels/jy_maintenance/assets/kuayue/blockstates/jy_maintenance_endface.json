@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=east,open=false": {
+      "model": "kuayue:block/jy_maintenance/jy_maintenance_endface"
+    },
+    "facing=east,open=true": {
+      "model": "kuayue:block/jy_maintenance/jy_maintenance_endface"
+    },
+    "facing=north,open=false": {
+      "model": "kuayue:block/jy_maintenance/jy_maintenance_endface"
+    },
+    "facing=north,open=true": {
+      "model": "kuayue:block/jy_maintenance/jy_maintenance_endface"
+    },
+    "facing=south,open=false": {
+      "model": "kuayue:block/jy_maintenance/jy_maintenance_endface"
+    },
+    "facing=south,open=true": {
+      "model": "kuayue:block/jy_maintenance/jy_maintenance_endface"
+    },
+    "facing=west,open=false": {
+      "model": "kuayue:block/jy_maintenance/jy_maintenance_endface"
+    },
+    "facing=west,open=true": {
+      "model": "kuayue:block/jy_maintenance/jy_maintenance_endface"
+    }
+  }
+}

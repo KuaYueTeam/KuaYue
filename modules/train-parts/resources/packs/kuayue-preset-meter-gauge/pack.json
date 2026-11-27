@@ -10,14 +10,14 @@
   "description_key": "pack.kuayue_preset_meter_gauge.description",
   "dependencies": {
     "mods": {
-      "minecraft": "1.21.1",
-      "neoforge": "21.1.203",
-      "kuayue": "2.0.0",
-      "kasuga_lib": "1.0.0",
-      "create": "6.0.6"
+      "minecraft": ">=1.21.1",
+      "neoforge": ">=21.1.203",
+      "kuayue": ">=2.0.0",
+      "kasuga_lib": ">=1.0.0",
+      "create": ">=6.0.6"
     },
     "packs": {
-      "kuayue-preset-running-gear": "*"
+      "kuayue-preset-running-gear": ">=2.0.0"
     }
   },
   "parcels": [

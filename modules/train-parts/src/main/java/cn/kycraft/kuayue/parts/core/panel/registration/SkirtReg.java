@@ -2,6 +2,7 @@ package cn.kycraft.kuayue.parts.core.panel.registration;
 
 import cn.kycraft.kuayue.parts.core.panel.SkirtBlock;
 import cn.kycraft.kuayue.parts.core.panel.SkirtBlockItem;
+import cn.kycraft.kuayue.parts.core.factory.KuaYueBlockReg;
 import cn.kycraft.kuayue.parts.core.multiblock.MultiCellFootprint;
 import com.google.gson.JsonObject;
 import lib.kasuga.registration.Reg;
@@ -30,11 +31,16 @@ public class SkirtReg<T extends SkirtBlock> extends Reg<SkirtReg<T>, Block> impl
             JsonObject params,
             Function<BlockBehaviour.Properties, T> blockSupplier
     ) {
-        this(name, properties -> {
+        Function<BlockBehaviour.Properties, T> configured = properties -> {
             T block = blockSupplier.apply(properties);
             block.configureMultiCell(MultiCellFootprint.parse(params));
             return block;
-        });
+        };
+        BlockReg<T> registration = params != null && params.has("shape_bindings")
+                ? KuaYueBlockReg.of(name, configured)
+                : BlockReg.of(name, configured);
+        this.blockReg = registration.setParent(this);
+        this.itemReg = ItemReg.of(name, (i)->new SkirtBlockItem(blockReg.getEntry(), i)).setParent(this);
     }
 
     @Override

@@ -3,11 +3,17 @@ package cn.kycraft.kuayue.parts.locomotives.jy;
 import com.simibubi.create.content.contraptions.ContraptionHandlerClient;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.junit.jupiter.api.Test;
 
 import static cn.kycraft.kuayue.parts.locomotives.jy.JYContraptionDoorTestRig.ANCHOR;
@@ -73,6 +79,36 @@ class JYContraptionDoorSelectionTest {
         rig.addDoor(JYContraptionDoorFixtures.endface.defaultBlockState());
         rig.contraption.hidden.add(ANCHOR);
         assertNull(trace(rig, 1.2, 1.4, -1, 3));
+    }
+
+    @Test
+    void upperCompanionCollisionExcludesTheSelectionOnlyDoorTopBeam() throws Exception {
+        var block = BuiltInRegistries.BLOCK.get(
+                ResourceLocation.parse("kuayue:jy_maintenance_door")
+        );
+        BlockState state = block.defaultBlockState()
+                .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
+                .setValue(BlockStateProperties.DOOR_HINGE, DoorHingeSide.LEFT)
+                .setValue(BlockStateProperties.OPEN, false);
+        var rig = new JYContraptionDoorTestRig(false);
+        rig.addDoor(state);
+        BlockPos child = rig.addCompanion(ANCHOR, new BlockPos(0, 1, 0));
+
+        VoxelShape selection = state.getShape(
+                EmptyBlockGetter.INSTANCE,
+                ANCHOR,
+                CollisionContext.empty()
+        );
+        VoxelShape rootCollision = state.getCollisionShape(
+                EmptyBlockGetter.INSTANCE,
+                ANCHOR,
+                CollisionContext.empty()
+        );
+        VoxelShape childCollision = rig.collisionAt(child);
+
+        assertEquals(29.0 / 16.0, selection.max(Direction.Axis.Y), 1.0e-7);
+        assertEquals(1.0, rootCollision.max(Direction.Axis.Y), 1.0e-7);
+        assertEquals(10.0 / 16.0, childCollision.max(Direction.Axis.Y), 1.0e-7);
     }
 
     private static BlockHitResult trace(

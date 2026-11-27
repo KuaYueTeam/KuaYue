@@ -8,6 +8,7 @@
 |---|---|
 | `data/<namespace>/kasuga_lib/data_driven/*.json` | `index.schema.json` |
 | `on_register` 指向的联合内容文件 | `content.schema.json` |
+| 只含形状定义的注册期文件 | `shapes.schema.json` |
 | 只含 `registry_groups` | `registry-groups.schema.json` |
 | 只含 `blocks` | `blocks.schema.json` |
 | 只含 `items` | `items.schema.json` |
@@ -31,6 +32,7 @@
 | 顶层字段 | 生命周期 | Java handler/加载器 | 数据模型 |
 |---|---|---|---|
 | `registry_groups` | 注册期，阶段 0 | `RegistryGroupHandler` | `RegistryGroupDef` |
+| `shapes` | 注册期，apply 前编译 | `ShapeTypeHandler` | `ShapeDefinition`、`ShapeCatalog` |
 | `blocks` | 注册期，内容阶段 | `BlockTypeHandler` | `BlockDef` |
 | 内嵌 `blocks[].block_entity` | 注册期，内嵌阶段 | `BlockEntityTypeHandler` | `BlockEntityDef` |
 | `items` | 注册期，内容阶段 | `ItemTypeHandler` | `ItemDef` |
@@ -87,7 +89,7 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 
 车型注册入口由车型 parcel 声明；`shared` 只保留跨车型共用的运行数据。外部包仍可遵循同一 parcel 布局。
 
-## 4. 注册组、方块和物品
+## 4. 注册组、方块、物品和形状
 
 `registry_groups` 提供方块属性和物品属性的继承起点。`parent` 必须引用另一注册组；`properties` 使用方块属性字段，`item_properties` 使用物品属性字段。方块和物品也可声明局部覆盖。
 
@@ -118,7 +120,9 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 
 下表的 TrainPanel 家族 factory 还可统一使用可选的 `multi_cell`；只有 `height_slab` 和 `jy290_ac` 不属于该家族。
 
-所有 TrainPanel 家族 factory 还支持可选的 `params.aabb`：从模型几何生成的精确包围盒。键是规范化状态串（如 `facing=north,hinge=left,open=false`，无状态变体用 `""`），值是像素坐标 `[x1,y1,z1,x2,y2,z2]`，空模型用 `[]`。配置后 `getShape` 返回对应盒，`getCollisionShape` 委托 `getShape`，`getInteractionShape` 默认也委托 `getShape`，因此可见形、交互形、碰撞形三者一致；未配置时保持各 factory 原有形状。运行时从完整状态键逐级降级匹配到较短前缀，以兼容 blockstate 变体只声明部分属性的情况（例如只按 `facing` 变化的梯子）。
+所有 TrainPanel 家族 factory 还为未迁移内容保留可选的 `params.aabb`：从模型几何生成的单个轴对齐包围盒。键是规范化状态串（如 `facing=north,hinge=left,open=false`，无状态变体用 `""`），值是像素坐标 `[x1,y1,z1,x2,y2,z2]`，空模型用 `[]`。配置后 `getShape` 返回对应盒，常见的面板与门工厂会让 `getCollisionShape` 委托 `getShape`；`getInteractionShape` 仍使用 Minecraft 的空形状默认值，除非工厂显式覆写。未配置时保持各 factory 原有形状。运行时从完整状态键逐级降级匹配到较短前缀，以兼容 blockstate 变体只声明部分属性的情况（例如只按 `facing` 变化的梯子）。
+
+已经迁移为 `params.shape_bindings` 的米轨方块不再同时发布 `params.aabb`。旧值只保存在 `modules/train-parts/src/test/resources/kuayue/shapes/meter-gauge-legacy-aabb.json` 作为迁移等价性基线；新内容应使用 `params.shape_bindings`，不要把同一几何继续复制到生产 `params.aabb`。
 
 | factory | `params` |
 |---|---|
@@ -138,14 +142,15 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 | `jy290_ac` | 无字段 |
 | `train_door`、`jy290_door` | 可选 `begin_x`、`begin_y`、`end_x`、`end_y`；`jy290_door` 使用 JY290 专用门形和玩家通行碰撞 |
 | `proxy_model` | 通用 proxy 模型宿主，方块本身无行为参数；配合 `proxy_model_be`，其 `params.model` 或 `params.model_groups` 必填，`default_model`、`model_name`、`yaw_offset`、`facing_yaw`、`model_by_state` 可选；支持 `state_properties` |
-| `jy_maintenance_outrigger` | KuaYue 专用 JY 工程车支腿，使用 `train_panel_proxy_be`；右键和动画由专用方块类实现，碰撞为完整方块 |
+| `jy_maintenance_outrigger` | KuaYue 专用 JY 工程车支腿，使用 `train_panel_proxy_be`；右键和动画由专用方块类实现，完整方块判定由 `params.shape_bindings` 提供 |
 | `jy_maintenance_floor` | KuaYue 专用 JY 工程车地板与梯子地板，保留半砖碰撞和扳手旋转，并可当作梯子攀爬 |
-| `jy_maintenance_carport` | KuaYue 专用 JY 工程车顶，使用 `train_panel_proxy_be`；保留半砖碰撞和扳手旋转，并直接加载 BBModel |
-| `jy_maintenance_console` | KuaYue 专用金鹰工程车控制台，使用通用 `ProxyModelBlock` 与 `proxy_model_be`；具有 `facing`，选择框和碰撞箱共用一个模型包围盒 |
-| `jy_maintenance_endface` | KuaYue 专用 JY 工程车端面，使用 `train_panel_proxy_be`；不声明 multi-cell，门和端面的选中框复用状态化碰撞箱 |
-| `jy_maintenance_door` | KuaYue 专用 JY 工程车车门，使用 `train_panel_proxy_be`；支持左右模型、开关状态、播放 `door_open` 和状态化碰撞箱 |
-| `jy_maintenance_panel` | KuaYue 专用 JY 工程车箱板，使用 `train_panel_proxy_be`；通过 `hinge` 选择左右模型 |
-| `jy_maintenance_tail` | KuaYue 专用 JY 工程车尾部，使用 `train_panel_proxy_be`；碰撞由 BBModel 几何生成并忽略 y 高度为零的辅助 cube |
+| `jy_maintenance_head` | KuaYue 专用 JY 工程车车头，使用方向状态与 `proxy_model_be`，判定由 `params.shape_bindings` 提供 |
+| `jy_maintenance_carport` | KuaYue 专用 JY 工程车顶，使用 `train_panel_proxy_be`；半砖判定由 `params.shape_bindings` 提供，保留扳手旋转，并直接加载 BBModel |
+| `jy_maintenance_console` | KuaYue 专用金鹰工程车控制台，使用通用 `ProxyModelBlock` 与 `proxy_model_be`；具有 `facing`，选择框和碰撞箱由状态化 `params.shape_bindings` 提供 |
+| `jy_maintenance_endface` | KuaYue 专用 JY 工程车端面，使用 `train_panel_proxy_be`；不声明 multi-cell，门和端面的选中/碰撞几何由 `params.shape_bindings` 提供 |
+| `jy_maintenance_door` | KuaYue 专用 JY 工程车车门，使用 `train_panel_proxy_be`；支持左右模型、开关状态和 `door_open` 播放，选中与通行碰撞分开由 `params.shape_bindings` 提供 |
+| `jy_maintenance_panel` | KuaYue 专用 JY 工程车箱板，使用 `train_panel_proxy_be`；通过 `hinge` 选择左右模型，几何由 `params.shape_bindings` 提供 |
+| `jy_maintenance_tail` | KuaYue 专用 JY 工程车尾部，使用 `train_panel_proxy_be`；排除零高度辅助 cube 后的几何由状态化 `params.shape_bindings` 提供 |
 | `diet_box` | 可选 `food_type`、`has_tooltip`、`remainder` |
 | `drink` | 可选 `food_type`、`drink`、`has_particle`、`remainder` |
 | `placement_food`、`dried_noodles` | 可选 `food_type`、`has_tooltip` |
@@ -185,6 +190,29 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 ```
 
 状态切换时 manager 会删除不再需要的旧 companion 并创建新 companion。`cells` 可作为状态规则未命中时的默认值；每个状态规则仍排除 anchor，并随 `facing` 旋转。
+
+需要按完整状态精确选择占用格时，使用 `state_cells`。数组项只允许 `when` 和
+`cells`；`when` 非空，值使用序列化字符串。同一状态命中多条规则时取条件更多的一条，
+条件数相同时为歧义错误。`cells: []` 表示该状态不产生 companion：
+
+```json
+{
+  "params": {
+    "multi_cell": {
+      "state_cells": [
+        {
+          "when": {"facing": "north", "open": "true"},
+          "cells": [[0, 0, 1]]
+        },
+        {
+          "when": {"facing": "north", "open": "false"},
+          "cells": []
+        }
+      ]
+    }
+  }
+}
+```
 
 物品目前使用 `simple_item`。其 `params` 可包含：
 
@@ -273,6 +301,64 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 ```
 
 声明 `DOOR_HINGE` 时，`proxy_model` 会按玩家点击位置选择左右形态。通用 proxy 不定义状态到动画片段的映射；需要动画交互的方块应在消费 mod 中实现专用方块类，用 Java `ProxyControllerPort` 读取状态、发出 `PlaybackCommand`，并用 target evaluator 把已提交的播放时间采样到模型姿态。
+
+### 数据驱动形状与状态绑定
+
+形状定义为注册期内容。车型自有文件放在该车型 parcel 内，并由 parcel 的
+`on_register` 列出，例如：
+
+```text
+parcels/c22/data/mytrain/c22/shapes.json
+parcels/c22/data/mytrain/kasuga_lib/data_driven/c22.json
+```
+
+索引项是相对于 `data/mytrain/` 的 `c22/shapes.json`。文件顶层为
+`{"shapes":[...]}`，每个定义只使用 `id`、可选 `parent`、`nodes` 和 string
+`output`，不写 `format_version`。节点表达式为：
+
+```json
+{
+  "shapes": [
+    {
+      "id": "mytrain:c22/shapes/frame",
+      "nodes": {
+        "outer": [0.0, 0.0, 0.0, 32.0, 32.0, 4.0],
+        "opening": [8.0, 0.0, 0.0, 24.0, 30.0, 4.0],
+        "result": {
+          "op": "difference",
+          "args": [
+            "outer",
+            "opening"
+          ]
+        }
+      },
+      "output": "result"
+    }
+  ]
+}
+```
+
+Box6 是六个 JSON `number`（整数也合法），编译时窄化为 float32。运算对象封闭，
+只允许 `op` 和 2–64 项 `args`；`args` 中可匿名嵌套 Box6、空、局部节点名、
+ShapeRef 或运算对象。旧式 `["union", ...]` 数组无效。字符串只在当前定义合并后的
+`nodes` 中解析；跨定义引用必须使用 `{"ref":"namespace:path"}`，结果为目标定义
+所选 `output` 的几何。
+
+子定义按节点名整项覆盖父节点，省略 `output` 时继承父输出。引用父定义最终几何需用
+ShapeRef。ShapeRef 的封闭 `transform` 只允许 `scale`、`rotate_y`、`pivot`、
+`translate`；顺序为缩放、Y 轴 0/90/180/270 度旋转、平移。
+
+方块通过 `params.shape_bindings` 绑定：根级和 `states[]` 规则允许
+`shape`、`collision`、`visual`、`interaction`、`support`、`occlusion` 六个槽。
+槽值为 `native`、`empty`、`ref` 对象或仅含一个目标的 `{"from":"槽"}`。
+状态规则必须有非空 `when`，键必须属于该方块状态，值写序列化字符串；同一槽采用
+命中的最具体规则，同样具体且同时命中的规则会报歧义。KuaYue 车辆绑定不接受内联
+`nodes`/`output`。
+
+`shapes.schema.json` 和 `content.schema.json` 验证结构；KasugaLib 严格预检还负责
+有效 output、parent/局部/ShapeRef 循环、float32 退化、依赖可见性和 geometry
+预算。只有 KuaYue 实际依赖的 KasugaLib 已包含该 handler 和 Schema 时，车包才可发布
+这些字段。
 
 ## 5. 转向架与跨包样式贡献
 
@@ -481,6 +567,7 @@ raise SystemExit(1 if errors else 0)
 ```sh
 python3 validate.py path/to/index.json index.schema.json
 python3 validate.py path/to/content.json content.schema.json
+python3 validate.py path/to/shapes.json shapes.schema.json
 python3 validate.py path/to/bogeys.json bogeys.schema.json
 python3 validate.py path/to/trains.json trains.schema.json
 python3 validate.py path/to/qj_mechanism.json animation-clips.schema.json

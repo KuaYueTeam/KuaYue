@@ -8,7 +8,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 /**
- * Shapes derived from jy_maintenance_door_left/right.bbmodel.
+ * Legacy JY290 door shapes derived from the JY maintenance door models.
  *
  * <p>Coordinates are Blockbench pixels after applying the authored bind transforms and proxy
  * half-block X/Z offset. The moving leaf endpoints come from door_open at time 0 and 0.25.
@@ -57,14 +57,6 @@ final class JYMaintenanceDoorShapes {
             Shapes.or(RIGHT_COLLISION_FRAME, RIGHT_OPEN_LEAF);
 
     private JYMaintenanceDoorShapes() {
-    }
-
-    static VoxelShape get(Direction facing, DoorHingeSide hinge, boolean open) {
-        return rotate(facing, northShape(hinge, open));
-    }
-
-    static VoxelShape getCollision(Direction facing, DoorHingeSide hinge, boolean open) {
-        return rotate(facing, northCollisionShape(hinge, open));
     }
 
     static VoxelShape getJY290(Direction facing, DoorHingeSide hinge, boolean open) {
