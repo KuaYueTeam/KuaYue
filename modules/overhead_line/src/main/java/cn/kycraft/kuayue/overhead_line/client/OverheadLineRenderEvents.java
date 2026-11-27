@@ -1,26 +1,33 @@
 package cn.kycraft.kuayue.overhead_line.client;
 
 import cn.kycraft.kuayue.KuaYue;
+import cn.kycraft.kuayue.overhead_line.block.line.OverheadLineConnection;
 import cn.kycraft.kuayue.overhead_line.block.support.variants.NormalOverheadSupportBlock;
+import cn.kycraft.kuayue.overhead_line.render.CachedCurveRenderer;
+import cn.kycraft.kuayue.overhead_line.render.OverheadLineCurveGenerator;
+import cn.kycraft.kuayue.overhead_line.render.RenderCurve;
 import cn.kycraft.kuayue.overhead_line.wire.OverheadLineEndpoint;
 import cn.kycraft.kuayue.overhead_line.wire.OverheadLineSync;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import cn.kycraft.kuayue.overhead_line.wire.OverheadLineWireKind;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @EventBusSubscriber(modid = KuaYue.MODID, value = Dist.CLIENT)
 public final class OverheadLineRenderEvents {
-    private static final int SEGMENTS = 24;
-    private static final double MIN_HORIZONTAL_SPAN = 1.0e-4;
+    private static final Map<OverheadLineConnection, CachedWire> CURVES = new HashMap<>();
+    private static ClientLevel renderedLevel;
 
     private OverheadLineRenderEvents() {}
 
@@ -29,70 +36,81 @@ public final class OverheadLineRenderEvents {
         if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_BLOCK_ENTITIES) return;
         var minecraft = Minecraft.getInstance();
         var level = minecraft.level;
-        var connections = OverheadLineSync.clientConnections();
-        if (level == null || connections.isEmpty()) return;
+        if (renderedLevel != level) clearGeometry();
+        renderedLevel = level;
+        if (level == null) return;
 
+        var connections = OverheadLineSync.clientConnections();
+        CURVES.keySet().retainAll(connections);
         var buffers = minecraft.renderBuffers().bufferSource();
-        var type = RenderType.lines();
-        var vertices = buffers.getBuffer(type);
+        var type = CachedCurveRenderer.renderType();
         var pose = event.getPoseStack().last();
         var camera = event.getCamera().getPosition();
-        for (var connection : connections) {
-            Vec3 from = resolve(level, connection.from());
-            Vec3 to = resolve(level, connection.to());
-            if (from == null || to == null) continue;
-
-            int color = switch (connection.kind()) {
-                case OVERHEAD_LINE_WIRE -> 0xFFCD41;
-                case ELECTRONIC_WIRE -> 0x50B4FF;
-            };
-            drawCatenary(vertices, pose, from.subtract(camera), to.subtract(camera), color);
+        boolean drew = false;
+        try {
+            for (var connection : connections) {
+                if (!level.dimension().equals(connection.from().dimension())) continue;
+                var curve = refresh(level, connection);
+                if (curve == null || !event.getFrustum().isVisible(curve.bounds())) continue;
+                var out = buffers.getBuffer(type);
+                drew = true;
+                CachedCurveRenderer.render(curve, pose, out, camera, level);
+            }
+        } finally {
+            if (drew) buffers.endBatch(type);
         }
-        buffers.endBatch(type);
+    }
+
+    private static RenderCurve refresh(ClientLevel level, OverheadLineConnection connection) {
+        var fromState = loadedState(level, connection.from());
+        var toState = loadedState(level, connection.to());
+        if (fromState == null || toState == null) {
+            CURVES.remove(connection);
+            return null;
+        }
+        var previous = CURVES.get(connection);
+        if (previous != null && previous.fromState == fromState && previous.toState == toState) {
+            return previous.curve;
+        }
+        var from = resolve(fromState, connection.from(), connection.kind());
+        var to = resolve(toState, connection.to(), connection.kind());
+        if (from == null || to == null) {
+            CURVES.remove(connection);
+            return null;
+        }
+        RenderCurve curve = previous != null && from.equals(previous.from) && to.equals(previous.to)
+                ? previous.curve : OverheadLineCurveGenerator.generate(from, to, connection.kind());
+        CURVES.put(connection, new CachedWire(fromState, toState, from, to, curve));
+        return curve;
+    }
+
+    private static BlockState loadedState(ClientLevel level, OverheadLineEndpoint endpoint) {
+        var pos = endpoint.blockPos();
+        var chunk = new ChunkPos(pos);
+        var loaded = level.getChunkSource().getChunk(chunk.x, chunk.z, net.minecraft.world.level.chunk.status.ChunkStatus.FULL, false);
+        return loaded == null ? null : loaded.getBlockState(pos);
+    }
+
+    private static Vec3 resolve(BlockState state, OverheadLineEndpoint endpoint, OverheadLineWireKind kind) {
+        if (!(state.getBlock() instanceof NormalOverheadSupportBlock support)) return null;
+        return support.resolveAnchor(endpoint.blockPos(), state, endpoint.pointIndex(), kind).orElse(null);
+    }
+
+    @SubscribeEvent
+    public static void onLevelUnload(LevelEvent.Unload event) {
+        if (event.getLevel() == renderedLevel) clearGeometry();
     }
 
     @SubscribeEvent
     public static void onLogout(ClientPlayerNetworkEvent.LoggingOut event) {
         OverheadLineSync.clearClient();
+        clearGeometry();
     }
 
-    private static Vec3 resolve(ClientLevel level, OverheadLineEndpoint endpoint) {
-        if (!level.dimension().equals(endpoint.dimension())) return null;
-        var pos = endpoint.blockPos();
-        var chunk = new ChunkPos(pos);
-        if (!level.getChunkSource().hasChunk(chunk.x, chunk.z)) return null;
-
-        var state = level.getBlockState(pos);
-        if (!(state.getBlock() instanceof NormalOverheadSupportBlock support)) return null;
-        return support.resolveAnchor(pos, state, endpoint.pointIndex()).orElse(null);
+    private static void clearGeometry() {
+        CURVES.clear();
+        renderedLevel = null;
     }
 
-    private static void drawCatenary(VertexConsumer out, PoseStack.Pose pose, Vec3 a, Vec3 b, int rgb) {
-        double horizontal = Math.hypot(b.x - a.x, b.z - a.z);
-        if (horizontal < MIN_HORIZONTAL_SPAN) return;
-
-        double c = 2.0 * horizontal;
-        double u = (b.y - a.y) / (2.0 * c * Math.sinh(horizontal / (2.0 * c)));
-        double asinh = Math.copySign(Math.log(Math.abs(u) + Math.hypot(u, 1.0)), u);
-        double x0 = horizontal / 2.0 - c * asinh;
-        Vec3 previous = a;
-        for (int i = 1; i <= SEGMENTS; i++) {
-            double t = (double) i / SEGMENTS;
-            double x = horizontal * t;
-            double y = a.y + 2.0 * c * Math.sinh(x / (2.0 * c))
-                    * Math.sinh((x - 2.0 * x0) / (2.0 * c));
-            Vec3 next = i == SEGMENTS ? b : new Vec3(
-                    a.x + (b.x - a.x) * t, y, a.z + (b.z - a.z) * t);
-            Vec3 direction = next.subtract(previous).normalize();
-            vertex(out, pose, previous, direction, rgb);
-            vertex(out, pose, next, direction, rgb);
-            previous = next;
-        }
-    }
-
-    private static void vertex(VertexConsumer out, PoseStack.Pose pose, Vec3 pos, Vec3 direction, int rgb) {
-        out.addVertex(pose.pose(), (float) pos.x, (float) pos.y, (float) pos.z)
-                .setColor((rgb >> 16) & 255, (rgb >> 8) & 255, rgb & 255, 255)
-                .setNormal(pose, (float) direction.x, (float) direction.y, (float) direction.z);
-    }
+    private record CachedWire(BlockState fromState, BlockState toState, Vec3 from, Vec3 to, RenderCurve curve) {}
 }

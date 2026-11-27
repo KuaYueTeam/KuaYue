@@ -15,6 +15,7 @@ public final class ModelledOverheadSupportBlock extends NormalOverheadSupportBlo
     private final ResourceLocation model;
     private final int modelYaw;
     private final int modelYawStep;
+    private final Vec3 modelOffset;
 
     public ModelledOverheadSupportBlock(
             Properties properties, TrussShape shape,
@@ -24,14 +25,31 @@ public final class ModelledOverheadSupportBlock extends NormalOverheadSupportBlo
 
     public ModelledOverheadSupportBlock(Properties properties, TrussShape shape,
                                         ResourceLocation model, int modelYaw, int modelYawStep , List<Vec3> connectionsPoints) {
-        super(properties, shape , connectionsPoints);
+        this(properties, shape, model, modelYaw, modelYawStep, connectionsPoints, Integer.MAX_VALUE);
+    }
+
+    public ModelledOverheadSupportBlock(Properties properties, TrussShape shape,
+                                        ResourceLocation model, int modelYaw, int modelYawStep,
+                                        List<Vec3> connectionsPoints, int connectionMax) {
+        this(properties, shape, model, modelYaw, modelYawStep, Vec3.ZERO, connectionsPoints, connectionMax);
+    }
+
+    public ModelledOverheadSupportBlock(Properties properties, TrussShape shape,
+                                        ResourceLocation model, int modelYaw, int modelYawStep, Vec3 modelOffset,
+                                        List<Vec3> connectionsPoints, int connectionMax) {
+        super(properties, shape, connectionsPoints, connectionMax);
         this.model = model;
         this.modelYaw = modelYaw;
         this.modelYawStep = modelYawStep;
+        this.modelOffset = modelOffset;
     }
 
     public ResourceLocation model() {
         return model;
+    }
+
+    public Vec3 modelOffset() {
+        return modelOffset;
     }
 
     public int modelYaw(BlockState state) {

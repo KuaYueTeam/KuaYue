@@ -1,54 +1,87 @@
 package cn.kycraft.kuayue.overhead_line.render;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec2;
+import cn.kycraft.kuayue.overhead_line.wire.OverheadLineWireKind;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Quaterniond;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class OverheadLineCurveGenerator {
-    public static final Vec3 UP =new Vec3(0,1,0);
+public final class OverheadLineCurveGenerator {
+    private static final double CONIC_END_HEIGHT = 1.3;
+    private static final double CONIC_TANGENT_CLEARANCE = 0.5;
+    private static final double DROPPER_SPACING = 5.0;
+    private static final double CATENARY_SPACING = 0.2;
+    private static final double CATENARY_COEFFICIENT = 300.0;
+    private static final double HALF_WIDTH = 0.025;
+    private static final double MIN_HORIZONTAL_SPAN = 1.0e-4;
+    private static final int MAX_SEGMENTS = 4096;
 
-    public static RenderCurve straightLine(Level level,Vec3 a,Vec3 b,float r){
-        RenderCurve.Builder builder = RenderCurve.create();
-        prepareLine(builder,a,b.subtract(a),r);
-        straightLine(builder,a,b,r);
-        return builder.build(level);
+    private OverheadLineCurveGenerator() {}
+
+    public static RenderCurve generate(Vec3 from, Vec3 to, OverheadLineWireKind kind) {
+        Vec3 delta = to.subtract(from);
+        double span = Math.hypot(delta.x, delta.z);
+        List<RenderCurve.Segment> segments = new ArrayList<>();
+        if (span < MIN_HORIZONTAL_SPAN) {
+            addSegment(segments, from, to);
+        } else {
+            switch (kind) {
+                case OVERHEAD_LINE_WIRE -> conicHangLine(segments, from, to, delta, span);
+                case ELECTRONIC_WIRE -> catenaryLine(segments, from, to, delta, span);
+            }
+        }
+        return new RenderCurve(segments, from);
     }
 
-    public static void prepareLine(RenderCurve.Builder builder,Vec3 a,Vec3 dir,float r){
-        PoseStack pose = builder.getPoseStack();
-        pose.translate(a.x - 0.5 * r, a.y - 0.5 * r,a.z - 0.5 * r);
-        Axis YP = angle -> new Quaternionf().rotationY(angle);
-        pose.mulPose(Axis.YP.rotation((float) Math.atan2(dir.x,dir.z)));
+    private static void conicHangLine(List<RenderCurve.Segment> segments, Vec3 from, Vec3 to,
+                                      Vec3 delta, double span) {
+        int count = segmentCount(Math.floor(span / DROPPER_SPACING));
+
+        double bend = CONIC_TANGENT_CLEARANCE * Math.hypot(1.0, delta.y / span) - CONIC_END_HEIGHT;
+        Vec3 previous = from.add(0, CONIC_END_HEIGHT, 0);
+        for (int i = 1; i <= count; i++) {
+            double t = (double) i / count;
+            Vec3 contact = i == count ? to : from.add(delta.scale(t));
+            Vec3 messenger = contact.add(0, CONIC_END_HEIGHT + bend * t * (1.0 - t), 0);
+            addSegment(segments, previous, messenger);
+            if (i < count) addSegment(segments, contact, messenger);
+            previous = messenger;
+        }
+        addSegment(segments, from, to);
     }
 
-    public static void straightLine(RenderCurve.Builder builder, Vec3 a,Vec3 b,float r){
-        Vec3 dir = b.subtract(a);
+    private static void catenaryLine(List<RenderCurve.Segment> segments, Vec3 from, Vec3 to,
+                                    Vec3 delta, double span) {
+        int count = segmentCount(Math.ceil(span / CATENARY_SPACING));
 
-        float rotZ = - (float)Math.atan2(dir.y,Math.sqrt(dir.x * dir.x + dir.z * dir.z));
-        Quaternionf q = Axis.XP.rotation(rotZ);
-        Quaternionf qZ = Axis.ZP.rotation(rotZ);
-        float distance = (float) a.distanceTo(b);
+        double g = CATENARY_COEFFICIENT;
+        double rise = delta.y / (2.0 * g * Math.sinh(span / (2.0 * g)));
+        double phase = Math.copySign(Math.log(Math.abs(rise) + Math.hypot(rise, 1.0)), rise);
+        Vec3 previous = from;
+        for (int i = 1; i <= count; i++) {
+            double t = (double) i / count;
+            double x = span * t;
+            double y = 2.0 * g * Math.sinh(x / (2.0 * g)) * Math.sinh((x - span) / (2.0 * g) + phase);
 
-        Vector3f one = new Vector3f(1,1,0);
-        one.rotate(qZ);
-        one.mul(distance);
-        Vec2 vecResult = new Vec2((float) Math.sqrt(one.x() * one.x() + one.z() * one.z()), one.y());
-
-        PoseStack pose = builder.getPoseStack();
-        pose.mulPose(q);
-        pose.scale(r,r,distance);
-        pose.translate(-0.5,-0.5,-0.5);
-
-        builder.store(vecResult);
+            if (!Double.isFinite(y)) {
+                segments.clear();
+                addSegment(segments, from, to);
+                return;
+            }
+            Vec3 next = i == count ? to : from.add(delta.x * t, y, delta.z * t);
+            addSegment(segments, previous, next);
+            previous = next;
+        }
     }
 
-//    public static void conicHangLine(RenderCurve.Builder builder ,Vec3 first,Vec3 last,float ) {
-//
-//    }
+    private static int segmentCount(double count) {
+        return (int) Math.clamp(count, 1, MAX_SEGMENTS);
+    }
+
+    private static void addSegment(List<RenderCurve.Segment> segments, Vec3 from, Vec3 to) {
+        Vec3 delta = to.subtract(from);
+        double length = delta.length();
+        if (length < 1.0e-8 || !Double.isFinite(length)) return;
+        segments.add(new RenderCurve.Segment(from, to, delta.scale(1.0 / length), HALF_WIDTH));
+    }
 }

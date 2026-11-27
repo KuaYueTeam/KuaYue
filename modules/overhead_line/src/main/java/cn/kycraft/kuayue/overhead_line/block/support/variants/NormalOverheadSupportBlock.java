@@ -1,10 +1,14 @@
 package cn.kycraft.kuayue.overhead_line.block.support.variants;
 
 import cn.kycraft.kuayue.overhead_line.block.support.OverheadLineAnchorTransform;
+import cn.kycraft.kuayue.overhead_line.wire.OverheadLineSync;
+import cn.kycraft.kuayue.overhead_line.wire.OverheadLineWireKind;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
@@ -38,22 +42,41 @@ public class NormalOverheadSupportBlock extends Block {
 
     private final TrussShape trussShape;
     private final List<Vec3> connectionPoints;
+    private final int connectionMax;
 
     public NormalOverheadSupportBlock(BlockBehaviour.Properties properties, List<Vec3> connectionPoints) {
         this(properties, TrussShape.FULL_BLOCK, connectionPoints);
     }
 
     public NormalOverheadSupportBlock(BlockBehaviour.Properties properties, TrussShape trussShape, List<Vec3> connectionPoints) {
+        this(properties, trussShape, connectionPoints, Integer.MAX_VALUE);
+    }
+
+    public NormalOverheadSupportBlock(BlockBehaviour.Properties properties, TrussShape trussShape,
+                                      List<Vec3> connectionPoints, int connectionMax) {
         super(properties);
         this.trussShape = Objects.requireNonNull(trussShape, "trussShape");
         this.connectionPoints = List.copyOf(connectionPoints);
+        this.connectionMax = connectionMax;
         registerDefaultState(getStateDefinition().any().setValue(FACING, Direction.EAST));
+    }
+
+    public int getConnectionMax() {
+        return connectionMax;
     }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         Direction direction = context.getHorizontalDirection();
         return defaultBlockState().setValue(FACING, trussShape == TrussShape.FULL_BLOCK ? direction : direction.getOpposite());
+    }
+
+    @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState replacement, boolean movedByPiston) {
+        super.onRemove(state, level, pos, replacement, movedByPiston);
+        if (!replacement.is(this) && level instanceof ServerLevel serverLevel) {
+            OverheadLineSync.removeAt(serverLevel, pos);
+        }
     }
 
     @Override
@@ -92,9 +115,16 @@ public class NormalOverheadSupportBlock extends Block {
         };
     }
 
-    public Optional<Vec3> resolveAnchor(BlockPos pos , BlockState state , int pointIndex){
-        if (pointIndex < 0 || pointIndex >= connectionPoints.size()){return Optional.empty();}
-        return Optional.of(OverheadLineAnchorTransform.toWorld(pos , state.getValue(FACING) , connectionPoints.get(pointIndex)));
+    public Optional<Vec3> resolveAnchor(BlockPos pos, BlockState state, int pointIndex,
+                                        OverheadLineWireKind kind) {
+        if (pointIndex < 0 || pointIndex >= connectionPoints.size()) return Optional.empty();
+        Vec3 anchor = OverheadLineAnchorTransform.toWorld(pos, state.getValue(FACING), connectionPoints.get(pointIndex));
+        return Optional.of(adjustWireAnchor(anchor, state, kind));
+    }
+
+    protected Vec3 adjustWireAnchor(Vec3 anchor, BlockState state,
+                                    OverheadLineWireKind kind) {
+        return anchor;
     }
 
     public int getConnectionPointCount(){

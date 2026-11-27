@@ -1,77 +1,64 @@
 package cn.kycraft.kuayue.overhead_line.render;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import lib.kasuga.structure.Pair;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec2;
-import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix4f;
+import net.minecraft.world.phys.Vec3;
 
-import java.nio.FloatBuffer;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
-public class RenderCurve implements Iterable<Pair<Matrix4f,Integer>>{
-    private final Matrix4fStore matrix;
+public final class RenderCurve {
+    private final List<Segment> segments;
+    private final AABB bounds;
 
-    public RenderCurve(int size,ArrayList<Vec2> pantographAdjustVectors) {
-        this.matrix = new Matrix4fStore(FloatBuffer.allocate(size * 16), size);
-        this.pantographAdjustVectors = pantographAdjustVectors;
-        this.lightStore = new int[size];
-    }
-
-    public Matrix4fStore getMatrix(){return matrix;};
-    private final ArrayList<Vec2> pantographAdjustVectors;
-    public final ArrayList<Vec2> getPantographAdjustVectors(){return pantographAdjustVectors;};
-    private final int[] lightStore;
-
-    @Override
-    public @NotNull Iterator<Pair<Matrix4f, Integer>> iterator() {
-        return new Iterator<Pair<Matrix4f, Integer>>() {
-            Matrix4f matrixHandle = new Matrix4f();
-            int i = 0;
-
-            @Override
-            public boolean hasNext() {return i < matrix.getSize();}
-
-            @Override
-            public Pair<Matrix4f, Integer> next() {return lib.kasuga.structure.Pair.of(matrix.get(matrixHandle,i),lightStore[i++]);}
-        };
-    }
-
-    public Iterator<Vec2> getVec2Iterator(){return pantographAdjustVectors.iterator();};
-    public static Builder create(){return new Builder();}
-
-    public static class Builder{
-        private final PoseStack pose;
-        private final ArrayList<Matrix4f> matrix4fs = new ArrayList<>();
-        private final ArrayList<Vec2> pantographAdjustVectors = new ArrayList<>();
-        Builder() {pose = new PoseStack();}
-        public PoseStack getPoseStack(){return pose;}
-        public void store(){matrix4fs.add(pose.last().pose());}
-        public void store(Vec2 vec2){pantographAdjustVectors.add(vec2);this.store();}
-
-        public RenderCurve build(Level level){
-            RenderCurve curve = new RenderCurve(matrix4fs.size(),pantographAdjustVectors);
-            for (int i = 0; i < matrix4fs.size(); i++){
-                curve.matrix.write(i,matrix4fs.get(i));
+    RenderCurve(List<Segment> segments, Vec3 origin) {
+        this.segments = List.copyOf(segments);
+        AABB box = new AABB(origin, origin);
+        for (Segment segment : segments) {
+            for (int i = 0; i < 8; i++) {
+                Vec3 p = segment.corner(i);
+                box = box.minmax(new AABB(p, p));
             }
-            buildLightLevel(curve,level);
-            return curve;
+        }
+        this.bounds = box;
+    }
+
+    public AABB bounds() {
+        return bounds;
+    }
+
+    List<Segment> segments() {
+        return segments;
+    }
+
+    static final class Segment {
+        private final Vec3[] corners = new Vec3[8];
+        final Vec3 tangent;
+        final Vec3 right;
+        final Vec3 up;
+        final BlockPos lightPos;
+
+        Segment(Vec3 from, Vec3 to, Vec3 tangent, double halfWidth) {
+            this.tangent = tangent;
+            this.right = Math.abs(tangent.y) > 0.9999
+                    ? new Vec3(0, 0, 1).cross(tangent).normalize()
+                    : new Vec3(tangent.z, 0, -tangent.x).normalize();
+            this.up = tangent.cross(right);
+            this.lightPos = BlockPos.containing(from.lerp(to, 0.5));
+            Vec3 side = right.scale(halfWidth);
+            Vec3 top = up.scale(halfWidth);
+            setRing(from, side, top, 0);
+            setRing(to, side, top, 4);
+        }
+
+        private void setRing(Vec3 center, Vec3 side, Vec3 top, int base) {
+            corners[base] = center.subtract(side).subtract(top);
+            corners[base + 1] = center.add(side).subtract(top);
+            corners[base + 2] = center.add(side).add(top);
+            corners[base + 3] = center.subtract(side).add(top);
+        }
+
+        Vec3 corner(int index) {
+            return corners[index];
         }
     }
-
-    protected static int getLightAt(Level level, BlockPos blockPos){
-        return level.getLightEngine().getRawBrightness(blockPos,0);
-    }
-
-    protected static void buildLightLevel(RenderCurve curve, Level level){
-        AABB[] boxes = curve.matrix.getAllBoundingBox();
-        for (int i = 0; i < curve.matrix.getAllBoundingBox().length;i++){
-            curve.lightStore[i] = getLightAt(level,BlockPos.containing(boxes[i].getCenter()));
-        }
-    }
-
 }

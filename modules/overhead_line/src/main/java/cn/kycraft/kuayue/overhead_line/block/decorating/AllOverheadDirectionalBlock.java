@@ -34,16 +34,45 @@ public final class AllOverheadDirectionalBlock {
         ResourceLocation model = params == null || !params.has("model") || params.get("model").isJsonNull() ? null : ResourceLocation.parse(params.get("model").getAsString());
         int yaw = readInt(params, "model_yaw", 0);
         int yawStep = readInt(params, "model_yaw_step", 90);
-        BlockReg<NormalOverheadSupportBlock> registration = BlockReg.of(id, properties -> {
-            return model == null ? new NormalOverheadSupportBlock(properties, shape, connectionsPoints) : new ModelledOverheadSupportBlock(properties, shape, model, yaw, yawStep,connectionsPoints);
-        });
+        Vec3 modelOffset = readModelOffset(id, params);
+        int connectionMax = readConnectionMax(id, params);
+        BlockReg<NormalOverheadSupportBlock> registration = BlockReg.of(id, properties ->
+                model == null ? new NormalOverheadSupportBlock(properties, shape, connectionsPoints, connectionMax)
+                        : new ModelledOverheadSupportBlock(properties, shape, model, yaw, yawStep, modelOffset, connectionsPoints, connectionMax));
         registration.withBlockItem(id, () -> BlockItem::new);
         return registration;
+    }
+
+    static int readConnectionMax(String id, @Nullable JsonObject params) {
+        if (params == null || !params.has("connection_max")) return Integer.MAX_VALUE;
+        JsonElement value = params.get("connection_max");
+        if (value.isJsonPrimitive() && value.getAsJsonPrimitive().isNumber()) {
+            try {
+                int max = value.getAsBigDecimal().intValueExact();
+                if (max >= 0) return max;
+            } catch (NumberFormatException | ArithmeticException ignored) {
+                // Reject fractional values and integers outside the supported range.
+            }
+        }
+        throw new IllegalArgumentException(id + ": connection_max must be a non-negative integer");
     }
 
     private static int readInt(@Nullable JsonObject params, String key, int fallback) {
         return params == null || !params.has(key) || params.get(key).isJsonNull()
                 ? fallback : params.get(key).getAsInt();
+    }
+
+    private static Vec3 readModelOffset(String id, @Nullable JsonObject params) {
+        if (params == null || !params.has("model_offset")) return Vec3.ZERO;
+        JsonElement value = params.get("model_offset");
+        String path = id + ": model_offset";
+        if (!value.isJsonArray() || value.getAsJsonArray().size() != 3) {
+            throw new IllegalArgumentException(path + " must be an array [x, y, z]");
+        }
+        JsonArray offset = value.getAsJsonArray();
+        return new Vec3(readFiniteCoordinate(offset.get(0), path + ".x"),
+                readFiniteCoordinate(offset.get(1), path + ".y"),
+                readFiniteCoordinate(offset.get(2), path + ".z"));
     }
 
     private static List<Vec3> readConnectionsPoints(String id, @Nullable JsonObject params){

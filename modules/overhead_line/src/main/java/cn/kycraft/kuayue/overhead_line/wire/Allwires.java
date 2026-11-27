@@ -2,6 +2,7 @@ package cn.kycraft.kuayue.overhead_line.wire;
 
 import cn.kycraft.kuayue.overhead_line.block.line.OverheadLineConnection;
 import cn.kycraft.kuayue.overhead_line.block.support.variants.NormalOverheadSupportBlock;
+import cn.kycraft.kuayue.overhead_line.save.OverheadLineSavedData.AddResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -48,11 +49,11 @@ public class Allwires extends Item {
         return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
-    private static int nearestAnchor(NormalOverheadSupportBlock supportBlock , BlockState blockState ,BlockPos blockPos , Vec3 hit){
+    private int nearestAnchor(NormalOverheadSupportBlock supportBlock , BlockState blockState ,BlockPos blockPos , Vec3 hit){
         int nearestAnchor = -1;
         double best = Double.POSITIVE_INFINITY;
         for (int i = 0 ; i < supportBlock.getConnectionPointCount() ; i++){
-            Vec3 anchor = supportBlock.resolveAnchor(blockPos , blockState , i).orElse(null);
+            Vec3 anchor = supportBlock.resolveAnchor(blockPos, blockState, i, kind).orElse(null);
             if (anchor == null) {continue;}
             double distance = anchor.distanceToSqr(hit);
             if (distance < best){
@@ -77,22 +78,24 @@ public class Allwires extends Item {
             player.sendSystemMessage(Component.literal("两个挂点必须在同一个维度，请重新选点"));
             return;
         }
-        if (first.equals(current)) {
-            player.sendSystemMessage(Component.literal("这是同一个挂点，请选择另外一个"));
+        if (first.blockPos().equals(current.blockPos())) {
+            player.sendSystemMessage(Component.literal("这是同一个支架，请选择另一个支架"));
             return;
         }
 
-        Vec3 firstAnchor = resolveLoadedAnchor(level, first);
-        if (firstAnchor == null) {
+        var firstSupport = resolveLoadedSupport(level, first);
+        if (firstSupport == null) {
             firstSelections.remove(player);
             player.sendSystemMessage(Component.literal("第一个挂点已失效或区块未加载，请重新选点"));
             return;
         }
-        Vec3 currentAnchor = resolveLoadedAnchor(level, current);
-        if (currentAnchor == null) {
+        var currentSupport = resolveLoadedSupport(level, current);
+        if (currentSupport == null) {
             player.sendSystemMessage(Component.literal("第二个挂点已失效或区块未加载，请另选挂点"));
             return;
         }
+        Vec3 firstAnchor = firstSupport.anchor();
+        Vec3 currentAnchor = currentSupport.anchor();
         double horizontalSpan = Math.hypot(currentAnchor.x - firstAnchor.x, currentAnchor.z - firstAnchor.z);
         if (horizontalSpan < MIN_HORIZONTAL_SPAN) {
             player.sendSystemMessage(Component.literal("两个挂点的水平距离太小，请另选挂点"));
@@ -100,17 +103,41 @@ public class Allwires extends Item {
         }
 
         OverheadLineConnection connection = new OverheadLineConnection(first, current, kind);
-        boolean added = OverheadLineSync.add(level, connection);
-        firstSelections.remove(player);
-        if (!added) {
-            player.sendSystemMessage(Component.literal("这条连接已经存在"));
-            return;
+        boolean firstIsFrom = connection.from().equals(first);
+        var result = OverheadLineSync.add(level, connection,
+                firstIsFrom ? firstSupport.connectionMax() : currentSupport.connectionMax(),
+                firstIsFrom ? currentSupport.connectionMax() : firstSupport.connectionMax());
+        switch (result) {
+            case STORAGE_UNAVAILABLE -> {
+                firstSelections.remove(player);
+                player.sendSystemMessage(Component.literal("此维度的接触网存档无法读取，暂时不能接线"));
+            }
+            case ADDED -> {
+                firstSelections.remove(player);
+                player.sendSystemMessage(Component.literal(
+                        "已建立连接：#" + first.pointIndex() + " → #" + current.pointIndex()));
+            }
+            case DUPLICATE -> {
+                firstSelections.remove(player);
+                player.sendSystemMessage(Component.literal("这条连接已经存在"));
+            }
+            case SAME_SUPPORT -> player.sendSystemMessage(Component.literal("这是同一个支架，请选择另一个支架"));
+            case BOTH_FULL -> {
+                firstSelections.remove(player);
+                player.sendSystemMessage(Component.literal("两个支架均已达到连接上限，请重新选点"));
+            }
+            case FROM_FULL, TO_FULL -> {
+                boolean firstIsFull = (result == AddResult.FROM_FULL) == firstIsFrom;
+                if (firstIsFull) firstSelections.remove(player);
+                int max = firstIsFull ? firstSupport.connectionMax() : currentSupport.connectionMax();
+                player.sendSystemMessage(Component.literal((firstIsFull ? "第一个" : "第二个")
+                        + "支架已达到连接上限（" + max + "），"
+                        + (firstIsFull ? "请重新选点" : "请另选第二个支架")));
+            }
         }
-        player.sendSystemMessage(Component.literal(
-                "已建立连接：#" + first.pointIndex() + " → #" + current.pointIndex()));
     }
 
-    private static Vec3 resolveLoadedAnchor(ServerLevel level, OverheadLineEndpoint endpoint) {
+    private ResolvedSupport resolveLoadedSupport(ServerLevel level, OverheadLineEndpoint endpoint) {
         BlockPos pos = endpoint.blockPos();
         ChunkPos chunkPos = new ChunkPos(pos);
         var chunk = level.getChunkSource().getChunkNow(chunkPos.x, chunkPos.z);
@@ -121,7 +148,11 @@ public class Allwires extends Item {
         if (!(state.getBlock() instanceof NormalOverheadSupportBlock supportBlock)) {
             return null;
         }
-        return supportBlock.resolveAnchor(pos, state, endpoint.pointIndex()).orElse(null);
+        return supportBlock.resolveAnchor(pos, state, endpoint.pointIndex(), kind)
+                .map(anchor -> new ResolvedSupport(anchor, supportBlock.getConnectionMax()))
+                .orElse(null);
     }
+
+    private record ResolvedSupport(Vec3 anchor, int connectionMax) {}
 }
 

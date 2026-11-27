@@ -18,7 +18,7 @@ public class ClientOverheadLine {
     LazyRecomputable<RenderCurve> curve = LazyRecomputable.of(this::computeCurve);
     LazyRecomputable<AABB> boundingBox = LazyRecomputable.of(() -> {
         RenderCurve currentCurve = getCurve();
-        return currentCurve == null ? null : currentCurve.getMatrix().getBoundingBox();
+        return currentCurve == null ? null : currentCurve.bounds();
     });
 
     public ClientOverheadLine(OverheadLineRenderer renderType, Level level, Vec3 position1, Vec3 position2) {

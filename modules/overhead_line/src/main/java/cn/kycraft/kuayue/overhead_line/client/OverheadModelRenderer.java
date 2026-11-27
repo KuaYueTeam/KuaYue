@@ -1,5 +1,6 @@
 package cn.kycraft.kuayue.overhead_line.client;
 
+import cn.kycraft.kuayue.overhead_line.block.support.OverheadLineAnchorTransform;
 import cn.kycraft.kuayue.overhead_line.block.support.OverheadModelBlockEntity;
 import cn.kycraft.kuayue.overhead_line.block.support.variants.ModelledOverheadSupportBlock;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -35,9 +36,14 @@ public final class OverheadModelRenderer implements BlockEntityRenderer<Overhead
         });
         int yaw = block.modelYaw(state);
         if (yaw != instance.yaw) {
-            Vec3 center = new Vec3(0.5, 0, 0.5);
-            Vec3 rotatedCenter = center.yRot((float) Math.toRadians(-yaw));
-            instance.handle.setPos(Vec3.atLowerCornerOf(entity.getBlockPos()).add(center.subtract(rotatedCenter)));
+            Vec3 center = OverheadLineAnchorTransform.PIVOT;
+            float yawRadians = (float) Math.toRadians(-yaw);
+            Vec3 rotatedCenter = center.yRot(yawRadians);
+            Vec3 modelOffset = block.modelOffset();
+            Vec3 localOffset = new Vec3(modelOffset.x, modelOffset.z, -modelOffset.y);
+            Vec3 rotatedOffset = localOffset.yRot(yawRadians);
+            instance.handle.setPos(Vec3.atLowerCornerOf(entity.getBlockPos())
+                    .add(center.subtract(rotatedCenter)).add(rotatedOffset));
             instance.handle.setRotationDegrees(0, -yaw, 0);
             instance.yaw = yaw;
         }
