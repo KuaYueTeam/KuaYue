@@ -24,7 +24,7 @@ public class DoubleRotateDoorBlock extends CustomRenderedEndFaceBlock {
     public DoubleRotateDoorBlock(Properties properties, TrainPanelProperties.DoorType doorType,
                                  String leftModel, String rightModel, String frameModel) {
         super(properties, doorType, leftModel, rightModel, frameModel);
-        registerDefaultState(this.getStateDefinition().any()
+        registerDefaultState(defaultBlockState()
                 .setValue(HINGE, DoorHingeSide.LEFT));
     }
 

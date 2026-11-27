@@ -232,6 +232,7 @@ dependencies {
     testImplementation 'com.google.code.gson:gson:2.10.1'
     testImplementation 'org.joml:joml:1.10.5'
     testImplementation 'com.mojang:datafixerupper:8.0.16'
+    testCompileOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
     // Formula is already bundled in kasuga_lib; a second module splits its packages in FML tests.
     testRuntimeOnly('io.micronaut:micronaut-aop:4.9.10') {
         exclude group: 'org.slf4j', module: 'slf4j-api'

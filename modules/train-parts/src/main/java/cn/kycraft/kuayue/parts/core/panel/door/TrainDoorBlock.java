@@ -28,10 +28,15 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class TrainDoorBlock extends TrainPanelBlock {
+public class TrainDoorBlock extends TrainPanelBlock implements OpenableTrainDoor {
 
     public static final EnumProperty<DoorHingeSide> HINGE = BlockStateProperties.DOOR_HINGE;
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
+
+    @Override
+    public BooleanProperty doorOpenProperty() {
+        return OPEN;
+    }
 
     public TrainDoorBlock(Properties pProperties, Vec2 beginPos, Vec2 endPos) {
         super(pProperties, beginPos, endPos);
