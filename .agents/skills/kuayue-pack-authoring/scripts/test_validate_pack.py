@@ -15,7 +15,12 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from validate_pack import Report, validate_multi_cell_params, validate_pack
+from validate_pack import (
+    Report,
+    validate_multi_cell_params,
+    validate_pack,
+    validate_shape_bindings,
+)
 
 
 def write_json(path: Path, value: Any) -> None:
@@ -220,6 +225,88 @@ class TrainValidationTests(unittest.TestCase):
             report,
         )
         self.assertEqual([], report.errors)
+
+    def test_accepts_exact_state_multi_cell_footprints(self) -> None:
+        report = Report()
+        validate_multi_cell_params(
+            "demo:door",
+            {
+                "multi_cell": {
+                    "state_cells": [
+                        {
+                            "when": {"facing": "north", "open": "true"},
+                            "cells": [[0, 0, 1]],
+                        },
+                        {
+                            "when": {"facing": "north", "open": "false"},
+                            "cells": [],
+                        },
+                    ]
+                }
+            },
+            report,
+        )
+        self.assertEqual([], report.errors)
+
+    def test_validates_shape_definition_scope_and_state_bindings(self) -> None:
+        report = Report()
+        validate_shape_bindings(
+            "demo:door",
+            {
+                "shape_bindings": {
+                    "shape": {"ref": "demo:closed"},
+                    "collision": {"from": "shape"},
+                    "states": [
+                        {
+                            "when": {"open": "true"},
+                            "shape": {"ref": "demo:open"},
+                        }
+                    ],
+                }
+            },
+            definitions={"shapes": {"demo:closed", "demo:open"}},
+            owned_namespaces={"demo"},
+            all_dependencies_resolved=True,
+            report=report,
+        )
+        self.assertEqual([], report.errors)
+
+        missing = Report()
+        validate_shape_bindings(
+            "demo:door",
+            {"shape_bindings": {"shape": {"ref": "demo:missing"}}},
+            definitions={"shapes": {"demo:closed"}},
+            owned_namespaces={"demo"},
+            all_dependencies_resolved=True,
+            report=missing,
+        )
+        self.assertTrue(
+            any("not declared by this pack" in error for error in missing.errors)
+        )
+        self.assertTrue(
+            any(
+                "`params.shape_bindings.shape.ref`" in error
+                for error in missing.errors
+            )
+        )
+
+    def test_rejects_legacy_shape_bindings_key(self) -> None:
+        report = Report()
+        validate_shape_bindings(
+            "demo:door",
+            {"shapes": {"shape": {"ref": "demo:closed"}}},
+            definitions={"shapes": {"demo:closed"}},
+            owned_namespaces={"demo"},
+            all_dependencies_resolved=True,
+            report=report,
+        )
+        self.assertEqual(
+            [
+                "block `demo:door`: `params.shapes` is unsupported; rename it to "
+                "`params.shape_bindings`"
+            ],
+            report.errors,
+        )
 
     def test_rejects_incomplete_train(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

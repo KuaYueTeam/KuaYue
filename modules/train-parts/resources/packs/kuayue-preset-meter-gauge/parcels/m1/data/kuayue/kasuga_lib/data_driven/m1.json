@@ -1,5 +1,6 @@
 {
   "on_register": [
+    "carriages/m1/shapes.json",
     "carriages/m1/groups.json",
     "carriages/m1/blocks.json",
     "trains/m1.json"

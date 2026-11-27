@@ -23,7 +23,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
@@ -68,33 +67,6 @@ public final class JYMaintenanceEndFaceBlock extends TrainPanelProxyBlock
     public ProxyComposition<TrainPanelProxyBlockEntity, ProxyModelInput, Void, Void, Void>
     createProxyComposition(TrainPanelProxyBlockEntity element) {
         return JYMaintenanceEndFaceProxy.create(element);
-    }
-
-    @Override
-    public VoxelShape getShape(
-            BlockState state,
-            BlockGetter level,
-            BlockPos pos,
-            CollisionContext context
-    ) {
-        return collisionShape(state);
-    }
-
-    @Override
-    public VoxelShape getCollisionShape(
-            BlockState state,
-            BlockGetter level,
-            BlockPos pos,
-            CollisionContext context
-    ) {
-        return collisionShape(state);
-    }
-
-    private static VoxelShape collisionShape(BlockState state) {
-        return JYMaintenanceEndFaceShapes.get(
-                state.getValue(FACING),
-                state.getValue(OPEN)
-        );
     }
 
     @Override

@@ -40,6 +40,7 @@ my-train-pack/
     │           ├── kasuga_lib/data_driven/c22.json
     │           ├── trains/c22.json
     │           └── c22/
+│               ├── shapes.json
     │               ├── groups.json
     │               └── blocks.json
     └── bogey-mytrain/
@@ -105,14 +106,14 @@ modules/train-parts/resources/packs/<pack-id>/
   "description_key": "pack.mytrain.description",
   "dependencies": {
     "mods": {
-      "minecraft": "1.21.1",
-      "neoforge": "[21.1.0,21.2.0)",
-      "kuayue": "[2.0.0,3.0.0)",
-      "kasuga_lib": "[1.0.0,2.0.0)",
-      "create": "[6.0.0,7.0.0)"
+      "minecraft": ">=1.21.1",
+      "neoforge": ">=21.1.0",
+      "kuayue": ">=2.0.0",
+      "kasuga_lib": ">=1.0.0",
+      "create": ">=6.0.0"
     },
     "packs": {
-      "kuayue-preset-running-gear": "*"
+      "kuayue-preset-running-gear": ">=2.0.0"
     }
   },
   "parcels": [
@@ -133,7 +134,8 @@ modules/train-parts/resources/packs/<pack-id>/
 - `parcels` 顺序决定包内并级对同一路径的覆盖优先级，后声明者更高；
 - 未列入 `parcels` 的 parcel 不会成为该包的注册根或资源根。
 
-版本范围只接受 `*`、精确三段式版本和 `[lower,upper)`。不要使用 caret、tilde 或多个范围逗号组合。
+版本范围接受 `*`、`>=lower`、精确三段式版本和 `[lower,upper)`。不要使用 caret、tilde、其他比较
+运算符或多个范围逗号组合。
 
 ## 4. 写 `parcel.json`
 
@@ -167,6 +169,7 @@ parcels/c22/data/mytrain/kasuga_lib/data_driven/c22.json
 ```json
 {
   "on_register": [
+    "c22/shapes.json",
     "c22/groups.json",
     "c22/blocks.json",
     "trains/c22.json"
@@ -176,6 +179,51 @@ parcels/c22/data/mytrain/kasuga_lib/data_driven/c22.json
 ```
 
 索引中的相对路径以该索引所在的 `data/<namespace>/` 为根，不再次添加 `parcels/c22/`。
+形状定义放在车型 parcel 自己的 `shapes.json` 中，并由该 parcel 的索引列入
+`on_register`；未列入索引的文件不会进入形状目录。
+
+### 数据驱动形状
+
+形状文件顶层是 `shapes` 定义数组，不写 `format_version`：
+
+```json
+{
+  "shapes": [
+    {
+      "id": "mytrain:c22/shapes/frame",
+      "nodes": {
+        "outer": [0.0, 0.0, 0.0, 32.0, 32.0, 4.0],
+        "opening": [8.0, 0.0, 0.0, 24.0, 30.0, 4.0],
+        "result": {
+          "op": "difference",
+          "args": [
+            "outer",
+            "opening"
+          ]
+        }
+      },
+      "output": "result"
+    }
+  ]
+}
+```
+
+- `nodes` 的每个值必须是 Box6、空数组、局部节点名、ShapeRef 或封闭的
+  `op`/`args` 运算对象。
+- Box6 是六个 JSON `number`，按像素解释，并在编译时窄化为 float32；单位换算只执行一次。
+- 数组不能表示运算；旧的 `["union", ...]` 形式无效。`args` 中的每个 Box6、
+  局部名称、ShapeRef 和嵌套运算都是独立操作数。
+- `output` 只能选择当前有效节点表中的节点。ShapeRef 取得目标定义所选
+  `output` 的完整几何，不会把目标的局部名称暴露给调用方。
+- `parent` 按节点名继承；子定义省略 `output` 时继承父级输出。
+- `params.shape_bindings` 用于方块状态绑定。具体槽、状态覆盖、alias 和变换合同见
+  [数据驱动 Schema 说明](../../schemas/data-driven/v1/README.md#数据驱动形状与状态绑定)。
+- 用 `params.shape_bindings` 完成迁移后，删除同一声明里的 `params.aabb`。旧值若仍需用于
+  迁移等价性检查，应放在测试 fixture 中；生产 `params.aabb` 继续只服务未迁移内容。
+
+形状文件按 [`shapes.schema.json`](../../schemas/data-driven/v1/shapes.schema.json)
+校验。只有 KuaYue 实际解析的 KasugaLib 依赖已经包含形状 handler 和 Schema 时才可交付
+`params.shape_bindings`；本地 composite build 可看到库源码不代表 CI 已获得同一 API。
 
 train 把同一车型的方块、物品、转向架和创造页信息放进一个可查询身份：
 
@@ -378,6 +426,7 @@ my-train-pack/pack.json
 - 所有声明索引都存在，未声明数据文件没有被误认为注册入口；
 - 所有引用 ID 在当前有效包、显式直接依赖或 runtime 中可见；
 - factory 和字段属于当前 Schema 与 handler 支持范围；
+- 每个 shapes 文件由车型 parcel 的 `on_register` 声明，引用只在当前包或直接依赖内闭合；
 - 每个车型 parcel 的索引都声明 train 文件，最终合并定义包含完整成员字段和可解析的语言键；
 - 方块、物品、模型、纹理、语言和其他资源齐全；
 - 目录包和 ZIP 包各完成一次隔离启动；

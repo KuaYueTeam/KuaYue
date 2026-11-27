@@ -24,6 +24,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import sun.misc.Unsafe;
 
 import java.util.ArrayList;
@@ -81,7 +83,16 @@ final class JYContraptionDoorTestRig {
         var companion = new MultiCellCompanionBlockEntity(cell, state);
         companion.setParentOffset(parent.subtract(cell));
         contraption.presentBlockEntities.put(cell, companion);
+        level.worldEntities.put(cell, companion);
         return cell;
+    }
+
+    VoxelShape collisionAt(BlockPos pos) {
+        return contraption.localView.getBlockState(pos).getCollisionShape(
+                contraption.localView,
+                pos,
+                CollisionContext.empty()
+        );
     }
 
     boolean click(BlockPos pos) {

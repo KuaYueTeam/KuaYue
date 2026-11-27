@@ -10,10 +10,11 @@ import java.util.function.Consumer;
 
 /** Configuration task that rejects clients whose final pack set differs from the server. */
 public final class PackSetConfigurationGate implements ICustomConfigurationTask {
+    public static final String NETWORK_PROTOCOL_VERSION = "2";
     public static final ConfigurationTask.Type TYPE =
             new ConfigurationTask.Type("kuayue:pack_set");
     public static void registerPayloads(RegisterPayloadHandlersEvent event) {
-        var registrar = event.registrar("1");
+        var registrar = event.registrar(NETWORK_PROTOCOL_VERSION);
         registrar.configurationToClient(
                 PackSetPayloads.QUERY_TYPE,
                 PackSetPayloads.Query.STREAM_CODEC,
@@ -48,8 +49,9 @@ public final class PackSetConfigurationGate implements ICustomConfigurationTask 
         if (!server.compatibleWith(payload.declaration())) {
             context.disconnect(Component.translatable(
                     "kuayue.packs.network.mismatch",
-                    server.entries().toString(),
-                    payload.declaration().entries().toString()
+                    server.entries() + " / shape " + server.shapeDigest(),
+                    payload.declaration().entries()
+                            + " / shape " + payload.declaration().shapeDigest()
             ));
             return;
         }

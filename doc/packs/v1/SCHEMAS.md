@@ -9,6 +9,7 @@
 | 实例 `kuayue/config.json` | [`../../schemas/packs/v1/config.schema.json`](../../schemas/packs/v1/config.schema.json) |
 | `data/<namespace>/kasuga_lib/data_driven/*.json` | [`../../schemas/data-driven/v1/index.schema.json`](../../schemas/data-driven/v1/index.schema.json) |
 | `on_register` 指向的联合内容 | [`../../schemas/data-driven/v1/content.schema.json`](../../schemas/data-driven/v1/content.schema.json) |
+| 只含 `shapes` 的形状资源 | [`../../schemas/data-driven/v1/shapes.schema.json`](../../schemas/data-driven/v1/shapes.schema.json) |
 | 单一注册类型 | `data-driven/v1/*.schema.json` 中的对应文件 |
 | 转向架组合文件 | [`../../schemas/data-driven/v1/bogeys.schema.json`](../../schemas/data-driven/v1/bogeys.schema.json) |
 | 仅含 `bogey_style_variants` | [`../../schemas/data-driven/v1/bogey-style-variants.schema.json`](../../schemas/data-driven/v1/bogey-style-variants.schema.json) |
@@ -158,6 +159,7 @@ kuayue-packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/da
 
 `content.schema.json` 是注册期联合 Schema。它覆盖当前 KuaYue 使用的顶层类型：
 
+- `shapes`
 - `registry_groups`
 - `blocks`
 - `items`
@@ -176,6 +178,41 @@ kuayue-packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/da
 单类型 Schema 适合编辑器补全和精确错误定位。`bogeys.schema.json` 用于组合多个 `bogey_*` 类型的文件；当前车型 parcel 常见组合是 sizes、blocks、models 和 style variants。`provisions.schema.json` 用于餐食模块复用的 groups、blocks、items 子集。
 
 完整字段、factory、`params` 和业务约束见 [数据驱动 Schema 说明](../../schemas/data-driven/v1/README.md)。
+
+### 数据驱动形状
+
+车型自有形状放入该 parcel 的数据目录，并由 parcel 索引的 `on_register` 声明：
+
+```text
+parcels/c22/
+├── parcel.json
+└── data/mytrain/
+    ├── kasuga_lib/data_driven/c22.json
+    └── c22/
+        ├── shapes.json
+        └── blocks.json
+```
+
+索引中的路径相对于 `data/mytrain/`：
+
+```json
+{
+  "on_register": [
+    "c22/shapes.json",
+    "c22/blocks.json"
+  ],
+  "on_reload": []
+}
+```
+
+`shapes.json` 的顶层键是 `shapes`，内容是定义数组；该文件没有
+`format_version`。定义使用 `nodes` + string `output`，节点表达式中的运算必须写成
+`{"op":"union|intersection|difference","args":[...]}`。旧运算数组不合法。
+
+`shapes.schema.json` 检查字段封闭、Box6 数量与原始范围。KasugaLib 编译器还会检查
+output/parent/ref 目标、局部和跨形状循环、float32 窄化、依赖可见性及 geometry 预算。
+`content.schema.json` 同时约束 `blocks[*].params.shape_bindings` 的槽、状态键和转换字段。
+只有在 KuaYue 实际依赖的 KasugaLib 已包含形状 handler 时才把该格式视为可用。
 
 ## 7. 动画剪辑
 
@@ -257,6 +294,7 @@ python3 validate_schema.py content.json content.schema.json
 python3 validate_schema.py df11g.json bogeys.schema.json
 python3 validate_schema.py c22-train.json trains.schema.json
 python3 validate_schema.py animation.json animation-clips.schema.json
+python3 validate_schema.py shapes.json shapes.schema.json
 ```
 
 ## 10. 编辑器映射
@@ -277,6 +315,10 @@ VS Code 可设置：
     {
       "fileMatch": ["**/kasuga_lib/data_driven/*.json"],
       "url": "./doc/schemas/data-driven/v1/index.schema.json"
+    },
+    {
+      "fileMatch": ["**/data/**/shapes.json"],
+      "url": "./doc/schemas/data-driven/v1/shapes.schema.json"
     }
   ]
 }
@@ -297,6 +339,7 @@ Schema 不能证明：
 - apply 和 finalizer 能成功；
 - 世界历史版本兼容；
 - parcel 是否真的按车型组织、资源是否完整可渲染。
+- shape 的 output、parent、局部名称和 ShapeRef 是否形成可编译的闭合图。
 
 发布前至少执行：
 

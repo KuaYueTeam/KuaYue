@@ -49,6 +49,7 @@ DIRECTIONAL_FACTORY_TYPES = {
     "jy290_ac",
     "jy_maintenance_endface",
     "jy_maintenance_outrigger",
+    "jy_maintenance_head",
     "ladder",
     "level_panel",
     "level_window",
@@ -99,7 +100,18 @@ TRAIN_MEMBER_DEFINITION_TYPES = {
     "bogey_style_variants": "bogey_style_variants",
 }
 TRAIN_CREATIVE_FIELDS = {"tab", "icon_item", "filter_order"}
+SHAPE_SLOTS = (
+    "shape",
+    "collision",
+    "visual",
+    "interaction",
+    "support",
+    "occlusion",
+)
+SHAPE_STATE_RULE_FIELDS = {"when", *SHAPE_SLOTS}
+SHAPE_ROOT_FIELDS = {*SHAPE_SLOTS, "states"}
 DEFINITION_TYPES = (
+    "shapes",
     "blocks",
     "items",
     "bogey_sizes",
@@ -506,6 +518,170 @@ def validate_train_references(
                 report.warn(
                     f"{source}: train `{train_id}` {pointer}: cannot verify "
                     f"`{resource_id}` until all dependency packs are available"
+                )
+
+
+def validate_shape_selection(
+    block_id: str,
+    path: str,
+    selection: Any,
+    *,
+    definitions: dict[str, set[str]],
+    owned_namespaces: set[str],
+    all_dependencies_resolved: bool,
+    report: Report,
+) -> None:
+    if isinstance(selection, str):
+        if selection not in {"native", "empty"}:
+            report.error(
+                f"block `{block_id}`: `{path}` string must be `native` or `empty`"
+            )
+        return
+    if not isinstance(selection, dict):
+        report.error(
+            f"block `{block_id}`: `{path}` must be native, empty, ref, or from"
+        )
+        return
+
+    if "ref" in selection:
+        unknown = sorted(set(selection) - {"ref", "transform"})
+        if unknown:
+            report.error(
+                f"block `{block_id}`: `{path}` ref selection has unsupported "
+                f"field(s) {', '.join(unknown)}"
+            )
+        shape_id = selection.get("ref")
+        if not is_explicit_location(shape_id):
+            report.error(
+                f"block `{block_id}`: `{path}.ref` must be an explicit "
+                "`namespace:path` shape ID"
+            )
+        elif shape_id not in definitions["shapes"]:
+            namespace = shape_id.split(":", 1)[0]
+            if namespace in owned_namespaces:
+                report.error(
+                    f"block `{block_id}`: `{path}.ref` targets `{shape_id}`, "
+                    "which is not declared by this pack or an available direct "
+                    "dependency"
+                )
+            elif all_dependencies_resolved:
+                report.warn(
+                    f"block `{block_id}`: `{path}.ref` cannot verify runtime "
+                    f"shape `{shape_id}`"
+                )
+            else:
+                report.warn(
+                    f"block `{block_id}`: `{path}.ref` cannot verify `{shape_id}` "
+                    "until all dependency packs are available"
+                )
+        return
+
+    if "from" in selection:
+        unknown = sorted(set(selection) - {"from"})
+        if unknown:
+            report.error(
+                f"block `{block_id}`: `{path}` from selection has unsupported "
+                f"field(s) {', '.join(unknown)}"
+            )
+        target = selection.get("from")
+        if target not in SHAPE_SLOTS:
+            report.error(
+                f"block `{block_id}`: `{path}.from` must name a shape slot"
+            )
+        return
+
+    if "nodes" in selection or "output" in selection:
+        report.error(
+            f"block `{block_id}`: `{path}` inline shape graphs are not accepted "
+            "in KuaYue vehicle bindings"
+        )
+        return
+    report.error(f"block `{block_id}`: `{path}` is not a supported shape selection")
+
+
+def validate_shape_bindings(
+    block_id: str,
+    params: dict[str, Any],
+    *,
+    definitions: dict[str, set[str]],
+    owned_namespaces: set[str],
+    all_dependencies_resolved: bool,
+    report: Report,
+) -> None:
+    if "shapes" in params:
+        report.error(
+            f"block `{block_id}`: `params.shapes` is unsupported; "
+            "rename it to `params.shape_bindings`"
+        )
+    if "shape_bindings" not in params:
+        return
+    bindings = params.get("shape_bindings")
+    path = "params.shape_bindings"
+    if not isinstance(bindings, dict):
+        report.error(f"block `{block_id}`: `{path}` must be an object")
+        return
+
+    unknown = sorted(set(bindings) - SHAPE_ROOT_FIELDS)
+    if unknown:
+        report.error(
+            f"block `{block_id}`: `{path}` has unsupported field(s) "
+            + ", ".join(unknown)
+        )
+    for slot in SHAPE_SLOTS:
+        if slot in bindings:
+            validate_shape_selection(
+                block_id,
+                f"{path}.{slot}",
+                bindings[slot],
+                definitions=definitions,
+                owned_namespaces=owned_namespaces,
+                all_dependencies_resolved=all_dependencies_resolved,
+                report=report,
+            )
+
+    states = bindings.get("states")
+    if states is None:
+        return
+    if not isinstance(states, list):
+        report.error(f"block `{block_id}`: `{path}.states` must be an array")
+        return
+    for index, rule in enumerate(states):
+        rule_path = f"{path}.states[{index}]"
+        if not isinstance(rule, dict):
+            report.error(f"block `{block_id}`: `{rule_path}` must be an object")
+            continue
+        unknown = sorted(set(rule) - SHAPE_STATE_RULE_FIELDS)
+        if unknown:
+            report.error(
+                f"block `{block_id}`: `{rule_path}` has unsupported field(s) "
+                + ", ".join(unknown)
+            )
+        when = rule.get("when")
+        if not isinstance(when, dict) or not when:
+            report.error(
+                f"block `{block_id}`: `{rule_path}.when` must be a non-empty object"
+            )
+        elif any(
+            not isinstance(name, str)
+            or not name
+            or not isinstance(value, str)
+            or not value
+            for name, value in when.items()
+        ):
+            report.error(
+                f"block `{block_id}`: `{rule_path}.when` values must be "
+                "non-empty serialized state strings"
+            )
+        for slot in SHAPE_SLOTS:
+            if slot in rule:
+                validate_shape_selection(
+                    block_id,
+                    f"{rule_path}.{slot}",
+                    rule[slot],
+                    definitions=definitions,
+                    owned_namespaces=owned_namespaces,
+                    all_dependencies_resolved=all_dependencies_resolved,
+                    report=report,
                 )
 
 
@@ -1244,10 +1420,61 @@ def validate_multi_cell_params(
                         report,
                     )
 
-    if "cells" not in multi_cell and "cells_by_state" not in multi_cell:
+    if "state_cells" in multi_cell:
+        state_rules = multi_cell.get("state_cells")
+        if not isinstance(state_rules, list) or not state_rules:
+            report.error(
+                f"block `{block_id}`: `params.multi_cell.state_cells` "
+                "must be a non-empty array"
+            )
+        else:
+            for index, rule in enumerate(state_rules):
+                path = f"params.multi_cell.state_cells[{index}]"
+                if not isinstance(rule, dict):
+                    report.error(f"block `{block_id}`: `{path}` must be an object")
+                    continue
+                unknown = sorted(set(rule) - {"when", "cells"})
+                if unknown:
+                    report.error(
+                        f"block `{block_id}`: `{path}` has unsupported field(s) "
+                        + ", ".join(unknown)
+                    )
+                when = rule.get("when")
+                if not isinstance(when, dict) or not when:
+                    report.error(
+                        f"block `{block_id}`: `{path}.when` must be a "
+                        "non-empty object"
+                    )
+                elif any(
+                    not isinstance(name, str)
+                    or not name
+                    or not isinstance(value, str)
+                    or not value
+                    for name, value in when.items()
+                ):
+                    report.error(
+                        f"block `{block_id}`: `{path}.when` values must be "
+                        "non-empty serialized state strings"
+                    )
+                if "cells" not in rule:
+                    report.error(
+                        f"block `{block_id}`: `{path}.cells` is required"
+                    )
+                else:
+                    validate_multi_cell_list(
+                        block_id,
+                        f"{path}.cells",
+                        rule.get("cells"),
+                        report,
+                        allow_empty=True,
+                    )
+
+    if not any(
+        field in multi_cell for field in ("cells", "cells_by_state", "state_cells")
+    ):
         report.error(
-            f"block `{block_id}`: `params.multi_cell` requires `cells` "
-            "or `cells_by_state`"
+            f"block `{block_id}`: `params.multi_cell` requires `cells`, "
+            "`cells_by_state`, or `state_cells`"
         )
 
 
@@ -1256,11 +1483,14 @@ def validate_multi_cell_list(
     path: str,
     cells: Any,
     report: Report,
+    *,
+    allow_empty: bool = False,
 ) -> None:
-    if not isinstance(cells, list) or not 1 <= len(cells) <= 64:
+    minimum = 0 if allow_empty else 1
+    if not isinstance(cells, list) or not minimum <= len(cells) <= 64:
         report.error(
             f"block `{block_id}`: `{path}` must contain "
-            "between 1 and 64 offsets"
+            f"between {minimum} and 64 offsets"
         )
         return
     seen: set[tuple[int, int, int]] = set()
@@ -1394,7 +1624,16 @@ def validate_pack(
                     content = load_json(content_path, report)
                     if content is None:
                         continue
-                    schema_documents.append((content_path, schema_name, content))
+                    document_schema_name = (
+                        "shapes.schema.json"
+                        if lifecycle == "on_register"
+                        and isinstance(content, dict)
+                        and set(content) == {"shapes"}
+                        else schema_name
+                    )
+                    schema_documents.append(
+                        (content_path, document_schema_name, content)
+                    )
                     content_files.append(content_path)
                     if lifecycle != "on_register" or not isinstance(content, dict):
                         continue
@@ -1491,6 +1730,16 @@ def validate_pack(
     resources, languages = collect_resources(pack_root, parcel_roots, internal)
     checked_models: set[str] = set()
     for block_id, block in sorted(blocks.items()):
+        block_params = block.get("params")
+        if isinstance(block_params, dict):
+            validate_shape_bindings(
+                block_id,
+                block_params,
+                definitions=combined_definitions,
+                owned_namespaces=owned_namespaces,
+                all_dependencies_resolved=dependency_context["all_resolved"],
+                report=report,
+            )
         validate_rendering_policy(block_id, block, resources, namespaces, report)
         blockstate = validate_blockstate(
             block_id,

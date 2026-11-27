@@ -58,10 +58,10 @@ final class JYMaintenanceBooleanClipProxy {
             String idPrefix
     ) {
         ClipIds ids = new ClipIds(
-                "jy_maintenance:" + idPrefix + "_off",
-                "jy_maintenance:" + idPrefix + "_on",
-                "jy_maintenance:" + idPrefix + "_turning_on",
-                "jy_maintenance:" + idPrefix + "_turning_off"
+                "kuayue:" + idPrefix + "_off",
+                "kuayue:" + idPrefix + "_on",
+                "kuayue:" + idPrefix + "_turning_on",
+                "kuayue:" + idPrefix + "_turning_off"
         );
         Controller controller = new Controller(model, property, clipName, ids);
         ProxyControllerPort<ProxyModelInput, Void> port = new ProxyControllerPort<>() {

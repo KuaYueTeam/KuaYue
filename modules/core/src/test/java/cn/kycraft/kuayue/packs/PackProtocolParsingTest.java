@@ -65,8 +65,12 @@ class PackProtocolParsingTest {
     @Test
     void validatesDependencyRangesAndPackIdentity() {
         assertTrue(VersionRange.parse("*").matches(SemanticVersion.parse("999.0.0")));
+        assertTrue(VersionRange.parse(">=1.2.0").matches(SemanticVersion.parse("1.2.0")));
+        assertTrue(VersionRange.parse(">=1.2.0").matches(SemanticVersion.parse("2.0.0")));
+        assertFalse(VersionRange.parse(">=1.2.0").matches(SemanticVersion.parse("1.1.9")));
         assertTrue(VersionRange.parse("[1.2.0,2.0.0)").matches(SemanticVersion.parse("1.9.9")));
         assertFalse(VersionRange.parse("[1.2.0,2.0.0)").matches(SemanticVersion.parse("2.0.0")));
+        assertThrows(IllegalArgumentException.class, () -> VersionRange.parse(">= 1.2.0"));
         assertThrows(IllegalArgumentException.class, () -> VersionRange.parse("^1.2.0"));
         assertThrows(IllegalArgumentException.class, () -> VersionRange.parse("[2.0.0,1.0.0)"));
         assertThrows(IllegalArgumentException.class, () -> SemanticVersion.parse("1.0"));

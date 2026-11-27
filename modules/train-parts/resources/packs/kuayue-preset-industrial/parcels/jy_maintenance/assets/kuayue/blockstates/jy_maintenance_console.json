@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "kuayue:block/jy_maintenance/jy_maintenance_console"
+    },
+    "facing=north": {
+      "model": "kuayue:block/jy_maintenance/jy_maintenance_console"
+    },
+    "facing=south": {
+      "model": "kuayue:block/jy_maintenance/jy_maintenance_console"
+    },
+    "facing=west": {
+      "model": "kuayue:block/jy_maintenance/jy_maintenance_console"
+    }
+  }
+}

@@ -5,6 +5,7 @@ import cn.kycraft.kuayue.packs.PackPathRules;
 import cn.kycraft.kuayue.packs.SemanticVersion;
 import cn.kycraft.kuayue.packs.bootstrap.KuaYuePackBootstrap;
 import cn.kycraft.kuayue.packs.bootstrap.StartupPackSnapshot;
+import cn.kycraft.kuayue.packs.shapes.KuaYueShapeDigest;
 import cn.kycraft.kuayue.packs.state.PackRuntimeState;
 
 import java.util.ArrayList;
@@ -14,17 +15,22 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-/** Canonical ID/version/format set used by the configuration-phase gate. */
-public record PackSetDeclaration(List<Entry> entries) {
+/** Canonical pack identity plus the shape generation used by the configuration-phase gate. */
+public record PackSetDeclaration(List<Entry> entries, String shapeDigest) {
     public static final int MAX_ENTRIES = 256;
+    public static final int MAX_SHAPE_DIGEST_LENGTH = 128;
 
     public PackSetDeclaration {
         Objects.requireNonNull(entries, "entries");
+        Objects.requireNonNull(shapeDigest, "shapeDigest");
         entries = entries.stream()
                 .sorted(Comparator.comparing(Entry::id))
                 .toList();
         if (entries.size() > MAX_ENTRIES) {
             throw new IllegalArgumentException("Too many pack entries");
+        }
+        if (shapeDigest.isBlank() || shapeDigest.length() > MAX_SHAPE_DIGEST_LENGTH) {
+            throw new IllegalArgumentException("Invalid shape digest");
         }
         Set<String> ids = new HashSet<>();
         for (Entry entry : entries) {
@@ -32,6 +38,10 @@ public record PackSetDeclaration(List<Entry> entries) {
                 throw new IllegalArgumentException("Duplicate pack ID: " + entry.id());
             }
         }
+    }
+
+    public PackSetDeclaration(List<Entry> entries) {
+        this(entries, KuaYueShapeDigest.current());
     }
 
     public static PackSetDeclaration current() {
@@ -53,11 +63,11 @@ public record PackSetDeclaration(List<Entry> entries) {
                     manifest.formatVersion()
             ));
         }
-        return new PackSetDeclaration(entries);
+        return new PackSetDeclaration(entries, KuaYueShapeDigest.current());
     }
 
     public boolean compatibleWith(PackSetDeclaration other) {
-        return entries.equals(other.entries);
+        return shapeDigest.equals(other.shapeDigest) && entries.equals(other.entries);
     }
 
     public record Entry(String id, String version, int formatVersion) {

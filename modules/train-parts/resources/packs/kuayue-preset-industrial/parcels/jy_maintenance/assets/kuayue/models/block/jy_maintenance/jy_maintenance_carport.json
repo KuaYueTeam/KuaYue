@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "kuayue:block/jy_maintenance/jy_maintenance_carport"
+  },
+  "elements": []
+}

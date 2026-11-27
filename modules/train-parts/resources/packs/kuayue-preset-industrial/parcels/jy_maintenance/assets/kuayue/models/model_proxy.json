@@ -1,0 +1,5 @@
+{
+  "kuayue": [
+    "models/block/jy_maintenance/*.bbmodel"
+  ]
+}

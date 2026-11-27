@@ -7,6 +7,8 @@ import cn.kycraft.kuayue.packs.PackRuntimeIds;
 import cn.kycraft.kuayue.packs.PackSeverity;
 import cn.kycraft.kuayue.packs.PackStage;
 import cn.kycraft.kuayue.packs.runtime.PackResourceSnapshotter;
+import cn.kycraft.kuayue.packs.shapes.KuaYueBlockTypeHandler;
+import cn.kycraft.kuayue.packs.shapes.KuaYueShapeDigest;
 import cn.kycraft.kuayue.packs.state.PackRuntimeState;
 import cn.kycraft.kuayue.train.KuaYueTrainCatalog;
 import com.simibubi.create.AllBogeyStyles;
@@ -25,6 +27,7 @@ import lib.kasuga.registration.data_driven.pipeline.RegistryClaim;
 import lib.kasuga.registration.data_driven.pipeline.RegistryClaimSnapshot;
 import lib.kasuga.registration.data_driven.pipeline.RegistrationTarget;
 import lib.kasuga.registration.data_driven.reload.ManagedReloadAllowlist;
+import lib.kasuga.registration.data_driven.shape.ShapeCatalog;
 import lib.kasuga.registration.data_driven.source.ContentSource;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -54,6 +57,7 @@ public final class KuaYueContentRegistrationProvider {
         StartupPackSnapshot snapshot = KuaYuePackBootstrap.snapshot()
                 .orElseThrow(() -> new IllegalStateException("KuaYue pack snapshot is not initialized"));
         JsonTreeBuilder.ensureHandlersRegistered();
+        TypeHandlerRegistry.register(new KuaYueBlockTypeHandler());
 
         DataDrivenBuildPipeline pipeline = new DataDrivenBuildPipeline(
                 hostModId,
@@ -131,6 +135,10 @@ public final class KuaYueContentRegistrationProvider {
                         result.cause()
                 );
             }
+            KuaYueShapeDigest.install(
+                    prepared.artifacts().get(ShapeCatalog.class),
+                    prepared.definitions()
+            );
             List<KuaYueTrainCatalog> trainCatalogs = result.finalizerResults().stream()
                     .filter(KuaYueTrainCatalog.class::isInstance)
                     .map(KuaYueTrainCatalog.class::cast)

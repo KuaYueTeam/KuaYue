@@ -1,5 +1,6 @@
 {
   "on_register": [
+    "locomotives/dfh21/shapes.json",
     "bogeys/dfh21.json",
     "locomotives/dfh21/groups.json",
     "locomotives/dfh21/blocks.json",

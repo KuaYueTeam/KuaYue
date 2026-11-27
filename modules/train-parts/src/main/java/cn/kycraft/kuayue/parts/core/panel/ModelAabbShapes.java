@@ -23,10 +23,10 @@ import java.util.Map;
  * generated from the blockstate variants of the source models, with each
  * variant's model boxes already rotated by the blockstate {@code y} value.
  *
- * <p>Vanilla exposes three shapes: {@code getShape} (visible/occlusion),
- * {@code getInteractionShape} (raycast/selection) and {@code getCollisionShape}
- * (entity collision). The latter two delegate to {@code getShape} by default,
- * so overriding {@code getShape} alone makes all three use the model AABB.
+ * <p>Vanilla exposes separate selection, interaction and collision queries.
+ * KuaYue panel factories normally delegate collision to {@code getShape}, while
+ * {@code getInteractionShape} keeps Minecraft's empty default unless a factory
+ * overrides it explicitly.
  */
 public final class ModelAabbShapes {
     /** Property order used both when generating data and when rebuilding the key at runtime. */
