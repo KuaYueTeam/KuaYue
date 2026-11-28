@@ -136,7 +136,7 @@ dependencies {
     implementation("lib.kasuga:kasuga_lib:1.0.0") {
         useBundle(delegate)
         exclude group: 'com.simibubi.create', module: "create-${minecraft_version}"
-        exclude group: 'net.createmod.ponder', module: "Ponder-NeoForge-${minecraft_version}"
+        exclude group: 'net.createmod.ponder', module: 'ponder-neoforge'
         exclude group: 'dev.engine-room.flywheel', module: "flywheel-neoforge-api-${minecraft_version}"
         exclude group: 'dev.engine-room.flywheel', module: "flywheel-neoforge-${minecraft_version}"
 
@@ -149,10 +149,10 @@ dependencies {
     }
 
 
-    implementation("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false }
+    implementation("com.simibubi.create:create-${minecraft_version}:${create_version}") { transitive = false }
     implementation("com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:${ldlib2_version}:all") { transitive = false }
     ldlib2Runtime("com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:${ldlib2_version}:all") { transitive = false }
-    implementation("net.createmod.ponder:Ponder-NeoForge-${minecraft_version}:${ponder_version}")
+    implementation("net.createmod.ponder:ponder-neoforge:${ponder_version}+mc${minecraft_version}")
     compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${minecraft_version}:${flywheel_version}")
     runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
     implementation("com.tterrag.registrate:Registrate:${registrate_version}")

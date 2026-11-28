@@ -37,8 +37,8 @@ public class CustomRenderedEndFaceEntity extends SmartBlockEntity implements ICo
     @Override
     protected void write(CompoundTag tag, HolderLookup.Provider registries, boolean clientPacket) {
         super.write(tag, registries, clientPacket);
-        tag.putBoolean("open", open);
-        tag.putString("type", type.getSerializedName());
+        tag.putBoolean("open", isOpen());
+        tag.putString("type", getDoorType().getSerializedName());
     }
 
     @Override
@@ -53,16 +53,20 @@ public class CustomRenderedEndFaceEntity extends SmartBlockEntity implements ICo
     }
 
     public boolean isOpen() {
-        return open;
+        return getBlockState().getOptionalValue(DoorBlock.OPEN).orElse(open);
+    }
+
+    public TrainPanelProperties.DoorType getDoorType() {
+        return getBlockState().getBlock() instanceof CustomRenderedEndFaceBlock block
+                ? block.DOOR_TYPE : type;
     }
 
     public boolean isRotateDoor() {
-        return type == TrainPanelProperties.DoorType.ROTATE ||
-                type == TrainPanelProperties.DoorType.ROTATE_SINGLE_SIDED;
+        return getDoorType().isRotating();
     }
 
     public boolean isSingleSided() {
-        return type == TrainPanelProperties.DoorType.ROTATE_SINGLE_SIDED;
+        return getDoorType() == TrainPanelProperties.DoorType.ROTATE_SINGLE_SIDED;
     }
 
     @Override

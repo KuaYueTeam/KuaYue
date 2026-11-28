@@ -2,6 +2,8 @@ package cn.kycraft.kuayue.parts.locomotives.jy;
 
 import cn.kycraft.kuayue.parts.core.multiblock.MultiCellCompanionBlockEntity;
 import cn.kycraft.kuayue.parts.core.multiblock.MultiCellRegistry;
+import cn.kycraft.kuayue.parts.core.panel.company.CompanyTrainPanel;
+import cn.kycraft.kuayue.parts.core.panel.company.CompanyTrainBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.api.behaviour.interaction.MovingInteractionBehaviour;
 import com.simibubi.create.api.contraption.ContraptionType;
@@ -13,6 +15,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
@@ -82,8 +85,18 @@ final class JYContraptionDoorTestRig {
         add(cell, state, nbt);
         var companion = new MultiCellCompanionBlockEntity(cell, state);
         companion.setParentOffset(parent.subtract(cell));
-        contraption.presentBlockEntities.put(cell, companion);
+        contraption.clientBlockEntities.put(cell, companion);
         level.worldEntities.put(cell, companion);
+        return cell;
+    }
+
+    BlockPos addCompany(BlockPos relativeCell, BlockState state) {
+        BlockPos cell = ANCHOR.offset(relativeCell);
+        var company = new CompanyTrainBlockEntity(cell, state);
+        company.setParentPos(ANCHOR.subtract(cell), state.getValue(CompanyTrainPanel.FACING));
+        CompoundTag nbt = company.getUpdateTag(RegistryAccess.EMPTY);
+        nbt.putString("test_payload", "keep_company_payload");
+        add(cell, state, nbt);
         return cell;
     }
 
@@ -156,6 +169,7 @@ final class JYContraptionDoorTestRig {
 
     static final class CapturedContraption extends Contraption {
         final Set<BlockPos> hidden = new HashSet<>();
+        final Map<BlockPos, BlockEntity> clientBlockEntities = new HashMap<>();
         CapturedWorld localView;
         int colliderInvalidations;
 
@@ -165,6 +179,7 @@ final class JYContraptionDoorTestRig {
         @Override public void invalidateColliders() { colliderInvalidations++; }
         @Override public boolean isHiddenInPortal(BlockPos pos) { return hidden.contains(pos); }
         @Override public ContraptionWorld getContraptionWorld() { return localView; }
+        @Override public BlockEntity getBlockEntityClientSide(BlockPos pos) { return clientBlockEntities.get(pos); }
     }
 
     static final class CapturedWorld extends ContraptionWorld {
