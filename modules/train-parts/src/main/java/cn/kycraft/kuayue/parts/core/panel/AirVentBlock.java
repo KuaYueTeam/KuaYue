@@ -14,10 +14,6 @@ public class AirVentBlock extends SlabBlock {
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        VoxelShape modelShape = modelAabbShape(pState);
-        if (modelShape != null) {
-            return modelShape;
-        }
         return box(5, 0, 5, 12, 4, 12);
     }
 

@@ -36,10 +36,6 @@ public class SlabBlock extends TrainPanelBlock implements IWrenchable {
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        VoxelShape modelShape = modelAabbShape(pState);
-        if (modelShape != null) {
-            return modelShape;
-        }
         if (carport) return TrainPanelShapes.CARPORT_CENTER;
         return TrainPanelShapes.FLOOR;
     }

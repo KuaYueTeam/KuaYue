@@ -1,0 +1,8 @@
+{
+  "on_register": [
+    "carriages/c25k_new/groups.json",
+    "carriages/c25k_new/blocks.json",
+    "trains/c25k_new.json"
+  ],
+  "on_reload": []
+}

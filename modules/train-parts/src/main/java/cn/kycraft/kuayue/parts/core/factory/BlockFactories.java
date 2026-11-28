@@ -4,7 +4,7 @@ import cn.kycraft.kuayue.parts.core.panel.AirVentBlock;
 import cn.kycraft.kuayue.parts.core.panel.FreightC70EndFaceBlock;
 import cn.kycraft.kuayue.parts.core.panel.FreightNX70EndFaceBlock;
 import cn.kycraft.kuayue.parts.core.panel.FullShapeDirectionalBlock;
-import cn.kycraft.kuayue.parts.core.panel.ModelAabbShapes;
+import cn.kycraft.kuayue.parts.core.panel.PanelShapeBindings;
 import cn.kycraft.kuayue.parts.core.panel.HeadBlock;
 import cn.kycraft.kuayue.parts.core.panel.HeightSlabBlock;
 import cn.kycraft.kuayue.parts.core.panel.HingeSlabBlock;
@@ -21,6 +21,10 @@ import cn.kycraft.kuayue.parts.core.panel.custom_rendered.CustomRenderedEndFaceB
 import cn.kycraft.kuayue.parts.core.panel.custom_rendered.DoubleRotateDoorBlock;
 import cn.kycraft.kuayue.parts.core.panel.custom_rendered.MeterCarriageEndFaceBlock;
 import cn.kycraft.kuayue.parts.core.panel.door.TrainDoorBlock;
+import cn.kycraft.kuayue.parts.core.panel.proxy.TrainPanelProxyBlock;
+import cn.kycraft.kuayue.parts.core.panel.proxy.TrainPanelProxyHingeBlock;
+import cn.kycraft.kuayue.parts.core.panel.proxy.TrainPanelProxyMirrorDoorBlock;
+import cn.kycraft.kuayue.parts.core.panel.proxy.TrainPanelProxyOpenableBlock;
 import cn.kycraft.kuayue.parts.core.panel.registration.PanelReg;
 import cn.kycraft.kuayue.parts.core.panel.registration.SkirtReg;
 import cn.kycraft.kuayue.parts.core.panel.registration.SlabReg;
@@ -300,6 +304,61 @@ public class BlockFactories {
                     )
             );
 
+    /**
+     * Generic BBModel panel host used by data-driven carriage parcels. Keeps the
+     * TrainPanelBlock interaction and the data-driven collision ({@code params.aabb})
+     * while {@code train_panel_proxy_be} renders the .bbmodel through the proxy path.
+     *
+     * <p>Registered through {@link PanelReg} like every other panel factory, so the item is a
+     * {@link cn.kycraft.kuayue.parts.core.panel.PanelBlockItem}: placement snaps along an existing
+     * wall, resolves left/right from the click position, preflights the footprint and hands the
+     * extra cells to the company-panel mechanism.
+     */
+    public static FactoryRegistry.BlockFactory TRAIN_PANEL_PROXY = (id, params) -> new PanelReg<>(
+            id,
+            params,
+            properties -> new TrainPanelProxyBlock(
+                    properties,
+                    MultiCellFootprint.parse(params)
+            )
+    );
+
+    /**
+     * Same host as {@link #TRAIN_PANEL_PROXY}, plus the {@code open} block state that selects an
+     * authored open/closed model pair and its per-state collision profile.
+     */
+    public static FactoryRegistry.BlockFactory TRAIN_PANEL_PROXY_OPENABLE = (id, params) -> new PanelReg<>(
+            id,
+            params,
+            properties -> new TrainPanelProxyOpenableBlock(
+                    properties,
+                    MultiCellFootprint.parse(params)
+            )
+    );
+
+    /** Panel/grille pair merged into one block: the hinge state picks the right or left model. */
+    public static FactoryRegistry.BlockFactory TRAIN_PANEL_PROXY_HINGE = (id, params) -> new PanelReg<>(
+            id,
+            params,
+            properties -> new TrainPanelProxyHingeBlock(
+                    properties,
+                    MultiCellFootprint.parse(params)
+            )
+    );
+
+    /**
+     * One block for a right-hand + left-hand door pair: the placement side picks the art and a
+     * right-click switches the pose, so the separate "…左" block is no longer needed.
+     */
+    public static FactoryRegistry.BlockFactory TRAIN_PANEL_PROXY_MIRROR_DOOR = (id, params) -> new PanelReg<>(
+            id,
+            params,
+            properties -> new TrainPanelProxyMirrorDoorBlock(
+                    properties,
+                    MultiCellFootprint.parse(params)
+            )
+    );
+
     private static BlockReg<Block> blockWithDefaultItem(
             String id,
             Function<BlockBehaviour.Properties, ? extends Block> supplier
@@ -316,13 +375,17 @@ public class BlockFactories {
         return blockWithDefaultItem(id, properties -> {
             T block = supplier.apply(properties);
             block.configureMultiCell(MultiCellFootprint.parse(params));
-            block.configureModelAabb(ModelAabbShapes.parse(params));
+            PanelShapeBindings.install(block, params);
             return block;
         });
     }
 
     static {
         FactoryRegistry.register("train_panel", TRAIN_PANEL, true);
+        FactoryRegistry.register("train_panel_proxy", TRAIN_PANEL_PROXY, true);
+        FactoryRegistry.register("train_panel_proxy_openable", TRAIN_PANEL_PROXY_OPENABLE, true);
+        FactoryRegistry.register("train_panel_proxy_mirror_door", TRAIN_PANEL_PROXY_MIRROR_DOOR, true);
+        FactoryRegistry.register("train_panel_proxy_hinge", TRAIN_PANEL_PROXY_HINGE, true);
         FactoryRegistry.register("slab", SLAB, true);
         FactoryRegistry.register("slab_top", SLAB_TOP, true);
         FactoryRegistry.register("height_slab", HEIGHT_SLAB, true);

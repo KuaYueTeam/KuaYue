@@ -3,43 +3,7 @@
     {
       "id": "kuayue:dfh21_body_panel",
       "type": "train_panel",
-      "registry_group": "kuayue:dfh21_panels",
-      "params": {
-        "aabb": {
-          "facing=north": [
-            0.0,
-            0.0,
-            8.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=east": [
-            0.0,
-            0.0,
-            0.0,
-            8.0,
-            16.0,
-            16.0
-          ],
-          "facing=south": [
-            0.0,
-            0.0,
-            0.0,
-            16.0,
-            16.0,
-            8.0
-          ],
-          "facing=west": [
-            8.0,
-            0.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ]
-        }
-      }
+      "registry_group": "kuayue:dfh21_panels"
     },
     {
       "id": "kuayue:dfh21_chimney",
@@ -47,134 +11,22 @@
       "registry_group": "kuayue:dfh21_panels",
       "params": {
         "aabb": {
-          "facing=north,hinge=right,lit=false": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.0,
-            16.0
-          ],
-          "facing=north,hinge=left,lit=false": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.25,
-            16.0
-          ],
-          "facing=north,hinge=right,lit=true": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.0,
-            16.0
-          ],
-          "facing=north,hinge=left,lit=true": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.25,
-            16.0
-          ],
-          "facing=east,hinge=right,lit=false": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.0,
-            16.0
-          ],
-          "facing=east,hinge=left,lit=false": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.25,
-            16.0
-          ],
-          "facing=east,hinge=right,lit=true": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.0,
-            16.0
-          ],
-          "facing=east,hinge=left,lit=true": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.25,
-            16.0
-          ],
-          "facing=south,hinge=right,lit=false": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.0,
-            16.0
-          ],
-          "facing=south,hinge=left,lit=false": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.25,
-            16.0
-          ],
-          "facing=south,hinge=right,lit=true": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.0,
-            16.0
-          ],
-          "facing=south,hinge=left,lit=true": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.25,
-            16.0
-          ],
-          "facing=west,hinge=right,lit=false": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.0,
-            16.0
-          ],
-          "facing=west,hinge=left,lit=false": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.25,
-            16.0
-          ],
-          "facing=west,hinge=right,lit=true": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.0,
-            16.0
-          ],
-          "facing=west,hinge=left,lit=true": [
-            0.0,
-            1.004,
-            0.0,
-            16.0,
-            10.25,
-            16.0
-          ]
+          "facing=north,hinge=right,lit=false": [[0,1.004,0,16,7,16],[5,1.004,5,11,10,11]],
+          "facing=north,hinge=left,lit=false": [[0,1.004,0,16,7,16],[5,1.004,5,11,10.25,11]],
+          "facing=north,hinge=right,lit=true": [[0,1.004,0,16,7,16],[5,1.004,5,11,10,11]],
+          "facing=north,hinge=left,lit=true": [[0,1.004,0,16,7,16],[5,1.004,5,11,10.25,11]],
+          "facing=east,hinge=right,lit=false": [[0,1.004,0,16,7,16],[5,1.004,5,11,10,11]],
+          "facing=east,hinge=left,lit=false": [[0,1.004,0,16,7,16],[5,1.004,5,11,10.25,11]],
+          "facing=east,hinge=right,lit=true": [[0,1.004,0,16,7,16],[5,1.004,5,11,10,11]],
+          "facing=east,hinge=left,lit=true": [[0,1.004,0,16,7,16],[5,1.004,5,11,10.25,11]],
+          "facing=south,hinge=right,lit=false": [[0,1.004,0,16,7,16],[5,1.004,5,11,10,11]],
+          "facing=south,hinge=left,lit=false": [[0,1.004,0,16,7,16],[5,1.004,5,11,10.25,11]],
+          "facing=south,hinge=right,lit=true": [[0,1.004,0,16,7,16],[5,1.004,5,11,10,11]],
+          "facing=south,hinge=left,lit=true": [[0,1.004,0,16,7,16],[5,1.004,5,11,10.25,11]],
+          "facing=west,hinge=right,lit=false": [[0,1.004,0,16,7,16],[5,1.004,5,11,10,11]],
+          "facing=west,hinge=left,lit=false": [[0,1.004,0,16,7,16],[5,1.004,5,11,10.25,11]],
+          "facing=west,hinge=right,lit=true": [[0,1.004,0,16,7,16],[5,1.004,5,11,10,11]],
+          "facing=west,hinge=left,lit=true": [[0,1.004,0,16,7,16],[5,1.004,5,11,10.25,11]]
         }
       }
     },
@@ -182,27 +34,23 @@
       "id": "kuayue:dfh21_collision_part",
       "type": "full_shape_directional",
       "registry_group": "kuayue:dfh21_internal",
-      "properties": {
-        "no_collision": true
-      },
       "params": {
         "aabb": {
           "": []
         }
-      }
+      },
+      "properties": {"no_collision": true}
     },
     {
       "id": "kuayue:dfh21_coupler_part",
       "type": "full_shape_directional",
       "registry_group": "kuayue:dfh21_internal",
-      "properties": {
-        "no_collision": true
-      },
       "params": {
         "aabb": {
           "": []
         }
-      }
+      },
+      "properties": {"no_collision": true}
     },
     {
       "id": "kuayue:dfh21_door_1",
@@ -214,134 +62,22 @@
         "end_x": 1,
         "end_y": 1,
         "aabb": {
-          "facing=north,hinge=left,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            1.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            15.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            1.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            0.0,
-            0.0,
-            0.0,
-            1.0,
-            32.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            15.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            0.0,
-            0.0,
-            15.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            15.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            0.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            1.0
-          ],
-          "facing=south,hinge=left,open=false": [
-            0.0,
-            0.0,
-            15.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            0.0,
-            0.0,
-            0.0,
-            1.0,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=right,open=false": [
-            0.0,
-            0.0,
-            15.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            15.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=west,hinge=left,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            1.0,
-            32.0,
-            16.0
-          ],
-          "facing=west,hinge=left,open=true": [
-            0.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            1.0
-          ],
-          "facing=west,hinge=right,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            1.0,
-            32.0,
-            16.0
-          ],
-          "facing=west,hinge=right,open=true": [
-            0.0,
-            0.0,
-            15.0,
-            16.0,
-            32.0,
-            16.0
-          ]
+          "facing=north,hinge=left,open=false": [[0,0,0,16,17,1],[0,17,0,3,29,1],[13,17,0,16,29,1],[0,29,0,16,32,1]],
+          "facing=north,hinge=left,open=true": [[15,0,0,16,17,16],[15,17,13,16,29,16],[15,17,0,16,29,3],[15,29,0,16,32,16]],
+          "facing=north,hinge=right,open=false": [[0,0,0,16,17,1],[13,17,0,16,29,1],[0,17,0,3,29,1],[0,29,0,16,32,1]],
+          "facing=north,hinge=right,open=true": [[0,0,0,1,17,16],[0,17,13,1,29,16],[0,17,0,1,29,3],[0,29,0,1,32,16]],
+          "facing=east,hinge=left,open=false": [[15,0,0,16,17,16],[15,17,0,16,29,3],[15,17,13,16,29,16],[15,29,0,16,32,16]],
+          "facing=east,hinge=left,open=true": [[0,0,15,16,17,16],[0,17,15,3,29,16],[13,17,15,16,29,16],[0,29,15,16,32,16]],
+          "facing=east,hinge=right,open=false": [[15,0,0,16,17,16],[15,17,13,16,29,16],[15,17,0,16,29,3],[15,29,0,16,32,16]],
+          "facing=east,hinge=right,open=true": [[0,0,0,16,17,1],[0,17,0,3,29,1],[13,17,0,16,29,1],[0,29,0,16,32,1]],
+          "facing=south,hinge=left,open=false": [[0,0,15,16,17,16],[13,17,15,16,29,16],[0,17,15,3,29,16],[0,29,15,16,32,16]],
+          "facing=south,hinge=left,open=true": [[0,0,0,1,17,16],[0,17,0,1,29,3],[0,17,13,1,29,16],[0,29,0,1,32,16]],
+          "facing=south,hinge=right,open=false": [[0,0,15,16,17,16],[0,17,15,3,29,16],[13,17,15,16,29,16],[0,29,15,16,32,16]],
+          "facing=south,hinge=right,open=true": [[15,0,0,16,17,16],[15,17,0,16,29,3],[15,17,13,16,29,16],[15,29,0,16,32,16]],
+          "facing=west,hinge=left,open=false": [[0,0,0,1,17,16],[0,17,13,1,29,16],[0,17,0,1,29,3],[0,29,0,1,32,16]],
+          "facing=west,hinge=left,open=true": [[0,0,0,16,17,1],[13,17,0,16,29,1],[0,17,0,3,29,1],[0,29,0,16,32,1]],
+          "facing=west,hinge=right,open=false": [[0,0,0,1,17,16],[0,17,0,1,29,3],[0,17,13,1,29,16],[0,29,0,1,32,16]],
+          "facing=west,hinge=right,open=true": [[0,0,15,16,17,16],[13,17,15,16,29,16],[0,17,15,3,29,16],[0,29,15,16,32,16]]
         }
       }
     },
@@ -355,218 +91,34 @@
         "end_x": 1,
         "end_y": 1,
         "aabb": {
-          "facing=north,hinge=left,open=false": [
-            -0.25,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            -0.25,
-            0.0,
-            8.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            16.25,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            0.0,
-            0.0,
-            8.0,
-            16.25,
-            32.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            0.0,
-            0.0,
-            -0.25,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            0.0,
-            0.0,
-            -0.25,
-            8.0,
-            32.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            16.25
-          ],
-          "facing=east,hinge=right,open=true": [
-            0.0,
-            0.0,
-            0.0,
-            8.0,
-            32.0,
-            16.25
-          ],
-          "facing=south,hinge=left,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            16.25,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            0.0,
-            0.0,
-            0.0,
-            16.25,
-            32.0,
-            8.0
-          ],
-          "facing=south,hinge=right,open=false": [
-            -0.25,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            -0.25,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            8.0
-          ],
-          "facing=west,hinge=left,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            16.25
-          ],
-          "facing=west,hinge=left,open=true": [
-            8.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            16.25
-          ],
-          "facing=west,hinge=right,open=false": [
-            0.0,
-            0.0,
-            -0.25,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=west,hinge=right,open=true": [
-            8.0,
-            0.0,
-            -0.25,
-            16.0,
-            32.0,
-            16.0
-          ]
+          "facing=north,hinge=left,open=false": [[0,0,10,12,32,16],[12,0,8,16,32,16],[-0.25,0,0,0.75,18,10]],
+          "facing=north,hinge=left,open=true": [[-0.25,0,8,16,32,16]],
+          "facing=north,hinge=right,open=false": [[4,0,10,16,32,16],[0,0,8,4,32,16],[15.25,0,0,16.25,18,10]],
+          "facing=north,hinge=right,open=true": [[0,0,8,16.25,32,16]],
+          "facing=east,hinge=left,open=false": [[0,0,0,6,32,12],[0,0,12,8,32,16],[6,0,-0.25,16,18,0.75]],
+          "facing=east,hinge=left,open=true": [[0,0,-0.25,8,32,16]],
+          "facing=east,hinge=right,open=false": [[0,0,4,6,32,16],[0,0,0,8,32,4],[6,0,15.25,16,18,16.25]],
+          "facing=east,hinge=right,open=true": [[0,0,0,8,32,16.25]],
+          "facing=south,hinge=left,open=false": [[4,0,0,16,32,6],[0,0,0,4,32,8],[15.25,0,6,16.25,18,16]],
+          "facing=south,hinge=left,open=true": [[0,0,0,16.25,32,8]],
+          "facing=south,hinge=right,open=false": [[0,0,0,12,32,6],[12,0,0,16,32,8],[-0.25,0,6,0.75,18,16]],
+          "facing=south,hinge=right,open=true": [[-0.25,0,0,16,32,8]],
+          "facing=west,hinge=left,open=false": [[10,0,4,16,32,16],[8,0,0,16,32,4],[0,0,15.25,10,18,16.25]],
+          "facing=west,hinge=left,open=true": [[8,0,0,16,32,16.25]],
+          "facing=west,hinge=right,open=false": [[10,0,0,16,32,12],[8,0,12,16,32,16],[0,0,-0.25,10,18,0.75]],
+          "facing=west,hinge=right,open=true": [[8,0,-0.25,16,32,16]]
         }
       }
     },
     {
       "id": "kuayue:dfh21_end_face",
       "type": "train_panel",
-      "registry_group": "kuayue:dfh21_panels",
-      "params": {
-        "aabb": {
-          "facing=north": [
-            -12.0,
-            -5.75,
-            -16.0,
-            28.0,
-            32.0,
-            16.0
-          ],
-          "facing=east": [
-            0.0,
-            -5.75,
-            -12.0,
-            32.0,
-            32.0,
-            28.0
-          ],
-          "facing=south": [
-            -12.0,
-            -5.75,
-            0.0,
-            28.0,
-            32.0,
-            32.0
-          ],
-          "facing=west": [
-            -16.0,
-            -5.75,
-            -12.0,
-            16.0,
-            32.0,
-            28.0
-          ]
-        }
-      }
+      "registry_group": "kuayue:dfh21_panels"
     },
     {
       "id": "kuayue:dfh21_end_face_2",
       "type": "train_panel",
-      "registry_group": "kuayue:dfh21_panels",
-      "params": {
-        "aabb": {
-          "facing=north": [
-            -12.0,
-            -5.75,
-            -16.0,
-            28.0,
-            32.0,
-            16.0
-          ],
-          "facing=east": [
-            0.0,
-            -5.75,
-            -12.0,
-            32.0,
-            32.0,
-            28.0
-          ],
-          "facing=south": [
-            -12.0,
-            -5.75,
-            0.0,
-            28.0,
-            32.0,
-            32.0
-          ],
-          "facing=west": [
-            -16.0,
-            -5.75,
-            -12.0,
-            16.0,
-            32.0,
-            28.0
-          ]
-        }
-      }
+      "registry_group": "kuayue:dfh21_panels"
     },
     {
       "id": "kuayue:dfh21_equipment_door_1",
@@ -578,134 +130,22 @@
         "end_x": 1,
         "end_y": 1,
         "aabb": {
-          "facing=north,hinge=right,open=false": [
-            0.0,
-            0.0,
-            8.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            0.0,
-            0.0,
-            1.5,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=false": [
-            0.0,
-            0.0,
-            8.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            0.0,
-            0.0,
-            1.5,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            8.0,
-            32.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            0.0,
-            0.0,
-            0.0,
-            14.5,
-            32.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            8.0,
-            32.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            0.0,
-            0.0,
-            0.0,
-            14.5,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=right,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            8.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            0.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            14.5
-          ],
-          "facing=south,hinge=left,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            8.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            0.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            14.5
-          ],
-          "facing=west,hinge=right,open=false": [
-            8.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=west,hinge=right,open=true": [
-            1.5,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=west,hinge=left,open=false": [
-            8.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=west,hinge=left,open=true": [
-            1.5,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            16.0
-          ]
+          "facing=north,hinge=right,open=false": [[15,0,8,16,32,16],[2,0,8,15,32,9],[0,0,8,2,32,16]],
+          "facing=north,hinge=right,open=true": [[15,0,8,16,32,16],[2,0,1.5,3,32,8],[14,0,1.5,15,32,8],[0,0,8,2,32,16]],
+          "facing=north,hinge=left,open=false": [[0,0,8,1,32,16],[1,0,8,14,32,9],[14,0,8,16,32,16]],
+          "facing=north,hinge=left,open=true": [[0,0,8,1,32,16],[13,0,1.5,14,32,8],[1,0,1.5,2,32,8],[14,0,8,16,32,16]],
+          "facing=east,hinge=right,open=false": [[0,0,15,8,32,16],[7,0,2,8,32,15],[0,0,0,8,32,2]],
+          "facing=east,hinge=right,open=true": [[0,0,15,8,32,16],[8,0,2,14.5,32,3],[8,0,14,14.5,32,15],[0,0,0,8,32,2]],
+          "facing=east,hinge=left,open=false": [[0,0,0,8,32,1],[7,0,1,8,32,14],[0,0,14,8,32,16]],
+          "facing=east,hinge=left,open=true": [[0,0,0,8,32,1],[8,0,13,14.5,32,14],[8,0,1,14.5,32,2],[0,0,14,8,32,16]],
+          "facing=south,hinge=right,open=false": [[0,0,0,1,32,8],[1,0,7,14,32,8],[14,0,0,16,32,8]],
+          "facing=south,hinge=right,open=true": [[0,0,0,1,32,8],[13,0,8,14,32,14.5],[1,0,8,2,32,14.5],[14,0,0,16,32,8]],
+          "facing=south,hinge=left,open=false": [[15,0,0,16,32,8],[2,0,7,15,32,8],[0,0,0,2,32,8]],
+          "facing=south,hinge=left,open=true": [[15,0,0,16,32,8],[2,0,8,3,32,14.5],[14,0,8,15,32,14.5],[0,0,0,2,32,8]],
+          "facing=west,hinge=right,open=false": [[8,0,0,16,32,1],[8,0,1,9,32,14],[8,0,14,16,32,16]],
+          "facing=west,hinge=right,open=true": [[8,0,0,16,32,1],[1.5,0,13,8,32,14],[1.5,0,1,8,32,2],[8,0,14,16,32,16]],
+          "facing=west,hinge=left,open=false": [[8,0,15,16,32,16],[8,0,2,9,32,15],[8,0,0,16,32,2]],
+          "facing=west,hinge=left,open=true": [[8,0,15,16,32,16],[1.5,0,2,8,32,3],[1.5,0,14,8,32,15],[8,0,0,16,32,2]]
         }
       }
     },
@@ -719,134 +159,22 @@
         "end_x": 1,
         "end_y": 1,
         "aabb": {
-          "facing=north,hinge=right,open=false": [
-            -7.0,
-            -16.0,
-            7.0,
-            16.0,
-            19.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            -7.0,
-            -16.0,
-            2.5,
-            16.0,
-            19.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=false": [
-            0.0,
-            -16.0,
-            7.0,
-            23.0,
-            19.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            0.0,
-            -16.0,
-            2.5,
-            23.0,
-            19.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            0.0,
-            -16.0,
-            -7.0,
-            9.0,
-            19.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            0.0,
-            -16.0,
-            -7.0,
-            13.5,
-            19.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            0.0,
-            -16.0,
-            0.0,
-            9.0,
-            19.0,
-            23.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            0.0,
-            -16.0,
-            0.0,
-            13.5,
-            19.0,
-            23.0
-          ],
-          "facing=south,hinge=right,open=false": [
-            0.0,
-            -16.0,
-            0.0,
-            23.0,
-            19.0,
-            9.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            0.0,
-            -16.0,
-            0.0,
-            23.0,
-            19.0,
-            13.5
-          ],
-          "facing=south,hinge=left,open=false": [
-            -7.0,
-            -16.0,
-            0.0,
-            16.0,
-            19.0,
-            9.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            -7.0,
-            -16.0,
-            0.0,
-            16.0,
-            19.0,
-            13.5
-          ],
-          "facing=west,hinge=right,open=false": [
-            7.0,
-            -16.0,
-            0.0,
-            16.0,
-            19.0,
-            23.0
-          ],
-          "facing=west,hinge=right,open=true": [
-            2.5,
-            -16.0,
-            0.0,
-            16.0,
-            19.0,
-            23.0
-          ],
-          "facing=west,hinge=left,open=false": [
-            7.0,
-            -16.0,
-            -7.0,
-            16.0,
-            19.0,
-            16.0
-          ],
-          "facing=west,hinge=left,open=true": [
-            2.5,
-            -16.0,
-            -7.0,
-            16.0,
-            19.0,
-            16.0
-          ]
+          "facing=north,hinge=right,open=false": [[3,-16,8,4,10,16],[15,-16,8,16,10,16],[0,10,8,16,16,16],[4,-16,8,15,10,9],[-7,12,7,14,19,8]],
+          "facing=north,hinge=right,open=true": [[3,-16,8,4,10,16],[15,-16,8,16,10,16],[0,10,8,16,16,16],[14,-16,2.5,15,10,8],[4,-16,2.5,5,10,8],[-7,12,7,14,19,8]],
+          "facing=north,hinge=left,open=false": [[12,-16,8,13,10,16],[0,-16,8,1,10,16],[0,10,8,16,16,16],[1,-16,8,12,10,9],[2,12,7,23,19,8]],
+          "facing=north,hinge=left,open=true": [[12,-16,8,13,10,16],[0,-16,8,1,10,16],[0,10,8,16,16,16],[1,-16,2.5,2,10,8],[11,-16,2.5,12,10,8],[2,12,7,23,19,8]],
+          "facing=east,hinge=right,open=false": [[0,-16,3,8,10,4],[0,-16,15,8,10,16],[0,10,0,8,16,16],[7,-16,4,8,10,15],[8,12,-7,9,19,14]],
+          "facing=east,hinge=right,open=true": [[0,-16,3,8,10,4],[0,-16,15,8,10,16],[0,10,0,8,16,16],[8,-16,14,13.5,10,15],[8,-16,4,13.5,10,5],[8,12,-7,9,19,14]],
+          "facing=east,hinge=left,open=false": [[0,-16,12,8,10,13],[0,-16,0,8,10,1],[0,10,0,8,16,16],[7,-16,1,8,10,12],[8,12,2,9,19,23]],
+          "facing=east,hinge=left,open=true": [[0,-16,12,8,10,13],[0,-16,0,8,10,1],[0,10,0,8,16,16],[8,-16,1,13.5,10,2],[8,-16,11,13.5,10,12],[8,12,2,9,19,23]],
+          "facing=south,hinge=right,open=false": [[12,-16,0,13,10,8],[0,-16,0,1,10,8],[0,10,0,16,16,8],[1,-16,7,12,10,8],[2,12,8,23,19,9]],
+          "facing=south,hinge=right,open=true": [[12,-16,0,13,10,8],[0,-16,0,1,10,8],[0,10,0,16,16,8],[1,-16,8,2,10,13.5],[11,-16,8,12,10,13.5],[2,12,8,23,19,9]],
+          "facing=south,hinge=left,open=false": [[3,-16,0,4,10,8],[15,-16,0,16,10,8],[0,10,0,16,16,8],[4,-16,7,15,10,8],[-7,12,8,14,19,9]],
+          "facing=south,hinge=left,open=true": [[3,-16,0,4,10,8],[15,-16,0,16,10,8],[0,10,0,16,16,8],[14,-16,8,15,10,13.5],[4,-16,8,5,10,13.5],[-7,12,8,14,19,9]],
+          "facing=west,hinge=right,open=false": [[8,-16,12,16,10,13],[8,-16,0,16,10,1],[8,10,0,16,16,16],[8,-16,1,9,10,12],[7,12,2,8,19,23]],
+          "facing=west,hinge=right,open=true": [[8,-16,12,16,10,13],[8,-16,0,16,10,1],[8,10,0,16,16,16],[2.5,-16,1,8,10,2],[2.5,-16,11,8,10,12],[7,12,2,8,19,23]],
+          "facing=west,hinge=left,open=false": [[8,-16,3,16,10,4],[8,-16,15,16,10,16],[8,10,0,16,16,16],[8,-16,4,9,10,15],[7,12,-7,8,19,14]],
+          "facing=west,hinge=left,open=true": [[8,-16,3,16,10,4],[8,-16,15,16,10,16],[8,10,0,16,16,16],[2.5,-16,14,8,10,15],[2.5,-16,4,8,10,5],[7,12,-7,8,19,14]]
         }
       }
     },
@@ -860,134 +188,22 @@
         "end_x": 1,
         "end_y": 1,
         "aabb": {
-          "facing=north,hinge=right,open=false": [
-            0.0,
-            0.0,
-            8.0,
-            19.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            6.0,
-            0.0,
-            1.0,
-            19.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=false": [
-            -3.0,
-            0.0,
-            8.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            -3.0,
-            0.0,
-            1.0,
-            10.0,
-            32.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            8.0,
-            32.0,
-            19.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            0.0,
-            0.0,
-            6.0,
-            15.0,
-            32.0,
-            19.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            0.0,
-            0.0,
-            -3.0,
-            8.0,
-            32.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            0.0,
-            0.0,
-            -3.0,
-            15.0,
-            32.0,
-            10.0
-          ],
-          "facing=south,hinge=right,open=false": [
-            -3.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            8.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            -3.0,
-            0.0,
-            0.0,
-            10.0,
-            32.0,
-            15.0
-          ],
-          "facing=south,hinge=left,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            19.0,
-            32.0,
-            8.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            6.0,
-            0.0,
-            0.0,
-            19.0,
-            32.0,
-            15.0
-          ],
-          "facing=west,hinge=right,open=false": [
-            8.0,
-            0.0,
-            -3.0,
-            16.0,
-            32.0,
-            16.0
-          ],
-          "facing=west,hinge=right,open=true": [
-            1.0,
-            0.0,
-            -3.0,
-            16.0,
-            32.0,
-            10.0
-          ],
-          "facing=west,hinge=left,open=false": [
-            8.0,
-            0.0,
-            0.0,
-            16.0,
-            32.0,
-            19.0
-          ],
-          "facing=west,hinge=left,open=true": [
-            1.0,
-            0.0,
-            6.0,
-            16.0,
-            32.0,
-            19.0
-          ]
+          "facing=north,hinge=right,open=false": [[0,0,8,7,32,9],[7,0,8,8,32,16],[8,26,8,16,32,16],[8,0,8,19,26,9]],
+          "facing=north,hinge=right,open=true": [[6,0,1,7,32,8],[7,0,8,8,32,16],[8,26,8,16,32,16],[18,0,2.5,19,26,8],[8,0,2.5,9,26,8]],
+          "facing=north,hinge=left,open=false": [[9,0,8,16,32,9],[8,0,8,9,32,16],[0,26,8,8,32,16],[-3,0,8,8,26,9]],
+          "facing=north,hinge=left,open=true": [[9,0,1,10,32,8],[8,0,8,9,32,16],[0,26,8,8,32,16],[-3,0,2.5,-2,26,8],[7,0,2.5,8,26,8]],
+          "facing=east,hinge=right,open=false": [[7,0,0,8,32,7],[0,0,7,8,32,8],[0,26,8,8,32,16],[7,0,8,8,26,19]],
+          "facing=east,hinge=right,open=true": [[8,0,6,15,32,7],[0,0,7,8,32,8],[0,26,8,8,32,16],[8,0,18,13.5,26,19],[8,0,8,13.5,26,9]],
+          "facing=east,hinge=left,open=false": [[7,0,9,8,32,16],[0,0,8,8,32,9],[0,26,0,8,32,8],[7,0,-3,8,26,8]],
+          "facing=east,hinge=left,open=true": [[8,0,9,15,32,10],[0,0,8,8,32,9],[0,26,0,8,32,8],[8,0,-3,13.5,26,-2],[8,0,7,13.5,26,8]],
+          "facing=south,hinge=right,open=false": [[9,0,7,16,32,8],[8,0,0,9,32,8],[0,26,0,8,32,8],[-3,0,7,8,26,8]],
+          "facing=south,hinge=right,open=true": [[9,0,8,10,32,15],[8,0,0,9,32,8],[0,26,0,8,32,8],[-3,0,8,-2,26,13.5],[7,0,8,8,26,13.5]],
+          "facing=south,hinge=left,open=false": [[0,0,7,7,32,8],[7,0,0,8,32,8],[8,26,0,16,32,8],[8,0,7,19,26,8]],
+          "facing=south,hinge=left,open=true": [[6,0,8,7,32,15],[7,0,0,8,32,8],[8,26,0,16,32,8],[18,0,8,19,26,13.5],[8,0,8,9,26,13.5]],
+          "facing=west,hinge=right,open=false": [[8,0,9,9,32,16],[8,0,8,16,32,9],[8,26,0,16,32,8],[8,0,-3,9,26,8]],
+          "facing=west,hinge=right,open=true": [[1,0,9,8,32,10],[8,0,8,16,32,9],[8,26,0,16,32,8],[2.5,0,-3,8,26,-2],[2.5,0,7,8,26,8]],
+          "facing=west,hinge=left,open=false": [[8,0,0,9,32,7],[8,0,7,16,32,8],[8,26,8,16,32,16],[8,0,8,9,26,19]],
+          "facing=west,hinge=left,open=true": [[1,0,6,8,32,7],[8,0,7,16,32,8],[8,26,8,16,32,16],[2.5,0,18,8,26,19],[2.5,0,8,8,26,9]]
         }
       }
     },
@@ -997,70 +213,14 @@
       "registry_group": "kuayue:dfh21_panels",
       "params": {
         "aabb": {
-          "facing=north,hinge=right": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=north,hinge=left": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=east,hinge=right": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=east,hinge=left": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=south,hinge=right": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=south,hinge=left": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=west,hinge=right": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=west,hinge=left": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ]
+          "facing=north,hinge=right": [[0,8,0,16,16,16]],
+          "facing=north,hinge=left": [[0,8,0,16,16,16]],
+          "facing=east,hinge=right": [[0,8,0,16,16,16]],
+          "facing=east,hinge=left": [[0,8,0,16,16,16]],
+          "facing=south,hinge=right": [[0,8,0,16,16,16]],
+          "facing=south,hinge=left": [[0,8,0,16,16,16]],
+          "facing=west,hinge=right": [[0,8,0,16,16,16]],
+          "facing=west,hinge=left": [[0,8,0,16,16,16]]
         }
       }
     },
@@ -1070,70 +230,14 @@
       "registry_group": "kuayue:dfh21_panels",
       "params": {
         "aabb": {
-          "facing=north,hinge=right": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=north,hinge=left": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=east,hinge=right": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=east,hinge=left": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=south,hinge=right": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=south,hinge=left": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=west,hinge=right": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=west,hinge=left": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ]
+          "facing=north,hinge=right": [[0,8,0,16,16,16]],
+          "facing=north,hinge=left": [[0,8,0,16,16,16]],
+          "facing=east,hinge=right": [[0,8,0,16,16,16]],
+          "facing=east,hinge=left": [[0,8,0,16,16,16]],
+          "facing=south,hinge=right": [[0,8,0,16,16,16]],
+          "facing=south,hinge=left": [[0,8,0,16,16,16]],
+          "facing=west,hinge=right": [[0,8,0,16,16,16]],
+          "facing=west,hinge=left": [[0,8,0,16,16,16]]
         }
       }
     },
@@ -1143,70 +247,14 @@
       "registry_group": "kuayue:dfh21_panels",
       "params": {
         "aabb": {
-          "facing=north,hinge=right": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=north,hinge=left": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=east,hinge=right": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=east,hinge=left": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=south,hinge=right": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=south,hinge=left": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=west,hinge=right": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=west,hinge=left": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ]
+          "facing=north,hinge=right": [[0,8,0,16,16,16]],
+          "facing=north,hinge=left": [[0,8,0,16,16,16]],
+          "facing=east,hinge=right": [[0,8,0,16,16,16]],
+          "facing=east,hinge=left": [[0,8,0,16,16,16]],
+          "facing=south,hinge=right": [[0,8,0,16,16,16]],
+          "facing=south,hinge=left": [[0,8,0,16,16,16]],
+          "facing=west,hinge=right": [[0,8,0,16,16,16]],
+          "facing=west,hinge=left": [[0,8,0,16,16,16]]
         }
       }
     },
@@ -1216,122 +264,22 @@
       "registry_group": "kuayue:dfh21_panels",
       "params": {
         "aabb": {
-          "facing=north": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=east": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=south": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=west": [
-            0.0,
-            8.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ]
+          "facing=north": [[0,8,0,16,16,16]],
+          "facing=east": [[0,8,0,16,16,16]],
+          "facing=south": [[0,8,0,16,16,16]],
+          "facing=west": [[0,8,0,16,16,16]]
         }
       }
     },
     {
       "id": "kuayue:dfh21_head",
       "type": "full_shape_directional",
-      "registry_group": "kuayue:dfh21_panels",
-      "params": {
-        "aabb": {
-          "facing=north": [
-            -16.0,
-            -5.75,
-            -16.0,
-            32.0,
-            32.0,
-            32.0
-          ],
-          "facing=east": [
-            -16.0,
-            -5.75,
-            -16.0,
-            32.0,
-            32.0,
-            32.0
-          ],
-          "facing=south": [
-            -16.0,
-            -5.75,
-            -16.0,
-            32.0,
-            32.0,
-            32.0
-          ],
-          "facing=west": [
-            -16.0,
-            -5.75,
-            -16.0,
-            32.0,
-            32.0,
-            32.0
-          ]
-        }
-      }
+      "registry_group": "kuayue:dfh21_panels"
     },
     {
       "id": "kuayue:dfh21_head_2",
       "type": "full_shape_directional",
-      "registry_group": "kuayue:dfh21_panels",
-      "params": {
-        "aabb": {
-          "facing=north": [
-            -16.0,
-            -5.75,
-            -16.0,
-            32.0,
-            32.0,
-            32.0
-          ],
-          "facing=east": [
-            -16.0,
-            -5.75,
-            -16.0,
-            32.0,
-            32.0,
-            32.0
-          ],
-          "facing=south": [
-            -16.0,
-            -5.75,
-            -16.0,
-            32.0,
-            32.0,
-            32.0
-          ],
-          "facing=west": [
-            -16.0,
-            -5.75,
-            -16.0,
-            32.0,
-            32.0,
-            32.0
-          ]
-        }
-      }
+      "registry_group": "kuayue:dfh21_panels"
     },
     {
       "id": "kuayue:dfh21_radiator_door",
@@ -1343,134 +291,22 @@
         "end_x": 1,
         "end_y": 1,
         "aabb": {
-          "facing=north,hinge=left,open=false": [
-            -8.0,
-            0.0,
-            8.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            -8.0,
-            0.0,
-            -1.25,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=false": [
-            0.0,
-            0.0,
-            8.0,
-            24.0,
-            16.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            0.0,
-            0.0,
-            -1.25,
-            24.0,
-            16.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            0.0,
-            0.0,
-            -8.0,
-            8.0,
-            16.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            0.0,
-            0.0,
-            -8.0,
-            17.25,
-            16.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            8.0,
-            16.0,
-            24.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            0.0,
-            0.0,
-            0.0,
-            17.25,
-            16.0,
-            24.0
-          ],
-          "facing=south,hinge=left,open=false": [
-            0.0,
-            0.0,
-            0.0,
-            24.0,
-            16.0,
-            8.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            0.0,
-            0.0,
-            0.0,
-            24.0,
-            16.0,
-            17.25
-          ],
-          "facing=south,hinge=right,open=false": [
-            -8.0,
-            0.0,
-            0.0,
-            16.0,
-            16.0,
-            8.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            -8.0,
-            0.0,
-            0.0,
-            16.0,
-            16.0,
-            17.25
-          ],
-          "facing=west,hinge=left,open=false": [
-            8.0,
-            0.0,
-            0.0,
-            16.0,
-            16.0,
-            24.0
-          ],
-          "facing=west,hinge=left,open=true": [
-            -1.25,
-            0.0,
-            0.0,
-            16.0,
-            16.0,
-            24.0
-          ],
-          "facing=west,hinge=right,open=false": [
-            8.0,
-            0.0,
-            -8.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=west,hinge=right,open=true": [
-            -1.25,
-            0.0,
-            -8.0,
-            16.0,
-            16.0,
-            16.0
-          ]
+          "facing=north,hinge=left,open=false": [[14,0,8,16,16,16],[-8,0,8,-5,16,16],[-5,0,8,14,1,16],[-5,13,8,14,16,16],[-5,1,8,14,13,9]],
+          "facing=north,hinge=left,open=true": [[14,0,8,16,16,16],[-8,0,8,-5,16,16],[-5,0,8,14,1,16],[-5,13,8,14,16,16],[13,1,-1.25,14,13,8.25],[-5,1,-1.25,-4,13,8.25]],
+          "facing=north,hinge=right,open=false": [[0,0,8,2,16,16],[21,0,8,24,16,16],[2,0,8,21,1,16],[2,13,8,21,16,16],[2,1,8,21,13,9]],
+          "facing=north,hinge=right,open=true": [[0,0,8,2,16,16],[21,0,8,24,16,16],[2,0,8,21,1,16],[2,13,8,21,16,16],[2,1,-1.25,3,13,8.25],[20,1,-1.25,21,13,8.25]],
+          "facing=east,hinge=left,open=false": [[0,0,14,8,16,16],[0,0,-8,8,16,-5],[0,0,-5,8,1,14],[0,13,-5,8,16,14],[7,1,-5,8,13,14]],
+          "facing=east,hinge=left,open=true": [[0,0,14,8,16,16],[0,0,-8,8,16,-5],[0,0,-5,8,1,14],[0,13,-5,8,16,14],[7.75,1,13,17.25,13,14],[7.75,1,-5,17.25,13,-4]],
+          "facing=east,hinge=right,open=false": [[0,0,0,8,16,2],[0,0,21,8,16,24],[0,0,2,8,1,21],[0,13,2,8,16,21],[7,1,2,8,13,21]],
+          "facing=east,hinge=right,open=true": [[0,0,0,8,16,2],[0,0,21,8,16,24],[0,0,2,8,1,21],[0,13,2,8,16,21],[7.75,1,2,17.25,13,3],[7.75,1,20,17.25,13,21]],
+          "facing=south,hinge=left,open=false": [[0,0,0,2,16,8],[21,0,0,24,16,8],[2,0,0,21,1,8],[2,13,0,21,16,8],[2,1,7,21,13,8]],
+          "facing=south,hinge=left,open=true": [[0,0,0,2,16,8],[21,0,0,24,16,8],[2,0,0,21,1,8],[2,13,0,21,16,8],[2,1,7.75,3,13,17.25],[20,1,7.75,21,13,17.25]],
+          "facing=south,hinge=right,open=false": [[14,0,0,16,16,8],[-8,0,0,-5,16,8],[-5,0,0,14,1,8],[-5,13,0,14,16,8],[-5,1,7,14,13,8]],
+          "facing=south,hinge=right,open=true": [[14,0,0,16,16,8],[-8,0,0,-5,16,8],[-5,0,0,14,1,8],[-5,13,0,14,16,8],[13,1,7.75,14,13,17.25],[-5,1,7.75,-4,13,17.25]],
+          "facing=west,hinge=left,open=false": [[8,0,0,16,16,2],[8,0,21,16,16,24],[8,0,2,16,1,21],[8,13,2,16,16,21],[8,1,2,9,13,21]],
+          "facing=west,hinge=left,open=true": [[8,0,0,16,16,2],[8,0,21,16,16,24],[8,0,2,16,1,21],[8,13,2,16,16,21],[-1.25,1,2,8.25,13,3],[-1.25,1,20,8.25,13,21]],
+          "facing=west,hinge=right,open=false": [[8,0,14,16,16,16],[8,0,-8,16,16,-5],[8,0,-5,16,1,14],[8,13,-5,16,16,14],[8,1,-5,9,13,14]],
+          "facing=west,hinge=right,open=true": [[8,0,14,16,16,16],[8,0,-8,16,16,-5],[8,0,-5,16,1,14],[8,13,-5,16,16,14],[-1.25,1,13,8.25,13,14],[-1.25,1,-5,8.25,13,-4]]
         }
       }
     },
@@ -1480,81 +316,17 @@
       "registry_group": "kuayue:dfh21_panels",
       "params": {
         "aabb": {
-          "facing=north": [
-            -7.0,
-            6.5,
-            -4.0,
-            23.0,
-            9.5,
-            20.0
-          ],
-          "facing=east": [
-            -4.0,
-            6.5,
-            -7.0,
-            20.0,
-            9.5,
-            23.0
-          ],
-          "facing=south": [
-            -7.0,
-            6.5,
-            -4.0,
-            23.0,
-            9.5,
-            20.0
-          ],
-          "facing=west": [
-            -4.0,
-            6.5,
-            -7.0,
-            20.0,
-            9.5,
-            23.0
-          ]
+          "facing=north": [[-6,6.5,17,22,8.5,19],[-6,6.5,-3,22,8.5,-1],[20,6.5,-1,22,8.5,18],[-6,6.5,-1,-4,8.5,17],[21,8.5,-2,23,9.5,18],[-7,8.5,18,23,9.5,20],[-7,8.5,-4,23,9.5,-2],[-7,8.5,-2,-5,9.5,18]],
+          "facing=east": [[-3,6.5,-6,-1,8.5,22],[17,6.5,-6,19,8.5,22],[-2,6.5,20,17,8.5,22],[-1,6.5,-6,17,8.5,-4],[-2,8.5,21,18,9.5,23],[-4,8.5,-7,-2,9.5,23],[18,8.5,-7,20,9.5,23],[-2,8.5,-7,18,9.5,-5]],
+          "facing=south": [[-6,6.5,-3,22,8.5,-1],[-6,6.5,17,22,8.5,19],[-6,6.5,-2,-4,8.5,17],[20,6.5,-1,22,8.5,17],[-7,8.5,-2,-5,9.5,18],[-7,8.5,-4,23,9.5,-2],[-7,8.5,18,23,9.5,20],[21,8.5,-2,23,9.5,18]],
+          "facing=west": [[17,6.5,-6,19,8.5,22],[-3,6.5,-6,-1,8.5,22],[-1,6.5,-6,18,8.5,-4],[-1,6.5,20,17,8.5,22],[-2,8.5,-7,18,9.5,-5],[18,8.5,-7,20,9.5,23],[-4,8.5,-7,-2,9.5,23],[-2,8.5,21,18,9.5,23]]
         }
       }
     },
     {
       "id": "kuayue:dfh21_radiator_grille",
       "type": "train_panel",
-      "registry_group": "kuayue:dfh21_panels",
-      "params": {
-        "aabb": {
-          "facing=north": [
-            -14.0,
-            -2.0,
-            7.0,
-            30.0,
-            18.0,
-            16.0
-          ],
-          "facing=east": [
-            0.0,
-            -2.0,
-            -14.0,
-            9.0,
-            18.0,
-            30.0
-          ],
-          "facing=south": [
-            -14.0,
-            -2.0,
-            0.0,
-            30.0,
-            18.0,
-            9.0
-          ],
-          "facing=west": [
-            7.0,
-            -2.0,
-            -14.0,
-            16.0,
-            18.0,
-            30.0
-          ]
-        }
-      }
+      "registry_group": "kuayue:dfh21_panels"
     },
     {
       "id": "kuayue:dfh21_roof_1",
@@ -1563,70 +335,14 @@
       "params": {
         "is_carport": true,
         "aabb": {
-          "facing=north,hinge=left": [
-            0.0,
-            0.0,
-            6.213,
-            16.0,
-            8.0,
-            24.0
-          ],
-          "facing=north,hinge=right": [
-            0.0,
-            0.0,
-            6.213,
-            16.0,
-            8.0,
-            24.0
-          ],
-          "facing=east,hinge=left": [
-            -8.0,
-            0.0,
-            0.0,
-            9.787,
-            8.0,
-            16.0
-          ],
-          "facing=east,hinge=right": [
-            -8.0,
-            0.0,
-            0.0,
-            9.787,
-            8.0,
-            16.0
-          ],
-          "facing=south,hinge=left": [
-            0.0,
-            0.0,
-            -8.0,
-            16.0,
-            8.0,
-            9.787
-          ],
-          "facing=south,hinge=right": [
-            0.0,
-            0.0,
-            -8.0,
-            16.0,
-            8.0,
-            9.787
-          ],
-          "facing=west,hinge=left": [
-            6.213,
-            0.0,
-            0.0,
-            24.0,
-            8.0,
-            16.0
-          ],
-          "facing=west,hinge=right": [
-            6.213,
-            0.0,
-            0.0,
-            24.0,
-            8.0,
-            16.0
-          ]
+          "facing=north,hinge=left": [[0,0,6.213,16,8,24]],
+          "facing=north,hinge=right": [[0,0,6.213,16,8,24]],
+          "facing=east,hinge=left": [[-8,0,0,9.787,8,16]],
+          "facing=east,hinge=right": [[-8,0,0,9.787,8,16]],
+          "facing=south,hinge=left": [[0,0,-8,16,8,9.787]],
+          "facing=south,hinge=right": [[0,0,-8,16,8,9.787]],
+          "facing=west,hinge=left": [[6.213,0,0,24,8,16]],
+          "facing=west,hinge=right": [[6.213,0,0,24,8,16]]
         }
       }
     },
@@ -1637,70 +353,14 @@
       "params": {
         "is_carport": true,
         "aabb": {
-          "facing=north,hinge=left": [
-            0.0,
-            0.0,
-            6.213,
-            16.0,
-            8.0,
-            24.0
-          ],
-          "facing=north,hinge=right": [
-            0.0,
-            0.0,
-            6.213,
-            16.0,
-            8.0,
-            24.0
-          ],
-          "facing=east,hinge=left": [
-            -8.0,
-            0.0,
-            0.0,
-            9.787,
-            8.0,
-            16.0
-          ],
-          "facing=east,hinge=right": [
-            -8.0,
-            0.0,
-            0.0,
-            9.787,
-            8.0,
-            16.0
-          ],
-          "facing=south,hinge=left": [
-            0.0,
-            0.0,
-            -8.0,
-            16.0,
-            8.0,
-            9.787
-          ],
-          "facing=south,hinge=right": [
-            0.0,
-            0.0,
-            -8.0,
-            16.0,
-            8.0,
-            9.787
-          ],
-          "facing=west,hinge=left": [
-            6.213,
-            0.0,
-            0.0,
-            24.0,
-            8.0,
-            16.0
-          ],
-          "facing=west,hinge=right": [
-            6.213,
-            0.0,
-            0.0,
-            24.0,
-            8.0,
-            16.0
-          ]
+          "facing=north,hinge=left": [[0,0,6.213,16,8,24]],
+          "facing=north,hinge=right": [[0,0,6.213,16,8,24]],
+          "facing=east,hinge=left": [[-8,0,0,9.787,8,16]],
+          "facing=east,hinge=right": [[-8,0,0,9.787,8,16]],
+          "facing=south,hinge=left": [[0,0,-8,16,8,9.787]],
+          "facing=south,hinge=right": [[0,0,-8,16,8,9.787]],
+          "facing=west,hinge=left": [[6.213,0,0,24,8,16]],
+          "facing=west,hinge=right": [[6.213,0,0,24,8,16]]
         }
       }
     },
@@ -1711,113 +371,21 @@
       "params": {
         "is_carport": true,
         "aabb": {
-          "facing=north,hinge=left": [
-            0.0,
-            0.0,
-            6.213,
-            16.0,
-            8.0,
-            24.0
-          ],
-          "facing=north,hinge=right": [
-            0.0,
-            0.0,
-            6.213,
-            16.0,
-            8.0,
-            24.0
-          ],
-          "facing=east,hinge=left": [
-            -8.0,
-            0.0,
-            0.0,
-            9.787,
-            8.0,
-            16.0
-          ],
-          "facing=east,hinge=right": [
-            -8.0,
-            0.0,
-            0.0,
-            9.787,
-            8.0,
-            16.0
-          ],
-          "facing=south,hinge=left": [
-            0.0,
-            0.0,
-            -8.0,
-            16.0,
-            8.0,
-            9.787
-          ],
-          "facing=south,hinge=right": [
-            0.0,
-            0.0,
-            -8.0,
-            16.0,
-            8.0,
-            9.787
-          ],
-          "facing=west,hinge=left": [
-            6.213,
-            0.0,
-            0.0,
-            24.0,
-            8.0,
-            16.0
-          ],
-          "facing=west,hinge=right": [
-            6.213,
-            0.0,
-            0.0,
-            24.0,
-            8.0,
-            16.0
-          ]
+          "facing=north,hinge=left": [[0,0,6.213,16,8,24]],
+          "facing=north,hinge=right": [[0,0,6.213,16,8,24]],
+          "facing=east,hinge=left": [[-8,0,0,9.787,8,16]],
+          "facing=east,hinge=right": [[-8,0,0,9.787,8,16]],
+          "facing=south,hinge=left": [[0,0,-8,16,8,9.787]],
+          "facing=south,hinge=right": [[0,0,-8,16,8,9.787]],
+          "facing=west,hinge=left": [[6.213,0,0,24,8,16]],
+          "facing=west,hinge=right": [[6.213,0,0,24,8,16]]
         }
       }
     },
     {
       "id": "kuayue:dfh21_tank",
       "type": "full_shape_directional",
-      "registry_group": "kuayue:dfh21_panels",
-      "params": {
-        "aabb": {
-          "facing=north": [
-            -16.0,
-            -7.0,
-            -14.0,
-            32.0,
-            16.0,
-            30.0
-          ],
-          "facing=east": [
-            -14.0,
-            -7.0,
-            -16.0,
-            30.0,
-            16.0,
-            32.0
-          ],
-          "facing=south": [
-            -16.0,
-            -7.0,
-            -14.0,
-            32.0,
-            16.0,
-            30.0
-          ],
-          "facing=west": [
-            -14.0,
-            -7.0,
-            -16.0,
-            30.0,
-            16.0,
-            32.0
-          ]
-        }
-      }
+      "registry_group": "kuayue:dfh21_panels"
     }
   ]
 }

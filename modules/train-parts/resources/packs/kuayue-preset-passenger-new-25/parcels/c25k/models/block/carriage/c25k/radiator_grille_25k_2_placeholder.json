@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "kuayue:block/carriage/c25k/radiator_grille_25k_2"
+  }
+}

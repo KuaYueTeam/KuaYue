@@ -1,0 +1,67 @@
+{
+  "trains": [
+    {
+      "id": "kuayue:c25k_new",
+      "category": "carriage",
+      "name_key": "parcel.kuayue.c25k_new.name",
+      "description_key": "parcel.kuayue.c25k_new.description",
+      "members": {
+        "blocks": [
+          "kuayue:new_ac_25k_1",
+          "kuayue:new_ac_25k_2",
+          "kuayue:new_ac_25k_3",
+          "kuayue:new_chimney_25k",
+          "kuayue:new_coupler_25k_1",
+          "kuayue:new_coupler_25k_2",
+          "kuayue:new_door_25k",
+          "kuayue:new_door_sliding_25k",
+          "kuayue:new_end_face_25k_1",
+          "kuayue:new_end_face_25k_2",
+          "kuayue:new_end_face_sliding_25k_1",
+          "kuayue:new_end_face_sliding_25k_2",
+          "kuayue:new_floor_25k",
+          "kuayue:new_floor_25k_2",
+          "kuayue:new_generator_intake_25k",
+          "kuayue:new_generator_intake_25k_2",
+          "kuayue:new_generator_ladder_25k",
+          "kuayue:new_generator_window_25k_1",
+          "kuayue:new_generator_window_25k_2",
+          "kuayue:new_ladder_sliding_25k",
+          "kuayue:new_oil_tank_25k",
+          "kuayue:new_panel_bottom_25k",
+          "kuayue:new_panel_bottom_25k_3",
+          "kuayue:new_panel_bottom_line_25k",
+          "kuayue:new_panel_middle_25k",
+          "kuayue:new_panel_top_25k",
+          "kuayue:new_radiator_fan_25k",
+          "kuayue:new_radiator_grille_25k_1",
+          "kuayue:new_radiator_grille_25k_2",
+          "kuayue:new_vent_grille_25k",
+          "kuayue:new_vent_grille_25k_2",
+          "kuayue:new_water_tank_25k",
+          "kuayue:new_window_25k_4",
+          "kuayue:new_window_25k_5",
+          "kuayue:new_window_oc_sealed_small_25k",
+          "kuayue:new_window_oc_small_25k",
+          "kuayue:new_window_oc_toilet_25k",
+          "kuayue:new_window_oc_wide_25k",
+          "kuayue:new_window_oc_wide_sealed_25k"
+        ],
+        "items": [],
+        "item_tags": [
+          "kuayue:system/parcel/kuayue-preset-passenger-new-25/kuayue/c25k_new"
+        ],
+        "bogey_sizes": [],
+        "bogey_motions": [],
+        "bogey_models": [],
+        "bogey_blocks": [],
+        "bogey_styles": [],
+        "bogey_style_variants": []
+      },
+      "creative": {
+        "tab": "kuayue:kuayue_carriage",
+        "icon_item": "kuayue:new_panel_bottom_25k"
+      }
+    }
+  ]
+}

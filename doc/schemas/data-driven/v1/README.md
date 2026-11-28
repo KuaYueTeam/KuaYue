@@ -118,7 +118,7 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 
 下表的 TrainPanel 家族 factory 还可统一使用可选的 `multi_cell`；只有 `height_slab` 和 `jy290_ac` 不属于该家族。
 
-所有 TrainPanel 家族 factory 还支持可选的 `params.aabb`：从模型几何生成的精确包围盒。键是规范化状态串（如 `facing=north,hinge=left,open=false`，无状态变体用 `""`），值是像素坐标 `[x1,y1,z1,x2,y2,z2]`，空模型用 `[]`。配置后 `getShape` 返回对应盒，`getCollisionShape` 委托 `getShape`，`getInteractionShape` 默认也委托 `getShape`，因此可见形、交互形、碰撞形三者一致；未配置时保持各 factory 原有形状。运行时从完整状态键逐级降级匹配到较短前缀，以兼容 blockstate 变体只声明部分属性的情况（例如只按 `facing` 变化的梯子）。
+所有 TrainPanel 家族 factory 还支持可选的 `params.aabb`：从模型几何生成的精确包围盒。键是规范化状态串（如 `facing=north,hinge=left,open=false`，无状态变体用 `""`），值是像素坐标 `[x1,y1,z1,x2,y2,z2]`，也可以用若干盒组成的并集 `[[...],[...]]` 保留门窗等开口，空模型用 `[]`。像素坐标是方块局部坐标：模型原点位于方块中心，因此渲染根节点 `ProxyModelProxy.placementRoot` 的 `translate(0.5, 0, 0.5)` 相当于 X/Z 各加 8 像素；元素的 pivot/旋转必须按绕 pivot 旋转计算（`origin + R·(p - origin)`），不能把 pivot 当成额外平移。注册时由 `PanelShapeBindings` 编译为 KasugaLib 的 `BlockShapePlan` 并通过 `BlockShapeBindings` 安装；库在 `BlockState` 层统一解析 SHAPE / COLLISION / VISUAL / INTERACTION 四个槽位，因此可见形、交互形、碰撞形一致，方块子类无需 Override `getShape` 或 `getCollisionShape`。未配置或状态未命中时回退各 factory 原有形状。运行时从完整状态键逐级降级匹配到较短前缀，以兼容 blockstate 变体只声明部分属性的情况（例如只按 `facing` 变化的梯子）。
 
 | factory | `params` |
 |---|---|
@@ -138,6 +138,12 @@ packs/kuayue-preset-running-gear/parcels/shared/data/kuayue/kasuga_lib/data_driv
 | `jy290_ac` | 无字段 |
 | `train_door`、`jy290_door` | 可选 `begin_x`、`begin_y`、`end_x`、`end_y`；`jy290_door` 使用 JY290 专用门形和玩家通行碰撞 |
 | `proxy_model` | 通用 proxy 模型宿主，方块本身无行为参数；配合 `proxy_model_be`，其 `params.model` 或 `params.model_groups` 必填，`default_model`、`model_name`、`yaw_offset`、`facing_yaw`、`model_by_state` 可选；支持 `state_properties` |
+| `train_panel_proxy` | 通用 BBModel 面板宿主，保留 `TrainPanelBlock` 交互与 `params.aabb` 碰撞，模型经 `train_panel_proxy_be` 渲染；只声明 `facing` |
+| `train_panel_proxy_openable` | 同上，另声明 `open` 状态：右键切换开关，`train_panel_proxy_be` 用 `model_groups` + `model_by_state` 选择开/关模型，`params.aabb` 按 `facing=...,open=false/true` 给出两套碰撞 |
+| `train_panel_proxy_mirror_door` | 左右两扇门合并成一个方块：`door` 状态（`left_closed` / `left_open` / `right_closed` / `right_open`）选模型，摆放时按点击侧决定左右，右键在同一侧切换开合；`open` 仍是碰撞键（`facing=...,open=false/true`），映射到 `train_panel_proxy_be` |
+| `train_panel_proxy_hinge` | 同上但不含 `open`：声明 `hinge` 状态，摆放时按点击侧决定左右，`model_by_state` 用 `hinge` 选右侧/左侧模型，`params.aabb` 按 `facing=...,hinge=left/right` 给出两套（左右几何通常相同） |
+
+门类开合方块可再加 `interaction_aabb`（同一套 key → 盒子）：`aabb` 的 `open=true` 留空（开门后可以走过去），`interaction_aabb` 保持关闭姿态的薄板，这样选定框/交互框仍贴着门（`PanelShapeBindings` 用 `interaction_aabb` 填 VISUAL 与 INTERACTION 两个槽）。
 | `jy_maintenance_outrigger` | KuaYue 专用 JY 工程车支腿，使用 `train_panel_proxy_be`；右键和动画由专用方块类实现，碰撞为完整方块 |
 | `jy_maintenance_floor` | KuaYue 专用 JY 工程车地板与梯子地板，保留半砖碰撞和扳手旋转，并可当作梯子攀爬 |
 | `jy_maintenance_carport` | KuaYue 专用 JY 工程车顶，使用 `train_panel_proxy_be`；保留半砖碰撞和扳手旋转，并直接加载 BBModel |
