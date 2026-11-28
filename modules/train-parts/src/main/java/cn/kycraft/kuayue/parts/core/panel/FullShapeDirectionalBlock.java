@@ -27,10 +27,6 @@ public class FullShapeDirectionalBlock extends TrainPanelBlock {
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        VoxelShape modelShape = modelAabbShape(pState);
-        if (modelShape != null) {
-            return modelShape;
-        }
         return Shapes.block();
     }
 

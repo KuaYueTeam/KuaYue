@@ -624,10 +624,10 @@
       "type": "object",
       "properties": {
         "id": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "parent": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "properties": {
           "$ref": "#/$defs/blockProperties"
@@ -643,13 +643,33 @@
     },
     "modelAabbParams": {
       "type": "object",
-      "description": "Model-derived AABBs keyed by a normalised state string; each value is [x1,y1,z1,x2,y2,z2] in pixels or [] for an empty shape.",
+      "description": "Model-derived AABBs keyed by a normalised state string; each value is [x1,y1,z1,x2,y2,z2] in pixels, a list of such boxes (a union that keeps openings empty), or [] for an empty shape.",
       "additionalProperties": {
-        "type": "array",
-        "items": { "type": "number" },
-        "minItems": 0,
-        "maxItems": 6
+        "oneOf": [
+          {
+            "type": "array",
+            "maxItems": 0
+          },
+          {
+            "$ref": "#/$defs/modelAabbBox"
+          },
+          {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/modelAabbBox"
+            },
+            "minItems": 1
+          }
+        ]
       }
+    },
+    "modelAabbBox": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 6,
+      "maxItems": 6
     },
     "panelBoundsParams": {
       "type": "object",
@@ -677,9 +697,13 @@
         },
         "end_y": {
           "type": "number"
+        },
+        "interaction_aabb": {
+          "$ref": "#/$defs/modelAabbParams"
         }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "description": "Panel collision/selection shapes: aabb drives collision, interaction_aabb is an optional overlay for the selection outline and interaction slots (doors are walk-through when open but must stay clickable)."
     },
     "emptyParams": {
       "type": "object",
@@ -1282,6 +1306,10 @@
           "type": "string",
           "enum": [
             "train_panel",
+            "train_panel_proxy",
+            "train_panel_proxy_openable",
+            "train_panel_proxy_mirror_door",
+            "train_panel_proxy_hinge",
             "slab",
             "slab_top",
             "height_slab",
@@ -1328,7 +1356,7 @@
           ]
         },
         "registry_group": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "properties": {
           "$ref": "#/$defs/blockProperties"
@@ -1363,7 +1391,13 @@
           "if": {
             "properties": {
               "type": {
-                "const": "train_panel"
+                "enum": [
+                  "train_panel",
+                  "train_panel_proxy",
+                  "train_panel_proxy_openable",
+                  "train_panel_proxy_mirror_door",
+                  "train_panel_proxy_hinge"
+                ]
               }
             }
           },
@@ -1947,7 +1981,7 @@
           "const": "simple_item"
         },
         "registry_group": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "properties": {
           "$ref": "#/$defs/itemProperties"
@@ -1966,7 +2000,7 @@
       "type": "object",
       "properties": {
         "id": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "wheel_radius": {
           "type": "number",
@@ -1983,7 +2017,7 @@
       "type": "object",
       "properties": {
         "id": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "type": {
           "type": "string",
@@ -2006,7 +2040,7 @@
           "default": 1.0
         },
         "clip": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         }
       },
       "required": [
@@ -2096,7 +2130,7 @@
           "pattern": "^[a-z0-9_.-]+$"
         },
         "model": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "local": {
           "type": "array",
@@ -2105,7 +2139,7 @@
           }
         },
         "motion": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         }
       },
       "required": [
@@ -2118,7 +2152,7 @@
       "type": "object",
       "properties": {
         "id": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "y_offset": {
           "type": "number",
@@ -2191,16 +2225,16 @@
       "type": "object",
       "properties": {
         "id": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "size": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "registry_group": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "default_style": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "properties": {
           "$ref": "#/$defs/blockProperties"
@@ -2221,13 +2255,13 @@
       "type": "object",
       "properties": {
         "size": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "block": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "model": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         }
       },
       "required": [
@@ -2241,13 +2275,13 @@
       "type": "object",
       "properties": {
         "id": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "cycle_group": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "registry_group": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "translation_key": {
           "$ref": "#/$defs/nonBlankString"
@@ -2315,13 +2349,13 @@
       "type": "object",
       "properties": {
         "id": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "name": {
           "$ref": "#/$defs/nonBlankString"
         },
         "particle": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "half_distance": {
           "type": "number",
@@ -2332,7 +2366,7 @@
           "minItems": 1,
           "uniqueItems": true,
           "items": {
-      "$ref": "#/$defs/explicitResourceLocation"
+            "$ref": "#/$defs/explicitResourceLocation"
           }
         },
         "models": {
@@ -2353,16 +2387,16 @@
       "type": "object",
       "properties": {
         "id": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "type": {
           "const": "simple_track"
         },
         "registry_group": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "default_bogey": {
-      "$ref": "#/$defs/explicitResourceLocation"
+          "$ref": "#/$defs/explicitResourceLocation"
         },
         "properties": {
           "$ref": "#/$defs/blockProperties"

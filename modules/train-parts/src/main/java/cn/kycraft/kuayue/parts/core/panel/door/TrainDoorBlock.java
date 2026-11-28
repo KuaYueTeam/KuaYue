@@ -73,10 +73,6 @@ public class TrainDoorBlock extends TrainPanelBlock implements OpenableTrainDoor
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        VoxelShape modelShape = modelAabbShape(pState);
-        if (modelShape != null) {
-            return modelShape;
-        }
         return TrainPanelShapes.getDoorShape(pState.getValue(FACING).getOpposite(), pState.getValue(HINGE), pState.getValue(OPEN));
     }
 

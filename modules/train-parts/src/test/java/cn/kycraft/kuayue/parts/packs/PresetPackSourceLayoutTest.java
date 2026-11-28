@@ -44,6 +44,7 @@ class PresetPackSourceLayoutTest {
             Map.entry("kuayue:c25b", CARRIAGE_TAB),
             Map.entry("kuayue:c25g", CARRIAGE_TAB),
             Map.entry("kuayue:c25k", CARRIAGE_TAB),
+            Map.entry("kuayue:c25k_new", CARRIAGE_TAB),
             Map.entry("kuayue:c25t", CARRIAGE_TAB),
             Map.entry("kuayue:c25z", CARRIAGE_TAB),
             Map.entry("kuayue:cr200j", CARRIAGE_TAB),
@@ -70,6 +71,7 @@ class PresetPackSourceLayoutTest {
             RUNNING_GEAR,
             "kuayue-preset-passenger-22",
             "kuayue-preset-passenger-25",
+            "kuayue-preset-passenger-new-25",
             "kuayue-preset-df",
             "kuayue-preset-ss",
             "kuayue-preset-hxd",
@@ -165,7 +167,7 @@ class PresetPackSourceLayoutTest {
                         ));
             }
         }
-        assertEquals(36, parcelCount);
+        assertEquals(37, parcelCount);
         assertFalse(Files.exists(PACKS.getParent().resolve("tracks")));
         assertFalse(Files.exists(Path.of("src/main/resources/kuayue-packs")));
     }

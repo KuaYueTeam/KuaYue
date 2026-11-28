@@ -1,7 +1,7 @@
 package cn.kycraft.kuayue.parts.core.panel.registration;
 
-import cn.kycraft.kuayue.parts.core.panel.ModelAabbShapes;
 import cn.kycraft.kuayue.parts.core.panel.PanelBlockItem;
+import cn.kycraft.kuayue.parts.core.panel.PanelShapeBindings;
 import cn.kycraft.kuayue.parts.core.panel.TrainPanelBlock;
 import cn.kycraft.kuayue.parts.core.factory.KuaYueBlockReg;
 import cn.kycraft.kuayue.parts.core.multiblock.MultiCellFootprint;
@@ -35,7 +35,7 @@ public class PanelReg<T extends TrainPanelBlock> extends Reg<PanelReg<T>, Block>
         Function<BlockBehaviour.Properties, T> configured = properties -> {
             T block = blockSupplier.apply(properties);
             block.configureMultiCell(MultiCellFootprint.parse(params));
-            block.configureModelAabb(ModelAabbShapes.parse(params));
+            PanelShapeBindings.install(block, params);
             return block;
         };
         BlockReg<T> registration = params != null && params.has("shape_bindings")
