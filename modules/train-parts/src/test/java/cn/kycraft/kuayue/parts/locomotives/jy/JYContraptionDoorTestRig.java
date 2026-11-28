@@ -85,7 +85,7 @@ final class JYContraptionDoorTestRig {
         add(cell, state, nbt);
         var companion = new MultiCellCompanionBlockEntity(cell, state);
         companion.setParentOffset(parent.subtract(cell));
-        contraption.presentBlockEntities.put(cell, companion);
+        contraption.clientBlockEntities.put(cell, companion);
         level.worldEntities.put(cell, companion);
         return cell;
     }
@@ -169,6 +169,7 @@ final class JYContraptionDoorTestRig {
 
     static final class CapturedContraption extends Contraption {
         final Set<BlockPos> hidden = new HashSet<>();
+        final Map<BlockPos, BlockEntity> clientBlockEntities = new HashMap<>();
         CapturedWorld localView;
         int colliderInvalidations;
 
@@ -178,6 +179,7 @@ final class JYContraptionDoorTestRig {
         @Override public void invalidateColliders() { colliderInvalidations++; }
         @Override public boolean isHiddenInPortal(BlockPos pos) { return hidden.contains(pos); }
         @Override public ContraptionWorld getContraptionWorld() { return localView; }
+        @Override public BlockEntity getBlockEntityClientSide(BlockPos pos) { return clientBlockEntities.get(pos); }
     }
 
     static final class CapturedWorld extends ContraptionWorld {

@@ -115,7 +115,7 @@ class AllTrainDoorMovementTest {
                 var be = new CustomRenderedDoorEntity(ANCHOR, state);
                 be.setOpen(false);
                 be.animation_controller = .4f;
-                rig.contraption.presentBlockEntities.put(ANCHOR, be);
+                rig.contraption.clientBlockEntities.put(ANCHOR, be);
                 assertTrue(be.isOpen());
                 assertEquals(.4f, be.animation_controller);
                 be.setBlockState(state.setValue(BlockStateProperties.OPEN, false));
@@ -125,7 +125,7 @@ class AllTrainDoorMovementTest {
                 be.setOpen(false);
                 be.type = name.equals("meter_endface") ? TrainPanelProperties.DoorType.ROTATE : TrainPanelProperties.DoorType.SLIDE;
                 be.counter = .4f;
-                rig.contraption.presentBlockEntities.put(ANCHOR, be);
+                rig.contraption.clientBlockEntities.put(ANCHOR, be);
                 assertTrue(be.isOpen());
                 assertEquals(!name.equals("meter_endface"), be.isRotateDoor(), "Door type comes from the block even if its saved cache is stale");
                 assertEquals(.4f, be.counter);
