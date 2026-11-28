@@ -63,7 +63,7 @@ public class CustomRenderedDoorEntity extends SmartBlockEntity implements IContr
     }
 
     public boolean isOpen() {
-        return open;
+        return getBlockState().getOptionalValue(DoorBlock.OPEN).orElse(open);
     }
 
     @OnlyIn(Dist.CLIENT)

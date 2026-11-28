@@ -1,6 +1,13 @@
 package cn.kycraft.kuayue.parts.locomotives.jy;
 
 import cn.kycraft.kuayue.parts.core.multiblock.MultiCellFootprint;
+import cn.kycraft.kuayue.parts.core.panel.EndFaceBlock;
+import cn.kycraft.kuayue.parts.core.panel.TrainPanelProperties;
+import cn.kycraft.kuayue.parts.core.panel.custom_rendered.CustomRenderedDoorBlock;
+import cn.kycraft.kuayue.parts.core.panel.custom_rendered.CustomRenderedEndFaceBlock;
+import cn.kycraft.kuayue.parts.core.panel.custom_rendered.DoubleRotateDoorBlock;
+import cn.kycraft.kuayue.parts.core.panel.custom_rendered.MeterCarriageEndFaceBlock;
+import cn.kycraft.kuayue.parts.core.panel.door.TrainDoorBlock;
 import lib.kasuga.geometry.Box;
 import lib.kasuga.geometry.Shape;
 import lib.kasuga.registration.minecraft.block.shape.BlockShapeBindings;
@@ -12,6 +19,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.phys.Vec2;
+import net.createmod.catnip.data.Couple;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -21,12 +32,15 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.List;
 import java.util.Map;
+import java.util.LinkedHashMap;
 
 /** Registers real blocks during FML loading rather than constructing blocks after registry freeze. */
 @EventBusSubscriber(modid = "kuayue", bus = EventBusSubscriber.Bus.MOD)
 public final class JYContraptionDoorFixtures {
     public static JYMaintenanceDoorBlock sideDoor;
     public static JYMaintenanceEndFaceBlock endface;
+    public static final Map<String, Block> allDoors = new LinkedHashMap<>();
+    public static EndFaceBlock noDoor;
 
     private JYContraptionDoorFixtures() {
     }
@@ -49,7 +63,39 @@ public final class JYContraptionDoorFixtures {
             installEndFaceShapePlan(endface);
             helper.register(ResourceLocation.parse("kuayue:contraption_test_side_door"), sideDoor);
             helper.register(ResourceLocation.parse("kuayue:contraption_test_endface"), endface);
+            allDoors.put("maintenance_side", sideDoor);
+            allDoors.put("maintenance_endface", endface);
+            allDoors.put("ordinary", new TrainDoorBlock(doorProperties()));
+            allDoors.put("sliding", new TrainDoorBlock.Sliding(doorProperties()));
+            allDoors.put("jy290", new JY290DoorBlock(doorProperties(), Vec2.ZERO, new Vec2(1, 2)));
+            var models = Couple.create(ResourceLocation.parse("kuayue:block/test_lower"),
+                    ResourceLocation.parse("kuayue:block/test_upper"));
+            allDoors.put("rendered_rotate", new CustomRenderedDoorBlock(doorProperties(), models,
+                    models, RenderShape.ENTITYBLOCK_ANIMATED, false));
+            allDoors.put("rendered_slide", new CustomRenderedDoorBlock(doorProperties(), models,
+                    models, RenderShape.ENTITYBLOCK_ANIMATED, true));
+            allDoors.put("plain_endface", new EndFaceBlock(doorProperties(), TrainPanelProperties.DoorType.SLIDE));
+            allDoors.put("rendered_endface", new CustomRenderedEndFaceBlock(doorProperties(),
+                    TrainPanelProperties.DoorType.ROTATE, (String) null, null, null));
+            allDoors.put("double_rotate", new DoubleRotateDoorBlock(doorProperties(),
+                    TrainPanelProperties.DoorType.ROTATE, null, null, null));
+            allDoors.put("meter_endface", new MeterCarriageEndFaceBlock(doorProperties(),
+                    TrainPanelProperties.DoorType.SLIDE, true));
+            allDoors.put("wide", new TrainDoorBlock(doorProperties(), Vec2.ZERO, new Vec2(2, 2)));
+            allDoors.put("wide_endface", new EndFaceBlock(doorProperties(), Vec2.ZERO,
+                    new Vec2(2, 2), TrainPanelProperties.DoorType.SLIDE));
+            for (var entry : allDoors.entrySet()) {
+                if (entry.getValue() != sideDoor && entry.getValue() != endface) {
+                    helper.register(ResourceLocation.parse("kuayue:contraption_test_" + entry.getKey()), entry.getValue());
+                }
+            }
+            noDoor = new EndFaceBlock(doorProperties(), TrainPanelProperties.DoorType.NO_DOOR);
+            helper.register(ResourceLocation.parse("kuayue:contraption_test_no_door"), noDoor);
         });
+    }
+
+    private static BlockBehaviour.Properties doorProperties() {
+        return BlockBehaviour.Properties.of().sound(SoundType.METAL);
     }
 
     private static void installDoorShapePlan(JYMaintenanceDoorBlock block) {

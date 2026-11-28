@@ -2,6 +2,7 @@ package cn.kycraft.kuayue.parts.core.panel;
 
 import cn.kycraft.kuayue.parts.core.panel.company.CompanyRegistry;
 import cn.kycraft.kuayue.parts.core.panel.company.CompanyTrainPanel;
+import cn.kycraft.kuayue.parts.core.panel.door.OpenableTrainDoor;
 import cn.kycraft.kuayue.parts.core.panel.window.TrainSmallWindowBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,10 +26,21 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class EndFaceBlock extends TrainPanelBlock {
+public class EndFaceBlock extends TrainPanelBlock implements OpenableTrainDoor {
     public final TrainPanelProperties.DoorType DOOR_TYPE;
 
     public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
+
+    @Override
+    public BooleanProperty doorOpenProperty() {
+        return OPEN;
+    }
+
+    @Override
+    public boolean hasDoor() {
+        return DOOR_TYPE != TrainPanelProperties.DoorType.NO_DOOR;
+    }
+
     public EndFaceBlock(Properties pProperties, TrainPanelProperties.DoorType doorType) {
         super(pProperties, new Vec2(0, 0), new Vec2(1, 1));
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.EAST).setValue(OPEN, false));

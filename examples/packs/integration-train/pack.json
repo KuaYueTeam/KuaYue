@@ -10,10 +10,10 @@
   "dependencies": {
     "mods": {
       "minecraft": "1.21.1",
-      "neoforge": "21.1.203",
+      "neoforge": "21.1.268",
       "kuayue": "2.0.0",
       "kasuga_lib": "1.0.0",
-      "create": "6.0.6"
+      "create": "6.0.11"
     },
     "packs": {}
   },

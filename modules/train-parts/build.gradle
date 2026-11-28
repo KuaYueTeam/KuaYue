@@ -207,7 +207,7 @@ dependencies {
     implementation("lib.kasuga:kasuga_lib:1.0.0") {
         useBundle(delegate)
         exclude group: 'com.simibubi.create', module: "create-${minecraft_version}"
-        exclude group: 'net.createmod.ponder', module: "Ponder-NeoForge-${minecraft_version}"
+        exclude group: 'net.createmod.ponder', module: 'ponder-neoforge'
         exclude group: 'dev.engine-room.flywheel', module: "flywheel-neoforge-api-${minecraft_version}"
         exclude group: 'dev.engine-room.flywheel', module: "flywheel-neoforge-${minecraft_version}"
 
@@ -222,8 +222,8 @@ dependencies {
         transitive = false
     }
 
-    implementation("com.simibubi.create:create-${minecraft_version}:${create_version}:slim") { transitive = false }
-    implementation("net.createmod.ponder:Ponder-NeoForge-${minecraft_version}:${ponder_version}")
+    implementation("com.simibubi.create:create-${minecraft_version}:${create_version}") { transitive = false }
+    implementation("net.createmod.ponder:ponder-neoforge:${ponder_version}+mc${minecraft_version}")
     compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${minecraft_version}:${flywheel_version}")
     runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
     implementation("com.tterrag.registrate:Registrate:${registrate_version}")
@@ -232,6 +232,7 @@ dependencies {
     testImplementation 'com.google.code.gson:gson:2.10.1'
     testImplementation 'org.joml:joml:1.10.5'
     testImplementation 'com.mojang:datafixerupper:8.0.16'
+    testCompileOnly("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}")
     // Formula is already bundled in kasuga_lib; a second module splits its packages in FML tests.
     testRuntimeOnly('io.micronaut:micronaut-aop:4.9.10') {
         exclude group: 'org.slf4j', module: 'slf4j-api'
