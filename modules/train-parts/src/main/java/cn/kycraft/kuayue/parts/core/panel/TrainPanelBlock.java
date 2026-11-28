@@ -38,11 +38,14 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class TrainPanelBlock extends Block implements IWrenchable /*, EntityBlock */ {
     public final Vec2 beginPos, endPos;
     private MultiCellFootprint multiCellFootprint = MultiCellFootprint.EMPTY;
+    private Map<String, VoxelShape> modelAabbShapes = ModelAabbShapes.NONE;
+    private boolean shapeCoverage;
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final UnModeledBlockProperty<TrainPanelProperties.EditType, EnumProperty<TrainPanelProperties.EditType>> EDIT_TYPE =
             UnModeledBlockProperty.create(EnumProperty.create("edit_type", TrainPanelProperties.EditType.class));
@@ -87,6 +90,15 @@ public class TrainPanelBlock extends Block implements IWrenchable /*, EntityBloc
         return multiCellFootprint;
     }
 
+    /** Enables per-cell collision coverage from the installed lib shape plan. */
+    public final void configureShapeCoverage(boolean enabled) {
+        shapeCoverage = enabled;
+    }
+
+    public final boolean usesShapeCoverage() {
+        return shapeCoverage;
+    }
+
     public final boolean canPlaceMultiCell(BlockGetter level, BlockPos pos, BlockState state) {
         return multiCellFootprint.isEmpty()
                 || MultiCellStructureManager.canPlace(level, pos, state, multiCellFootprint);
@@ -98,6 +110,20 @@ public class TrainPanelBlock extends Block implements IWrenchable /*, EntityBloc
         }
     }
 
+    /**
+     * Installs model-derived AABBs. Factories call this once while constructing the block,
+     * using the same params object that carries the other factory arguments.
+     */
+    public final void configureModelAabb(Map<String, VoxelShape> shapes) {
+        this.modelAabbShapes = shapes == null || shapes.isEmpty() ? ModelAabbShapes.NONE : shapes;
+    }
+
+    /** @return the model AABB for this state, or {@code null} when no model AABB was configured. */
+    @Nullable
+    protected final VoxelShape modelAabbShape(BlockState state) {
+        return ModelAabbShapes.lookup(modelAabbShapes, state);
+    }
+
     @Override
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         return super.canSurvive(state, level, pos) && canPlaceMultiCell(level, pos, state);
@@ -105,6 +131,10 @@ public class TrainPanelBlock extends Block implements IWrenchable /*, EntityBloc
 
     @Override
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        VoxelShape modelShape = modelAabbShape(pState);
+        if (modelShape != null) {
+            return modelShape;
+        }
         return TrainPanelShapes.getShape(pState.getValue(FACING).getOpposite());
     }
 

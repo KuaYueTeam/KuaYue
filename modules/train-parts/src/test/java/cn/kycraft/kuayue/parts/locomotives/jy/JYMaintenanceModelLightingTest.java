@@ -17,7 +17,7 @@ class JYMaintenanceModelLightingTest {
         for (String model : List.of("head", "carport", "console", "outtrigger_left", "outtrigger_right",
                 "endface", "door_left", "door_right", "panel_left", "panel_right", "tail")) {
             assertEquals(ModelLightingMode.BLOCK, ModelLightingDefaults.resolve(ResourceLocation.parse(
-                    "jy_maintenance:models/block/jy_maintenance/jy_maintenance_" + model + ".bbmodel")), model);
+                    "kuayue:models/block/jy_maintenance/jy_maintenance_" + model + ".bbmodel")), model);
         }
         assertEquals(ModelLightingMode.PBR, ModelLightingDefaults.resolve(ResourceLocation.parse(
                 "kuayue:models/block/bogey/df11g/df11g_frame.bbmodel")));

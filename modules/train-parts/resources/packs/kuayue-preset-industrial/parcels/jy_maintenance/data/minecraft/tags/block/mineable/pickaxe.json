@@ -1,14 +1,14 @@
 {
   "values": [
-    "jy_maintenance:jy_maintenance_head",
-    "jy_maintenance:jy_maintenance_carport",
-    "jy_maintenance:jy_maintenance_console",
-    "jy_maintenance:jy_maintenance_floor",
-    "jy_maintenance:jy_maintenance_floor_ladder",
-    "jy_maintenance:jy_maintenance_outrigger",
-    "jy_maintenance:jy_maintenance_door",
-    "jy_maintenance:jy_maintenance_panel",
-    "jy_maintenance:jy_maintenance_tail",
-    "jy_maintenance:jy_maintenance_handrail"
+    "kuayue:jy_maintenance_head",
+    "kuayue:jy_maintenance_carport",
+    "kuayue:jy_maintenance_console",
+    "kuayue:jy_maintenance_floor",
+    "kuayue:jy_maintenance_floor_ladder",
+    "kuayue:jy_maintenance_outrigger",
+    "kuayue:jy_maintenance_door",
+    "kuayue:jy_maintenance_panel",
+    "kuayue:jy_maintenance_tail",
+    "kuayue:jy_maintenance_handrail"
   ]
 }

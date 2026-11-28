@@ -1,0 +1,17 @@
+{
+  "pack.kuayue.name": "JY Maintenance Vehicle",
+  "pack.kuayue.description": "JY maintenance vehicle pack",
+  "parcel.kuayue.jy_maintenance.name": "JY Maintenance Vehicle",
+  "parcel.kuayue.jy_maintenance.description": "JY maintenance vehicle",
+  "block.kuayue.jy_maintenance_head": "JY Maintenance Vehicle Head",
+  "block.kuayue.jy_maintenance_carport": "JY Maintenance Vehicle Carport",
+  "block.kuayue.jy_maintenance_console": "JY Maintenance Vehicle Console",
+  "block.kuayue.jy_maintenance_floor": "JY Maintenance Vehicle Floor",
+  "block.kuayue.jy_maintenance_floor_ladder": "JY Maintenance Vehicle Floor (Ladder)",
+  "block.kuayue.jy_maintenance_outrigger": "JY Maintenance Vehicle Outrigger",
+  "block.kuayue.jy_maintenance_endface": "JY Maintenance Vehicle End Face",
+  "block.kuayue.jy_maintenance_door": "JY Maintenance Vehicle Door",
+  "block.kuayue.jy_maintenance_panel": "JY Maintenance Vehicle Side Panel",
+  "block.kuayue.jy_maintenance_tail": "JY Maintenance Vehicle Tail",
+  "block.kuayue.jy_maintenance_handrail": "JY Maintenance Vehicle Handrail"
+}

@@ -2,5 +2,6 @@
   "pack.kuayue_preset_running_gear.name": "KuaYue Running Gear",
   "pack.kuayue_preset_running_gear.description": "Required running gear, shared definitions and vehicle infrastructure.",
   "itemGroup.kuayue_carriage": "Kuayue·Carriages",
+  "itemGroup.kuayue_freight": "Kuayue·Freight",
   "itemGroup.kuayue_loco": "Kuayue·Locomotives"
 }

@@ -49,10 +49,10 @@ public final class JYMaintenanceItemClientExtensions {
             float guiScale
     ) {
         return Map.entry(
-                ResourceLocation.fromNamespaceAndPath("jy_maintenance", itemPath),
+                ResourceLocation.fromNamespaceAndPath("kuayue", itemPath),
                 new Preview(
                         ResourceLocation.fromNamespaceAndPath(
-                                "jy_maintenance",
+                                "kuayue",
                                 "models/block/jy_maintenance/" + modelFile
                         ),
                         guiScale

@@ -1,7 +1,7 @@
 {
   "values": [
-    "jy_maintenance:jy_maintenance_floor",
-    "jy_maintenance:jy_maintenance_floor_ladder",
-    "jy_maintenance:jy_maintenance_outrigger"
+    "kuayue:jy_maintenance_floor",
+    "kuayue:jy_maintenance_floor_ladder",
+    "kuayue:jy_maintenance_outrigger"
   ]
 }

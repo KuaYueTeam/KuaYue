@@ -2,17 +2,13 @@ package cn.kycraft.kuayue.parts.locomotives.jy;
 
 import cn.kycraft.kuayue.parts.core.multiblock.MultiCellFootprint;
 import cn.kycraft.kuayue.parts.core.panel.proxy.TrainPanelProxyBlock;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoorHingeSide;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
 
 /** JY maintenance side panel with left/right proxy model variants. */
 public final class JYMaintenancePanelBlock extends TrainPanelProxyBlock {
@@ -35,26 +31,4 @@ public final class JYMaintenancePanelBlock extends TrainPanelProxyBlock {
         super.createBlockStateDefinition(builder.add(HINGE));
     }
 
-    @Override
-    public VoxelShape getShape(
-            BlockState state,
-            BlockGetter level,
-            BlockPos pos,
-            CollisionContext context
-    ) {
-        return JYMaintenancePanelShapes.get(
-                state.getValue(FACING),
-                state.getValue(HINGE)
-        );
-    }
-
-    @Override
-    public VoxelShape getCollisionShape(
-            BlockState state,
-            BlockGetter level,
-            BlockPos pos,
-            CollisionContext context
-    ) {
-        return getShape(state, level, pos, context);
-    }
 }

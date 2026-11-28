@@ -3,6 +3,12 @@
 Read this reference when a BBModel needs collision shapes that existing factories cannot express,
 or when one block state should play an authored clip forward and backward.
 
+When KuaYue's actual KasugaLib dependency includes the data-driven shape handler, author static and
+state-selected selection/collision geometry through [shapes.md](shapes.md) instead of adding new Java
+shape code. Keep code-defined collision for behavior that the shape slots cannot express. The shape
+schema/compiler checks definition structure; KuaYue tests must still prove state-rule selection and
+anchor clipping.
+
 ## Collision from BBModel geometry
 
 Derive the collision profile from the hierarchy instead of copying the model's overall bounds:
@@ -94,6 +100,21 @@ union. Keys use the serialized property and value names:
       "right": [[-1, 0, 0], [0, 1, 0], [-1, 1, 0]]
     }
   }
+}
+```
+
+For exact multi-property selection, use `state_cells`; each item has a non-empty string-valued
+`when` and `cells`. The most specific matching rule wins, equal specificity is ambiguous, and
+`cells: []` makes that state produce no companions.
+
+```json
+{
+  "state_cells": [
+    {
+      "when": {"facing": "north", "open": "true"},
+      "cells": [[0, 0, 1]]
+    }
+  ]
 }
 ```
 

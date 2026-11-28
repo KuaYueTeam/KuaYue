@@ -23,6 +23,7 @@ modules/train-parts/resources/packs/<pack-id>/
     ├── tags/
     └── data/<namespace>/
         ├── kasuga_lib/data_driven/<entry>.json
+        ├── <kind>/<vehicle>/shapes.json
         └── trains/<vehicle>.json
 ```
 
@@ -47,9 +48,18 @@ Internal requirements enforced by the generator:
 Every non-running-gear preset in the current repository declares:
 
 ```json
-"dependencies": {
-  "packs": {
-    "kuayue-preset-running-gear": "*"
+{
+  "dependencies": {
+    "mods": {
+      "minecraft": ">=1.21.1",
+      "neoforge": ">=21.1.0",
+      "kuayue": ">=2.0.0",
+      "kasuga_lib": ">=1.0.0",
+      "create": ">=6.0.0"
+    },
+    "packs": {
+      "kuayue-preset-running-gear": ">=2.0.0"
+    }
   }
 }
 ```
@@ -74,6 +84,7 @@ External packs use standard Minecraft resource roots:
     │   └── textures/
     └── data/<namespace>/
         ├── kasuga_lib/data_driven/<entry>.json
+        ├── <kind>/<vehicle>/shapes.json
         ├── loot_table/
         ├── recipe/
         └── tags/
@@ -96,6 +107,7 @@ Start from `examples/packs/sample-train` and add missing pieces from `examples/p
 When adding vehicle metadata:
 
 - carriages use `kuayue:kuayue_carriage`;
+- freight wagons use `kuayue:kuayue_freight`;
 - locomotives use `kuayue:kuayue_loco`;
 - add `trains/<vehicle>.json` to `on_register`;
 - list the vehicle blocks, items, tags, and bogey definitions in its `members`;
@@ -110,6 +122,7 @@ An index contains paths relative to `data/<namespace>/`:
 ```json
 {
   "on_register": [
+    "carriages/my_train/shapes.json",
     "carriages/my_train/groups.json",
     "carriages/my_train/blocks.json",
     "trains/my_train.json"
@@ -117,6 +130,13 @@ An index contains paths relative to `data/<namespace>/`:
   "on_reload": []
 }
 ```
+
+`shapes.json` is a registration resource, not an asset. It contains the
+top-level `shapes` definition array and must be listed by the owning parcel
+index before its `blocks.json`. Keep the path relative to `data/<namespace>/`
+inside the index. If an existing shape ID is owned by another pack, reference
+it and add a direct dependency instead of copying it into this parcel. See
+[shapes.md](shapes.md) for the DSL, state bindings, and validation contract.
 
 The train file describes one complete vehicle identity:
 

@@ -28,7 +28,7 @@ public final class JYMaintenanceModelLighting {
     public static void registerDefaults() {
         for (String model : MODELS) {
             ModelLightingDefaults.register(ResourceLocation.fromNamespaceAndPath(
-                    "jy_maintenance", "models/block/jy_maintenance/" + model + ".bbmodel"),
+                    "kuayue", "models/block/jy_maintenance/" + model + ".bbmodel"),
                     ModelLightingMode.BLOCK);
         }
     }

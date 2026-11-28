@@ -753,6 +753,7 @@ public final class KuaYueSettingsScreens {
             return switch (range.kind()) {
                 case WILDCARD -> "*";
                 case EXACT -> "=" + range.lower();
+                case AT_LEAST -> ">=" + range.lower();
                 case HALF_OPEN -> ">=" + range.lower() + ", <" + range.upper();
             };
         }

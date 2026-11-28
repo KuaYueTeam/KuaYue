@@ -3,6 +3,7 @@ package cn.kycraft.kuayue.parts.core.panel.registration;
 import cn.kycraft.kuayue.parts.core.panel.PanelShapeBindings;
 import cn.kycraft.kuayue.parts.core.panel.SlabBlock;
 import cn.kycraft.kuayue.parts.core.panel.SlabBlockItem;
+import cn.kycraft.kuayue.parts.core.factory.KuaYueBlockReg;
 import cn.kycraft.kuayue.parts.core.multiblock.MultiCellFootprint;
 import com.google.gson.JsonObject;
 import lib.kasuga.registration.Reg;
@@ -30,12 +31,17 @@ public class SlabReg<T extends SlabBlock> extends Reg<SlabReg<T>, Block> impleme
             JsonObject params,
             Function<BlockBehaviour.Properties, T> blockSupplier
     ) {
-        this(name, properties -> {
+        Function<BlockBehaviour.Properties, T> configured = properties -> {
             T block = blockSupplier.apply(properties);
             block.configureMultiCell(MultiCellFootprint.parse(params));
             PanelShapeBindings.install(block, params);
             return block;
-        });
+        };
+        BlockReg<T> registration = params != null && params.has("shape_bindings")
+                ? KuaYueBlockReg.of(name, configured)
+                : BlockReg.of(name, configured);
+        this.blockReg = registration.setParent(this);
+        this.itemReg = ItemReg.of(name, (i)->new SlabBlockItem(blockReg.getEntry(), i)).setParent(this);
     }
 
     @Override

@@ -13,203 +13,233 @@
     {
       "id": "kuayue:window_large_m1",
       "type": "train_openable_window",
-      "registry_group": "kuayue:m1_panels",
       "params": {
         "left": -1,
         "right": 1,
         "height": 2
-      }
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:window_large_between_m1",
       "type": "train_small_window",
-      "registry_group": "kuayue:m1_panels",
       "params": {
         "height": 2
-      }
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:window_small_m1",
       "type": "train_openable_window",
-      "registry_group": "kuayue:m1_panels",
       "params": {
         "left": -1,
         "right": 1,
         "height": 2
-      }
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:window_double_small_m1",
       "type": "train_openable_window",
-      "registry_group": "kuayue:m1_panels",
       "params": {
         "left": -1,
         "right": 1,
         "height": 2
-      }
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:window_large_jy30",
       "type": "train_openable_window",
-      "registry_group": "kuayue:m1_panels",
       "params": {
         "left": -1,
         "right": 1,
         "height": 2
-      }
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:window_large_between_jy30",
       "type": "train_small_window",
-      "registry_group": "kuayue:m1_panels",
       "params": {
         "height": 2
-      }
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:slab_top_m1",
       "type": "train_unopenable_window",
-      "registry_group": "kuayue:m1_panels",
       "params": {
         "wide": 2,
         "begin_y": 0,
         "end_y": 2
-      }
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:door_m1",
       "type": "custom_rendered_door",
-      "registry_group": "kuayue:m1_panels",
       "params": {
-        "left_models": ["kuayue:carriage/carriage_m1/door/m1_door_bottom_lh", "kuayue:carriage/carriage_m1/door/m1_door_upper_lh"],
-        "right_models": ["kuayue:carriage/carriage_m1/door/m1_door_bottom", "kuayue:carriage/carriage_m1/door/m1_door_upper"]
-      }
+        "left_models": [
+          "kuayue:carriage/carriage_m1/door/m1_door_bottom_lh",
+          "kuayue:carriage/carriage_m1/door/m1_door_upper_lh"
+        ],
+        "right_models": [
+          "kuayue:carriage/carriage_m1/door/m1_door_bottom",
+          "kuayue:carriage/carriage_m1/door/m1_door_upper"
+        ]
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:end_face_m1",
       "type": "meter_carriage_end_face",
-      "registry_group": "kuayue:m1_panels",
       "params": {
         "door_type": "no_door",
         "outside": true
-      }
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:end_face_middle_m1",
       "type": "meter_carriage_end_face",
-      "registry_group": "kuayue:m1_panels",
       "params": {
         "door_type": "slide",
         "left_model": "carriage/carriage_m1/end_face/m1_middle_end_face_door",
         "frame_model": "carriage/carriage_m1/end_face/m1_middle_end_face_frame"
-      }
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:ladder_m1",
       "type": "ladder",
-      "registry_group": "kuayue:m1_panels",
       "params": {
         "is_meter": true
-      }
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:floor_m1",
       "type": "slab_top",
-      "registry_group": "kuayue:m1_panels",
-      "properties": {"map_color": "green"}
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:carport_general_m1",
       "type": "slab_top",
-      "registry_group": "kuayue:m1_panels",
-      "properties": {"map_color": "green"}
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:carport_air_vent_m1",
       "type": "slab_top",
-      "registry_group": "kuayue:m1_panels",
-      "properties": {"map_color": "green"}
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:carport_air_vent_m1_2",
       "type": "slab_top",
-      "registry_group": "kuayue:m1_panels",
-      "properties": {"map_color": "green"}
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:carport_middle_m1",
       "type": "slab_top",
-      "registry_group": "kuayue:m1_panels",
-      "properties": {"map_color": "green"}
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:floor_battery_m1",
       "type": "hinge_slab",
-      "registry_group": "kuayue:m1_panels",
       "params": {
         "is_carport": true
-      }
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:floor_reservoir_box_m1",
       "type": "slab_top",
-      "registry_group": "kuayue:m1_panels",
-      "properties": {"map_color": "green"}
+      "properties": {
+        "map_color": "green"
+      },
+      "registry_group": "kuayue:m1_panels"
     },
     {
       "id": "kuayue:m1_ceiling_fan",
       "type": "air_vent",
-      "registry_group": "kuayue:m1_panels"
+      "registry_group": "kuayue:m1_panels",
+      "params": {
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/ceiling_fan"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/ceiling_fan"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/ceiling_fan"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/ceiling_fan"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north"},"cells":[[0,1,0]]},{"when":{"facing":"east"},"cells":[[0,1,0]]},{"when":{"facing":"south"},"cells":[[0,1,0]]},{"when":{"facing":"west"},"cells":[[0,1,0]]}]}
+      }
     },
     {
       "id": "kuayue:m1_coupler_floor",
       "type": "slab_top",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=north": [[3,1.1,-6,13,6.1,10],[0,4.5,0,16,8,16],[5.1,0.6,-9,11.1,7.6,-5]],
-          "facing=east": [[6,1.1,3,22,6.1,13],[0,4.5,0,16,8,16],[21,0.6,5.1,25,7.6,11.1]],
-          "facing=south": [[3,1.1,6,13,6.1,22],[0,4.5,0,16,8,16],[4.9,0.6,21,10.9,7.6,25]],
-          "facing=west": [[-6,1.1,3,10,6.1,13],[0,4.5,0,16,8,16],[-9,0.6,4.9,-5,7.6,10.9]]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/coupler_floor_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/coupler_floor_facing_east"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/coupler_floor_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/coupler_floor_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north"},"cells":[[0,0,-1]]},{"when":{"facing":"east"},"cells":[[0,0,-1]]},{"when":{"facing":"south"},"cells":[[0,0,-1]]},{"when":{"facing":"west"},"cells":[[0,0,-1]]}]}
       }
     },
     {
       "id": "kuayue:m1_coupler_interaction",
       "type": "full_shape_directional",
       "registry_group": "kuayue:m1_internal",
-      "params": {
-        "aabb": {
-          "": []
-        }
+      "properties": {
+        "no_collision": true
       },
-      "properties": {"no_collision": true}
+      "params": {
+        "shape_bindings": {"collision":{"from":"shape"},"states":[],"shape":{"ref":"kuayue:m1/shapes/empty_geometry"}}
+      }
     },
     {
       "id": "kuayue:m1_door_end_face",
       "type": "train_small_window",
-      "registry_group": "kuayue:m1_panels"
+      "registry_group": "kuayue:m1_panels",
+      "params": {
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"east","open":"false"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_east"}},{"when":{"facing":"north","open":"false"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_north"}},{"when":{"facing":"south","open":"false"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_south"}},{"when":{"facing":"west","open":"false"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_west"}},{"when":{"facing":"east","open":"true"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_east"}},{"when":{"facing":"north","open":"true"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_north"}},{"when":{"facing":"south","open":"true"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_south"}},{"when":{"facing":"west","open":"true"},"shape":{"ref":"kuayue:m1/shapes/door_end_face_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"east","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"north","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"south","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"west","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"east","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"north","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"south","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"west","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]}]}
+      }
     },
     {
       "id": "kuayue:m1_equipment_room_part",
       "type": "full_shape_directional",
       "registry_group": "kuayue:m1_internal",
-      "params": {
-        "aabb": {
-          "": []
-        }
+      "properties": {
+        "no_collision": true
       },
-      "properties": {"no_collision": true}
+      "params": {
+        "shape_bindings": {"collision":{"from":"shape"},"states":[],"shape":{"ref":"kuayue:m1/shapes/empty_geometry"}}
+      }
     },
     {
       "id": "kuayue:m1_generator",
       "type": "full_shape_directional",
-      "registry_group": "kuayue:m1_panels"
+      "registry_group": "kuayue:m1_panels",
+      "params": {
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/generator_facing_east"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/generator_facing_north"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/generator_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/generator_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"east"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"north"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"south"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"west"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]}]}
+      }
     },
     {
       "id": "kuayue:m1_oil_tank",
       "type": "full_shape_directional",
-      "registry_group": "kuayue:m1_panels"
+      "registry_group": "kuayue:m1_panels",
+      "params": {
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/oil_tank_facing_east"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/oil_tank_facing_north"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/oil_tank_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/oil_tank_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"east"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1]]},{"when":{"facing":"north"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1]]},{"when":{"facing":"south"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1]]},{"when":{"facing":"west"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1]]}]}
+      }
     },
     {
       "id": "kuayue:m1_partition_door",
@@ -220,24 +250,8 @@
         "begin_y": 0,
         "end_x": 1,
         "end_y": 1,
-        "aabb": {
-          "facing=south,hinge=right,open=false": [[0,22,15,16,32,17],[0,8,15,3,22,16],[13,8,15,16,22,16],[0,-8,15,16,8,16]],
-          "facing=west,hinge=right,open=false": [[-1,22,0,1,32,16],[0,8,0,1,22,3],[0,8,13,1,22,16],[0,-8,0,1,8,16]],
-          "facing=north,hinge=right,open=false": [[0,22,-1,16,32,1],[13,8,0,16,22,1],[0,8,0,3,22,1],[0,-8,0,16,8,1]],
-          "facing=east,hinge=right,open=false": [[15,22,0,17,32,16],[15,8,13,16,22,16],[15,8,0,16,22,3],[15,-8,0,16,8,16]],
-          "facing=south,hinge=right,open=true": [[0,24,15,16,32,17],[11,22,15,27,24,16],[11,8,15,14,22,16],[24,8,15,27,22,16],[11,-8,15,27,8,16]],
-          "facing=west,hinge=right,open=true": [[-1,24,0,1,32,16],[0,22,11,1,24,27],[0,8,11,1,22,14],[0,8,24,1,22,27],[0,-8,11,1,8,27]],
-          "facing=north,hinge=right,open=true": [[0,24,-1,16,32,1],[-11,22,0,5,24,1],[2,8,0,5,22,1],[-11,8,0,-8,22,1],[-11,-8,0,5,8,1]],
-          "facing=east,hinge=right,open=true": [[15,24,0,17,32,16],[15,22,-11,16,24,5],[15,8,2,16,22,5],[15,8,-11,16,22,-8],[15,-8,-11,16,8,5]],
-          "facing=south,hinge=left,open=false": [[0,22,15,16,32,17],[13,8,15,16,22,16],[0,8,15,3,22,16],[0,-8,15,16,8,16]],
-          "facing=west,hinge=left,open=false": [[-1,22,0,1,32,16],[0,8,13,1,22,16],[0,8,0,1,22,3],[0,-8,0,1,8,16]],
-          "facing=north,hinge=left,open=false": [[0,22,-1,16,32,1],[0,8,0,3,22,1],[13,8,0,16,22,1],[0,-8,0,16,8,1]],
-          "facing=east,hinge=left,open=false": [[15,22,0,17,32,16],[15,8,0,16,22,3],[15,8,13,16,22,16],[15,-8,0,16,8,16]],
-          "facing=south,hinge=left,open=true": [[0,24,15,16,32,17],[-11,22,15,5,24,16],[2,8,15,5,22,16],[-11,8,15,-8,22,16],[-11,-8,15,5,8,16]],
-          "facing=west,hinge=left,open=true": [[-1,24,0,1,32,16],[0,22,-11,1,24,5],[0,8,2,1,22,5],[0,8,-11,1,22,-8],[0,-8,-11,1,8,5]],
-          "facing=north,hinge=left,open=true": [[0,24,-1,16,32,1],[11,22,0,27,24,1],[11,8,0,14,22,1],[24,8,0,27,22,1],[11,-8,0,27,8,1]],
-          "facing=east,hinge=left,open=true": [[15,24,0,17,32,16],[15,22,11,16,24,27],[15,8,11,16,22,14],[15,8,24,16,22,27],[15,-8,11,16,8,27]]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south","hinge":"right","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_south_closed"}},{"when":{"facing":"west","hinge":"right","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_west_closed"}},{"when":{"facing":"north","hinge":"right","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_north_closed"}},{"when":{"facing":"east","hinge":"right","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_east_closed"}},{"when":{"facing":"south","hinge":"right","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_south_hinge_right_open"}},{"when":{"facing":"west","hinge":"right","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_west_hinge_right_open"}},{"when":{"facing":"north","hinge":"right","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_north_hinge_right_open"}},{"when":{"facing":"east","hinge":"right","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_east_hinge_right_open"}},{"when":{"facing":"south","hinge":"left","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_south_closed"}},{"when":{"facing":"west","hinge":"left","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_west_closed"}},{"when":{"facing":"north","hinge":"left","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_north_closed"}},{"when":{"facing":"east","hinge":"left","open":"false"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_east_closed"}},{"when":{"facing":"south","hinge":"left","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_south_hinge_left_open"}},{"when":{"facing":"west","hinge":"left","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_west_hinge_left_open"}},{"when":{"facing":"north","hinge":"left","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_north_hinge_left_open"}},{"when":{"facing":"east","hinge":"left","open":"true"},"shape":{"ref":"kuayue:m1/shapes/partition_door_facing_east_hinge_left_open"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south","hinge":"right","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"west","hinge":"right","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"north","hinge":"right","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"east","hinge":"right","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"south","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"west","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"north","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"east","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"south","hinge":"left","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"west","hinge":"left","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"north","hinge":"left","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"east","hinge":"left","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"south","hinge":"left","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west","hinge":"left","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"north","hinge":"left","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east","hinge":"left","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]}]}
       }
     },
     {
@@ -245,98 +259,98 @@
       "type": "train_small_window",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=south,open=false": [[12,6,3,15,26,21],[15,-8,0,16,32,32],[0,-8,0,1,32,32],[1,-8,31,7,32,32],[7,24,31,15,32,32],[7,-8,31.25,15,24,31.75],[1,-1,1,11.5,2,31]],
-          "facing=south,open=true": [[12,6,3,15,26,21],[15,-8,0,16,32,32],[0,-8,0,1,32,32],[1,-8,31,10,32,32],[7,24,31,15,32,32],[1,-1,1,11.5,2,31]],
-          "facing=west,open=false": [[-5,6,12,13,26,15],[-16,-8,15,16,32,16],[-16,-8,0,16,32,1],[-16,-8,1,-15,32,7],[-16,24,7,-15,32,15],[-15.75,-8,7,-15.25,24,15],[-15,-1,1,15,2,11.5]],
-          "facing=west,open=true": [[-5,6,12,13,26,15],[-16,-8,15,16,32,16],[-16,-8,0,16,32,1],[-16,-8,1,-15,32,10],[-16,24,7,-15,32,15],[-15,-1,1,15,2,11.5]],
-          "facing=north,open=false": [[1,6,-5,4,26,13],[0,-8,-16,1,32,16],[15,-8,-16,16,32,16],[9,-8,-16,15,32,-15],[1,24,-16,9,32,-15],[1,-8,-15.75,9,24,-15.25],[4.5,-1,-15,15,2,15]],
-          "facing=north,open=true": [[1,6,-5,4,26,13],[0,-8,-16,1,32,16],[15,-8,-16,16,32,16],[6,-8,-16,15,32,-15],[1,24,-16,9,32,-15],[4.5,-1,-15,15,2,15]],
-          "facing=east,open=false": [[3,6,1,21,26,4],[0,-8,0,32,32,1],[0,-8,15,32,32,16],[31,-8,9,32,32,15],[31,24,1,32,32,9],[31.25,-8,1,31.75,24,9],[1,-1,4.5,31,2,15]],
-          "facing=east,open=true": [[3,6,1,21,26,4],[0,-8,0,32,32,1],[0,-8,15,32,32,16],[31,-8,6,32,32,15],[31,24,1,32,32,9],[1,-1,4.5,31,2,15]]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south","open":"false"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_south"}},{"when":{"facing":"south","open":"true"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_south"}},{"when":{"facing":"west","open":"false"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_west"}},{"when":{"facing":"west","open":"true"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_west"}},{"when":{"facing":"north","open":"false"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_north"}},{"when":{"facing":"north","open":"true"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_north"}},{"when":{"facing":"east","open":"false"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_east"}},{"when":{"facing":"east","open":"true"},"shape":{"ref":"kuayue:m1/shapes/soft_sleeper_equipment_room_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"south","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"west","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"west","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"north","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"north","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"east","open":"false"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]},{"when":{"facing":"east","open":"true"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0]]}]}
       }
     },
     {
       "id": "kuayue:m1_toilet",
       "type": "slab_top",
-      "registry_group": "kuayue:m1_panels"
+      "registry_group": "kuayue:m1_panels",
+      "params": {
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/toilet"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/toilet"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/toilet"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/toilet"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"east"},"cells":[[0,-1,0]]},{"when":{"facing":"north"},"cells":[[0,-1,0]]},{"when":{"facing":"south"},"cells":[[0,-1,0]]},{"when":{"facing":"west"},"cells":[[0,-1,0]]}]}
+      }
     },
     {
       "id": "kuayue:m1_toilet_room",
       "type": "train_small_window",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=south,open=false": [[1,-8,-0.052,14,32,0.948],[14,24,-0.052,24,32,0.948],[23.976,-8,-0.052,31.08,32,0.948],[13.996,-8,0.198,23.996,24,0.698],[31,-8,-0.052,32,32,15.948],[1.04,-8,0.896,2.04,32,15.948],[22.948,3,12.448,30.948,7,15.823],[27.948,3,4.448,30.948,7,12.448],[22.948,3,0.448,30.948,7,4.448],[22.948,3,4.448,24.948,7,12.448],[23.948,-8,0.448,30.948,3,15.823]],
-          "facing=south,open=true": [[1,-8,-0.052,14,32,0.948],[14,24,-0.052,24,32,0.948],[20.996,-8,-0.052,31.08,32,0.948],[31,-8,-0.052,32,32,15.948],[1.04,-8,0.896,2.04,32,15.948],[22.948,3,12.448,30.948,7,15.823],[27.948,3,4.448,30.948,7,12.448],[22.948,3,0.448,30.948,7,4.448],[22.948,3,4.448,24.948,7,12.448],[23.948,-8,0.448,30.948,3,15.823]],
-          "facing=west,open=false": [[15.052,-8,1,16.052,32,14],[15.052,24,14,16.052,32,24],[15.052,-8,23.976,16.052,32,31.08],[15.302,-8,13.996,15.802,24,23.996],[0.052,-8,31,16.052,32,32],[0.052,-8,1.04,15.104,32,2.04],[0.177,3,22.948,3.552,7,30.948],[3.552,3,27.948,11.552,7,30.948],[11.552,3,22.948,15.552,7,30.948],[3.552,3,22.948,11.552,7,24.948],[0.177,-8,23.948,15.552,3,30.948]],
-          "facing=west,open=true": [[15.052,-8,1,16.052,32,14],[15.052,24,14,16.052,32,24],[15.052,-8,20.996,16.052,32,31.08],[0.052,-8,31,16.052,32,32],[0.052,-8,1.04,15.104,32,2.04],[0.177,3,22.948,3.552,7,30.948],[3.552,3,27.948,11.552,7,30.948],[11.552,3,22.948,15.552,7,30.948],[3.552,3,22.948,11.552,7,24.948],[0.177,-8,23.948,15.552,3,30.948]],
-          "facing=north,open=false": [[2,-8,15.052,15,32,16.052],[-8,24,15.052,2,32,16.052],[-15.08,-8,15.052,-7.976,32,16.052],[-7.996,-8,15.302,2.004,24,15.802],[-16,-8,0.052,-15,32,16.052],[13.96,-8,0.052,14.96,32,15.104],[-14.948,3,0.177,-6.948,7,3.552],[-14.948,3,3.552,-11.948,7,11.552],[-14.948,3,11.552,-6.948,7,15.552],[-8.948,3,3.552,-6.948,7,11.552],[-14.948,-8,0.177,-7.948,3,15.552]],
-          "facing=north,open=true": [[2,-8,15.052,15,32,16.052],[-8,24,15.052,2,32,16.052],[-15.08,-8,15.052,-4.996,32,16.052],[-16,-8,0.052,-15,32,16.052],[13.96,-8,0.052,14.96,32,15.104],[-14.948,3,0.177,-6.948,7,3.552],[-14.948,3,3.552,-11.948,7,11.552],[-14.948,3,11.552,-6.948,7,15.552],[-8.948,3,3.552,-6.948,7,11.552],[-14.948,-8,0.177,-7.948,3,15.552]],
-          "facing=east,open=false": [[-0.052,-8,2,0.948,32,15],[-0.052,24,-8,0.948,32,2],[-0.052,-8,-15.08,0.948,32,-7.976],[0.198,-8,-7.996,0.698,24,2.004],[-0.052,-8,-16,15.948,32,-15],[0.896,-8,13.96,15.948,32,14.96],[12.448,3,-14.948,15.823,7,-6.948],[4.448,3,-14.948,12.448,7,-11.948],[0.448,3,-14.948,4.448,7,-6.948],[4.448,3,-8.948,12.448,7,-6.948],[0.448,-8,-14.948,15.823,3,-7.948]],
-          "facing=east,open=true": [[-0.052,-8,2,0.948,32,15],[-0.052,24,-8,0.948,32,2],[-0.052,-8,-15.08,0.948,32,-4.996],[-0.052,-8,-16,15.948,32,-15],[0.896,-8,13.96,15.948,32,14.96],[12.448,3,-14.948,15.823,7,-6.948],[4.448,3,-14.948,12.448,7,-11.948],[0.448,3,-14.948,4.448,7,-6.948],[4.448,3,-8.948,12.448,7,-6.948],[0.448,-8,-14.948,15.823,3,-7.948]]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south","open":"false"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_south"}},{"when":{"facing":"south","open":"true"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_south"}},{"when":{"facing":"west","open":"false"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_west"}},{"when":{"facing":"west","open":"true"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_west"}},{"when":{"facing":"north","open":"false"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_north"}},{"when":{"facing":"north","open":"true"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_north"}},{"when":{"facing":"east","open":"false"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_east"}},{"when":{"facing":"east","open":"true"},"shape":{"ref":"kuayue:m1/shapes/toilet_room_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"south","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"west","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"west","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"north","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"north","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"east","open":"false"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"east","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[-1,1,0],[-1,1,1],[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1]]}]}
       }
     },
     {
       "id": "kuayue:m1_underbody_equipment_2",
       "type": "slab_top",
-      "registry_group": "kuayue:m1_panels"
+      "registry_group": "kuayue:m1_panels",
+      "params": {
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_2_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_2_facing_west"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_2_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_2_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"west"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"north"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"east"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]}]}
+      }
     },
     {
       "id": "kuayue:m1_underbody_equipment_3",
       "type": "slab_top",
-      "registry_group": "kuayue:m1_panels"
+      "registry_group": "kuayue:m1_panels",
+      "params": {
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_3_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_3_facing_west"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_3_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_3_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"west"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"north"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"east"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]}]}
+      }
     },
     {
       "id": "kuayue:m1_underbody_equipment_4",
       "type": "slab_top",
-      "registry_group": "kuayue:m1_panels"
+      "registry_group": "kuayue:m1_panels",
+      "params": {
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_4_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_4_facing_west"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_4_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_4_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"west"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"north"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"east"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]}]}
+      }
     },
     {
       "id": "kuayue:m1_underbody_equipment_5",
       "type": "slab_top",
-      "registry_group": "kuayue:m1_panels"
+      "registry_group": "kuayue:m1_panels",
+      "params": {
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_5_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_5_facing_west"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_5_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/underbody_equipment_5_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1]]},{"when":{"facing":"west"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1]]},{"when":{"facing":"north"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1]]},{"when":{"facing":"east"},"cells":[[0,-1,-1],[0,-1,0],[0,0,-1]]}]}
+      }
     },
     {
       "id": "kuayue:m1_washbasin",
       "type": "slab_top",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=south": [[0,3,8,4,7,16],[4,3,13,12,7,16],[12,3,8,16,7,16],[4,3,8,12,7,10],[0,-8,9,16,3,16]],
-          "facing=west": [[0,3,0,8,7,4],[0,3,4,3,7,12],[0,3,12,8,7,16],[6,3,4,8,7,12],[0,-8,0,7,3,16]],
-          "facing=north": [[12,3,0,16,7,8],[4,3,0,12,7,3],[0,3,0,4,7,8],[4,3,6,12,7,8],[0,-8,0,16,3,7]],
-          "facing=east": [[8,3,12,16,7,16],[13,3,4,16,7,12],[8,3,0,16,7,4],[8,3,4,10,7,12],[9,-8,0,16,3,16]]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/washbasin_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/washbasin_facing_west"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/washbasin_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/washbasin_facing_east"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south"},"cells":[[0,-1,0]]},{"when":{"facing":"west"},"cells":[[0,-1,0]]},{"when":{"facing":"north"},"cells":[[0,-1,0]]},{"when":{"facing":"east"},"cells":[[0,-1,0]]}]}
       }
     },
     {
       "id": "kuayue:m1_water_tank",
       "type": "full_shape_directional",
-      "registry_group": "kuayue:m1_panels"
+      "registry_group": "kuayue:m1_panels",
+      "params": {
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"east"},"shape":{"ref":"kuayue:m1/shapes/water_tank_facing_east"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:m1/shapes/water_tank_facing_north"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:m1/shapes/water_tank_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:m1/shapes/water_tank_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"east"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"north"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"south"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"west"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]}]}
+      }
     },
     {
       "id": "kuayue:meter_carriage_air_condition",
       "type": "train_unopenable_window",
-      "registry_group": "kuayue:m1_panels"
+      "registry_group": "kuayue:m1_panels",
+      "params": {
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"south","hinge":"right"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"south","hinge":"left"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"west","hinge":"right"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"west","hinge":"left"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"north","hinge":"right"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"north","hinge":"left"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"east","hinge":"right"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}},{"when":{"facing":"east","hinge":"left"},"shape":{"ref":"kuayue:m1/shapes/meter_carriage_air_condition"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"south","hinge":"right"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"south","hinge":"left"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"west","hinge":"right"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"west","hinge":"left"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"north","hinge":"right"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"north","hinge":"left"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"east","hinge":"right"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]},{"when":{"facing":"east","hinge":"left"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1]]}]}
+      }
     },
     {
       "id": "kuayue:meter_sleeper_compartment",
       "type": "train_small_window",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=north,open=false": [[0,-8,0,1,32,32],[11,-8,0.25,21,24,0.75],[0.5,19,1,11,22,31],[11,24,0,21,32,1],[1,-8,0,11,32,1],[21,19,1,31.5,22,31],[0.5,-1,1,11,2,31],[21,-1,1,31.5,2,31],[31,-8,0,32,32,32],[21,-8,0,31,32,1],[13,5,23,19,6,31]],
-          "facing=north,open=true": [[0,-8,0,1,32,32],[18,-8,0,31,32,1],[0.5,19,1,11,22,31],[11,24,0,21,32,1],[1,-8,0,11,32,1],[21,19,1,31.5,22,31],[0.5,-1,1,11,2,31],[21,-1,1,31.5,2,31],[31,-8,0,32,32,32],[13,5,23,19,6,31]],
-          "facing=east,open=false": [[-16,-8,0,16,32,1],[15.25,-8,11,15.75,24,21],[-15,19,0.5,15,22,11],[15,24,11,16,32,21],[15,-8,1,16,32,11],[-15,19,21,15,22,31.5],[-15,-1,0.5,15,2,11],[-15,-1,21,15,2,31.5],[-16,-8,31,16,32,32],[15,-8,21,16,32,31],[-15,5,13,-7,6,19]],
-          "facing=east,open=true": [[-16,-8,0,16,32,1],[15,-8,18,16,32,31],[-15,19,0.5,15,22,11],[15,24,11,16,32,21],[15,-8,1,16,32,11],[-15,19,21,15,22,31.5],[-15,-1,0.5,15,2,11],[-15,-1,21,15,2,31.5],[-16,-8,31,16,32,32],[-15,5,13,-7,6,19]],
-          "facing=south,open=false": [[15,-8,-16,16,32,16],[-5,-8,15.25,5,24,15.75],[5,19,-15,15.5,22,15],[-5,24,15,5,32,16],[5,-8,15,15,32,16],[-15.5,19,-15,-5,22,15],[5,-1,-15,15.5,2,15],[-15.5,-1,-15,-5,2,15],[-16,-8,-16,-15,32,16],[-15,-8,15,-5,32,16],[-3,5,-15,3,6,-7]],
-          "facing=south,open=true": [[15,-8,-16,16,32,16],[-15,-8,15,-2,32,16],[5,19,-15,15.5,22,15],[-5,24,15,5,32,16],[5,-8,15,15,32,16],[-15.5,19,-15,-5,22,15],[5,-1,-15,15.5,2,15],[-15.5,-1,-15,-5,2,15],[-16,-8,-16,-15,32,16],[-3,5,-15,3,6,-7]],
-          "facing=west,open=false": [[0,-8,15,32,32,16],[0.25,-8,-5,0.75,24,5],[1,19,5,31,22,15.5],[0,24,-5,1,32,5],[0,-8,5,1,32,15],[1,19,-15.5,31,22,-5],[1,-1,5,31,2,15.5],[1,-1,-15.5,31,2,-5],[0,-8,-16,32,32,-15],[0,-8,-15,1,32,-5],[23,5,-3,31,6,3]],
-          "facing=west,open=true": [[0,-8,15,32,32,16],[0,-8,-15,1,32,-2],[1,19,5,31,22,15.5],[0,24,-5,1,32,5],[0,-8,5,1,32,15],[1,19,-15.5,31,22,-5],[1,-1,5,31,2,15.5],[1,-1,-15.5,31,2,-5],[0,-8,-16,32,32,-15],[23,5,-3,31,6,3]]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","open":"false"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_north"}},{"when":{"facing":"north","open":"true"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_north"}},{"when":{"facing":"east","open":"false"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_east"}},{"when":{"facing":"east","open":"true"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_east"}},{"when":{"facing":"south","open":"false"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_south"}},{"when":{"facing":"south","open":"true"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_south"}},{"when":{"facing":"west","open":"false"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_west"}},{"when":{"facing":"west","open":"true"},"shape":{"ref":"kuayue:m1/shapes/meter_sleeper_compartment_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","open":"false"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"north","open":"true"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"east","open":"false"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"east","open":"true"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"south","open":"false"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"south","open":"true"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"west","open":"false"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]},{"when":{"facing":"west","open":"true"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[0,1,0],[0,1,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]]}]}
       }
     },
     {
@@ -344,16 +358,8 @@
       "type": "train_small_window",
       "registry_group": "kuayue:m1_panels",
       "params": {
-        "aabb": {
-          "facing=north,open=false": [[0,21,15.95,16,32,16.95],[0,0,15.95,16,8,16.95],[13,8,15.95,16,21,16.95],[0,8,15.95,3,21,16.95]],
-          "facing=east,open=false": [[-0.95,21,0,0.05,32,16],[-0.95,0,0,0.05,8,16],[-0.95,8,13,0.05,21,16],[-0.95,8,0,0.05,21,3]],
-          "facing=south,open=false": [[0,21,-0.95,16,32,0.05],[0,0,-0.95,16,8,0.05],[0,8,-0.95,3,21,0.05],[13,8,-0.95,16,21,0.05]],
-          "facing=west,open=false": [[15.95,21,0,16.95,32,16],[15.95,0,0,16.95,8,16],[15.95,8,0,16.95,21,3],[15.95,8,13,16.95,21,16]],
-          "facing=north,open=true": [[0,21,15.95,16,32,16.95],[0,0,15.95,16,8,16.95],[13,8,15.95,16,21,16.95],[0,8,15.95,3,21,16.95]],
-          "facing=east,open=true": [[-0.95,21,0,0.05,32,16],[-0.95,0,0,0.05,8,16],[-0.95,8,13,0.05,21,16],[-0.95,8,0,0.05,21,3]],
-          "facing=south,open=true": [[0,21,-0.95,16,32,0.05],[0,0,-0.95,16,8,0.05],[0,8,-0.95,3,21,0.05],[13,8,-0.95,16,21,0.05]],
-          "facing=west,open=true": [[15.95,21,0,16.95,32,16],[15.95,0,0,16.95,8,16],[15.95,8,0,16.95,21,3],[15.95,8,13,16.95,21,16]]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","open":"false"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_north"}},{"when":{"facing":"east","open":"false"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_east"}},{"when":{"facing":"south","open":"false"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_south"}},{"when":{"facing":"west","open":"false"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_west"}},{"when":{"facing":"north","open":"true"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_north"}},{"when":{"facing":"east","open":"true"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_east"}},{"when":{"facing":"south","open":"true"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_south"}},{"when":{"facing":"west","open":"true"},"shape":{"ref":"kuayue:m1/shapes/window_single_small_m1_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","open":"false"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"east","open":"false"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"south","open":"false"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"west","open":"false"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"north","open":"true"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"east","open":"true"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"south","open":"true"},"cells":[[0,0,1],[0,1,0],[0,1,1]]},{"when":{"facing":"west","open":"true"},"cells":[[0,0,1],[0,1,0],[0,1,1]]}]}
       }
     }
   ]

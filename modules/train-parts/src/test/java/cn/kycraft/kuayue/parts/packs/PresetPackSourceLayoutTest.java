@@ -3,6 +3,8 @@ package cn.kycraft.kuayue.parts.packs;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lib.kasuga.registration.data_driven.json.DataJson;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -17,9 +19,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PresetPackSourceLayoutTest {
@@ -27,7 +31,13 @@ class PresetPackSourceLayoutTest {
     private static final Path CORE_RESOURCES = Path.of("../core/resources");
     private static final String RUNNING_GEAR = "kuayue-preset-running-gear";
     private static final String CARRIAGE_TAB = "kuayue:kuayue_carriage";
+    private static final String FREIGHT_TAB = "kuayue:kuayue_freight";
     private static final String LOCO_TAB = "kuayue:kuayue_loco";
+    private static final String JSON_NUMBER =
+            "-?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+-]?\\d+)?";
+    private static final Pattern COMPACT_GEOMETRY_BOX = Pattern.compile(
+            "\\[" + JSON_NUMBER + "(?:," + JSON_NUMBER + "){5}\\]"
+    );
     private static final Map<String, String> EXPECTED_TRAIN_TABS = Map.ofEntries(
             Map.entry("kuayue:c22", CARRIAGE_TAB),
             Map.entry("kuayue:c25", CARRIAGE_TAB),
@@ -38,9 +48,9 @@ class PresetPackSourceLayoutTest {
             Map.entry("kuayue:c25t", CARRIAGE_TAB),
             Map.entry("kuayue:c25z", CARRIAGE_TAB),
             Map.entry("kuayue:cr200j", CARRIAGE_TAB),
-            Map.entry("kuayue:freight", CARRIAGE_TAB),
+            Map.entry("kuayue:freight", FREIGHT_TAB),
             Map.entry("kuayue:m1", CARRIAGE_TAB),
-            Map.entry("kuayue:meter_freight", CARRIAGE_TAB),
+            Map.entry("kuayue:meter_freight", FREIGHT_TAB),
             Map.entry("kuayue:dfh21", LOCO_TAB),
             Map.entry("kuayue:gc220ii", LOCO_TAB),
             Map.entry("kuayue:df11", LOCO_TAB),
@@ -49,7 +59,7 @@ class PresetPackSourceLayoutTest {
             Map.entry("kuayue:df5", LOCO_TAB),
             Map.entry("kuayue:hxd3d", LOCO_TAB),
             Map.entry("kuayue:jy290", LOCO_TAB),
-            Map.entry("jy_maintenance:jy_maintenance", LOCO_TAB),
+            Map.entry("kuayue:jy_maintenance", LOCO_TAB),
             Map.entry("kuayue:ss3", LOCO_TAB),
             Map.entry("kuayue:ss8", LOCO_TAB)
     );
@@ -130,17 +140,31 @@ class PresetPackSourceLayoutTest {
                     manifest.get("required").getAsBoolean(),
                     packId
             );
+            manifest.getAsJsonObject("dependencies")
+                    .getAsJsonObject("mods")
+                    .entrySet()
+                    .forEach(entry -> assertTrue(
+                            entry.getValue().getAsString().startsWith(">="),
+                            () -> packId + " mod dependency " + entry.getKey()
+                    ));
             if (RUNNING_GEAR.equals(packId)) {
                 assertEquals(Set.of(), manifest.getAsJsonObject("dependencies")
                         .getAsJsonObject("packs").keySet());
             } else {
                 assertEquals(
-                        "*",
+                        ">=2.0.0",
                         manifest.getAsJsonObject("dependencies")
                                 .getAsJsonObject("packs")
                                 .get(RUNNING_GEAR)
                                 .getAsString()
                 );
+                manifest.getAsJsonObject("dependencies")
+                        .getAsJsonObject("packs")
+                        .entrySet()
+                        .forEach(entry -> assertTrue(
+                                entry.getValue().getAsString().startsWith(">="),
+                                () -> packId + " pack dependency " + entry.getKey()
+                        ));
             }
         }
         assertEquals(37, parcelCount);
@@ -181,6 +205,22 @@ class PresetPackSourceLayoutTest {
                     }
                 }
             }
+        }
+    }
+
+    @Test
+    void runningGearRegistersFreightCreativeTab() throws IOException {
+        var tab = BuiltInRegistries.CREATIVE_MODE_TAB.get(
+                ResourceLocation.parse(FREIGHT_TAB)
+        );
+        assertNotNull(tab, FREIGHT_TAB);
+        for (String locale : Set.of("en_us", "zh_cn")) {
+            JsonObject translations = DataJson.GSON.fromJson(
+                    Files.readString(PACKS.resolve(RUNNING_GEAR)
+                            .resolve("assets/kuayue/lang/" + locale + ".json")),
+                    JsonObject.class
+            );
+            assertTrue(translations.has("itemGroup.kuayue_freight"), locale);
         }
     }
 
@@ -269,6 +309,43 @@ class PresetPackSourceLayoutTest {
     }
 
     @Test
+    void shapeSourcesUseCompactBoxesOnePerLine() throws IOException {
+        int files = 0;
+        int boxes = 0;
+        try (var paths = Files.walk(PACKS)) {
+            for (Path path : paths
+                    .filter(Files::isRegularFile)
+                    .filter(candidate -> candidate.toString().endsWith(".json"))
+                    .toList()) {
+                String text = Files.readString(path);
+                if (!text.contains("\"shapes\"")) continue;
+                JsonObject root = DataJson.GSON.fromJson(text, JsonObject.class);
+                if (root == null || !root.has("shapes")) continue;
+
+                int expectedBoxes = countGeometryBoxes(root);
+                int compactBoxes = (int) COMPACT_GEOMETRY_BOX.matcher(text)
+                        .results()
+                        .count();
+                assertEquals(
+                        expectedBoxes,
+                        compactBoxes,
+                        () -> path + " must write every geometry Box on one line without spaces"
+                );
+                for (String line : text.split("\\R")) {
+                    assertTrue(
+                            COMPACT_GEOMETRY_BOX.matcher(line).results().count() <= 1,
+                            () -> path + " must place adjacent geometry Boxes on separate lines"
+                    );
+                }
+                files++;
+                boxes += expectedBoxes;
+            }
+        }
+        assertTrue(files > 0);
+        assertTrue(boxes > 0);
+    }
+
+    @Test
     void modelReferencesResolveWithinDeclaredPresetClosure() throws IOException {
         for (String packId : PACK_IDS) {
             Path pack = PACKS.resolve(packId);
@@ -324,6 +401,31 @@ class PresetPackSourceLayoutTest {
             roots.add(PACKS.resolve(dependency));
         }
         return roots;
+    }
+
+    private static int countGeometryBoxes(JsonElement element) {
+        if (element.isJsonArray()) {
+            var array = element.getAsJsonArray();
+            if (array.size() == 6) {
+                boolean isBox = true;
+                for (JsonElement value : array) {
+                    isBox &= value.isJsonPrimitive()
+                            && value.getAsJsonPrimitive().isNumber();
+                }
+                if (isBox) return 1;
+            }
+            int nested = 0;
+            for (JsonElement value : array) nested += countGeometryBoxes(value);
+            return nested;
+        }
+        if (element.isJsonObject()) {
+            int nested = 0;
+            for (var entry : element.getAsJsonObject().entrySet()) {
+                nested += countGeometryBoxes(entry.getValue());
+            }
+            return nested;
+        }
+        return 0;
     }
 
     private static List<LocatedTrain> readTrains(Path pack) throws IOException {

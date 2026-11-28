@@ -11,6 +11,7 @@ Read [references/workflow.md](references/workflow.md) first. Then load only the 
 
 - Shell, Python, Gradle, temp paths, and install commands: [references/platform-commands.md](references/platform-commands.md)
 - Pack or parcel layout: [references/pack-layouts.md](references/pack-layouts.md)
+- Data-driven shapes, DSL, and block-state bindings: [references/shapes.md](references/shapes.md)
 - Model interpretation: [references/model-analysis.md](references/model-analysis.md)
 - Directional runtime models and `proxy_model`: [references/proxy-model.md](references/proxy-model.md)
 - Code-defined collision and reversible state animation: [references/collision-and-playback.md](references/collision-and-playback.md)
@@ -36,6 +37,8 @@ Never use `fsm_block`, `fsm_be`, or a top-level `state_machine` as a shortcut fo
 
 Read [references/proxy-model.md](references/proxy-model.md) before writing any head, cowcatcher, or other proxy-rendered model block.
 Read [references/collision-and-playback.md](references/collision-and-playback.md) before deriving custom AABBs or making a state toggle reverse an authored clip.
+
+Give every shape a meaningful, stable ID based on its vehicle, part, or state, and give every node a meaningful name based on its geometry, role, or owning block/state. Avoid generic names such as `box` or `node1`, and avoid hash-derived shape IDs or node names.
 
 ## Business-behavior hard rule
 
@@ -108,6 +111,8 @@ If the user gives all required choices in the initial request, summarize them on
 5. Implement from source files and current conventions:
 
    - Read `doc/packs/v1/AUTHORING.md`, `doc/packs/v1/SCHEMAS.md`, and `doc/schemas/data-driven/v1/README.md` before editing.
+   - For a collision/selection shape migration or new `params.shape_bindings` binding, first verify the KasugaLib dependency used by KuaYue CI actually contains the data-driven shape handler and schema. If it does not, stop and report that dependency blocker; do not add pack fields that only compile against an unmerged sibling checkout.
+   - Read [references/shapes.md](references/shapes.md) before writing a shape resource. Put the top-level `shapes` array in an indexed `on_register` file inside the owning vehicle parcel, then bind its compiled definitions from `params.shape_bindings`.
    - Edit internal preset sources under `modules/train-parts/resources/packs/`, never their generated output.
    - Use the layout rules in [references/pack-layouts.md](references/pack-layouts.md); do not mix internal legacy layout with external standard layout.
    - Match factories, blockstates, item models, languages, loot tables, tags, recipes, dependencies, train membership, and creative metadata using nearby working examples.
@@ -127,6 +132,7 @@ If the user gives all required choices in the initial request, summarize them on
    py -3 .agents/skills/kuayue-pack-authoring/scripts/validate_pack.py PACK_ROOT --require-schema
    py -3 .agents/skills/kuayue-pack-authoring/scripts/validate_pack.py PACK_ROOT --require-schema --require-durable-source
    .\gradlew.bat :modules:train-parts:test --console=plain
+   .\gradlew.bat :modules:core:test --console=plain
    ```
 
    On macOS/Linux replace `py -3` with `python3` and `.\gradlew.bat` with `./gradlew`. Use the second validator command before a commit; it must fail while the pack remains under `run/`, generated build output, or compiled output. If the schema packages are absent, use the temporary virtual-environment instructions in [references/platform-commands.md](references/platform-commands.md). Do not add a project dependency or environment directory for this check.

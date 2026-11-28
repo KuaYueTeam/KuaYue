@@ -1,0 +1,9 @@
+{
+  "on_register": [
+    "locomotives/jy_maintenance/shapes.json",
+    "locomotives/jy_maintenance/groups.json",
+    "locomotives/jy_maintenance/blocks.json",
+    "trains/jy_maintenance.json"
+  ],
+  "on_reload": []
+}

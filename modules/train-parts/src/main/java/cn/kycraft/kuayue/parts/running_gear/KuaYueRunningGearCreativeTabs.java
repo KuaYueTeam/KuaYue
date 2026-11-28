@@ -14,6 +14,9 @@ public class KuaYueRunningGearCreativeTabs {
     public static final CreativeTabReg CARRIAGE_TAB =
             tab("kuayue_carriage", "itemGroup.kuayue_carriage");
 
+    public static final CreativeTabReg FREIGHT_TAB =
+            tab("kuayue_freight", "itemGroup.kuayue_freight");
+
     public static final CreativeTabReg LOCO_TAB =
             tab("kuayue_loco", "itemGroup.kuayue_loco");
 

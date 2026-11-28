@@ -2,6 +2,8 @@ package cn.kycraft.kuayue.parts.core.multiblock;
 
 import com.mojang.serialization.MapCodec;
 import lib.kasuga.create.interaction.ContraptionShapeProvider;
+import lib.kasuga.registration.minecraft.block.shape.BlockShapeBindings;
+import lib.kasuga.registration.minecraft.block.shape.ShapeSlot;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -17,6 +19,7 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import cn.kycraft.kuayue.parts.core.panel.TrainPanelBlock;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -80,7 +83,31 @@ public final class MultiCellCompanionBlock extends BaseEntityBlock implements Co
             BlockPos pos,
             CollisionContext context
     ) {
-        return Shapes.empty();
+        BlockPos parentPos = parentPos(level, pos);
+        if (parentPos == null) {
+            return Shapes.empty();
+        }
+        BlockState parentState = level.getBlockState(parentPos);
+        if (!(parentState.getBlock() instanceof TrainPanelBlock parent)
+                || !parent.usesShapeCoverage()) {
+            return Shapes.empty();
+        }
+        VoxelShape parentCollision = BlockShapeBindings.resolveFull(
+                parentState,
+                ShapeSlot.COLLISION,
+                () -> parentState.getCollisionShape(level, parentPos, context)
+        );
+        return shapeForCell(parentCollision, parentPos.subtract(pos));
+    }
+
+    @Override
+    public VoxelShape getVisualShape(
+            BlockState state,
+            BlockGetter level,
+            BlockPos pos,
+            CollisionContext context
+    ) {
+        return getShape(state, level, pos, context);
     }
 
     @Override

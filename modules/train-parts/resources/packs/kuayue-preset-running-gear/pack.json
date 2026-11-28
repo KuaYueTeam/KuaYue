@@ -10,11 +10,11 @@
   "description_key": "pack.kuayue_preset_running_gear.description",
   "dependencies": {
     "mods": {
-      "minecraft": "1.21.1",
-      "neoforge": "21.1.268",
-      "kuayue": "2.0.0",
-      "kasuga_lib": "1.0.0",
-      "create": "6.0.6"
+      "minecraft": ">=1.21.1",
+      "neoforge": ">=21.1.203",
+      "kuayue": ">=2.0.0",
+      "kasuga_lib": ">=1.0.0",
+      "create": ">=6.0.6"
     },
     "packs": {}
   },
