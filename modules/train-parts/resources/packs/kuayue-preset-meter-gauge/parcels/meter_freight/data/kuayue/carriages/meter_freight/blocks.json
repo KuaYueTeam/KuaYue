@@ -5,40 +5,7 @@
       "type": "slab_top",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=east": [
-            0.0,
-            3.0,
-            0.0,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=north": [
-            0.0,
-            3.0,
-            0.0,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=south": [
-            0.0,
-            3.0,
-            0.0,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=west": [
-            0.0,
-            3.0,
-            0.0,
-            16.0,
-            8.0,
-            16.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"east"},"shape":{"ref":"kuayue:meter_freight/shapes/freight_31_floor"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:meter_freight/shapes/freight_31_floor"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:meter_freight/shapes/freight_31_floor"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:meter_freight/shapes/freight_31_floor"}}]}
       }
     },
     {
@@ -46,40 +13,8 @@
       "type": "slab_top",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=east": [
-            0.0,
-            -5.5,
-            -16.0,
-            16.0,
-            8.0,
-            31.518
-          ],
-          "facing=north": [
-            -16.0,
-            -5.5,
-            0.0,
-            31.518,
-            8.0,
-            16.0
-          ],
-          "facing=south": [
-            -15.518,
-            -5.5,
-            0.0,
-            32.0,
-            8.0,
-            16.0
-          ],
-          "facing=west": [
-            0.0,
-            -5.5,
-            -15.518,
-            16.0,
-            8.0,
-            32.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"east"},"shape":{"ref":"kuayue:meter_freight/shapes/freight_31_underfloor_equipment_facing_east"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:meter_freight/shapes/freight_31_underfloor_equipment_facing_north"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:meter_freight/shapes/freight_31_underfloor_equipment_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:meter_freight/shapes/freight_31_underfloor_equipment_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"east"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"north"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"south"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"west"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0],[1,-1,0],[1,0,0]]}]}
       }
     },
     {
@@ -91,136 +26,8 @@
         "begin_y": 0,
         "end_x": 1,
         "end_y": 1,
-        "aabb": {
-          "facing=north,hinge=right,open=false": [
-            -0.5,
-            -15.0,
-            1.5,
-            32.0,
-            24.0,
-            4.75
-          ],
-          "facing=north,hinge=right,open=true": [
-            -0.5,
-            -15.0,
-            -11.875,
-            32.0,
-            24.0,
-            4.75
-          ],
-          "facing=north,hinge=left,open=false": [
-            -0.5,
-            -15.0,
-            1.5,
-            32.0,
-            24.0,
-            4.75
-          ],
-          "facing=north,hinge=left,open=true": [
-            -0.5,
-            -15.0,
-            -11.875,
-            32.0,
-            24.0,
-            4.75
-          ],
-          "facing=east,hinge=right,open=false": [
-            11.25,
-            -15.0,
-            -0.5,
-            14.5,
-            24.0,
-            32.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            11.25,
-            -15.0,
-            -0.5,
-            27.875,
-            24.0,
-            32.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            11.25,
-            -15.0,
-            -0.5,
-            14.5,
-            24.0,
-            32.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            11.25,
-            -15.0,
-            -0.5,
-            27.875,
-            24.0,
-            32.0
-          ],
-          "facing=south,hinge=right,open=false": [
-            -16.0,
-            -15.0,
-            11.25,
-            16.5,
-            24.0,
-            14.5
-          ],
-          "facing=south,hinge=right,open=true": [
-            -16.0,
-            -15.0,
-            11.25,
-            16.5,
-            24.0,
-            27.875
-          ],
-          "facing=south,hinge=left,open=false": [
-            -16.0,
-            -15.0,
-            11.25,
-            16.5,
-            24.0,
-            14.5
-          ],
-          "facing=south,hinge=left,open=true": [
-            -16.0,
-            -15.0,
-            11.25,
-            16.5,
-            24.0,
-            27.875
-          ],
-          "facing=west,hinge=right,open=false": [
-            1.5,
-            -15.0,
-            -16.0,
-            4.75,
-            24.0,
-            16.5
-          ],
-          "facing=west,hinge=right,open=true": [
-            -11.875,
-            -15.0,
-            -16.0,
-            4.75,
-            24.0,
-            16.5
-          ],
-          "facing=west,hinge=left,open=false": [
-            1.5,
-            -15.0,
-            -16.0,
-            4.75,
-            24.0,
-            16.5
-          ],
-          "facing=west,hinge=left,open=true": [
-            -11.875,
-            -15.0,
-            -16.0,
-            4.75,
-            24.0,
-            16.5
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_north_closed"}},{"when":{"facing":"north","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_north_open"}},{"when":{"facing":"north","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_north_closed"}},{"when":{"facing":"north","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_north_open"}},{"when":{"facing":"east","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_east_closed"}},{"when":{"facing":"east","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_east_open"}},{"when":{"facing":"east","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_east_closed"}},{"when":{"facing":"east","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_east_open"}},{"when":{"facing":"south","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_south_closed"}},{"when":{"facing":"south","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_south_open"}},{"when":{"facing":"south","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_south_closed"}},{"when":{"facing":"south","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_south_open"}},{"when":{"facing":"west","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_west_closed"}},{"when":{"facing":"west","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_west_open"}},{"when":{"facing":"west","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_west_closed"}},{"when":{"facing":"west","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_west_open"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"north","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"north","hinge":"left","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"north","hinge":"left","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east","hinge":"right","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"east","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east","hinge":"left","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"east","hinge":"left","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"south","hinge":"right","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"south","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"south","hinge":"left","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"south","hinge":"left","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west","hinge":"right","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"west","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west","hinge":"left","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"west","hinge":"left","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]}]}
       }
     },
     {
@@ -232,136 +39,8 @@
         "begin_y": 0,
         "end_x": 1,
         "end_y": 1,
-        "aabb": {
-          "facing=north,hinge=right,open=false": [
-            -0.5,
-            -15.0,
-            1.5,
-            32.0,
-            24.0,
-            4.75
-          ],
-          "facing=north,hinge=right,open=true": [
-            -0.5,
-            -15.0,
-            -11.875,
-            32.0,
-            24.0,
-            4.75
-          ],
-          "facing=north,hinge=left,open=false": [
-            -16.0,
-            -15.0,
-            1.5,
-            16.5,
-            24.0,
-            4.75
-          ],
-          "facing=north,hinge=left,open=true": [
-            -16.0,
-            -15.0,
-            -11.875,
-            16.5,
-            24.0,
-            4.75
-          ],
-          "facing=east,hinge=right,open=false": [
-            11.25,
-            -15.0,
-            -0.5,
-            14.5,
-            24.0,
-            32.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            11.25,
-            -15.0,
-            -0.5,
-            27.875,
-            24.0,
-            32.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            11.25,
-            -15.0,
-            -16.0,
-            14.5,
-            24.0,
-            16.5
-          ],
-          "facing=east,hinge=left,open=true": [
-            11.25,
-            -15.0,
-            -16.0,
-            27.875,
-            24.0,
-            16.5
-          ],
-          "facing=south,hinge=right,open=false": [
-            -16.0,
-            -15.0,
-            11.25,
-            16.5,
-            24.0,
-            14.5
-          ],
-          "facing=south,hinge=right,open=true": [
-            -16.0,
-            -15.0,
-            11.25,
-            16.5,
-            24.0,
-            27.875
-          ],
-          "facing=south,hinge=left,open=false": [
-            -0.5,
-            -15.0,
-            11.25,
-            32.0,
-            24.0,
-            14.5
-          ],
-          "facing=south,hinge=left,open=true": [
-            -0.5,
-            -15.0,
-            11.25,
-            32.0,
-            24.0,
-            27.875
-          ],
-          "facing=west,hinge=right,open=false": [
-            1.5,
-            -15.0,
-            -16.0,
-            4.75,
-            24.0,
-            16.5
-          ],
-          "facing=west,hinge=right,open=true": [
-            -11.875,
-            -15.0,
-            -16.0,
-            4.75,
-            24.0,
-            16.5
-          ],
-          "facing=west,hinge=left,open=false": [
-            1.5,
-            -15.0,
-            -0.5,
-            4.75,
-            24.0,
-            32.0
-          ],
-          "facing=west,hinge=left,open=true": [
-            -11.875,
-            -15.0,
-            -0.5,
-            4.75,
-            24.0,
-            32.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_north_closed"}},{"when":{"facing":"north","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_north_open"}},{"when":{"facing":"north","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_2_facing_north_hinge_left_closed"}},{"when":{"facing":"north","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_2_facing_north_hinge_left_open"}},{"when":{"facing":"east","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_east_closed"}},{"when":{"facing":"east","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_east_open"}},{"when":{"facing":"east","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_2_facing_east_hinge_left_closed"}},{"when":{"facing":"east","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_2_facing_east_hinge_left_open"}},{"when":{"facing":"south","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_south_closed"}},{"when":{"facing":"south","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_south_open"}},{"when":{"facing":"south","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_2_facing_south_hinge_left_closed"}},{"when":{"facing":"south","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_2_facing_south_hinge_left_open"}},{"when":{"facing":"west","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_west_closed"}},{"when":{"facing":"west","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_facing_west_open"}},{"when":{"facing":"west","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_2_facing_west_hinge_left_closed"}},{"when":{"facing":"west","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_board_2_facing_west_hinge_left_open"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"north","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"north","hinge":"left","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"north","hinge":"left","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east","hinge":"right","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"east","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east","hinge":"left","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"east","hinge":"left","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"south","hinge":"right","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"south","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"south","hinge":"left","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"south","hinge":"left","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west","hinge":"right","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"west","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west","hinge":"left","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[-1,1,0],[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"west","hinge":"left","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]}]}
       }
     },
     {
@@ -372,9 +51,7 @@
         "no_collision": true
       },
       "params": {
-        "aabb": {
-          "": []
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[],"shape":{"ref":"kuayue:meter_freight/shapes/empty_geometry"}}
       }
     },
     {
@@ -385,9 +62,7 @@
         "no_collision": true
       },
       "params": {
-        "aabb": {
-          "": []
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[],"shape":{"ref":"kuayue:meter_freight/shapes/empty_geometry"}}
       }
     },
     {
@@ -395,72 +70,8 @@
       "type": "train_small_window",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=north,open=false": [
-            0.0,
-            -14.0,
-            1.25,
-            32.0,
-            19.0,
-            4.75
-          ],
-          "facing=north,open=true": [
-            -1.25,
-            -14.0,
-            -11.5,
-            32.0,
-            19.0,
-            4.75
-          ],
-          "facing=east,open=false": [
-            11.25,
-            -14.0,
-            0.0,
-            14.75,
-            19.0,
-            32.0
-          ],
-          "facing=east,open=true": [
-            11.25,
-            -14.0,
-            -1.25,
-            27.5,
-            19.0,
-            32.0
-          ],
-          "facing=south,open=false": [
-            -16.0,
-            -14.0,
-            11.25,
-            16.0,
-            19.0,
-            14.75
-          ],
-          "facing=south,open=true": [
-            -16.0,
-            -14.0,
-            11.25,
-            17.25,
-            19.0,
-            27.5
-          ],
-          "facing=west,open=false": [
-            1.25,
-            -14.0,
-            -16.0,
-            4.75,
-            19.0,
-            16.0
-          ],
-          "facing=west,open=true": [
-            -11.5,
-            -14.0,
-            -16.0,
-            4.75,
-            19.0,
-            17.25
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_door_facing_north_closed"}},{"when":{"facing":"north","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_door_facing_north_open"}},{"when":{"facing":"east","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_door_facing_east_closed"}},{"when":{"facing":"east","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_door_facing_east_open"}},{"when":{"facing":"south","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_door_facing_south_closed"}},{"when":{"facing":"south","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_door_facing_south_open"}},{"when":{"facing":"west","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_door_facing_west_closed"}},{"when":{"facing":"west","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_door_facing_west_open"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","open":"false"},"cells":[[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"north","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east","open":"false"},"cells":[[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"east","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"south","open":"false"},"cells":[[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"south","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west","open":"false"},"cells":[[0,-1,0],[0,1,0],[1,-1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"west","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]}]}
       }
     },
     {
@@ -471,9 +82,7 @@
         "no_collision": true
       },
       "params": {
-        "aabb": {
-          "": []
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[],"shape":{"ref":"kuayue:meter_freight/shapes/empty_geometry"}}
       }
     },
     {
@@ -481,40 +90,8 @@
       "type": "train_panel",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=north": [
-            -14.25,
-            -16.0,
-            -9.939,
-            31.0,
-            22.0,
-            9.0
-          ],
-          "facing=east": [
-            7.0,
-            -16.0,
-            -14.25,
-            25.939,
-            22.0,
-            31.0
-          ],
-          "facing=south": [
-            -15.0,
-            -16.0,
-            7.0,
-            30.25,
-            22.0,
-            25.939
-          ],
-          "facing=west": [
-            -9.939,
-            -16.0,
-            -15.0,
-            9.0,
-            22.0,
-            30.25
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_end_face_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_end_face_facing_east"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_end_face_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_end_face_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"south"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]}]}
       }
     },
     {
@@ -522,40 +99,8 @@
       "type": "train_panel",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=north": [
-            -14.25,
-            -16.0,
-            -9.939,
-            31.0,
-            19.0,
-            9.0
-          ],
-          "facing=east": [
-            7.0,
-            -16.0,
-            -14.25,
-            25.939,
-            19.0,
-            31.0
-          ],
-          "facing=south": [
-            -15.0,
-            -16.0,
-            7.0,
-            30.25,
-            19.0,
-            25.939
-          ],
-          "facing=west": [
-            -9.939,
-            -16.0,
-            -15.0,
-            9.0,
-            19.0,
-            30.25
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_end_face_2_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_end_face_2_facing_east"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_end_face_2_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_end_face_2_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"south"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]}]}
       }
     },
     {
@@ -563,40 +108,7 @@
       "type": "slab_top",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=east": [
-            4.0,
-            3.0,
-            0.0,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=north": [
-            0.0,
-            3.0,
-            0.0,
-            16.0,
-            8.0,
-            12.0
-          ],
-          "facing=south": [
-            0.0,
-            3.0,
-            4.0,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=west": [
-            0.0,
-            3.0,
-            0.0,
-            12.0,
-            8.0,
-            16.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"east"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_floor_facing_east"}},{"when":{"facing":"north"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_floor_facing_north"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_floor_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:meter_freight/shapes/c31_floor_facing_west"}}]}
       }
     },
     {
@@ -604,72 +116,8 @@
       "type": "train_unopenable_window",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=north,hinge=right": [
-            -16.0,
-            -15.0,
-            -15.304,
-            32.0,
-            20.249,
-            31.296
-          ],
-          "facing=north,hinge=left": [
-            -16.0,
-            -15.0,
-            -15.304,
-            32.0,
-            20.249,
-            31.296
-          ],
-          "facing=east,hinge=right": [
-            -15.296,
-            -15.0,
-            -16.0,
-            31.304,
-            20.249,
-            32.0
-          ],
-          "facing=east,hinge=left": [
-            -15.296,
-            -15.0,
-            -16.0,
-            31.304,
-            20.249,
-            32.0
-          ],
-          "facing=south,hinge=right": [
-            -16.0,
-            -15.0,
-            -15.296,
-            32.0,
-            20.249,
-            31.304
-          ],
-          "facing=south,hinge=left": [
-            -16.0,
-            -15.0,
-            -15.296,
-            32.0,
-            20.249,
-            31.304
-          ],
-          "facing=west,hinge=right": [
-            -15.304,
-            -15.0,
-            -16.0,
-            31.296,
-            20.249,
-            32.0
-          ],
-          "facing=west,hinge=left": [
-            -15.304,
-            -15.0,
-            -16.0,
-            31.296,
-            20.249,
-            32.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/tarpaulin_facing_north"}},{"when":{"facing":"north","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/tarpaulin_facing_north"}},{"when":{"facing":"east","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/tarpaulin_facing_east"}},{"when":{"facing":"east","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/tarpaulin_facing_east"}},{"when":{"facing":"south","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/tarpaulin_facing_south"}},{"when":{"facing":"south","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/tarpaulin_facing_south"}},{"when":{"facing":"west","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/tarpaulin_facing_west"}},{"when":{"facing":"west","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/tarpaulin_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[-1,1,-1],[-1,1,0],[-1,1,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[0,1,-1],[0,1,0],[0,1,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1],[1,1,-1],[1,1,0],[1,1,1]]},{"when":{"facing":"north","hinge":"left"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[-1,1,-1],[-1,1,0],[-1,1,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[0,1,-1],[0,1,0],[0,1,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1],[1,1,-1],[1,1,0],[1,1,1]]},{"when":{"facing":"east","hinge":"right"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[-1,1,-1],[-1,1,0],[-1,1,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[0,1,-1],[0,1,0],[0,1,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1],[1,1,-1],[1,1,0],[1,1,1]]},{"when":{"facing":"east","hinge":"left"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[-1,1,-1],[-1,1,0],[-1,1,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[0,1,-1],[0,1,0],[0,1,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1],[1,1,-1],[1,1,0],[1,1,1]]},{"when":{"facing":"south","hinge":"right"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[-1,1,-1],[-1,1,0],[-1,1,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[0,1,-1],[0,1,0],[0,1,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1],[1,1,-1],[1,1,0],[1,1,1]]},{"when":{"facing":"south","hinge":"left"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[-1,1,-1],[-1,1,0],[-1,1,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[0,1,-1],[0,1,0],[0,1,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1],[1,1,-1],[1,1,0],[1,1,1]]},{"when":{"facing":"west","hinge":"right"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[-1,1,-1],[-1,1,0],[-1,1,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[0,1,-1],[0,1,0],[0,1,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1],[1,1,-1],[1,1,0],[1,1,1]]},{"when":{"facing":"west","hinge":"left"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,-1,1],[-1,0,-1],[-1,0,0],[-1,0,1],[-1,1,-1],[-1,1,0],[-1,1,1],[0,-1,-1],[0,-1,0],[0,-1,1],[0,0,-1],[0,0,1],[0,1,-1],[0,1,0],[0,1,1],[1,-1,-1],[1,-1,0],[1,-1,1],[1,0,-1],[1,0,0],[1,0,1],[1,1,-1],[1,1,0],[1,1,1]]}]}
       }
     },
     {
@@ -680,9 +128,7 @@
         "no_collision": true
       },
       "params": {
-        "aabb": {
-          "": []
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[],"shape":{"ref":"kuayue:meter_freight/shapes/empty_geometry"}}
       }
     },
     {
@@ -693,9 +139,7 @@
         "no_collision": true
       },
       "params": {
-        "aabb": {
-          "": []
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[],"shape":{"ref":"kuayue:meter_freight/shapes/empty_geometry"}}
       }
     },
     {
@@ -703,40 +147,8 @@
       "type": "train_panel",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=north": [
-            -13.0,
-            -5.0,
-            -15.576,
-            29.0,
-            14.0,
-            16.0
-          ],
-          "facing=east": [
-            0.0,
-            -5.0,
-            -13.0,
-            31.576,
-            14.0,
-            29.0
-          ],
-          "facing=south": [
-            -13.0,
-            -5.0,
-            0.0,
-            29.0,
-            14.0,
-            31.576
-          ],
-          "facing=west": [
-            -15.576,
-            -5.0,
-            -13.0,
-            16.0,
-            14.0,
-            29.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_end_face_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_end_face_facing_east"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_end_face_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_end_face_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[0,-1,-1],[0,-1,0],[0,0,-1],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0]]},{"when":{"facing":"east"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[0,-1,-1],[0,-1,0],[0,0,-1],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0]]},{"when":{"facing":"south"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[0,-1,-1],[0,-1,0],[0,0,-1],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0]]},{"when":{"facing":"west"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[0,-1,-1],[0,-1,0],[0,0,-1],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0]]}]}
       }
     },
     {
@@ -745,72 +157,8 @@
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
         "is_carport": true,
-        "aabb": {
-          "facing=north,hinge=right": [
-            0.0,
-            0.75,
-            2.146,
-            32.0,
-            8.0,
-            16.0
-          ],
-          "facing=east,hinge=right": [
-            0.0,
-            0.75,
-            0.0,
-            13.854,
-            8.0,
-            32.0
-          ],
-          "facing=south,hinge=right": [
-            -16.0,
-            0.75,
-            0.0,
-            16.0,
-            8.0,
-            13.854
-          ],
-          "facing=west,hinge=right": [
-            2.146,
-            0.75,
-            -16.0,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=north,hinge=left": [
-            -16.0,
-            0.75,
-            2.146,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=east,hinge=left": [
-            0.0,
-            0.75,
-            -16.0,
-            13.854,
-            8.0,
-            16.0
-          ],
-          "facing=south,hinge=left": [
-            0.0,
-            0.75,
-            0.0,
-            32.0,
-            8.0,
-            13.854
-          ],
-          "facing=west,hinge=left": [
-            2.146,
-            0.75,
-            0.0,
-            16.0,
-            8.0,
-            32.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_north_hinge_right"}},{"when":{"facing":"east","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_east_hinge_right"}},{"when":{"facing":"south","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_south_hinge_right"}},{"when":{"facing":"west","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_west_hinge_right"}},{"when":{"facing":"north","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_north_hinge_left"}},{"when":{"facing":"east","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_east_hinge_left"}},{"when":{"facing":"south","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_south_hinge_left"}},{"when":{"facing":"west","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_west_hinge_left"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right"},"cells":[[1,0,0]]},{"when":{"facing":"east","hinge":"right"},"cells":[[1,0,0]]},{"when":{"facing":"south","hinge":"right"},"cells":[[1,0,0]]},{"when":{"facing":"west","hinge":"right"},"cells":[[1,0,0]]},{"when":{"facing":"north","hinge":"left"},"cells":[[-1,0,0]]},{"when":{"facing":"east","hinge":"left"},"cells":[[-1,0,0]]},{"when":{"facing":"south","hinge":"left"},"cells":[[-1,0,0]]},{"when":{"facing":"west","hinge":"left"},"cells":[[-1,0,0]]}]}
       }
     },
     {
@@ -819,72 +167,8 @@
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
         "is_carport": true,
-        "aabb": {
-          "facing=north,hinge=right": [
-            0.0,
-            0.75,
-            2.146,
-            32.0,
-            8.0,
-            16.0
-          ],
-          "facing=east,hinge=right": [
-            0.0,
-            0.75,
-            0.0,
-            13.854,
-            8.0,
-            32.0
-          ],
-          "facing=south,hinge=right": [
-            -16.0,
-            0.75,
-            0.0,
-            16.0,
-            8.0,
-            13.854
-          ],
-          "facing=west,hinge=right": [
-            2.146,
-            0.75,
-            -16.0,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=north,hinge=left": [
-            -16.0,
-            0.75,
-            2.146,
-            16.0,
-            8.0,
-            16.0
-          ],
-          "facing=east,hinge=left": [
-            0.0,
-            0.75,
-            -16.0,
-            13.854,
-            8.0,
-            16.0
-          ],
-          "facing=south,hinge=left": [
-            0.0,
-            0.75,
-            0.0,
-            32.0,
-            8.0,
-            13.854
-          ],
-          "facing=west,hinge=left": [
-            2.146,
-            0.75,
-            0.0,
-            16.0,
-            8.0,
-            32.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_north_hinge_right"}},{"when":{"facing":"east","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_east_hinge_right"}},{"when":{"facing":"south","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_south_hinge_right"}},{"when":{"facing":"west","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_west_hinge_right"}},{"when":{"facing":"north","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_north_hinge_left"}},{"when":{"facing":"east","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_east_hinge_left"}},{"when":{"facing":"south","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_south_hinge_left"}},{"when":{"facing":"west","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_no_sideboard_facing_west_hinge_left"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right"},"cells":[[1,0,0]]},{"when":{"facing":"east","hinge":"right"},"cells":[[1,0,0]]},{"when":{"facing":"south","hinge":"right"},"cells":[[1,0,0]]},{"when":{"facing":"west","hinge":"right"},"cells":[[1,0,0]]},{"when":{"facing":"north","hinge":"left"},"cells":[[-1,0,0]]},{"when":{"facing":"east","hinge":"left"},"cells":[[-1,0,0]]},{"when":{"facing":"south","hinge":"left"},"cells":[[-1,0,0]]},{"when":{"facing":"west","hinge":"left"},"cells":[[-1,0,0]]}]}
       }
     },
     {
@@ -896,136 +180,8 @@
         "begin_y": 0,
         "end_x": 1,
         "end_y": 1,
-        "aabb": {
-          "facing=north,hinge=right,open=false": [
-            0.0,
-            0.75,
-            2.0,
-            32.0,
-            14.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            0.0,
-            0.75,
-            0.0,
-            14.0,
-            14.0,
-            32.0
-          ],
-          "facing=south,hinge=right,open=false": [
-            -16.0,
-            0.75,
-            0.0,
-            16.0,
-            14.0,
-            14.0
-          ],
-          "facing=west,hinge=right,open=false": [
-            2.0,
-            0.75,
-            -16.0,
-            16.0,
-            14.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            0.0,
-            -2.454,
-            1.999,
-            32.0,
-            9.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            0.0,
-            -2.454,
-            0.0,
-            14.001,
-            9.0,
-            32.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            -16.0,
-            -2.454,
-            0.0,
-            16.0,
-            9.0,
-            14.001
-          ],
-          "facing=west,hinge=right,open=true": [
-            1.999,
-            -2.454,
-            -16.0,
-            16.0,
-            9.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=false": [
-            -16.0,
-            0.75,
-            2.0,
-            16.0,
-            14.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            0.0,
-            0.75,
-            -16.0,
-            14.0,
-            14.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=false": [
-            0.0,
-            0.75,
-            0.0,
-            32.0,
-            14.0,
-            14.0
-          ],
-          "facing=west,hinge=left,open=false": [
-            2.0,
-            0.75,
-            0.0,
-            16.0,
-            14.0,
-            32.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            -16.0,
-            -2.454,
-            1.999,
-            16.0,
-            9.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            0.0,
-            -2.454,
-            -16.0,
-            14.001,
-            9.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            0.0,
-            -2.454,
-            0.0,
-            32.0,
-            9.0,
-            14.001
-          ],
-          "facing=west,hinge=left,open=true": [
-            1.999,
-            -2.454,
-            0.0,
-            16.0,
-            9.0,
-            32.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_north_hinge_right_closed"}},{"when":{"facing":"east","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_east_hinge_right_closed"}},{"when":{"facing":"south","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_south_hinge_right_closed"}},{"when":{"facing":"west","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_west_hinge_right_closed"}},{"when":{"facing":"north","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_north_hinge_right_open"}},{"when":{"facing":"east","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_east_hinge_right_open"}},{"when":{"facing":"south","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_south_hinge_right_open"}},{"when":{"facing":"west","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_west_hinge_right_open"}},{"when":{"facing":"north","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_north_hinge_left_closed"}},{"when":{"facing":"east","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_east_hinge_left_closed"}},{"when":{"facing":"south","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_south_hinge_left_closed"}},{"when":{"facing":"west","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_west_hinge_left_closed"}},{"when":{"facing":"north","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_north_hinge_left_open"}},{"when":{"facing":"east","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_east_hinge_left_open"}},{"when":{"facing":"south","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_south_hinge_left_open"}},{"when":{"facing":"west","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_west_hinge_left_open"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right","open":"false"},"cells":[[1,0,0]]},{"when":{"facing":"east","hinge":"right","open":"false"},"cells":[[1,0,0]]},{"when":{"facing":"south","hinge":"right","open":"false"},"cells":[[1,0,0]]},{"when":{"facing":"west","hinge":"right","open":"false"},"cells":[[1,0,0]]},{"when":{"facing":"north","hinge":"right","open":"true"},"cells":[[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"east","hinge":"right","open":"true"},"cells":[[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"south","hinge":"right","open":"true"},"cells":[[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"west","hinge":"right","open":"true"},"cells":[[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"north","hinge":"left","open":"false"},"cells":[[-1,0,0]]},{"when":{"facing":"east","hinge":"left","open":"false"},"cells":[[-1,0,0]]},{"when":{"facing":"south","hinge":"left","open":"false"},"cells":[[-1,0,0]]},{"when":{"facing":"west","hinge":"left","open":"false"},"cells":[[-1,0,0]]},{"when":{"facing":"north","hinge":"left","open":"true"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0]]},{"when":{"facing":"east","hinge":"left","open":"true"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0]]},{"when":{"facing":"south","hinge":"left","open":"true"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0]]},{"when":{"facing":"west","hinge":"left","open":"true"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0]]}]}
       }
     },
     {
@@ -1037,136 +193,8 @@
         "begin_y": 0,
         "end_x": 1,
         "end_y": 1,
-        "aabb": {
-          "facing=north,hinge=right,open=false": [
-            0.0,
-            0.75,
-            2.0,
-            32.0,
-            14.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            0.0,
-            0.75,
-            0.0,
-            14.0,
-            14.0,
-            32.0
-          ],
-          "facing=south,hinge=right,open=false": [
-            -16.0,
-            0.75,
-            0.0,
-            16.0,
-            14.0,
-            14.0
-          ],
-          "facing=west,hinge=right,open=false": [
-            2.0,
-            0.75,
-            -16.0,
-            16.0,
-            14.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            0.0,
-            -0.882,
-            2.0,
-            32.0,
-            9.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            0.0,
-            -0.882,
-            0.0,
-            14.0,
-            9.0,
-            32.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            -16.0,
-            -0.882,
-            0.0,
-            16.0,
-            9.0,
-            14.0
-          ],
-          "facing=west,hinge=right,open=true": [
-            2.0,
-            -0.882,
-            -16.0,
-            16.0,
-            9.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=false": [
-            -16.0,
-            0.75,
-            2.0,
-            16.0,
-            14.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            0.0,
-            0.75,
-            -16.0,
-            14.0,
-            14.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=false": [
-            0.0,
-            0.75,
-            0.0,
-            32.0,
-            14.0,
-            14.0
-          ],
-          "facing=west,hinge=left,open=false": [
-            2.0,
-            0.75,
-            0.0,
-            16.0,
-            14.0,
-            32.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            -16.0,
-            -0.882,
-            2.0,
-            16.0,
-            9.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            0.0,
-            -0.882,
-            -16.0,
-            14.0,
-            9.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            0.0,
-            -0.882,
-            0.0,
-            32.0,
-            9.0,
-            14.0
-          ],
-          "facing=west,hinge=left,open=true": [
-            2.0,
-            -0.882,
-            0.0,
-            16.0,
-            9.0,
-            32.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_north_hinge_right_closed"}},{"when":{"facing":"east","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_east_hinge_right_closed"}},{"when":{"facing":"south","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_south_hinge_right_closed"}},{"when":{"facing":"west","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_west_hinge_right_closed"}},{"when":{"facing":"north","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_2_facing_north_hinge_right_open"}},{"when":{"facing":"east","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_2_facing_east_hinge_right_open"}},{"when":{"facing":"south","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_2_facing_south_hinge_right_open"}},{"when":{"facing":"west","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_2_facing_west_hinge_right_open"}},{"when":{"facing":"north","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_north_hinge_left_closed"}},{"when":{"facing":"east","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_east_hinge_left_closed"}},{"when":{"facing":"south","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_south_hinge_left_closed"}},{"when":{"facing":"west","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_facing_west_hinge_left_closed"}},{"when":{"facing":"north","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_2_facing_north_hinge_left_open"}},{"when":{"facing":"east","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_2_facing_east_hinge_left_open"}},{"when":{"facing":"south","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_2_facing_south_hinge_left_open"}},{"when":{"facing":"west","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/n31_sideboard_2_facing_west_hinge_left_open"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right","open":"false"},"cells":[[1,0,0]]},{"when":{"facing":"east","hinge":"right","open":"false"},"cells":[[1,0,0]]},{"when":{"facing":"south","hinge":"right","open":"false"},"cells":[[1,0,0]]},{"when":{"facing":"west","hinge":"right","open":"false"},"cells":[[1,0,0]]},{"when":{"facing":"north","hinge":"right","open":"true"},"cells":[[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"east","hinge":"right","open":"true"},"cells":[[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"south","hinge":"right","open":"true"},"cells":[[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"west","hinge":"right","open":"true"},"cells":[[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"north","hinge":"left","open":"false"},"cells":[[-1,0,0]]},{"when":{"facing":"east","hinge":"left","open":"false"},"cells":[[-1,0,0]]},{"when":{"facing":"south","hinge":"left","open":"false"},"cells":[[-1,0,0]]},{"when":{"facing":"west","hinge":"left","open":"false"},"cells":[[-1,0,0]]},{"when":{"facing":"north","hinge":"left","open":"true"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0]]},{"when":{"facing":"east","hinge":"left","open":"true"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0]]},{"when":{"facing":"south","hinge":"left","open":"true"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0]]},{"when":{"facing":"west","hinge":"left","open":"true"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0]]}]}
       }
     },
     {
@@ -1174,40 +202,8 @@
       "type": "slab",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=north": [
-            2.0,
-            11.0,
-            3.0,
-            9.0,
-            18.0,
-            4.0
-          ],
-          "facing=east": [
-            12.0,
-            11.0,
-            2.0,
-            13.0,
-            18.0,
-            9.0
-          ],
-          "facing=south": [
-            7.0,
-            11.0,
-            12.0,
-            14.0,
-            18.0,
-            13.0
-          ],
-          "facing=west": [
-            3.0,
-            11.0,
-            7.0,
-            4.0,
-            18.0,
-            14.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_boarding_step_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_boarding_step_facing_east"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_boarding_step_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_boarding_step_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north"},"cells":[[0,1,0]]},{"when":{"facing":"east"},"cells":[[0,1,0]]},{"when":{"facing":"south"},"cells":[[0,1,0]]},{"when":{"facing":"west"},"cells":[[0,1,0]]}]}
       }
     },
     {
@@ -1215,40 +211,8 @@
       "type": "air_vent",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=north": [
-            3.964,
-            -16.0,
-            -9.036,
-            11.0,
-            -13.0,
-            -1.964
-          ],
-          "facing=east": [
-            17.964,
-            -16.0,
-            3.964,
-            25.036,
-            -13.0,
-            11.0
-          ],
-          "facing=south": [
-            5.0,
-            -16.0,
-            17.964,
-            12.036,
-            -13.0,
-            25.036
-          ],
-          "facing=west": [
-            -9.036,
-            -16.0,
-            5.0,
-            -1.964,
-            -13.0,
-            12.036
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_coupler_handwheel_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_coupler_handwheel_facing_east"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_coupler_handwheel_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_coupler_handwheel_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north"},"cells":[[0,-1,-1]]},{"when":{"facing":"east"},"cells":[[0,-1,-1]]},{"when":{"facing":"south"},"cells":[[0,-1,-1]]},{"when":{"facing":"west"},"cells":[[0,-1,-1]]}]}
       }
     },
     {
@@ -1260,136 +224,8 @@
         "begin_y": 0,
         "end_x": 1,
         "end_y": 1,
-        "aabb": {
-          "facing=north,hinge=right,open=false": [
-            -16.0,
-            -16.0,
-            -1.0,
-            32.0,
-            32.0,
-            5.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            11.0,
-            -16.0,
-            -16.0,
-            17.0,
-            32.0,
-            32.0
-          ],
-          "facing=south,hinge=right,open=false": [
-            -16.0,
-            -16.0,
-            11.0,
-            32.0,
-            32.0,
-            17.0
-          ],
-          "facing=west,hinge=right,open=false": [
-            -1.0,
-            -16.0,
-            -16.0,
-            5.0,
-            32.0,
-            32.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            -16.0,
-            -16.0,
-            -1.0,
-            32.0,
-            32.0,
-            5.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            11.0,
-            -16.0,
-            -16.0,
-            17.0,
-            32.0,
-            32.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            -16.0,
-            -16.0,
-            11.0,
-            32.0,
-            32.0,
-            17.0
-          ],
-          "facing=west,hinge=right,open=true": [
-            -1.0,
-            -16.0,
-            -16.0,
-            5.0,
-            32.0,
-            32.0
-          ],
-          "facing=north,hinge=left,open=false": [
-            -16.0,
-            -16.0,
-            -1.0,
-            32.0,
-            32.0,
-            5.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            11.0,
-            -16.0,
-            -16.0,
-            17.0,
-            32.0,
-            32.0
-          ],
-          "facing=south,hinge=left,open=false": [
-            -16.0,
-            -16.0,
-            11.0,
-            32.0,
-            32.0,
-            17.0
-          ],
-          "facing=west,hinge=left,open=false": [
-            -1.0,
-            -16.0,
-            -16.0,
-            5.0,
-            32.0,
-            32.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            -16.0,
-            -16.0,
-            -1.0,
-            32.0,
-            32.0,
-            5.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            11.0,
-            -16.0,
-            -16.0,
-            17.0,
-            32.0,
-            32.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            -16.0,
-            -16.0,
-            11.0,
-            32.0,
-            32.0,
-            17.0
-          ],
-          "facing=west,hinge=left,open=true": [
-            -1.0,
-            -16.0,
-            -16.0,
-            5.0,
-            32.0,
-            32.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_north"}},{"when":{"facing":"east","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_east"}},{"when":{"facing":"south","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_south"}},{"when":{"facing":"west","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_west"}},{"when":{"facing":"north","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_north"}},{"when":{"facing":"east","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_east"}},{"when":{"facing":"south","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_south"}},{"when":{"facing":"west","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_west"}},{"when":{"facing":"north","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_north"}},{"when":{"facing":"east","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_east"}},{"when":{"facing":"south","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_south"}},{"when":{"facing":"west","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_west"}},{"when":{"facing":"north","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_north"}},{"when":{"facing":"east","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_east"}},{"when":{"facing":"south","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_south"}},{"when":{"facing":"west","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_door_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right","open":"false"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east","hinge":"right","open":"false"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"south","hinge":"right","open":"false"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west","hinge":"right","open":"false"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"north","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"south","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west","hinge":"right","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"north","hinge":"left","open":"false"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east","hinge":"left","open":"false"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"south","hinge":"left","open":"false"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west","hinge":"left","open":"false"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"north","hinge":"left","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east","hinge":"left","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"south","hinge":"left","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west","hinge":"left","open":"true"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]}]}
       }
     },
     {
@@ -1397,40 +233,8 @@
       "type": "train_panel",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=north": [
-            -13.0,
-            -15.25,
-            -9.939,
-            31.0,
-            32.0,
-            12.672
-          ],
-          "facing=east": [
-            3.328,
-            -15.25,
-            -13.0,
-            25.939,
-            32.0,
-            31.0
-          ],
-          "facing=south": [
-            -15.0,
-            -15.25,
-            3.328,
-            29.0,
-            32.0,
-            25.939
-          ],
-          "facing=west": [
-            -9.939,
-            -15.25,
-            -15.0,
-            12.672,
-            32.0,
-            29.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_end_face_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_end_face_facing_east"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_end_face_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_end_face_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"south"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]}]}
       }
     },
     {
@@ -1438,40 +242,8 @@
       "type": "train_panel",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=north": [
-            -13.0,
-            -16.0,
-            -9.939,
-            31.0,
-            32.0,
-            12.672
-          ],
-          "facing=east": [
-            3.328,
-            -16.0,
-            -13.0,
-            25.939,
-            32.0,
-            31.0
-          ],
-          "facing=south": [
-            -15.0,
-            -16.0,
-            3.328,
-            29.0,
-            32.0,
-            25.939
-          ],
-          "facing=west": [
-            -9.939,
-            -16.0,
-            -15.0,
-            12.672,
-            32.0,
-            29.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_end_face_2_facing_north"}},{"when":{"facing":"east"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_end_face_2_facing_east"}},{"when":{"facing":"south"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_end_face_2_facing_south"}},{"when":{"facing":"west"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_end_face_2_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"east"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"south"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]},{"when":{"facing":"west"},"cells":[[-1,-1,-1],[-1,-1,0],[-1,0,-1],[-1,0,0],[-1,1,-1],[-1,1,0],[0,-1,-1],[0,-1,0],[0,0,-1],[0,1,-1],[0,1,0],[1,-1,-1],[1,-1,0],[1,0,-1],[1,0,0],[1,1,-1],[1,1,0]]}]}
       }
     },
     {
@@ -1483,136 +255,8 @@
         "begin_y": 0,
         "end_x": 1,
         "end_y": 1,
-        "aabb": {
-          "facing=north,hinge=right,open=false": [
-            -16.0,
-            -8.0,
-            4.0,
-            16.0,
-            8.0,
-            6.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            10.0,
-            -8.0,
-            -16.0,
-            12.0,
-            8.0,
-            16.0
-          ],
-          "facing=south,hinge=right,open=false": [
-            0.0,
-            -8.0,
-            10.0,
-            32.0,
-            8.0,
-            12.0
-          ],
-          "facing=west,hinge=right,open=false": [
-            4.0,
-            -8.0,
-            0.0,
-            6.0,
-            8.0,
-            32.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            -16.0,
-            -8.0,
-            4.0,
-            16.0,
-            8.0,
-            20.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            -4.0,
-            -8.0,
-            -16.0,
-            12.0,
-            8.0,
-            16.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            0.0,
-            -8.0,
-            -4.0,
-            32.0,
-            8.0,
-            12.0
-          ],
-          "facing=west,hinge=right,open=true": [
-            4.0,
-            -8.0,
-            0.0,
-            20.0,
-            8.0,
-            32.0
-          ],
-          "facing=north,hinge=left,open=false": [
-            0.0,
-            -8.0,
-            4.0,
-            32.0,
-            8.0,
-            6.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            10.0,
-            -8.0,
-            0.0,
-            12.0,
-            8.0,
-            32.0
-          ],
-          "facing=south,hinge=left,open=false": [
-            -16.0,
-            -8.0,
-            10.0,
-            16.0,
-            8.0,
-            12.0
-          ],
-          "facing=west,hinge=left,open=false": [
-            4.0,
-            -8.0,
-            -16.0,
-            6.0,
-            8.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            0.0,
-            -8.0,
-            4.0,
-            32.0,
-            8.0,
-            20.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            -4.0,
-            -8.0,
-            0.0,
-            12.0,
-            8.0,
-            32.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            -16.0,
-            -8.0,
-            -4.0,
-            16.0,
-            8.0,
-            12.0
-          ],
-          "facing=west,hinge=left,open=true": [
-            4.0,
-            -8.0,
-            -16.0,
-            20.0,
-            8.0,
-            16.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_north_hinge_right_closed"}},{"when":{"facing":"east","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_east_hinge_right_closed"}},{"when":{"facing":"south","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_south_hinge_right_closed"}},{"when":{"facing":"west","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_west_hinge_right_closed"}},{"when":{"facing":"north","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_north_hinge_right_open"}},{"when":{"facing":"east","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_east_hinge_right_open"}},{"when":{"facing":"south","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_south_hinge_right_open"}},{"when":{"facing":"west","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_west_hinge_right_open"}},{"when":{"facing":"north","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_north_hinge_left_closed"}},{"when":{"facing":"east","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_east_hinge_left_closed"}},{"when":{"facing":"south","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_south_hinge_left_closed"}},{"when":{"facing":"west","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_west_hinge_left_closed"}},{"when":{"facing":"north","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_north_hinge_left_open"}},{"when":{"facing":"east","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_east_hinge_left_open"}},{"when":{"facing":"south","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_south_hinge_left_open"}},{"when":{"facing":"west","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_railing_door_facing_west_hinge_left_open"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0]]},{"when":{"facing":"east","hinge":"right","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0]]},{"when":{"facing":"south","hinge":"right","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0]]},{"when":{"facing":"west","hinge":"right","open":"false"},"cells":[[-1,-1,0],[-1,0,0],[0,-1,0]]},{"when":{"facing":"north","hinge":"right","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[0,-1,0],[0,-1,1],[0,0,1]]},{"when":{"facing":"east","hinge":"right","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[0,-1,0],[0,-1,1],[0,0,1]]},{"when":{"facing":"south","hinge":"right","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[0,-1,0],[0,-1,1],[0,0,1]]},{"when":{"facing":"west","hinge":"right","open":"true"},"cells":[[-1,-1,0],[-1,-1,1],[-1,0,0],[-1,0,1],[0,-1,0],[0,-1,1],[0,0,1]]},{"when":{"facing":"north","hinge":"left","open":"false"},"cells":[[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"east","hinge":"left","open":"false"},"cells":[[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"south","hinge":"left","open":"false"},"cells":[[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"west","hinge":"left","open":"false"},"cells":[[0,-1,0],[1,-1,0],[1,0,0]]},{"when":{"facing":"north","hinge":"left","open":"true"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"east","hinge":"left","open":"true"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"south","hinge":"left","open":"true"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]},{"when":{"facing":"west","hinge":"left","open":"true"},"cells":[[0,-1,0],[0,-1,1],[0,0,1],[1,-1,0],[1,-1,1],[1,0,0],[1,0,1]]}]}
       }
     },
     {
@@ -1621,72 +265,8 @@
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
         "is_carport": true,
-        "aabb": {
-          "facing=north,hinge=right": [
-            0.0,
-            -1.637,
-            3.289,
-            16.0,
-            3.25,
-            24.169
-          ],
-          "facing=east,hinge=right": [
-            -8.169,
-            -1.637,
-            0.0,
-            12.711,
-            3.25,
-            16.0
-          ],
-          "facing=south,hinge=right": [
-            0.0,
-            -1.637,
-            -8.169,
-            16.0,
-            3.25,
-            12.711
-          ],
-          "facing=west,hinge=right": [
-            3.289,
-            -1.637,
-            0.0,
-            24.169,
-            3.25,
-            16.0
-          ],
-          "facing=north,hinge=left": [
-            0.0,
-            -1.637,
-            3.289,
-            16.0,
-            3.25,
-            24.169
-          ],
-          "facing=east,hinge=left": [
-            -8.169,
-            -1.637,
-            0.0,
-            12.711,
-            3.25,
-            16.0
-          ],
-          "facing=south,hinge=left": [
-            0.0,
-            -1.637,
-            -8.169,
-            16.0,
-            3.25,
-            12.711
-          ],
-          "facing=west,hinge=left": [
-            3.289,
-            -1.637,
-            0.0,
-            24.169,
-            3.25,
-            16.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_roof_facing_north"}},{"when":{"facing":"east","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_roof_facing_east"}},{"when":{"facing":"south","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_roof_facing_south"}},{"when":{"facing":"west","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_roof_facing_west"}},{"when":{"facing":"north","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_roof_facing_north"}},{"when":{"facing":"east","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_roof_facing_east"}},{"when":{"facing":"south","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_roof_facing_south"}},{"when":{"facing":"west","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_roof_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right"},"cells":[[0,-1,0],[0,-1,1],[0,0,1]]},{"when":{"facing":"east","hinge":"right"},"cells":[[0,-1,0],[0,-1,1],[0,0,1]]},{"when":{"facing":"south","hinge":"right"},"cells":[[0,-1,0],[0,-1,1],[0,0,1]]},{"when":{"facing":"west","hinge":"right"},"cells":[[0,-1,0],[0,-1,1],[0,0,1]]},{"when":{"facing":"north","hinge":"left"},"cells":[[0,-1,0],[0,-1,1],[0,0,1]]},{"when":{"facing":"east","hinge":"left"},"cells":[[0,-1,0],[0,-1,1],[0,0,1]]},{"when":{"facing":"south","hinge":"left"},"cells":[[0,-1,0],[0,-1,1],[0,0,1]]},{"when":{"facing":"west","hinge":"left"},"cells":[[0,-1,0],[0,-1,1],[0,0,1]]}]}
       }
     },
     {
@@ -1698,136 +278,8 @@
         "begin_y": 0,
         "end_x": 1,
         "end_y": 1,
-        "aabb": {
-          "facing=north,hinge=right,open=false": [
-            0.0,
-            2.0,
-            1.5,
-            32.0,
-            23.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            0.0,
-            2.0,
-            0.0,
-            14.5,
-            23.0,
-            32.0
-          ],
-          "facing=south,hinge=right,open=false": [
-            -16.0,
-            2.0,
-            0.0,
-            16.0,
-            23.0,
-            14.5
-          ],
-          "facing=west,hinge=right,open=false": [
-            1.5,
-            2.0,
-            -16.0,
-            16.0,
-            23.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            0.0,
-            2.0,
-            1.5,
-            32.0,
-            23.0,
-            16.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            0.0,
-            2.0,
-            0.0,
-            14.5,
-            23.0,
-            32.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            -16.0,
-            2.0,
-            0.0,
-            16.0,
-            23.0,
-            14.5
-          ],
-          "facing=west,hinge=right,open=true": [
-            1.5,
-            2.0,
-            -16.0,
-            16.0,
-            23.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=false": [
-            -16.0,
-            2.0,
-            1.5,
-            16.0,
-            23.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            0.0,
-            2.0,
-            -16.0,
-            14.5,
-            23.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=false": [
-            0.0,
-            2.0,
-            0.0,
-            32.0,
-            23.0,
-            14.5
-          ],
-          "facing=west,hinge=left,open=false": [
-            1.5,
-            2.0,
-            0.0,
-            16.0,
-            23.0,
-            32.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            -16.0,
-            2.0,
-            1.5,
-            16.0,
-            23.0,
-            16.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            0.0,
-            2.0,
-            -16.0,
-            14.5,
-            23.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            0.0,
-            2.0,
-            0.0,
-            32.0,
-            23.0,
-            14.5
-          ],
-          "facing=west,hinge=left,open=true": [
-            1.5,
-            2.0,
-            0.0,
-            16.0,
-            23.0,
-            32.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_north_hinge_right"}},{"when":{"facing":"east","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_east_hinge_right"}},{"when":{"facing":"south","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_south_hinge_right"}},{"when":{"facing":"west","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_west_hinge_right"}},{"when":{"facing":"north","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_north_hinge_right"}},{"when":{"facing":"east","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_east_hinge_right"}},{"when":{"facing":"south","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_south_hinge_right"}},{"when":{"facing":"west","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_west_hinge_right"}},{"when":{"facing":"north","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_north_hinge_left"}},{"when":{"facing":"east","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_east_hinge_left"}},{"when":{"facing":"south","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_south_hinge_left"}},{"when":{"facing":"west","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_west_hinge_left"}},{"when":{"facing":"north","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_north_hinge_left"}},{"when":{"facing":"east","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_east_hinge_left"}},{"when":{"facing":"south","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_south_hinge_left"}},{"when":{"facing":"west","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_1_facing_west_hinge_left"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right","open":"false"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"east","hinge":"right","open":"false"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"south","hinge":"right","open":"false"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"west","hinge":"right","open":"false"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"north","hinge":"right","open":"true"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"east","hinge":"right","open":"true"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"south","hinge":"right","open":"true"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"west","hinge":"right","open":"true"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"north","hinge":"left","open":"false"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"east","hinge":"left","open":"false"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"south","hinge":"left","open":"false"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"west","hinge":"left","open":"false"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"north","hinge":"left","open":"true"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"east","hinge":"left","open":"true"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"south","hinge":"left","open":"true"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"west","hinge":"left","open":"true"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]}]}
       }
     },
     {
@@ -1835,72 +287,7 @@
       "type": "train_hinge_panel",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=north,hinge=right": [
-            0.0,
-            2.0,
-            3.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=east,hinge=right": [
-            0.0,
-            2.0,
-            0.0,
-            13.0,
-            16.0,
-            16.0
-          ],
-          "facing=south,hinge=right": [
-            0.0,
-            2.0,
-            0.0,
-            16.0,
-            16.0,
-            13.0
-          ],
-          "facing=west,hinge=right": [
-            3.0,
-            2.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=north,hinge=left": [
-            0.0,
-            2.0,
-            3.0,
-            16.0,
-            16.0,
-            16.0
-          ],
-          "facing=east,hinge=left": [
-            0.0,
-            2.0,
-            0.0,
-            13.0,
-            16.0,
-            16.0
-          ],
-          "facing=south,hinge=left": [
-            0.0,
-            2.0,
-            0.0,
-            16.0,
-            16.0,
-            13.0
-          ],
-          "facing=west,hinge=left": [
-            3.0,
-            2.0,
-            0.0,
-            16.0,
-            16.0,
-            16.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_2_facing_north"}},{"when":{"facing":"east","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_2_facing_east"}},{"when":{"facing":"south","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_2_facing_south"}},{"when":{"facing":"west","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_2_facing_west"}},{"when":{"facing":"north","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_2_facing_north"}},{"when":{"facing":"east","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_2_facing_east"}},{"when":{"facing":"south","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_2_facing_south"}},{"when":{"facing":"west","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_2_facing_west"}}]}
       }
     },
     {
@@ -1912,136 +299,8 @@
         "begin_y": 0,
         "end_x": 1,
         "end_y": 1,
-        "aabb": {
-          "facing=north,hinge=right,open=false": [
-            0.0,
-            0.0,
-            1.5,
-            32.0,
-            32.0,
-            4.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            12.0,
-            0.0,
-            0.0,
-            14.5,
-            32.0,
-            32.0
-          ],
-          "facing=south,hinge=right,open=false": [
-            -16.0,
-            0.0,
-            12.0,
-            16.0,
-            32.0,
-            14.5
-          ],
-          "facing=west,hinge=right,open=false": [
-            1.5,
-            0.0,
-            -16.0,
-            4.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            0.0,
-            0.0,
-            1.5,
-            32.0,
-            32.0,
-            4.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            12.0,
-            0.0,
-            0.0,
-            14.5,
-            32.0,
-            32.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            -16.0,
-            0.0,
-            12.0,
-            16.0,
-            32.0,
-            14.5
-          ],
-          "facing=west,hinge=right,open=true": [
-            1.5,
-            0.0,
-            -16.0,
-            4.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=false": [
-            -16.0,
-            0.0,
-            1.5,
-            16.0,
-            32.0,
-            4.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            12.0,
-            0.0,
-            -16.0,
-            14.5,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=false": [
-            0.0,
-            0.0,
-            12.0,
-            32.0,
-            32.0,
-            14.5
-          ],
-          "facing=west,hinge=left,open=false": [
-            1.5,
-            0.0,
-            0.0,
-            4.0,
-            32.0,
-            32.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            -16.0,
-            0.0,
-            1.5,
-            16.0,
-            32.0,
-            4.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            12.0,
-            0.0,
-            -16.0,
-            14.5,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            0.0,
-            0.0,
-            12.0,
-            32.0,
-            32.0,
-            14.5
-          ],
-          "facing=west,hinge=left,open=true": [
-            1.5,
-            0.0,
-            0.0,
-            4.0,
-            32.0,
-            32.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_north_hinge_right"}},{"when":{"facing":"east","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_east_hinge_right"}},{"when":{"facing":"south","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_south_hinge_right"}},{"when":{"facing":"west","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_west_hinge_right"}},{"when":{"facing":"north","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_north_hinge_right"}},{"when":{"facing":"east","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_east_hinge_right"}},{"when":{"facing":"south","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_south_hinge_right"}},{"when":{"facing":"west","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_west_hinge_right"}},{"when":{"facing":"north","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_north_hinge_left"}},{"when":{"facing":"east","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_east_hinge_left"}},{"when":{"facing":"south","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_south_hinge_left"}},{"when":{"facing":"west","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_west_hinge_left"}},{"when":{"facing":"north","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_north_hinge_left"}},{"when":{"facing":"east","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_east_hinge_left"}},{"when":{"facing":"south","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_south_hinge_left"}},{"when":{"facing":"west","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_west_hinge_left"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right","open":"false"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"east","hinge":"right","open":"false"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"south","hinge":"right","open":"false"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"west","hinge":"right","open":"false"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"north","hinge":"right","open":"true"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"east","hinge":"right","open":"true"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"south","hinge":"right","open":"true"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"west","hinge":"right","open":"true"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"north","hinge":"left","open":"false"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"east","hinge":"left","open":"false"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"south","hinge":"left","open":"false"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"west","hinge":"left","open":"false"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"north","hinge":"left","open":"true"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"east","hinge":"left","open":"true"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"south","hinge":"left","open":"true"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"west","hinge":"left","open":"true"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]}]}
       }
     },
     {
@@ -2053,136 +312,8 @@
         "begin_y": 0,
         "end_x": 1,
         "end_y": 1,
-        "aabb": {
-          "facing=north,hinge=right,open=false": [
-            0.0,
-            0.0,
-            1.5,
-            32.0,
-            32.0,
-            4.0
-          ],
-          "facing=east,hinge=right,open=false": [
-            12.0,
-            0.0,
-            0.0,
-            14.5,
-            32.0,
-            32.0
-          ],
-          "facing=south,hinge=right,open=false": [
-            -16.0,
-            0.0,
-            12.0,
-            16.0,
-            32.0,
-            14.5
-          ],
-          "facing=west,hinge=right,open=false": [
-            1.5,
-            0.0,
-            -16.0,
-            4.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=right,open=true": [
-            0.0,
-            0.0,
-            1.5,
-            32.0,
-            32.0,
-            4.0
-          ],
-          "facing=east,hinge=right,open=true": [
-            12.0,
-            0.0,
-            0.0,
-            14.5,
-            32.0,
-            32.0
-          ],
-          "facing=south,hinge=right,open=true": [
-            -16.0,
-            0.0,
-            12.0,
-            16.0,
-            32.0,
-            14.5
-          ],
-          "facing=west,hinge=right,open=true": [
-            1.5,
-            0.0,
-            -16.0,
-            4.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=left,open=false": [
-            -16.0,
-            0.0,
-            1.5,
-            16.0,
-            32.0,
-            4.0
-          ],
-          "facing=east,hinge=left,open=false": [
-            12.0,
-            0.0,
-            -16.0,
-            14.5,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=false": [
-            0.0,
-            0.0,
-            12.0,
-            32.0,
-            32.0,
-            14.5
-          ],
-          "facing=west,hinge=left,open=false": [
-            1.5,
-            0.0,
-            0.0,
-            4.0,
-            32.0,
-            32.0
-          ],
-          "facing=north,hinge=left,open=true": [
-            -16.0,
-            0.0,
-            1.5,
-            16.0,
-            32.0,
-            4.0
-          ],
-          "facing=east,hinge=left,open=true": [
-            12.0,
-            0.0,
-            -16.0,
-            14.5,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=left,open=true": [
-            0.0,
-            0.0,
-            12.0,
-            32.0,
-            32.0,
-            14.5
-          ],
-          "facing=west,hinge=left,open=true": [
-            1.5,
-            0.0,
-            0.0,
-            4.0,
-            32.0,
-            32.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_north_hinge_right"}},{"when":{"facing":"east","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_east_hinge_right"}},{"when":{"facing":"south","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_south_hinge_right"}},{"when":{"facing":"west","hinge":"right","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_west_hinge_right"}},{"when":{"facing":"north","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_north_hinge_right"}},{"when":{"facing":"east","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_east_hinge_right"}},{"when":{"facing":"south","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_south_hinge_right"}},{"when":{"facing":"west","hinge":"right","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_west_hinge_right"}},{"when":{"facing":"north","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_north_hinge_left"}},{"when":{"facing":"east","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_east_hinge_left"}},{"when":{"facing":"south","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_south_hinge_left"}},{"when":{"facing":"west","hinge":"left","open":"false"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_west_hinge_left"}},{"when":{"facing":"north","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_north_hinge_left"}},{"when":{"facing":"east","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_east_hinge_left"}},{"when":{"facing":"south","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_south_hinge_left"}},{"when":{"facing":"west","hinge":"left","open":"true"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_facing_west_hinge_left"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right","open":"false"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"east","hinge":"right","open":"false"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"south","hinge":"right","open":"false"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"west","hinge":"right","open":"false"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"north","hinge":"right","open":"true"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"east","hinge":"right","open":"true"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"south","hinge":"right","open":"true"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"west","hinge":"right","open":"true"},"cells":[[0,1,0],[1,0,0],[1,1,0]]},{"when":{"facing":"north","hinge":"left","open":"false"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"east","hinge":"left","open":"false"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"south","hinge":"left","open":"false"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"west","hinge":"left","open":"false"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"north","hinge":"left","open":"true"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"east","hinge":"left","open":"true"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"south","hinge":"left","open":"true"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]},{"when":{"facing":"west","hinge":"left","open":"true"},"cells":[[-1,0,0],[-1,1,0],[0,1,0]]}]}
       }
     },
     {
@@ -2190,72 +321,8 @@
       "type": "train_hinge_panel",
       "registry_group": "kuayue:meter_freight_panels",
       "params": {
-        "aabb": {
-          "facing=north,hinge=right": [
-            0.0,
-            0.0,
-            3.0,
-            16.0,
-            32.0,
-            4.0
-          ],
-          "facing=east,hinge=right": [
-            12.0,
-            0.0,
-            0.0,
-            13.0,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=right": [
-            0.0,
-            0.0,
-            12.0,
-            16.0,
-            32.0,
-            13.0
-          ],
-          "facing=west,hinge=right": [
-            3.0,
-            0.0,
-            0.0,
-            4.0,
-            32.0,
-            16.0
-          ],
-          "facing=north,hinge=left": [
-            0.0,
-            0.0,
-            3.0,
-            16.0,
-            32.0,
-            4.0
-          ],
-          "facing=east,hinge=left": [
-            12.0,
-            0.0,
-            0.0,
-            13.0,
-            32.0,
-            16.0
-          ],
-          "facing=south,hinge=left": [
-            0.0,
-            0.0,
-            12.0,
-            16.0,
-            32.0,
-            13.0
-          ],
-          "facing=west,hinge=left": [
-            3.0,
-            0.0,
-            0.0,
-            4.0,
-            32.0,
-            16.0
-          ]
-        }
+        "shape_bindings": {"collision":{"from":"shape"},"states":[{"when":{"facing":"north","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_5_facing_north"}},{"when":{"facing":"east","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_5_facing_east"}},{"when":{"facing":"south","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_5_facing_south"}},{"when":{"facing":"west","hinge":"right"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_5_facing_west"}},{"when":{"facing":"north","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_5_facing_north"}},{"when":{"facing":"east","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_5_facing_east"}},{"when":{"facing":"south","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_5_facing_south"}},{"when":{"facing":"west","hinge":"left"},"shape":{"ref":"kuayue:meter_freight/shapes/p31_sideboard_5_facing_west"}}]},
+        "multi_cell": {"state_cells":[{"when":{"facing":"north","hinge":"right"},"cells":[[0,1,0]]},{"when":{"facing":"east","hinge":"right"},"cells":[[0,1,0]]},{"when":{"facing":"south","hinge":"right"},"cells":[[0,1,0]]},{"when":{"facing":"west","hinge":"right"},"cells":[[0,1,0]]},{"when":{"facing":"north","hinge":"left"},"cells":[[0,1,0]]},{"when":{"facing":"east","hinge":"left"},"cells":[[0,1,0]]},{"when":{"facing":"south","hinge":"left"},"cells":[[0,1,0]]},{"when":{"facing":"west","hinge":"left"},"cells":[[0,1,0]]}]}
       }
     }
   ]
